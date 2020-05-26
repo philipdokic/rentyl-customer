@@ -29,7 +29,7 @@ production:
   primary:
     adapter: postgresql 
     database: db/production.sqlite3
-  direct: 
+  direct:
     migrations_paths: db/direct_migrate
     adapter: postgresql
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
