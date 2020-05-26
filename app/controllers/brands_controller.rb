@@ -7,6 +7,9 @@ class BrandsController < ApplicationController
     @brands = Brand.all
   end
 
+  def home
+    @brands = Brand.all.limit(20)
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
