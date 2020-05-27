@@ -36,6 +36,9 @@ production:
   primary:
     adapter: postgresql 
     database: white-label-test_production
+  primary_replica:
+    adapter: postgresql 
+    database: white-label-test_production_replica
   direct:
     migrations_paths: db/direct_migrate
     adapter: postgresql
