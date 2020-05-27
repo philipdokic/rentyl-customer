@@ -13,10 +13,17 @@ development:
   primary:
     <<: *default
     database: db/development.sqlite3
+  primary_replica:
+    <<: *default
+    database: db/development.sqlite3
   direct:
-    adapter: sqlite3
-    database: db/direct_dev.sqlite3
     migrations_paths: db/direct_migrate
+    adapter: postgresql
+    url: <%= ENV["DATABASE_URL"] %>
+  direct_replica: 
+    adapter: postgresql
+    url: <%= ENV["DATABASE_URL"] %>
+    replica: true
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -28,8 +35,12 @@ test:
 production:
   primary:
     adapter: postgresql 
-    database: db/production.sqlite3
+    database: white-label-test_production
   direct:
     migrations_paths: db/direct_migrate
     adapter: postgresql
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
+  direct_replica: 
+    adapter: postgresql
+    url: <%= ENV["DIRECT_DATABASE_URL"] %>
+    replica: true
