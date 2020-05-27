@@ -19,10 +19,10 @@ development:
   direct:
     migrations_paths: db/direct_migrate
     adapter: postgresql
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= ENV["DIRECT_DATABASE_URL"] %>
   direct_replica: 
     adapter: postgresql
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= ENV["DIRECT_DATABASE_URL"] %>
     replica: true
 
 # Warning: The database defined as "test" will be erased and
