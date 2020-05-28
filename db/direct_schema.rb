@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_125304) do
+ActiveRecord::Schema.define(version: 2020_05_06_221129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -886,6 +886,17 @@ ActiveRecord::Schema.define(version: 2020_05_27_125304) do
     t.index ["work_report_id"], name: "index_invoices_on_work_report_id"
   end
 
+  create_table "ledger_accounts", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "account_type"
+    t.string "detail_type"
+    t.string "ledger_type"
+    t.string "ledger_number"
+    t.float "balance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ledger_summary_exports", id: :serial, force: :cascade do |t|
     t.jsonb "filters"
     t.integer "file_format"
@@ -1251,7 +1262,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_125304) do
     t.string "registration_id"
     t.string "external_id"
     t.jsonb "extra", default: {}
-    t.string "unit_code"
     t.index ["organization_id"], name: "index_properties_on_organization_id"
   end
 
@@ -1583,7 +1593,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_125304) do
     t.boolean "tax_adjustable", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "applies_to_room_rate", default: true
+    t.boolean "applies_to_room_rate"
     t.index ["organization_id"], name: "index_tax_accounts_on_organization_id"
   end
 
@@ -1876,8 +1886,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_125304) do
     t.integer "measurement_type", default: 0
     t.integer "minimum_age"
     t.text "features_safety"
-    t.string "guest_controls_description"
-    t.string "unit_code"
     t.index ["external_contract_id"], name: "index_units_on_external_contract_id"
     t.index ["organization_id"], name: "index_units_on_organization_id"
     t.index ["portfolio_id"], name: "index_units_on_portfolio_id"

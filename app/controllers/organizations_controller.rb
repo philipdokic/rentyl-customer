@@ -5,7 +5,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations.json
   def index
     @organizations = Organization.all
-    puts @organizations
+    puts @organizations.pluck(:name)
   end
 
   # GET /organizations/1
