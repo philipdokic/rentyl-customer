@@ -1,26 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Organizations</h1>
+<h1>Brand</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="4"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @organizations.each do |organization| %>
-      <tr>
-        <td><%= organization.name %></td>
-        <td><%= link_to 'Show', organization %></td>
-        <td><%= link_to 'Edit', edit_organization_path(organization) %></td>
-        <td><%= link_to 'Destroy', organization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div>Name: <%= @brand.name %></div>
+<div>Description: <%= @brand.description %></div>
+<div>Domain: <%= @brand.domains.first.url %></div>
+<div>Org name: <%= @brand.organization.name %></div>
 
 <br>
-
-<%= link_to 'New Organization', new_organization_path %>
