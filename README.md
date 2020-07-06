@@ -1,24 +1,11 @@
-# README
+Issues: 
+To generate manifest.js file:
+  - $yarn add @rails/webpacker
+  - $bundle update webpacker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To read from new database
+ - Include `schema_search_path:  ant` in `database.yml` file per environment
 
-Things you may want to cover:
+ Domain id: 100030000065, url: "cxstaging.getdirect.io", live: true, heroku_wired: true, heroku_dns: "tetrahedral-pony-vdjxij0n5fcfi3ro0enbnono.herokudn...", brand_id: 100030000048, created_at: "2020-02-04 19:26:16", updated_at: "2020-06-05 14:21:45", organization_id: 3
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+ Domain id: 100030000056, url: "www.directdemohotel.com", live: true, heroku_wired: true, heroku_dns: "www.directdemohotel.com.herokudns.com", brand_id: 100030000049, created_at: "2017-09-05 21:12:11", updated_at: "2018-02-12 06:49:27", organization_id: 3>
