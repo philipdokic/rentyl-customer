@@ -13,13 +13,9 @@ The setups steps expect following tools installed on the system.
 git clone git@github.com:vaystays/direct-white-label.git
 ```
 
-##### 2. Create database.yml file
+##### 2. Nex step
 
-Copy the sample database.yml file and edit the database configuration as required.
-
-```bash
-cp config/database.yml.sample config/database.yml
-```
+Something...
 
 ##### 3. Create and setup the database
 
