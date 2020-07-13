@@ -17,19 +17,19 @@ git clone git@github.com:vaystays/direct-white-label.git
 
 Make sure that you have the correct version of Ruby set locally before trying to install the required gems.
 
-```ruby
+```bash
 bundle install
 ```
 
 ##### 3. Install Yarn depencies
 
-```ruby
+```bash
 yarn install --ignore-engines
 ```
 
 ##### 4. Setup Webpacker
 
-```ruby
+```bash
 yarn add @rails/webpacker --ignore-engines
 bundle update webpacker
 ```
@@ -38,7 +38,9 @@ bundle update webpacker
 
 Add the database URL from Heroku as an environment variable (ENV).
 
-`DIRECT_DATABASE_URL`
+```bash
+DIRECT_DATABASE_URL
+```
 
 *DO NOT USE THE DATABASE URL FOR THE PRODUCTION DATABASE!*
 
@@ -50,7 +52,7 @@ Update the domain of the website you are testing to use localhost from the dashb
 
 You can start the rails server using the command given below.
 
-```ruby
+```bash
 foreman start -f Procfile.dev
 ```
 
