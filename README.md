@@ -58,10 +58,9 @@ foreman start -f Procfile.dev
 
 And now you can visit the site with the URL http://localhost:5000
 
+---
 
-
-
-##### Notes
+## Notes
 
 To read from new database
 
