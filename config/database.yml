@@ -21,7 +21,7 @@ development:
     adapter: postgresql
     schema_search_path:  ant
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
-  direct_replica: 
+  direct_replica:
     adapter: postgresql
     schema_search_path:  ant
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
@@ -36,17 +36,17 @@ test:
 
 production:
   primary:
-    adapter: postgresql 
+    adapter: postgresql
     database: white-label-test_production
   primary_replica:
-    adapter: postgresql 
+    adapter: postgresql
     database: white-label-test_production_replica
   direct:
     migrations_paths: db/direct_migrate
     adapter: postgresql
     schema_search_path:  ant
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
-  direct_replica: 
+  direct_replica:
     adapter: postgresql
     schema_search_path:  ant
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
