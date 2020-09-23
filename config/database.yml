@@ -1,46 +1,41 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
 default: &default
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
   primary:
     <<: *default
-    database: db/development.sqlite3
+    migrations_paths: db/migrate
+    database: direct-white-label_development
   primary_replica:
     <<: *default
-    database: db/development.sqlite3
+    migrations_paths: db/migrate
+    database: direct-white-label_development_replica
+    replica: true
   direct:
     migrations_paths: db/direct_migrate
     adapter: postgresql
-    schema_search_path:  ant
+    schema_search_path: ant
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
   direct_replica:
     adapter: postgresql
-    schema_search_path:  ant
+    schema_search_path: ant
     url: <%= ENV["DIRECT_DATABASE_URL"] %>
     replica: true
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: direct-white-label_test
 
 production:
   primary:
     adapter: postgresql
-    database: white-label-test_production
+    database: direct-white-label_production
   primary_replica:
     adapter: postgresql
-    database: white-label-test_production_replica
+    database: direct-white-label_production_replica
   direct:
     migrations_paths: db/direct_migrate
     adapter: postgresql
