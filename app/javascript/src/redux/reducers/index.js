@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux'
-import organization from './organizationReducer'
+import brand from './brandReducer'
 
 const rootRuducer = combineReducers({
-    organization
+    brand
 })
 
 export default rootRuducer
