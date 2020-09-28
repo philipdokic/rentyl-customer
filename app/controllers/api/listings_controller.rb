@@ -47,12 +47,8 @@ class Api::ListingsController < ApplicationController
   # ----------------------------------------------
   # SET-LISTING ----------------------------------
   # ----------------------------------------------
-  def set_brand
+  def set_listing
     @listing = UnitListing.find(params[:id])
   end
 
-  # # Only allow a list of trusted parameters through.
-  # def organization_params
-  #   params.fetch(:organization, {})
-  # end
 end
