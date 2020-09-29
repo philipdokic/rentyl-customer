@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux'
 import brand from './brandReducer'
-import lisings from './listingsReducer'
+import listings from './listingsReducer'
 const rootRuducer = combineReducers({
     brand,
-    lisings
+    listings
 })
 
 export default rootRuducer

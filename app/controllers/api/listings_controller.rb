@@ -23,7 +23,7 @@ class Api::ListingsController < ApplicationController
     @brand = Brand.find(params[:brand])
     puts @brand.inspect
     puts @brand.unit_listings.size
-    render json: @brand.unit_listings
+    @listings = @brand.unit_listings
   end
 
   # ----------------------------------------------
