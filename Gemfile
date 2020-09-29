@@ -14,6 +14,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails'
+  gem 'pry-rails'
+  gem 'pry-remote'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 

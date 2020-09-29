@@ -1,4 +1,4 @@
-export default function brandReducer(state={}, action){
+export default function organizationReducer(state={}, action){
     switch (action.type) {
         case "SET_BRAND":
             return {...state,  ...action.brand };

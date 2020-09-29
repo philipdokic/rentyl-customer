@@ -4,6 +4,7 @@ import * as brandAction from './redux/action/brandActions'
 import * as listingsAction from './redux/action/listingsActions'
 import axios from 'axios'
 import { Route, Switch } from "react-router-dom";
+import Listing from './components/Listing'
 import Listings from './components/Listings'
 import Home from './components/Home'
 import NoMatch from './components/NoMatch'
@@ -25,6 +26,7 @@ const App = (props) => {
     setBrand(props)
     return (
         <Switch>
+            <Route path="/listings/:id" component={Listing} />
             <Route path="/listings" component={Listings} />
             <Route exact path="/" component={Home} />
             <Route component={NoMatch} />

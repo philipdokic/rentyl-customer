@@ -1,0 +1,1 @@
+json.extract! listing, :id, :created_at, :updated_at, :featured, :instant_booking, :unit_id, :property_id, :upcoming_bookings, :upcoming_inquiries

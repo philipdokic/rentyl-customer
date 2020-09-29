@@ -3,21 +3,19 @@ import {connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const renderListings = (props) => {
-    debugger
-return props.listings.map(l=>(<Link to={`listings/${l.id}`} key={l.id}>{l.name}</Link>))
+return props.listings.map(l=>(<div><Link to={`listings/${l.id}`} key={l.id}>{l.unit_id}</Link></div>))
 }
 
 const Listings = (props) => {
-    debugger
     return(<div>
         <h1>Choose a listing!</h1>
-        {props.listings.length > 0 && renderListings(props) }
+        {props.listings && renderListings(props) }
     </div>)
 }
 
 function mapStateToProps(state) {
     return {
-        listings: state.listings
+        listings: state.listings.listings
     };
 }
 
