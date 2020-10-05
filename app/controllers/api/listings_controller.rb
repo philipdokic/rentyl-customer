@@ -17,12 +17,7 @@ class Api::ListingsController < ApplicationController
   # INDEX ----------------------------------------
   # ----------------------------------------------
   def index
-    puts "HIT"
-
-    puts params
     @brand = Brand.find(params[:brand])
-    puts @brand.inspect
-    puts @brand.unit_listings.size
     @listings = @brand.unit_listings
     render :json => @listings
   end
