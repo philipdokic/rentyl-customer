@@ -57,10 +57,10 @@ export default class Listing extends React.Component {
     // } else if (props.is_multi_unit) {
     //   return <DetailsMulti />; // {...this.state} {...this.props}
     // } else
-    if (props.is_room_type === false && props.is_multi_unit === false) {
+    // if (props.is_room_type === false && props.is_multi_unit === false) {
       return <Single />; // {...this.state} {...this.props}
-    } else {
-      return <div style={{ minHeight: '75vh' }} />;
-    }
+    // } else {
+    //   return <div style={{ minHeight: '75vh' }} />;
+    // }
   }
 }

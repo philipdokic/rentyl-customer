@@ -422,8 +422,8 @@ export default class Single extends React.Component {
     return(
       <div>
         <h1>This is a listing</h1>
-        <div>This is the id: {props.listing.id}</div>
-        <div>This is the unit id: {props.listing.unit_id}</div>
+        <div>This is the id: {this.props.listing.id}</div>
+        <div>This is the unit id: {this.props.listing.unit_id}</div>
       </div>
     )
   }

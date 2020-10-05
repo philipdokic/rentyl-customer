@@ -2,9 +2,9 @@ import {connect} from 'react-redux'
 
 import Single from '../../components/listing/single'
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        listing: state.listings.listings ? state.listings.listings.find(id => id = 100320000015) : {}
+        listing: state.listings.length ? state.listings.find(id => id = props.match.params.id) : {}
     };
 }
 
