@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 
-import Single from '../../components/listing/single'
+import Single from '../../components/listing/index'
 
 function mapStateToProps(state, props) {
     return {

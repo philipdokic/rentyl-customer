@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const renderListings = (props) => {
-return props.listings.map(l=>(<div key={l.id}><Link to={`listings/${l.id}`}>{l.unit_id}</Link></div>))
+return props.listings.map(l=>(<div key={l.id}><Link to={`${l.id}`}>{l.unit_id}</Link></div>))
 }
 
 const Listings = (props) => {
