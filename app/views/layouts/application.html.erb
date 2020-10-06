@@ -4,6 +4,11 @@
     <title>WhiteLabelTest</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= javascript_include_tag 'application' %>
+    <script type="text/javascript">
+      I18n.defaultLocale = "<%= I18n.default_locale %>";
+      I18n.locale = "<%= I18n.locale %>";
+    </script>
     <%= javascript_pack_tag 'index' %>
   </head>
 

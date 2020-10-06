@@ -15,8 +15,12 @@ module WhiteLabelTest
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-    config.active_record.database_selector = { delay: 2.seconds } 
-    config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver 
-    config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session 
+    config.active_record.database_selector = { delay: 2.seconds }
+    config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
+    config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+    config.middleware.use I18n::JS::Middleware
+
+    config.i18n.default_locale = :en
   end
 end

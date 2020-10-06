@@ -384,7 +384,7 @@ class Single extends React.Component {
                bedrooms={this.props.bedrooms}
                property={this.props.property}
                unit={this.props.unit}
-               //translate={translate}
+               translate={translate}
              />
           {/*
              <DetailsSingleRules
