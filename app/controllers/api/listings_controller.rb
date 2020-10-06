@@ -6,8 +6,7 @@ class Api::ListingsController < ApplicationController
   # ----------------------------------------------
   # CALLBACKS ------------------------------------
   # ----------------------------------------------
-  # before_action :set_brand, only: [:index]
-  #before_action :set_listing, only: [:show]
+  before_action :set_listing, only: [:show]
 
   # ==============================================
   # ACTIONS ======================================
@@ -32,13 +31,6 @@ class Api::ListingsController < ApplicationController
   # PRIVATE ======================================
   # ==============================================
   private
-
-  # ----------------------------------------------
-  # SET-BRAND ------------------------------------
-  # ----------------------------------------------
-  def set_brand
-    @brand = Brand.find(params[:brand])
-  end
 
   # ----------------------------------------------
   # SET-LISTING ----------------------------------

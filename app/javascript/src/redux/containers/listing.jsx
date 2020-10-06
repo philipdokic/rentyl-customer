@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 
-import Single from '../../components/listing/index'
+import Listing from '../../components/listing/index'
 
 function mapStateToProps(state, props) {
     return {
@@ -8,4 +8,4 @@ function mapStateToProps(state, props) {
     };
 }
 
-export default connect(mapStateToProps)(Single)
+export default connect(mapStateToProps)(Listing)

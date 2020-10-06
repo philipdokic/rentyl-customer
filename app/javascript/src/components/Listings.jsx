@@ -1,9 +1,21 @@
 import React from 'react'
+import axios from 'axios'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
+
+// Redux
+// -----------------------------------------------
+import * as listingAction from '../redux/action/listing'
 
 const renderListings = (props) => {
-return props.listings.map(l=>(<div key={l.id}><Link to={`${l.id}`}>{l.unit_id}</Link></div>))
+return props.listings.map(l=>(<div key={l.id}><div onClick={ () => redirectListing(props, l.id)}>{l.unit_id}</div></div>))
+}
+
+const redirectListing = (props, id) => {
+  axios.get(`/api/listings/${id}`, {headers:{'Content-Type': 'application/json'}})
+  .then(res => {
+    props.dispatch(listingAction.setListing(res.data))
+    props.history.push(`/listings/${id}`)
+  })
 }
 
 const Listings = (props) => {

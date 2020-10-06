@@ -1,9 +1,14 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react'
-import {connect} from 'react-redux'
+// import axios from 'axios'
+// import {connect} from 'react-redux'
 //import './node_modules/react-dates/initialize'; // Needed for rendering any react-dates components
 //import get from './node_modules/lodash/get';
+
+// Redux
+// -----------------------------------------------
+import * as listingAction from '../../redux/action/listing'
 
 // Components
 // -----------------------------------------------
@@ -11,23 +16,26 @@ import {connect} from 'react-redux'
 //import DetailsRoom from './details-room';
 import Single from './single';
 
-// Services
-// -----------------------------------------------
-//import { ListingService } from './node_modules/cxApi';
+
+
 
 export default class Listing extends React.Component {
-  static propTypes = {};
   constructor(props) {
     super(props);
-    this.state = {
-      is_multi_unit: null,
-      is_room_type: null,
-      reviews: []
-    };
   }
 
+  // Set Listing
+  // ---------------------------------------------
+  // setListing = (props) => {
+  //   console.log(props);
+  //   axios.get(`/api/listings/${props.listing.id}`, {headers:{'Content-Type': 'application/json'}})
+  //   .then(res => {
+  //     console.log(res.data);
+  //     props.dispatch(listingAction.setListing(res.data))
+  //   })
+  // }
+
   componentDidMount() {
-    //this.fetchListingData(this.props);
     document.body.classList.add('listings-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('home-view');

@@ -1,35 +1,35 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-
+import { connect } from 'react-redux'
 // import moment from 'moment';
 // import 'react-dates/initialize'; // Needed for rendering any react-dates components
 
 // import queryString from 'query-string';
-// import ReactI18n from 'react-i18n';
+import { Helmet } from 'react-helmet';
+import ReactI18n from 'react-i18n';
 
 // // Components
 // // -----------------------------------------------
-// import {
-//   DetailsReviewList,
-//   DetailsSingleAmenities,
-//   DetailsSingleAvailability,
-//   DetailsSingleBookingAnchored,
-//   DetailsSingleBookingToggle,
-//   DetailsSingleContact,
-//   DetailsSingleHeader,
-//   DetailsSingleImages,
-//   DetailsSingleLocation,
-//   DetailsSingleNavbar,
-//   DetailsSingleOverview,
-//   DetailsSingleOwner,
-//   DetailsSingleRules,
-//   DetailsSingleSummary
-// } from '../molecules/single';
-// import { Helmet } from 'react-helmet';
+import {
+  // DetailsReviewList,
+  // DetailsSingleAmenities,
+  // DetailsSingleAvailability,
+  // DetailsSingleBookingAnchored,
+  // DetailsSingleBookingToggle,
+  // DetailsSingleContact,
+  // DetailsSingleHeader,
+  Images,
+  // DetailsSingleLocation,
+  // DetailsSingleNavbar,
+  // DetailsSingleOverview,
+  // DetailsSingleOwner,
+  // DetailsSingleRules,
+  Summary
+} from './single/';
 // import { isInclusivelyBeforeDay } from 'react-dates';
 
-// export default class DetailsSingle extends React.Component {
+class Single extends React.Component {
 //   static propTypes = {};
 
 //   parseQuery = () => {
@@ -193,24 +193,24 @@ import React from 'react';
 //     );
 //   };
 
-//   constructor(props, _railsContext) {
-//     super(props);
-//     this.state = {
-//       availability: null,
-//       bookingType: null,
-//       checkInDate: null,
-//       checkOutDate: null,
-//       bookingRange: null,
-//       bookingLength: 0,
-//       datesParsed: false,
-//       guests: 1,
-//       pricing: null,
-//       addonFeeIds: [],
-//       couponCode: '',
-//       review_average: this.props.review_average || 0,
-//       reviews: this.props.reviews.length || 0
-//     };
-//   }
+  constructor(props, _railsContext) {
+    super(props);
+    this.state = {
+      availability: null,
+      bookingType: null,
+      checkInDate: null,
+      checkOutDate: null,
+      bookingRange: null,
+      bookingLength: 0,
+      datesParsed: false,
+      guests: 1,
+      pricing: null,
+      addonFeeIds: [],
+      couponCode: '',
+      // review_average: this.props.review_average || 0,
+      // reviews: this.props.reviews.length || 0
+    };
+  }
 
 //   componentDidMount() {
 //     this.handleBrowserState();
@@ -241,188 +241,198 @@ import React from 'react';
 //     this.setState({ couponCode: code }, () => this.checkPricing());
 //   };
 
-//   render() {
-//     const translate = ReactI18n.getIntlMessage;
-
-//     return (
-//       <div>
-//         <Helmet>
-//           <script type="application/ld+json">{`
-//             {
-//               "@context": "https://schema.org/",
-//               "@type": "LodgingBusiness",
-//               "name": "${this.props.property.name}",
-//               "description": "${this.props.property.summary_description}",
-//               "brand": "${this.props.brand.name}",
-//               "telephone": "${this.props.brand_info.contact.phone_primary.number}",
-//               "image": "${this.props.property_images[0].image.medium.url}",
-//               ${ this.state.reviews > 0 ? `
-//                 "aggregateRating": {
-//                   "@type": "AggregateRating",
-//                   "ratingValue": "${this.state.review_average}",
-//                   "ratingCount": "${this.state.reviews}"
-//                 },` : '' }
-//               "address": {
-//                 "@type": "PostalAddress",
-//                 "streetAddress": "${this.props.org_location.adr_street}",
-//                 "addressLocality": "${this.props.org_location.adr_city}",
-//                 "addressRegion": "${this.props.org_location.adr_state}",
-//                 "postalCode": "${this.props.org_location.adr_postal_code}",
-//                 "addressCountry": "${this.props.org_location.adr_country}"
-//               }
-//             }
-//           `}</script>
-//         </Helmet>
-//         <DetailsSingleImages
-//           property_images={this.props.property_images}
-//           unit_images={this.props.unit_images}
-//           translate={translate}
-//         />
-//         <section className="details-main">
-//           <DetailsSingleBookingAnchored
-//             addonFeeIds={this.state.addonFeeIds}
-//             average_default_nightly_price={
-//               this.props.average_default_nightly_price
-//             }
-//             availability_calendar={this.props.availability_calendar}
-//             booking_calendar={this.props.booking_calendar}
-//             default_availability={this.props.default_availability_changeover}
-//             availability={this.state.availability}
-//             checkInDate={this.state.checkInDate}
-//             checkOutDate={this.state.checkOutDate}
-//             datesParsed={this.state.datesParsed}
-//             guests={this.state.guests}
-//             listing={this.props.listing}
-//             organizationId={this.props.property.organization_id}
-//             pricing={this.state.pricing}
-//             propertyId={this.props.property.id}
-//             propertyManager={this.props.property_manager}
-//             respondToDatesChange={this.respondToDatesChange}
-//             respondToGuestsChange={this.respondToGuestsChange}
-//             unit_availability={this.props.unit_availability}
-//             translate={translate}
-//             updateFees={this.updateFees}
-//             reviewCount={this.props.reviews ? this.props.reviews.length : 0}
-//             reviewAverage={parseFloat(this.props.review_average)}
-//             unit={this.props.unit}
-//             displayFormat={this.props.brand.date_format}
-//             numSleep={this.props.num_sleep}
-//             updateQuantityFee={this.updateQuantityFees}
-//             addCouponCode={this.addCouponCode}
-//           />
-//           <DetailsSingleBookingToggle
-//             addonFeeIds={this.state.addonFeeIds}
-//             average_default_nightly_price={
-//               this.props.average_default_nightly_price
-//             }
-//             availability_calendar={this.props.availability_calendar}
-//             default_availability={this.props.default_availability_changeover}
-//             booking_calendar={this.props.booking_calendar}
-//             availability={this.state.availability}
-//             checkInDate={this.state.checkInDate}
-//             checkOutDate={this.state.checkOutDate}
-//             guests={this.state.guests}
-//             datesParsed={this.state.datesParsed}
-//             listing={this.props.listing}
-//             pricing={this.state.pricing}
-//             respondToDatesChange={this.respondToDatesChange}
-//             respondToGuestsChange={this.respondToGuestsChange}
-//             unit_availability={this.props.unit_availability}
-//             translate={translate}
-//             updateFees={this.updateFees}
-//             unitID={this.props.unit.id}
-//             organizationID={this.props.property.organization_id}
-//             numSleep={this.props.num_sleep}
-//             updateQuantityFees={this.updateQuantityFees}
-//           />
-//           <figure className="details-content">
-//             <DetailsSingleNavbar translate={translate} reviews={this.props.reviews.length > 0}/>
-
-//             <DetailsSingleHeader
-//               featured={this.props.listing.featured}
-//               location={this.props.location_place}
-//               property={this.props.property}
-//               unit={this.props.unit}
-//               translate={translate}
-//             />
-//             <DetailsSingleOverview
-//               property={this.props.property}
-//               unit={this.props.unit}
-//               translate={translate}
-//             />
-//             <DetailsSingleAmenities
-//               features_accommodations={this.props.features_accommodations}
-//               features_adventure={this.props.features_adventure}
-//               features_amenities={this.props.features_amenities}
-//               features_attractions={this.props.features_attractions}
-//               features_car={this.props.features_car}
-//               features_leisure={this.props.features_leisure}
-//               features_local={this.props.features_local}
-//               features_location={this.props.features_location}
-//               features_dining={this.props.features_dining}
-//               features_entertainment={this.props.features_entertainment}
-//               features_outdoor={this.props.features_outdoor}
-//               features_spa={this.props.features_spa}
-//               features_suitability={this.props.features_suitability}
-//               features_themes={this.props.features_themes}
-//               translate={translate}
-//             />
-//             <DetailsSingleSummary
-//               bathrooms={this.props.bathrooms}
-//               bedrooms={this.props.bedrooms}
-//               property={this.props.property}
-//               unit={this.props.unit}
-//               translate={translate}
-//             />
-//             <DetailsSingleRules
-//               listing={this.props.listing}
-//               property={this.props.property}
-//               unit={this.props.unit}
-//               unit_availability={this.props.unit_availability}
-//               pricing={this.state.pricing}
-//               translate={translate}
-//             />
-//             <div id='review-section'/>
-//             {this.props.property_manager && (
-//               <DetailsSingleOwner
-//                 property_manager={this.props.property_manager}
-//                 translate={translate}
-//               />
-//             )}
-//             {this.props.reviews && this.props.reviews.length > 0 ? (
-//               <DetailsReviewList
-//                 reviews={this.props.reviews}
-//                 average={this.props.review_average}
-//                 displayFormat={this.props.brand.date_format}
-//               />
-//             ) : null}
-//             <DetailsSingleAvailability
-//               availability_calendar={this.props.availability_calendar}
-//               default_availability={this.props.default_availability_changeover}
-//               booking_calendar={this.props.booking_calendar}
-//               translate={translate}
-//             />
-//             <DetailsSingleLocation
-//               google_maps_api_key={this.props.google_maps_api_key}
-//               locationPlace={this.props.location_place}
-//               translate={translate}
-//             />
-//           </figure>
-//         </section>
-//       </div>
-//     );
-//   }
-// }
-
-export default class Single extends React.Component {
-
-  // Render
-  // ---------------------------------------------
   render() {
-    return(
+    const translate = ReactI18n.getIntlMessage;
+
+    return (
       <div>
-        <h1>This is a listing</h1>
+        <Helmet>
+          <script type="application/ld+json">{`
+            {
+              "@context": "https://schema.org/",
+              "@type": "LodgingBusiness",
+              "name": "${this.props.listing.property.name}",
+              "description": "${this.props.listing.property.summary_description}",
+            }
+          `}</script>
+          {/* <script type="application/ld+json">{`
+            {
+              "@context": "https://schema.org/",
+              "@type": "LodgingBusiness",
+              "name": "${this.props.listing.property.name}",
+              "description": "${this.props.listing.property.summary_description}",
+              "brand": "${this.props.brand.name}",
+              "telephone": "${this.props.brand_info.contact.phone_primary.number}",
+              "image": "${this.props.property_images[0].image.medium.url}",
+              ${ state.reviews > 0 ? `
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "${state.review_average}",
+                  "ratingCount": "${state.reviews}"
+                },` : '' }
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "${this.props.org_location.adr_street}",
+                "addressLocality": "${this.props.org_location.adr_city}",
+                "addressRegion": "${this.props.org_location.adr_state}",
+                "postalCode": "${this.props.org_location.adr_postal_code}",
+                "addressCountry": "${this.props.org_location.adr_country}"
+              }
+            }
+          `}</script> */}
+        </Helmet>
+        <Images
+          property_images={this.props.property_images}
+          unit_images={this.props.unit_images}
+          //translate={translate}
+        />
+
+        <section className="details-main">
+           {/* <DetailsSingleBookingAnchored
+             addonFeeIds={this.state.addonFeeIds}
+             average_default_nightly_price={
+               this.props.average_default_nightly_price
+             }
+             availability_calendar={this.props.availability_calendar}
+             booking_calendar={this.props.booking_calendar}
+             default_availability={this.props.default_availability_changeover}
+             availability={this.state.availability}
+             checkInDate={this.state.checkInDate}
+             checkOutDate={this.state.checkOutDate}
+             datesParsed={this.state.datesParsed}
+             guests={this.state.guests}
+             listing={this.props.listing}
+             organizationId={this.props.property.organization_id}
+             pricing={this.state.pricing}
+             propertyId={this.props.property.id}
+             propertyManager={this.props.property_manager}
+             respondToDatesChange={this.respondToDatesChange}
+             respondToGuestsChange={this.respondToGuestsChange}
+             unit_availability={this.props.unit_availability}
+             translate={translate}
+             updateFees={this.updateFees}
+             reviewCount={this.props.reviews ? this.props.reviews.length : 0}
+             reviewAverage={parseFloat(this.props.review_average)}
+             unit={this.props.unit}
+             displayFormat={this.props.brand.date_format}
+             numSleep={this.props.num_sleep}
+             updateQuantityFee={this.updateQuantityFees}
+             addCouponCode={this.addCouponCode}
+           />
+           <DetailsSingleBookingToggle
+             addonFeeIds={this.state.addonFeeIds}
+             average_default_nightly_price={
+               this.props.average_default_nightly_price
+             }
+             availability_calendar={this.props.availability_calendar}
+             default_availability={this.props.default_availability_changeover}
+             booking_calendar={this.props.booking_calendar}
+             availability={this.state.availability}
+             checkInDate={this.state.checkInDate}
+             checkOutDate={this.state.checkOutDate}
+             guests={this.state.guests}
+             datesParsed={this.state.datesParsed}
+             listing={this.props.listing}
+             pricing={this.state.pricing}
+             respondToDatesChange={this.respondToDatesChange}
+             respondToGuestsChange={this.respondToGuestsChange}
+             unit_availability={this.props.unit_availability}
+             translate={translate}
+             updateFees={this.updateFees}
+             unitID={this.props.unit.id}
+             organizationID={this.props.property.organization_id}
+             numSleep={this.props.num_sleep}
+             updateQuantityFees={this.updateQuantityFees}
+           />
+          */}
+          <figure className="details-content">
+          {/*
+             <DetailsSingleNavbar translate={translate} reviews={this.props.reviews.length > 0}/>
+
+             <DetailsSingleHeader
+               featured={this.props.listing.featured}
+               location={this.props.location_place}
+               property={this.props.property}
+               unit={this.props.unit}
+               translate={translate}
+             />
+             <DetailsSingleOverview
+               property={this.props.property}
+               unit={this.props.unit}
+               translate={translate}
+             />
+             <DetailsSingleAmenities
+               features_accommodations={this.props.features_accommodations}
+               features_adventure={this.props.features_adventure}
+               features_amenities={this.props.features_amenities}
+               features_attractions={this.props.features_attractions}
+               features_car={this.props.features_car}
+               features_leisure={this.props.features_leisure}
+               features_local={this.props.features_local}
+               features_location={this.props.features_location}
+               features_dining={this.props.features_dining}
+               features_entertainment={this.props.features_entertainment}
+               features_outdoor={this.props.features_outdoor}
+               features_spa={this.props.features_spa}
+               features_suitability={this.props.features_suitability}
+               features_themes={this.props.features_themes}
+               translate={translate}
+             />
+          */}
+             <Summary
+               bathrooms={this.props.bathrooms}
+               bedrooms={this.props.bedrooms}
+               property={this.props.property}
+               unit={this.props.unit}
+               //translate={translate}
+             />
+          {/*
+             <DetailsSingleRules
+               listing={this.props.listing}
+               property={this.props.property}
+               unit={this.props.unit}
+               unit_availability={this.props.unit_availability}
+               pricing={this.state.pricing}
+               translate={translate}
+             />
+             <div id='review-section'/>
+             {this.props.property_manager && (
+               <DetailsSingleOwner
+                 property_manager={this.props.property_manager}
+                 translate={translate}
+               />
+             )}
+             {this.props.reviews && this.props.reviews.length > 0 ? (
+               <DetailsReviewList
+                 reviews={this.props.reviews}
+                 average={this.props.review_average}
+                 displayFormat={this.props.brand.date_format}
+               />
+             ) : null}
+             <DetailsSingleAvailability
+               availability_calendar={this.props.availability_calendar}
+               default_availability={this.props.default_availability_changeover}
+               booking_calendar={this.props.booking_calendar}
+               translate={translate}
+             />
+             <DetailsSingleLocation
+               google_maps_api_key={this.props.google_maps_api_key}
+               locationPlace={this.props.location_place}
+               translate={translate}
+             />
+             */}
+           </figure>
+        </section>
       </div>
-    )
+    );
   }
 }
+
+function mapStateToProps(state) {
+  console.log(state);
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+export default connect(mapStateToProps)(Single);

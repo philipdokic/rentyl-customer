@@ -1,7 +1,7 @@
 # ================================================
-# RUBY->MODEL->UNIT-LISTINGS =====================
+# RUBY->MODEL->UNIT-IMAGE ========================
 # ================================================
-class UnitListing < ApplicationRecord
+class UnitImage < ApplicationRecord
 
   # ----------------------------------------------
   # DATABASE -------------------------------------
@@ -11,12 +11,6 @@ class UnitListing < ApplicationRecord
   # ----------------------------------------------
   # RELATIONS ------------------------------------
   # ----------------------------------------------
-  belongs_to :brand
-  belongs_to :organization
   belongs_to :unit
-
-  has_one :property, through: :unit
-  # has_one :unit_availability, through: :unit
-  # has_one :unit_pricing, through: :unit
 
 end

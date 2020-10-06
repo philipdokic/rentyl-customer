@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root to: 'organizations#index'
 
-  namespace :api do
+  namespace :api, { defaults: { format: :json } } do
     resources :organizations
     resources :listings, only: [:index, :show]
   end

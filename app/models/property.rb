@@ -1,7 +1,7 @@
 # ================================================
-# RUBY->MODEL->UNIT-LISTINGS =====================
+# RUBY->MODEL->PROPERTY ==========================
 # ================================================
-class UnitListing < ApplicationRecord
+class Property < ApplicationRecord
 
   # ----------------------------------------------
   # DATABASE -------------------------------------
@@ -13,10 +13,10 @@ class UnitListing < ApplicationRecord
   # ----------------------------------------------
   belongs_to :brand
   belongs_to :organization
-  belongs_to :unit
 
-  has_one :property, through: :unit
-  # has_one :unit_availability, through: :unit
-  # has_one :unit_pricing, through: :unit
+  has_many :property_images, -> { order(:order) }, dependent: :destroy
+  has_many :units, dependent: :destroy
+  has_many :unit_images, through: :units
+  has_many :unit_listings, through: :units
 
 end
