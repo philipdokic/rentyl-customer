@@ -1,14 +1,27 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import ReactI18n from 'react-i18n';
 import styled from 'styled-components';
 
-export default class DetailsAmenitiesList extends React.Component {
+// Styles
+// -----------------------------------------------
+const AmenitiesSubHeader = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+// -----------------------------------------------
+// COMPONENT->AMENITIES-LIST ---------------------
+// -----------------------------------------------
+export default class AmenitiesList extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  // Get Amount Amenities
+  // ---------------------------------------------
   getAmountAmenities = () => {
     let amountTrue = 0;
     Object.keys(this.props.features).map(featureKey => {
@@ -19,9 +32,12 @@ export default class DetailsAmenitiesList extends React.Component {
     return amountTrue;
   };
 
+  // Render Feature
+  // ---------------------------------------------
   renderFeature = (featureKey, featureType, featureList) => {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const val = featureList[featureKey].value;
+
     if (val) {
       return (
         <li key={featureKey}>
@@ -32,8 +48,11 @@ export default class DetailsAmenitiesList extends React.Component {
     }
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     if (this.getAmountAmenities() > 0) {
       return (
         <div className="amenities-list subsection">
@@ -55,8 +74,3 @@ export default class DetailsAmenitiesList extends React.Component {
     return null;
   }
 }
-
-const AmenitiesSubHeader = styled.p`
-  font-size: 16px;
-  font-weight: 600;
-`;

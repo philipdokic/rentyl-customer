@@ -15,6 +15,8 @@ class Unit < ApplicationRecord
   belongs_to :organization
   belongs_to :property
 
+  has_many :bathrooms, -> { order(:created_at) }, dependent: :destroy
+  has_many :bedrooms, -> { order(:created_at) }, dependent: :destroy
   has_many :unit_images, -> { order(:order) }, dependent: :destroy
   has_many :unit_listings, dependent: :destroy
 

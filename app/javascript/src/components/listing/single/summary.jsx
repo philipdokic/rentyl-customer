@@ -2,6 +2,7 @@
 // -----------------------------------------------
 import React from 'react';
 import { connect } from 'react-redux';
+import ReactI18n from 'react-i18n';
 import styled from 'styled-components';
 
 // Components
@@ -20,19 +21,24 @@ const SubHeaders = styled.p`
   font-weight: 600;
 `;
 
+// -----------------------------------------------
+// COMPONENT->SUMMARY ----------------------------
+// -----------------------------------------------
 class Summary extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
+  // Render Unit Description
+  // ---------------------------------------------
   renderUnitDescription = () => {
     return {
       __html: this.props.listing.unit.summary_description
     };
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section className="details-summary">
         <header>
@@ -64,13 +70,13 @@ class Summary extends React.Component {
                   </span>
                 ) : null}
               </p>
-              {/* {this.props.bedrooms.map(bedroom => (
+              {this.props.listing.bedrooms.map(bedroom => (
                 <Bedroom
                   key={bedroom.id}
                   bedroom={bedroom}
                   translate={translate}
                 />
-              ))} */}
+              ))}
             </div>
           ) : null}
           {this.props.listing.unit.num_bathrooms ? (
@@ -84,13 +90,13 @@ class Summary extends React.Component {
                   s: this.props.listing.unit.num_bathrooms == 1 ? '' : 's'
                 })}
               </p>
-              {/* {this.props.bathrooms.map(bathroom => (
+              {this.props.listing.bathrooms.map(bathroom => (
                 <Bathroom
                   key={bathroom.id}
                   bathroom={bathroom}
                   translate={translate}
                 />
-              ))} */}
+              ))}
             </div>
           ) : null}
         </MainSummary>

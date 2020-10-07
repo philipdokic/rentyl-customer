@@ -1,17 +1,16 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import ReactI18n from 'react-i18n';
 
-export default class DetailsSingleOverview extends React.Component {
-  static defaultProps = {
-    roomType: false
-  }
+// -----------------------------------------------
+// COMPONENT->OVERVIEW ---------------------------
+// -----------------------------------------------
+class Overview extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
+  // Untruncate
+  // ---------------------------------------------
   unTruncate = e => {
     e.preventDefault();
     $(this.truncated).removeClass('truncated');
@@ -19,6 +18,8 @@ export default class DetailsSingleOverview extends React.Component {
     $('.details-minimize-link').removeClass('hidden');
   };
 
+  // Truncate
+  // ---------------------------------------------
   truncate = e => {
     e.preventDefault();
     $(this.truncated).addClass('truncated');
@@ -26,21 +27,19 @@ export default class DetailsSingleOverview extends React.Component {
     $('.details-expand-link').removeClass('hidden');
   };
 
+  // Render Property Description
+  // ---------------------------------------------
   renderPropertyDescription = () => {
     return {
-      __html: this.props.property.summary_description
+      __html: this.props.listing.property.summary_description
     };
   };
 
-  renderUnitDescription = () => {
-    return {
-      __html: this.props.unit.summary_description
-    };
-  };
-
-
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section>
         <header>
@@ -53,15 +52,9 @@ export default class DetailsSingleOverview extends React.Component {
               this.truncated = node;
             }}
           >
-            {!this.props.roomType && (
-              <div
-              className="subsection"
-              dangerouslySetInnerHTML={this.renderPropertyDescription()}
-            />
-            ) }
             <div
               className="subsection"
-              dangerouslySetInnerHTML={this.renderUnitDescription()}
+              dangerouslySetInnerHTML={this.renderPropertyDescription()}
             />
           </div>
           <a
@@ -83,3 +76,15 @@ export default class DetailsSingleOverview extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Overview);

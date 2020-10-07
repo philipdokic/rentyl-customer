@@ -1,7 +1,7 @@
 # ================================================
-# RUBY->MODEL->PROPERTY ==========================
+# RUBY->MODEL->BATHROOM ==========================
 # ================================================
-class Property < ApplicationRecord
+class Bathroom < ApplicationRecord
 
   # ----------------------------------------------
   # DATABASE -------------------------------------
@@ -11,14 +11,6 @@ class Property < ApplicationRecord
   # ----------------------------------------------
   # RELATIONS ------------------------------------
   # ----------------------------------------------
-  belongs_to :brand
-  belongs_to :organization
-
-  has_many :property_images, -> { order(:order) }, dependent: :destroy
-  has_many :units, dependent: :destroy
-  has_many :unit_images, through: :units
-  has_many :unit_listings, through: :units
-
-  has_one :location, as: :locationable, dependent: :destroy
+  belongs_to :unit
 
 end

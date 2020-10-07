@@ -13,22 +13,25 @@ import ReactI18n from 'react-i18n';
 // -----------------------------------------------
 import {
   // DetailsReviewList,
-  // DetailsSingleAmenities,
+  Amenities,
   // DetailsSingleAvailability,
   // DetailsSingleBookingAnchored,
   // DetailsSingleBookingToggle,
   // DetailsSingleContact,
-  // DetailsSingleHeader,
+  Header,
   Images,
   // DetailsSingleLocation,
   // DetailsSingleNavbar,
-  // DetailsSingleOverview,
+  Overview,
   // DetailsSingleOwner,
   // DetailsSingleRules,
   Summary
 } from './single/';
 // import { isInclusivelyBeforeDay } from 'react-dates';
 
+// -----------------------------------------------
+// COMPONENT->SINGLE -----------------------------
+// -----------------------------------------------
 class Single extends React.Component {
 //   static propTypes = {};
 
@@ -241,6 +244,8 @@ class Single extends React.Component {
 //     this.setState({ couponCode: code }, () => this.checkPricing());
 //   };
 
+  // Render
+  // -------------------------------------------
   render() {
     const translate = ReactI18n.getIntlMessage;
 
@@ -349,43 +354,11 @@ class Single extends React.Component {
           {/*
              <DetailsSingleNavbar translate={translate} reviews={this.props.reviews.length > 0}/>
 
-             <DetailsSingleHeader
-               featured={this.props.listing.featured}
-               location={this.props.location_place}
-               property={this.props.property}
-               unit={this.props.unit}
-               translate={translate}
-             />
-             <DetailsSingleOverview
-               property={this.props.property}
-               unit={this.props.unit}
-               translate={translate}
-             />
-             <DetailsSingleAmenities
-               features_accommodations={this.props.features_accommodations}
-               features_adventure={this.props.features_adventure}
-               features_amenities={this.props.features_amenities}
-               features_attractions={this.props.features_attractions}
-               features_car={this.props.features_car}
-               features_leisure={this.props.features_leisure}
-               features_local={this.props.features_local}
-               features_location={this.props.features_location}
-               features_dining={this.props.features_dining}
-               features_entertainment={this.props.features_entertainment}
-               features_outdoor={this.props.features_outdoor}
-               features_spa={this.props.features_spa}
-               features_suitability={this.props.features_suitability}
-               features_themes={this.props.features_themes}
-               translate={translate}
-             />
           */}
-             <Summary
-               bathrooms={this.props.bathrooms}
-               bedrooms={this.props.bedrooms}
-               property={this.props.property}
-               unit={this.props.unit}
-               translate={translate}
-             />
+            <Header />
+            <Overview />
+            {/* <Amenities /> */}
+            <Summary />
           {/*
              <DetailsSingleRules
                listing={this.props.listing}
