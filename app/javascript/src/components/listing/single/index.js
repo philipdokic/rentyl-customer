@@ -10,10 +10,10 @@ import Amenities from './amenities';
 import Header from './header';
 import Images from './images';
 // import DetailsSingleLocation from './details-location';
+import Navbar from './navbar';
 import Overview from './overview';
 // import DetailsSingleOwner from './details-owner';
 // import DetailsSingleRules from './details-rules';
-// import DetailsSingleNavbar from './details-single-navbar';
 import Summary from './summary';
 // import DetailsReviewList from './details-review-list';
 
@@ -30,10 +30,10 @@ export {
   Header,
   Images,
   // DetailsSingleLocation,
+  Navbar,
   Overview,
   // DetailsSingleOwner,
   // DetailsSingleRules,
-  // DetailsSingleNavbar,
   Summary,
   // DetailsReviewList
 };

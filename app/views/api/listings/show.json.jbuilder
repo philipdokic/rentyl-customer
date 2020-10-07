@@ -17,3 +17,5 @@ end
 
 json.bedrooms @listing.unit.bedrooms
 json.bathrooms @listing.unit.bathrooms
+json.reviews @listing.unit.reviews.with_status("published").order('reviewed_date DESC')
+json.review_average @listing.unit.reviews.with_status("published").average(:rating)

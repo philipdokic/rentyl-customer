@@ -1,17 +1,21 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import ReactI18n from 'react-i18n';
 import Scrollchor from 'react-scrollchor';
 import Sticky from 'react-stickynode';
 
-export default class DetailsSingleNavbar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+// -----------------------------------------------
+// COMPONENT->NAVBAR -----------------------------
+// -----------------------------------------------
+class Navbar extends React.Component {
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <Sticky>
         <nav className="details-nav">
@@ -28,18 +32,12 @@ export default class DetailsSingleNavbar extends React.Component {
                 </Scrollchor>
               </li>
             )}
-
-{/*             <li>
-              <Scrollchor to="details-availability">
-                {translate(`cx.details.headers.availability`)}
-              </Scrollchor>
-            </li> */}
             <li>
               <Scrollchor to="details-map">
                 {translate(`cx.details.location`)}
               </Scrollchor>
             </li>
-            {this.props.reviews && (
+            {this.props.listing.reviews && (
               <li>
                 <Scrollchor to='review-section'>
                   {translate(`cx.details.reviews`)}
@@ -52,3 +50,15 @@ export default class DetailsSingleNavbar extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Navbar);

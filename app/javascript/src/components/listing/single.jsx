@@ -21,7 +21,7 @@ import {
   Header,
   Images,
   // DetailsSingleLocation,
-  // DetailsSingleNavbar,
+  Navbar,
   Overview,
   // DetailsSingleOwner,
   // DetailsSingleRules,
@@ -210,8 +210,8 @@ class Single extends React.Component {
       pricing: null,
       addonFeeIds: [],
       couponCode: '',
-      // review_average: this.props.review_average || 0,
-      // reviews: this.props.reviews.length || 0
+      review_average: this.props.listing.review_average || 0,
+      reviews: this.props.listing.reviews.length || 0
     };
   }
 
@@ -258,17 +258,7 @@ class Single extends React.Component {
               "@type": "LodgingBusiness",
               "name": "${this.props.listing.property.name}",
               "description": "${this.props.listing.property.summary_description}",
-            }
-          `}</script>
-          {/* <script type="application/ld+json">{`
-            {
-              "@context": "https://schema.org/",
-              "@type": "LodgingBusiness",
-              "name": "${this.props.listing.property.name}",
-              "description": "${this.props.listing.property.summary_description}",
               "brand": "${this.props.brand.name}",
-              "telephone": "${this.props.brand_info.contact.phone_primary.number}",
-              "image": "${this.props.property_images[0].image.medium.url}",
               ${ state.reviews > 0 ? `
                 "aggregateRating": {
                   "@type": "AggregateRating",
@@ -277,14 +267,18 @@ class Single extends React.Component {
                 },` : '' }
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "${this.props.org_location.adr_street}",
-                "addressLocality": "${this.props.org_location.adr_city}",
-                "addressRegion": "${this.props.org_location.adr_state}",
-                "postalCode": "${this.props.org_location.adr_postal_code}",
-                "addressCountry": "${this.props.org_location.adr_country}"
+                "streetAddress": "${this.props.listing.location.adr_street}",
+                "addressLocality": "${this.props.listing.location.adr_city}",
+                "addressRegion": "${this.props.listing.location.adr_state}",
+                "postalCode": "${this.props.listing.location.adr_postal_code}",
+                "addressCountry": "${this.props.listing.location.adr_country}"
               }
             }
-          `}</script> */}
+          `}</script>
+          {/*
+              "telephone": "${this.props.brand_info.contact.phone_primary.number}",
+              "image": "${this.props.property_images[0].image.medium.url}",
+              */}
         </Helmet>
         {/* <Images
           property_images={this.props.property_images}
@@ -351,10 +345,7 @@ class Single extends React.Component {
            />
           */}
           <figure className="details-content">
-          {/*
-             <DetailsSingleNavbar translate={translate} reviews={this.props.reviews.length > 0}/>
-
-          */}
+            <Navbar />
             <Header />
             <Overview />
             {/* <Amenities /> */}
@@ -405,6 +396,7 @@ class Single extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
+    brand: state.brand ? state.brand : {},
     listing: state.listing ? state.listing : {}
   };
 }
