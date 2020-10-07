@@ -1,0 +1,300 @@
+{
+  "Wheelchair Accessible": [
+    {
+      "model": "Unit",
+      "column": "features_suitability",
+      "property": "SUITABILITY_ACCESSIBILITY_WHEELCHAIR_ACCESSIBLE",
+      "label": "Wheelchair accessible"
+    }
+  ],
+  "Air Conditioning": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_AIR_CONDITIONING",
+      "label": "Air conditioning"
+    }
+  ],
+  "Beachfront": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_BEACH_FRONT",
+      "label": "Beachfront"
+    },
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_BEACH_VIEW",
+      "label": "Beach view"
+    }
+  ],
+  "Beach View": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_BEACH_VIEW",
+      "label": "Beach view"
+    }
+  ],
+  "Bicycle(s) Provided": [
+    {
+      "model": "Unit",
+      "column": "features_outdoor",
+      "property": "OUTDOOR_BICYCLE",
+      "label": "Bicycle"
+    }
+  ],
+  "Cable TV": [
+    {
+      "model": "Unit",
+      "column": "features_entertainment",
+      "property": "ENTERTAINMENT_SATELLITE_OR_CABLE",
+      "label": "Satellite/cable television"
+    },
+    {
+      "model": "Unit",
+      "column": "features_entertainment",
+      "property": "ENTERTAINMENT_TELEVISION",
+      "label": "Television"
+    }
+  ],
+  "Dining Area": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_AREA",
+      "label": "Dining area"
+    }
+  ],
+  "Dishwasher": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_DISHWASHER",
+      "label": "Dishwasher"
+    }
+  ],
+  "Dryer": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_DRYER",
+      "label": "Dryer"
+    }
+  ],
+  "Grill": [
+    {
+      "model": "Unit",
+      "column": "features_outdoor",
+      "property": "OUTDOOR_GRILL",
+      "label": "Grill"
+    }
+  ],
+  "Hair Dryer": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_HAIR_DRYER",
+      "label": "Hair dryer"
+    }
+  ],
+  "Private Pool": [
+    {
+      "model": "Unit",
+      "column": "features_spa",
+      "property": "POOL_SPA_PRIVATE_POOL",
+      "label": "Private pool"
+    }
+  ],
+  "Heated Pool": [
+    {
+      "model": "Unit",
+      "column": "features_spa",
+      "property": "POOL_SPA_HEATED_POOL",
+      "label": "Heated pool"
+    }
+  ],
+  "Pool": [
+    {
+      "model": "Unit",
+      "column": "features_spa",
+      "property": "POOL_SPA_COMMUNAL_POOL",
+      "label": "Communal pool"
+    }
+  ],
+  "Indoor Pool": [
+    {
+      "model": "Unit",
+      "column": "features_spa",
+      "property": "POOL_SPA_INDOOR_POOL",
+      "label": "Indoor pool"
+    }
+  ],
+  "Heating": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_HEATING",
+      "label": "Heating"
+    }
+  ],
+  "High Chair": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_HIGHCHAIR",
+      "label": "High chair"
+    }
+  ],
+  "Hot Tub": [
+    {
+      "model": "Unit",
+      "column": "features_spa",
+      "property": "POOL_SPA_HOT_TUB",
+      "label": "Hot tub"
+    }
+  ],
+  "Wi-Fi": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_INTERNET",
+      "label": "Internet"
+    }
+  ],
+  "Iron / Ironing Board": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_IRON_BOARD",
+      "label": "Ironing board"
+    }
+  ],
+  "Kitchen": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_KITCHEN",
+      "label": "Kitchen"
+    }
+  ],
+  "Microwave": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_MICROWAVE",
+      "label": "Microwave"
+    }
+  ],
+  "Oceanfront": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_OCEAN_FRONT",
+      "label": "Oceanfront"
+    }
+  ],
+  "Ocean View": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_OCEAN_VIEW",
+      "label": "Ocean view"
+    }
+  ],
+  "On Golf Course": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_GOLF_COURSE_FRONT",
+      "label": "On golf course"
+    }
+  ],
+  "Oven": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_OVEN",
+      "label": "Oven"
+    }
+  ],
+  "Pet Friendly": [
+    {
+      "model": "Unit",
+      "column": "features_suitability",
+      "property": "SUITABILITY_PETS_CONSIDERED",
+      "label": "Pets considered"
+    }
+  ],
+  "Refrigerator": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_REFRIGERATOR",
+      "label": "Refrigerator"
+    }
+  ],
+  "Resort": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_RESORT",
+      "label": "Resort"
+    }
+  ],
+  "Shampoo": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_SHAMPOO",
+      "label": "Shampoo"
+    }
+  ],
+  "Ski In": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_SKI_IN",
+      "label": "Ski-in"
+    }
+  ],
+  "Ski In Ski Out": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_SKI_IN",
+      "label": "Ski-in"
+    },
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_SKI_OUT",
+      "label": "Ski-out"
+    }
+  ],
+  "Ski Out": [
+    {
+      "model": "Property",
+      "column": "features_location",
+      "property": "LOCATION_TYPE_SKI_OUT",
+      "label": "Ski-out"
+    }
+  ],
+  "Stove": [
+    {
+      "model": "Unit",
+      "column": "features_dining",
+      "property": "KITCHEN_DINING_STOVE",
+      "label": "Stove"
+    }
+  ],
+  "Washer": [
+    {
+      "model": "Unit",
+      "column": "features_amenities",
+      "property": "AMENITIES_WASHER",
+      "label": "Washer"
+    }
+  ]
+}

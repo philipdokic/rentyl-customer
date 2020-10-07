@@ -13,7 +13,7 @@ import * as listingsAction from './redux/action/listings'
 // Components
 // -----------------------------------------------
 import Listing from './redux/containers/listing'
-import Listings from './components/Listings'
+import Listings from './redux/containers/listings'
 import Home from './components/Home'
 import NoMatch from './components/NoMatch'
 
