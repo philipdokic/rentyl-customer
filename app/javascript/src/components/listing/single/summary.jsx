@@ -1,6 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 // Components
@@ -14,14 +15,19 @@ const MainSummary = styled.main`
   width: 100%;
 `;
 
-export default class Summary extends React.Component {
+const SubHeaders = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+class Summary extends React.Component {
   constructor(props) {
     super(props);
   }
 
   renderUnitDescription = () => {
     return {
-      __html: this.props.unit.summary_description
+      __html: this.props.listing.unit.summary_description
     };
   };
 
@@ -33,58 +39,58 @@ export default class Summary extends React.Component {
           <h3>{translate(`cx.details.headers.summary`)}</h3>
         </header>
         <MainSummary>
-          {this.props.unit.num_bedrooms || this.props.unit.num_sleep_in_beds ? (
+          {this.props.listing.unit.num_bedrooms || this.props.listing.unit.num_sleep_in_beds ? (
             <div className="subsection">
               <SubHeaders>
                 {translate(`cx.global.amenities.bedroom_info`)}
               </SubHeaders>
               <p>
-                {this.props.unit.num_bedrooms ? (
+                {this.props.listing.unit.num_bedrooms ? (
                   <span>
                     {translate(`cx.details.summary.num_bedrooms`, {
-                      num: this.props.unit.num_bedrooms,
-                      s: this.props.unit.num_bedrooms ==1 ? '' : 's'
+                      num: this.props.listing.unit.num_bedrooms,
+                      s: this.props.listing.unit.num_bedrooms ==1 ? '' : 's'
                     })}{' '}
                   </span>
                 ) : null}
-                {this.props.unit.num_sleep_in_beds ? (
+                {this.props.listing.unit.num_sleep_in_beds ? (
                   <span>
                     {' '}
                     |{' '}
                     {translate(`cx.details.summary.num_sleep_in_beds`, {
-                      num: this.props.unit.num_sleep_in_beds,
-                      s: this.props.unit.num_sleep_in_beds == 1 ? '' : 's'
+                      num: this.props.listing.unit.num_sleep_in_beds,
+                      s: this.props.listing.unit.num_sleep_in_beds == 1 ? '' : 's'
                     })}
                   </span>
                 ) : null}
               </p>
-              {this.props.bedrooms.map(bedroom => (
+              {/* {this.props.bedrooms.map(bedroom => (
                 <Bedroom
                   key={bedroom.id}
                   bedroom={bedroom}
                   translate={translate}
                 />
-              ))}
+              ))} */}
             </div>
           ) : null}
-          {this.props.unit.num_bathrooms ? (
+          {this.props.listing.unit.num_bathrooms ? (
             <div className="subsection">
               <SubHeaders>
                 {translate(`cx.global.amenities.bathroom_info`)}
               </SubHeaders>
               <p>
                 {translate(`cx.details.summary.num_bathrooms`, {
-                  num: this.props.unit.num_bathrooms,
-                  s: this.props.unit.num_bathrooms == 1 ? '' : 's'
+                  num: this.props.listing.unit.num_bathrooms,
+                  s: this.props.listing.unit.num_bathrooms == 1 ? '' : 's'
                 })}
               </p>
-              {this.props.bathrooms.map(bathroom => (
+              {/* {this.props.bathrooms.map(bathroom => (
                 <Bathroom
                   key={bathroom.id}
                   bathroom={bathroom}
                   translate={translate}
                 />
-              ))}
+              ))} */}
             </div>
           ) : null}
         </MainSummary>
@@ -93,7 +99,14 @@ export default class Summary extends React.Component {
   }
 }
 
-const SubHeaders = styled.p`
-  font-size: 16px;
-  font-weight: 600;
-`;
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Summary);

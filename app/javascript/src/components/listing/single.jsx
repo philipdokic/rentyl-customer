@@ -1,7 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 // import moment from 'moment';
 // import 'react-dates/initialize'; // Needed for rendering any react-dates components
 
@@ -9,8 +9,8 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet';
 import ReactI18n from 'react-i18n';
 
-// // Components
-// // -----------------------------------------------
+// Components
+// -----------------------------------------------
 import {
   // DetailsReviewList,
   // DetailsSingleAmenities,
@@ -281,11 +281,11 @@ class Single extends React.Component {
             }
           `}</script> */}
         </Helmet>
-        <Images
+        {/* <Images
           property_images={this.props.property_images}
           unit_images={this.props.unit_images}
-          //translate={translate}
-        />
+          translate={translate}
+        /> */}
 
         <section className="details-main">
            {/* <DetailsSingleBookingAnchored
@@ -428,11 +428,14 @@ class Single extends React.Component {
   }
 }
 
+// Map State To Props
+// -----------------------------------------------
 function mapStateToProps(state) {
-  console.log(state);
   return {
     listing: state.listing ? state.listing : {}
   };
 }
 
+// Export
+// -----------------------------------------------
 export default connect(mapStateToProps)(Single);
