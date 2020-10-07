@@ -15,6 +15,7 @@ if @listing.unit.property.property_images.present?
   end
 end
 
+json.availability @listing.unit.unit_availability
 json.bedrooms @listing.unit.bedrooms
 json.bathrooms @listing.unit.bathrooms
 json.reviews @listing.unit.reviews.with_status("published").order('reviewed_date DESC')

@@ -1,16 +1,26 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { every, some, find, findIndex, includes, flatMap } from 'lodash';
 import moment from 'moment';
+import ReactI18n from 'react-i18n';
 import styled from 'styled-components';
 
-export default class DetailsSingleRules extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+// Styles
+// -----------------------------------------------
+const SubHeaders = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+`;
 
+// -----------------------------------------------
+// COMPONENT->RULES ------------------------------
+// -----------------------------------------------
+class Rules extends React.Component {
+
+  // Untruncate
+  // ---------------------------------------------
   unTruncate = e => {
     e.preventDefault();
     $(this.truncated).removeClass('truncated');
@@ -18,24 +28,33 @@ export default class DetailsSingleRules extends React.Component {
     $('.rules-minimize-link').removeClass('hidden');
   };
 
+  // Truncate
+  // ---------------------------------------------
   truncate = e => {
     e.preventDefault();
     $(this.truncated).addClass('truncated');
     $('.rules-minimize-link').addClass('hidden');
     $('.rules-expand-link').removeClass('hidden');
   };
+
+  // Render House Rules
+  // ---------------------------------------------
   renderHouseRules = () => {
     return {
-      __html: this.props.property.summary_rules
+      __html: this.props.listing.property.summary_rules
     };
   };
 
+  // Render Accommodations
+  // ---------------------------------------------
   renderAccommodations = () => {
     return {
-      __html: this.props.property.summary_accommodations
+      __html: this.props.listing.property.summary_accommodations
     };
   };
 
+  // Get Deposit Refund Policy
+  // ---------------------------------------------
   getDepositRefundPolicy() {
     const deposits = this.props.pricing.deposits;
     if (every(deposits, ['refundable', true])) {
@@ -47,6 +66,8 @@ export default class DetailsSingleRules extends React.Component {
     }
   }
 
+  // Calculate Balance Due Date
+  // ---------------------------------------------
   calculateBalanceDueDate = () => {
     const dueDates = flatMap(
       this.props.pricing.deposits,
@@ -67,6 +88,8 @@ export default class DetailsSingleRules extends React.Component {
     }
   };
 
+  // Render Balance Due Text
+  // ---------------------------------------------
   renderBalanceDueText = () => {
     const dueDateOptions = [
       { value: 'day60', label: '60 days prior to check-in' },
@@ -81,8 +104,9 @@ export default class DetailsSingleRules extends React.Component {
     return dueDateOptions[index].label;
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
     const check_in =
       moment(
         this.props.unit_availability.default_time_check_in,
@@ -93,6 +117,8 @@ export default class DetailsSingleRules extends React.Component {
         this.props.unit_availability.default_time_check_out,
         'HH:mm'
       ).format('h:mm A') || null;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section id="details-rules">
         <header>
@@ -160,8 +186,8 @@ export default class DetailsSingleRules extends React.Component {
               <SubHeaders>
                 {translate(`cx.details.headers.check_in_out`)}
               </SubHeaders>
-              {this.props.unit_availability.check_in_check_out_policy ? (
-                <p>{this.props.unit_availability.check_in_check_out_policy}</p>
+              {this.props.listing.unit.availability.check_in_check_out_policy ? (
+                <p>{this.props.listing.unit.availability.check_in_check_out_policy}</p>
               ) : null}
               {check_in && check_in !== 'Invalid date' ? (
                 <p>
@@ -174,7 +200,7 @@ export default class DetailsSingleRules extends React.Component {
                 </p>
               ) : null}
             </div>
-            {this.props.property.summary_accommodations ? (
+            {this.props.listing.property.summary_accommodations ? (
               <div className="subsection">
                 <SubHeaders>
                   {translate(`cx.details.headers.accomodations`)}
@@ -203,7 +229,14 @@ export default class DetailsSingleRules extends React.Component {
   }
 }
 
-const SubHeaders = styled.p`
-  font-size: 16px;
-  font-weight: 600;
-`;
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Rules);

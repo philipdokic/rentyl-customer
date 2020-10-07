@@ -12,10 +12,10 @@ return props.listings.map(l=>(<div key={l.id}><div onClick={ () => redirectListi
 
 const redirectListing = (props, id) => {
   axios.get(`/api/listings/${id}`, {headers:{'Content-Type': 'application/json'}})
-  .then(res => {
-    props.dispatch(listingAction.setListing(res.data))
-    props.history.push(`/listings/${id}`)
-  })
+    .then(res => {
+      props.dispatch(listingAction.setListing(res.data))
+      props.history.push(`/listings/${id}`)
+    })
 }
 
 const Listings = (props) => {

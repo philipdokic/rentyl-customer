@@ -1,17 +1,18 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import styled from 'styled-components';
+import { connect } from 'react-redux';
 import Rater from 'react-rater';
 import ReactPaginate from 'react-paginate';
+import styled from 'styled-components';
 
 // Components
 // -----------------------------------------------
-import { DetailsReview } from '../../atoms';
+import Review from '../review';
 
 // Styled Components
 // -----------------------------------------------
-const ReviewList = styled.div`
+const ListReviews = styled.div`
   display: flex;
   flex-direction: column;
   padding: 22.624px 0;
@@ -67,12 +68,9 @@ const PaginationContainer = styled.div`
 `;
 
 // -----------------------------------------------
-// COMPONENT->DETAILS-REVIEW-LIST ----------------
+// COMPONENT->REVIEW-LIST ------------------------
 // -----------------------------------------------
-export default class DetailsReviewList extends React.Component {
-  // ---------------------------------------------
-  // CONSTRUCTOR ---------------------------------
-  // ---------------------------------------------
+class ReviewList extends React.Component {
   constructor(props) {
     super(props);
     this.updatePagination = this.updatePagination.bind(this);
@@ -109,31 +107,29 @@ export default class DetailsReviewList extends React.Component {
     this.setState({ pageOffset: offset });
   };
 
-  // ---------------------------------------------
-  // RENDER --------------------------------------
-  // ---------------------------------------------
   render() {
     const pageCount = Math.ceil(
-      this.props.reviews.length / this.state.rowsPerPage
+      this.props.listing.reviews.length / this.state.rowsPerPage
     );
+
     return (
-      <ReviewList>
+      <ListReviews>
         <ReviewListHeader>
-          <h3>{this.props.reviews.length} Reviews</h3>
+          <h3>{this.props.listing.reviews.length} Reviews</h3>
           <StarContainer>
             <Rater
-              rating={parseFloat(this.props.average)}
+              rating={parseFloat(this.props.listing.review_average)}
               interactive={false}
             />
           </StarContainer>
         </ReviewListHeader>
-        {this.props.reviews
+        {this.props.listing.reviews
           .slice(
             this.state.pageOffset,
             this.state.pageOffset + this.state.rowsPerPage
           )
           .map(review => (
-            <DetailsReview
+            <Review
               key={review.id}
               review={review}
               displayFormat={this.props.displayFormat}
@@ -159,7 +155,19 @@ export default class DetailsReviewList extends React.Component {
             </div>
           )}
         </PaginationContainer>
-      </ReviewList>
+      </ListReviews>
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(ReviewList);

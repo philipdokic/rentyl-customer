@@ -12,7 +12,6 @@ import ReactI18n from 'react-i18n';
 // Components
 // -----------------------------------------------
 import {
-  // DetailsReviewList,
   Amenities,
   // DetailsSingleAvailability,
   // DetailsSingleBookingAnchored,
@@ -24,7 +23,8 @@ import {
   Navbar,
   Overview,
   // DetailsSingleOwner,
-  // DetailsSingleRules,
+  ReviewList,
+  Rules,
   Summary
 } from './single/';
 // import { isInclusivelyBeforeDay } from 'react-dates';
@@ -259,11 +259,11 @@ class Single extends React.Component {
               "name": "${this.props.listing.property.name}",
               "description": "${this.props.listing.property.summary_description}",
               "brand": "${this.props.brand.name}",
-              ${ state.reviews > 0 ? `
+              ${ this.state.reviews > 0 ? `
                 "aggregateRating": {
                   "@type": "AggregateRating",
-                  "ratingValue": "${state.review_average}",
-                  "ratingCount": "${state.reviews}"
+                  "ratingValue": "${this.state.review_average}",
+                  "ratingCount": "${this.state.reviews}"
                 },` : '' }
               "address": {
                 "@type": "PostalAddress",
@@ -350,15 +350,8 @@ class Single extends React.Component {
             <Overview />
             {/* <Amenities /> */}
             <Summary />
+            {/* <Rules pricing={this.state.pricing} /> */}
           {/*
-             <DetailsSingleRules
-               listing={this.props.listing}
-               property={this.props.property}
-               unit={this.props.unit}
-               unit_availability={this.props.unit_availability}
-               pricing={this.state.pricing}
-               translate={translate}
-             />
              <div id='review-section'/>
              {this.props.property_manager && (
                <DetailsSingleOwner
@@ -366,13 +359,14 @@ class Single extends React.Component {
                  translate={translate}
                />
              )}
-             {this.props.reviews && this.props.reviews.length > 0 ? (
-               <DetailsReviewList
-                 reviews={this.props.reviews}
-                 average={this.props.review_average}
-                 displayFormat={this.props.brand.date_format}
-               />
-             ) : null}
+          */}
+            {this.props.listing.reviews && this.props.listing.reviews.length > 0 ? (
+              <ReviewList
+                displayFormat={this.props.brand.date_format}
+              />
+            ) : null}
+          {/*
+
              <DetailsSingleAvailability
                availability_calendar={this.props.availability_calendar}
                default_availability={this.props.default_availability_changeover}

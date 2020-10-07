@@ -13,9 +13,9 @@ import Images from './images';
 import Navbar from './navbar';
 import Overview from './overview';
 // import DetailsSingleOwner from './details-owner';
-// import DetailsSingleRules from './details-rules';
+import Rules from './rules';
 import Summary from './summary';
-// import DetailsReviewList from './details-review-list';
+import ReviewList from './review-list';
 
 export {
   Amenities,
@@ -33,7 +33,7 @@ export {
   Navbar,
   Overview,
   // DetailsSingleOwner,
-  // DetailsSingleRules,
+  Rules,
   Summary,
-  // DetailsReviewList
+  ReviewList
 };

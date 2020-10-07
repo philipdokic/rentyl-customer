@@ -8,7 +8,7 @@ import get from 'lodash/get';
 
 // Components
 // -----------------------------------------------
-import { StarContainer } from 'cxThemeComponents';
+// import { StarContainer } from 'cxThemeComponents';
 
 // Styled Components
 // -----------------------------------------------
@@ -35,13 +35,13 @@ const ReviewerInfo = styled.div`
   }
 `;
 
-const ReviewStarContainer = styled(StarContainer)`
-  .react-rater {
-    @media (max-width: 500px) {
-      justify-content: flex-start;
-    }
-  }
-`;
+// const ReviewStarContainer = styled(StarContainer)`
+//   .react-rater {
+//     @media (max-width: 500px) {
+//       justify-content: flex-start;
+//     }
+//   }
+// `;
 
 // -----------------------------------------------
 // COMPONENT->DETAILS-REVIEW ---------------------
@@ -58,9 +58,9 @@ const DetailsReview = props => {
             )}
           </p>
         </ReviewerInfo>
-        <ReviewStarContainer>
+        {/* <ReviewStarContainer>
           <Rater rating={props.review.rating} interactive={false} />
-        </ReviewStarContainer>
+        </ReviewStarContainer> */}
       </ReviewHeader>
       <div dangerouslySetInnerHTML={{ __html: props.review.body }} />
     </ReviewContainer>

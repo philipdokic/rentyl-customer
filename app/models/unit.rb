@@ -18,7 +18,9 @@ class Unit < ApplicationRecord
   has_many :bathrooms, -> { order(:created_at) }, dependent: :destroy
   has_many :bedrooms, -> { order(:created_at) }, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_one :unit_availability, dependent: :destroy
   has_many :unit_images, -> { order(:order) }, dependent: :destroy
   has_many :unit_listings, dependent: :destroy
+  has_one :unit_pricing, dependent: :destroy
 
 end
