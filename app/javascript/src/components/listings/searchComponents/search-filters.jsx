@@ -14,7 +14,7 @@ import amenitiesList from '../resources/amenities_list.json';
 
 // Components
 // -----------------------------------------------
-// import { IndicatorToggle } from 'cxThemeComponents';
+import IndicatorToggle from '../resources/indicator-toggle';
 
 // Styled Components
 // -----------------------------------------------
@@ -235,28 +235,28 @@ export default class SearchFilters extends React.Component {
             [
               <label>Instant Booking Only</label>,
               <InstantBookingContainer>
-                {/* <IndicatorToggle
+                <IndicatorToggle
                   name="instant_booking_only"
                   toggleAction={this.props.toggleInstantBooking}
                   toggleStatus={this.props.instantBookingOnly}
                   toggleItemId={0}
                   toggleFalseLabel=""
                   toggleTrueLabel=""
-                /> */}
+                />
                 <i className="bolt-icon"></i>
               </InstantBookingContainer>
             ]
           ) : (
             <Popover label="Instant&nbsp;Booking&nbsp;Only">
               <InstantBookingContainer>
-                {/* <IndicatorToggle
+                <IndicatorToggle
                   name="instant_booking_only"
                   toggleAction={this.props.toggleInstantBooking}
                   toggleStatus={this.props.instantBookingOnly}
                   toggleItemId={0}
                   toggleFalseLabel=""
                   toggleTrueLabel=""
-                /> */}
+                />
                 <i className="bolt-icon"></i>
               </InstantBookingContainer>
             </Popover>

@@ -12,26 +12,22 @@ import styled from 'styled-components';
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 
 import SearchSort from './searchComponents/search-sort';
-// import {
-//   isInclusivelyAfterDay,
-//   isInclusivelyBeforeDay,
-//   isSameDay
-// } from 'react-dates';
+// import { isInclusivelyBeforeDay } from 'react-dates';
 // import { PropertyService } from 'cxApi';
 // import { initializeIntercom } from 'client/cx/Intercom';
-// import AmenitiesList from 'client/cx/themes/default/pages/Search/resources/amenities_list.json';
+import AmenitiesList from './resources/amenities_list.json';
 
 // // Components
 // // -----------------------------------------------
 import {
   SearchSortFilters,
-//   SearchInfo,
-//   SearchMap,
-//   SearchMapToggle,
-//   SearchTiles,
+  SearchInfo,
+  SearchMap,
+  SearchMapToggle,
+  SearchTiles,
   SearchList
 } from './searchComponents';
-// import { ThLarge, ThList, Map } from 'client/admin/components/icons';
+import { ThLarge, ThList, Map } from './resources/icons';
 
 // -----------------------------------------------
 // COMPONENT->THEME-DEFAULT-SEARCH ---------------
@@ -85,19 +81,19 @@ export default class ThemeDefaultSearch extends React.Component {
     };
   }
 
-//   pageSetup() {
-//     var view = 'list';
-//     if (this.props.match.path.includes('grid')) {
-//       view = 'grid';
-//     }
-//     if (this.props.match.path.includes('map')) {
-//       view = 'map';
-//     }
-//     if (window.innerWidth < 640) {
-//       view = 'map';
-//     }
-//     this.setState({ view: view });
-//   }
+  pageSetup() {
+    var view = 'list';
+    if (this.props.match.path.includes('grid')) {
+      view = 'grid';
+    }
+    if (this.props.match.path.includes('map')) {
+      view = 'map';
+    }
+    if (window.innerWidth < 640) {
+      view = 'map';
+    }
+    this.setState({ view: view });
+  }
 
 //   componentDidMount() {
 //     this.handleBrowserState();
@@ -116,20 +112,20 @@ export default class ThemeDefaultSearch extends React.Component {
 //     }
 //   }
 
-//   calculateMaxes = () => {
-//     if (this.state.results) {
-//       const maxGuests = max(
-//         this.state.results.map(result => result.listings[0].unit.num_sleep)
-//       );
-//       const maxBedrooms = max(
-//         this.state.results.map(result => result.num_bedrooms)
-//       );
-//       const maxBaths = max(
-//         this.state.results.map(result => result.num_bathrooms)
-//       );
-//       this.setState({ maxGuests, maxBaths, maxBedrooms });
-//     }
-//   };
+  calculateMaxes = () => {
+    if (this.state.results) {
+      const maxGuests = max(
+        this.state.results.map(result => result.listings[0].unit.num_sleep)
+      );
+      const maxBedrooms = max(
+        this.state.results.map(result => result.num_bedrooms)
+      );
+      const maxBaths = max(
+        this.state.results.map(result => result.num_bathrooms)
+      );
+      this.setState({ maxGuests, maxBaths, maxBedrooms });
+    }
+  };
 
 //   handleBrowserState = () => {
 //     const queryInfo = this.parseQuery();
@@ -157,17 +153,17 @@ export default class ThemeDefaultSearch extends React.Component {
 //     );
 //   };
 
-//   getAmenitiesFromParams = amenities => {
-//     if (!amenities || !amenities.length) return null;
-//     return amenities.reduce(
-//       (seed, amenity) => {
-//         const entry = AmenitiesList[amenity];
-//         seed[entry[0].model] = seed[entry[0].model].concat(entry);
-//         return seed;
-//       },
-//       { Property: [], Unit: [] }
-//     );
-//   };
+  getAmenitiesFromParams = amenities => {
+    if (!amenities || !amenities.length) return null;
+    return amenities.reduce(
+      (seed, amenity) => {
+        const entry = AmenitiesList[amenity];
+        seed[entry[0].model] = seed[entry[0].model].concat(entry);
+        return seed;
+      },
+      { Property: [], Unit: [] }
+    );
+  };
 
 //   parseQuery = () => {
 //     const parsedQuery = queryString.parse(location.search);
@@ -265,31 +261,31 @@ export default class ThemeDefaultSearch extends React.Component {
 //     });
 //   };
 
-//   createQueryParams = () => {
-//     return (
-//       '?' +
-//       queryString.stringify({
-//         booking_range: JSON.stringify(this.state.bookingRange),
-//         geo_ne_lat: this.state.geoNELat,
-//         geo_ne_lon: this.state.geoNELon,
-//         geo_sw_lat: this.state.geoSWLat,
-//         geo_sw_lon: this.state.geoSWLon,
-//         loc: this.state.loc,
-//         sort: this.state.sort,
-//         distance: this.state.distance,
-//         page: this.state.currentPage + 1,
-//         limit: 18,
-//         num_bedrooms: this.state.filter_numBedrooms,
-//         num_bathrooms: this.state.filter_numBathrooms,
-//         num_guests: this.state.guests,
-//         instant_book: this.state.filter_instantBook,
-//         price_low: this.state.filter_priceLow,
-//         price_high: this.state.filter_priceHigh,
-//         distance: this.state.filter_distance,
-//         amenities: JSON.stringify(this.state.amenities)
-//       })
-//     );
-//   };
+  createQueryParams = () => {
+    return (
+      '?' +
+      queryString.stringify({
+        booking_range: JSON.stringify(this.state.bookingRange),
+        geo_ne_lat: this.state.geoNELat,
+        geo_ne_lon: this.state.geoNELon,
+        geo_sw_lat: this.state.geoSWLat,
+        geo_sw_lon: this.state.geoSWLon,
+        loc: this.state.loc,
+        sort: this.state.sort,
+        distance: this.state.distance,
+        page: this.state.currentPage + 1,
+        limit: 18,
+        num_bedrooms: this.state.filter_numBedrooms,
+        num_bathrooms: this.state.filter_numBathrooms,
+        num_guests: this.state.guests,
+        instant_book: this.state.filter_instantBook,
+        price_low: this.state.filter_priceLow,
+        price_high: this.state.filter_priceHigh,
+        distance: this.state.filter_distance,
+        amenities: JSON.stringify(this.state.amenities)
+      })
+    );
+  };
 
 //   fetchSearchData = () => {
 //     if (!this.state.isLoading) {
@@ -418,12 +414,12 @@ export default class ThemeDefaultSearch extends React.Component {
 //     });
 //   };
 
-//   updatePriceFilters = (low, high) => {
-//     this.setState({
-//       filter_priceLow: low,
-//       filter_priceHigh: high
-//     });
-//   };
+  updatePriceFilters = (low, high) => {
+    this.setState({
+      filter_priceLow: low,
+      filter_priceHigh: high
+    });
+  };
 
 //   updateSort = val => {
 //     this.setState({ sort: val }, () => {
@@ -499,23 +495,23 @@ export default class ThemeDefaultSearch extends React.Component {
 //     );
 //   };
 
-//   toggleSearchWithMap = () => {
-//     this.setState({ searchWithMap: !this.state.searchWithMap });
-//   };
+  toggleSearchWithMap = () => {
+    this.setState({ searchWithMap: !this.state.searchWithMap });
+  };
 
-//   handleMapScriptError = () => {
-//     this.setState({
-//       mapsLoaded: false,
-//       mapsLoading: false
-//     });
-//   };
+  handleMapScriptError = () => {
+    this.setState({
+      mapsLoaded: false,
+      mapsLoading: false
+    });
+  };
 
-//   handleMapScriptLoad = () => {
-//     this.setState({
-//       mapsLoaded: true,
-//       mapsLoading: false
-//     });
-//   };
+  handleMapScriptLoad = () => {
+    this.setState({
+      mapsLoaded: true,
+      mapsLoading: false
+    });
+  };
 
 //   handlePageClick = data => {
 //     const newPage = data.selected;
@@ -688,10 +684,10 @@ export default class ThemeDefaultSearch extends React.Component {
                   />
                   <LayoutViewNav>
                     <NavLink to="/listings/list">
-                      {/* <ThList /> */}
+                      <ThList />
                     </NavLink>
                     <NavLink to="/listings/grid">
-                      {/* <ThLarge /> */}
+                      <ThLarge />
                     </NavLink>
                     <NavLink to="/listings/map" className="active">
                       <Map />
@@ -835,13 +831,13 @@ export default class ThemeDefaultSearch extends React.Component {
                 />
                 <LayoutViewNav>
                   <NavLink to="/listings/list">
-                    {/* <ThList /> */}
+                    <ThList />
                   </NavLink>
                   <NavLink to="/listings/grid">
-                    {/* <ThLarge /> */}
+                    <ThLarge />
                   </NavLink>
                   <NavLink to="/listings/map">
-                    {/* <Map /> */}
+                    <Map />
                   </NavLink>
                 </LayoutViewNav>
               </FilterBar>

@@ -8,12 +8,11 @@ import Rater from 'react-rater';
 
 // Components
 // -----------------------------------------------
-// import { StarContainer } from 'cxThemeComponents';
+import StarContainer from '../resources/star-container';
 
 // Styled Components
 // -----------------------------------------------
-// const RatingContainer = styled(StarContainer)`
-const RatingContainer = styled.div`
+const RatingContainer = styled(StarContainer)`
   display: flex;
   align-items: center;
 

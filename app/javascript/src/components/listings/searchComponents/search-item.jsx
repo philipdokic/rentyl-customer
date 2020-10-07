@@ -1,20 +1,18 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-// import { Link } from 'cxComponents';
-import { Link } from 'react-router-dom'
+import Link from '../resources/link';
 import styled from 'styled-components';
 import Rater from 'react-rater';
-import { isNull, get } from 'lodash';
+import { get } from 'lodash';
 
 // Components
 // -----------------------------------------------
-// import { StarContainer } from 'cxThemeComponents';
+import StarContainer from '../resources/star-container';
 
 // Styled Components
 // -----------------------------------------------
-// const RatingContainer = styled(StarContainer)`
-const RatingContainer = styled.div`
+const RatingContainer = styled(StarContainer)`
   display: flex;
   align-items: center;
 

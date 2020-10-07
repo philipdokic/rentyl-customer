@@ -2,6 +2,7 @@ import SearchFilters from './search-filters';
 import SearchInfo from './search-info';
 import SearchMapToggle from './search-map-toggle';
 import SearchMap from './search-map';
+import SearchMapMarker from './search-map-marker'
 import SearchSortFilters from './search-sort-filters';
 import SearchSort from './search-sort';
 import SearchTiles from './search-tiles';
@@ -17,6 +18,7 @@ export {
   SearchFilters,
   SearchInfo,
   SearchMapToggle,
+  SearchMapMarker,
   SearchMap,
   SearchSortFilters,
   SearchSort,
