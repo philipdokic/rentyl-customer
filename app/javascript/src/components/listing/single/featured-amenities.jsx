@@ -1,7 +1,24 @@
+// Dependencies
+// -----------------------------------------------
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-export default class FeaturedAmenities extends React.Component {
+// Styles
+// -----------------------------------------------
+const AmenitiesHeader = styled.li`
+  width: 20%;
+  font-size: 18px;
+  padding-bottom: 2em;
+`;
+
+// -----------------------------------------------
+// COMPONENT->FEATURED-AMENITIES -----------------
+// -----------------------------------------------
+class FeaturedAmenities extends React.Component {
+
+  // Render Icon
+  // ---------------------------------------------
   renderIcon = (iconClass, name) => {
     return (
       <>
@@ -11,6 +28,8 @@ export default class FeaturedAmenities extends React.Component {
     );
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
     const amenities = [
       {
@@ -100,6 +119,7 @@ export default class FeaturedAmenities extends React.Component {
         iconClass: 'joystick-icon'
       }
     ];
+
     const diningAmenities = [
       {
         name: 'KITCHEN_DINING_KITCHEN',
@@ -140,15 +160,19 @@ export default class FeaturedAmenities extends React.Component {
         iconClass: 'grill-icon'
       }
     ];
+
     let amenitiesCounter = 0;
     let diningAmenitiesCounter = 0;
     let spaAmenitiesCounter = 0;
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <ul style={{ display: 'flex', flexDirection: 'row' }}>
           {amenities.map(amenity => {
             if (amenitiesCounter < 3) {
-              if (this.props.featuresAmenities[amenity.name].value) {
+              console.log(amenity.name);
+              console.log(this.props.listing.unit.features_amenities);
+              if (this.props.listing.unit.features_amenities[`'${amenity.name}'`].value) {
                 amenitiesCounter += 1;
                 return this.renderIcon(amenity.iconClass, amenity.label);
               }
@@ -158,7 +182,7 @@ export default class FeaturedAmenities extends React.Component {
         <ul style={{ display: 'flex', flexDirection: 'row' }}>
           {diningAmenities.map(amenity => {
             if (diningAmenitiesCounter < 3) {
-              if (this.props.featuresDining[amenity.name].value) {
+              if (this.props.listing.unit.features_dining[amenity.name].value) {
                 diningAmenitiesCounter += 1;
                 return this.renderIcon(amenity.iconClass, amenity.label);
               }
@@ -166,7 +190,7 @@ export default class FeaturedAmenities extends React.Component {
           })}
           {outdoorAmenities.map(amenity => {
             if (diningAmenitiesCounter < 3) {
-              if (this.props.featuresOutdoor[amenity.name].value) {
+              if (this.props.listing.unit.features_outdoor[amenity.name].value) {
                 diningAmenitiesCounter += 1;
                 return this.renderIcon(amenity.iconClass, amenity.label);
               }
@@ -176,7 +200,7 @@ export default class FeaturedAmenities extends React.Component {
         <ul style={{ display: 'flex', flexDirection: 'row' }}>
           {spaAmenities.map(amenity => {
             if (spaAmenitiesCounter < 3) {
-              if (this.props.featuresSpa[amenity.name].value) {
+              if (this.props.listing.unit.features_spa[amenity.name].value) {
                 spaAmenitiesCounter += 1;
                 return this.renderIcon(amenity.iconClass, amenity.label);
               }
@@ -184,7 +208,7 @@ export default class FeaturedAmenities extends React.Component {
           })}
           {entertainmentAmenities.map(amenity => {
             if (spaAmenitiesCounter < 3) {
-              if (this.props.featuresEntertainment[amenity.name].value) {
+              if (this.props.listing.unit.features_entertainment[amenity.name].value) {
                 spaAmenitiesCounter += 1;
                 return this.renderIcon(amenity.iconClass, amenity.label);
               }
@@ -196,8 +220,14 @@ export default class FeaturedAmenities extends React.Component {
   }
 }
 
-const AmenitiesHeader = styled.li`
-  width: 20%;
-  font-size: 18px;
-  padding-bottom: 2em;
-`;
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(FeaturedAmenities);

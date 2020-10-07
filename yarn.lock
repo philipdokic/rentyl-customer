@@ -2064,7 +2064,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.x, classnames@^2.2.1, classnames@^2.2.5, classnames@^2.2.6:
+classnames@2.x, classnames@^2.0.0, classnames@^2.2.1, classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -2305,7 +2305,7 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^3.4.0:
+core-js@^3.4.0, core-js@^3.6.5:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
   integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
@@ -3142,6 +3142,11 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+
+eventemitter3@^3.0.0:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
+  integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
 
 eventemitter3@^4.0.0:
   version "4.0.7"
@@ -6450,7 +6455,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6577,7 +6582,7 @@ raf-schd@^2.1.2:
   resolved "https://registry.yarnpkg.com/raf-schd/-/raf-schd-2.1.2.tgz#ec622b5167f2912089f054dc03ebd5bcf33c8f62"
   integrity sha512-Orl0IEvMtUCgPddgSxtxreK77UiQz4nPYJy9RggVzu4mKsZkQWiAaG1y9HlYWdvm9xtN348xRaT37qkvL/+A+g==
 
-raf@^3.1.0, raf@^3.4.1:
+raf@^3.0.0, raf@^3.1.0, raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
@@ -6920,6 +6925,13 @@ react-router@5.2.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
+react-scrollchor@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-scrollchor/-/react-scrollchor-6.0.0.tgz#7c2545e743355c0069f4c6a5ab4f9d9875182b4d"
+  integrity sha512-Ryc3SoxG/urLrqQ4rFIsj1nWfW9pPGZK30CSlJ670zJWpPFQtVfYOmiZmQUwY96P8L+LcCVmV4q1ZdBlZsuW/Q==
+  dependencies:
+    requestanimationframe-timer "1.x.x"
+
 react-side-effect@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
@@ -6932,6 +6944,17 @@ react-sidebar@^3.0.2:
   dependencies:
     "@babel/runtime" ">=7.0.0-beta.56"
     prop-types "^15.6.2"
+
+react-stickynode@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-stickynode/-/react-stickynode-3.0.3.tgz#c01c9c522e1206dd3832faabc79a1d6d5c47b473"
+  integrity sha512-5uZs5IdwO/KNWkAuGvyKEZbve42iYq2IBdxviMjsW0Hw88LIoFmMs2j3KtYYmDpqoC5WPP3jDVPoOdExbuKvAQ==
+  dependencies:
+    classnames "^2.0.0"
+    core-js "^3.6.5"
+    prop-types "^15.6.0"
+    shallowequal "^1.0.0"
+    subscribe-ui-event "^2.0.6"
 
 react-style-singleton@^2.1.0:
   version "2.1.0"
@@ -7208,6 +7231,13 @@ request@^2.87.0, request@^2.88.0:
     tough-cookie "~2.5.0"
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
+
+requestanimationframe-timer@1.x.x:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/requestanimationframe-timer/-/requestanimationframe-timer-1.0.5.tgz#55f75f33f123812c6db245b6ad72a1c8b4bfc1dd"
+  integrity sha512-H5+kyPmkZiEHYMdbcWsyMi50AT0piuGTPqfEM5YcEpQc9DJqK8npi8UePcFpDwz5tmQUGs0ceitgp/li5F4sbg==
+  dependencies:
+    raf "^3.4.1"
 
 require-directory@^2.1.1:
   version "2.1.1"
@@ -7536,7 +7566,7 @@ shallow-equal@^1.1.0:
   resolved "https://registry.yarnpkg.com/shallow-equal/-/shallow-equal-1.2.1.tgz#4c16abfa56043aa20d050324efa68940b0da79da"
   integrity sha512-S4vJDjHHMBaiZuT9NPb616CSmLf618jawtv3sufLl6ivK8WocjAo58cXwbRV1cgqxH0Qbv+iUt6m05eqEa2IRA==
 
-shallowequal@^1.1.0:
+shallowequal@^1.0.0, shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
   integrity sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==
@@ -7969,6 +7999,15 @@ stylehacks@^4.0.0:
     browserslist "^4.0.0"
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
+
+subscribe-ui-event@^2.0.6:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/subscribe-ui-event/-/subscribe-ui-event-2.0.7.tgz#8d18b6339c35b25246a5335775573f0e5dc461f8"
+  integrity sha512-Acrtf9XXl6lpyHAWYeRD1xTPUQHDERfL4GHeNuYAtZMc4Z8Us2iDBP0Fn3xiRvkQ1FO+hx+qRLmPEwiZxp7FDQ==
+  dependencies:
+    eventemitter3 "^3.0.0"
+    lodash "^4.17.15"
+    raf "^3.0.0"
 
 supports-color@^2.0.0:
   version "2.0.0"

@@ -19,4 +19,6 @@ class Property < ApplicationRecord
   has_many :unit_images, through: :units
   has_many :unit_listings, through: :units
 
+  has_one :location, as: :locationable, dependent: :destroy
+
 end

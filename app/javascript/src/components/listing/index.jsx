@@ -16,9 +16,9 @@ import * as listingAction from '../../redux/action/listing'
 //import DetailsRoom from './details-room';
 import Single from './single';
 
-
-
-
+// -----------------------------------------------
+// COMPONENT->LISTING ----------------------------
+// -----------------------------------------------
 export default class Listing extends React.Component {
   constructor(props) {
     super(props);

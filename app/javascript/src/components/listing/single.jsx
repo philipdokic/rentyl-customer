@@ -1,7 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 // import moment from 'moment';
 // import 'react-dates/initialize'; // Needed for rendering any react-dates components
 
@@ -9,26 +9,29 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet';
 import ReactI18n from 'react-i18n';
 
-// // Components
-// // -----------------------------------------------
+// Components
+// -----------------------------------------------
 import {
   // DetailsReviewList,
-  // DetailsSingleAmenities,
+  Amenities,
   // DetailsSingleAvailability,
   // DetailsSingleBookingAnchored,
   // DetailsSingleBookingToggle,
   // DetailsSingleContact,
-  // DetailsSingleHeader,
+  Header,
   Images,
   // DetailsSingleLocation,
-  // DetailsSingleNavbar,
-  // DetailsSingleOverview,
+  Navbar,
+  Overview,
   // DetailsSingleOwner,
   // DetailsSingleRules,
   Summary
 } from './single/';
 // import { isInclusivelyBeforeDay } from 'react-dates';
 
+// -----------------------------------------------
+// COMPONENT->SINGLE -----------------------------
+// -----------------------------------------------
 class Single extends React.Component {
 //   static propTypes = {};
 
@@ -207,8 +210,8 @@ class Single extends React.Component {
       pricing: null,
       addonFeeIds: [],
       couponCode: '',
-      // review_average: this.props.review_average || 0,
-      // reviews: this.props.reviews.length || 0
+      review_average: this.props.listing.review_average || 0,
+      reviews: this.props.listing.reviews.length || 0
     };
   }
 
@@ -241,6 +244,8 @@ class Single extends React.Component {
 //     this.setState({ couponCode: code }, () => this.checkPricing());
 //   };
 
+  // Render
+  // -------------------------------------------
   render() {
     const translate = ReactI18n.getIntlMessage;
 
@@ -253,17 +258,7 @@ class Single extends React.Component {
               "@type": "LodgingBusiness",
               "name": "${this.props.listing.property.name}",
               "description": "${this.props.listing.property.summary_description}",
-            }
-          `}</script>
-          {/* <script type="application/ld+json">{`
-            {
-              "@context": "https://schema.org/",
-              "@type": "LodgingBusiness",
-              "name": "${this.props.listing.property.name}",
-              "description": "${this.props.listing.property.summary_description}",
               "brand": "${this.props.brand.name}",
-              "telephone": "${this.props.brand_info.contact.phone_primary.number}",
-              "image": "${this.props.property_images[0].image.medium.url}",
               ${ state.reviews > 0 ? `
                 "aggregateRating": {
                   "@type": "AggregateRating",
@@ -272,20 +267,24 @@ class Single extends React.Component {
                 },` : '' }
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "${this.props.org_location.adr_street}",
-                "addressLocality": "${this.props.org_location.adr_city}",
-                "addressRegion": "${this.props.org_location.adr_state}",
-                "postalCode": "${this.props.org_location.adr_postal_code}",
-                "addressCountry": "${this.props.org_location.adr_country}"
+                "streetAddress": "${this.props.listing.location.adr_street}",
+                "addressLocality": "${this.props.listing.location.adr_city}",
+                "addressRegion": "${this.props.listing.location.adr_state}",
+                "postalCode": "${this.props.listing.location.adr_postal_code}",
+                "addressCountry": "${this.props.listing.location.adr_country}"
               }
             }
-          `}</script> */}
+          `}</script>
+          {/*
+              "telephone": "${this.props.brand_info.contact.phone_primary.number}",
+              "image": "${this.props.property_images[0].image.medium.url}",
+              */}
         </Helmet>
-        <Images
+        {/* <Images
           property_images={this.props.property_images}
           unit_images={this.props.unit_images}
-          //translate={translate}
-        />
+          translate={translate}
+        /> */}
 
         <section className="details-main">
            {/* <DetailsSingleBookingAnchored
@@ -346,46 +345,11 @@ class Single extends React.Component {
            />
           */}
           <figure className="details-content">
-          {/*
-             <DetailsSingleNavbar translate={translate} reviews={this.props.reviews.length > 0}/>
-
-             <DetailsSingleHeader
-               featured={this.props.listing.featured}
-               location={this.props.location_place}
-               property={this.props.property}
-               unit={this.props.unit}
-               translate={translate}
-             />
-             <DetailsSingleOverview
-               property={this.props.property}
-               unit={this.props.unit}
-               translate={translate}
-             />
-             <DetailsSingleAmenities
-               features_accommodations={this.props.features_accommodations}
-               features_adventure={this.props.features_adventure}
-               features_amenities={this.props.features_amenities}
-               features_attractions={this.props.features_attractions}
-               features_car={this.props.features_car}
-               features_leisure={this.props.features_leisure}
-               features_local={this.props.features_local}
-               features_location={this.props.features_location}
-               features_dining={this.props.features_dining}
-               features_entertainment={this.props.features_entertainment}
-               features_outdoor={this.props.features_outdoor}
-               features_spa={this.props.features_spa}
-               features_suitability={this.props.features_suitability}
-               features_themes={this.props.features_themes}
-               translate={translate}
-             />
-          */}
-             <Summary
-               bathrooms={this.props.bathrooms}
-               bedrooms={this.props.bedrooms}
-               property={this.props.property}
-               unit={this.props.unit}
-               translate={translate}
-             />
+            <Navbar />
+            <Header />
+            <Overview />
+            {/* <Amenities /> */}
+            <Summary />
           {/*
              <DetailsSingleRules
                listing={this.props.listing}
@@ -428,11 +392,15 @@ class Single extends React.Component {
   }
 }
 
+// Map State To Props
+// -----------------------------------------------
 function mapStateToProps(state) {
-  console.log(state);
   return {
+    brand: state.brand ? state.brand : {},
     listing: state.listing ? state.listing : {}
   };
 }
 
+// Export
+// -----------------------------------------------
 export default connect(mapStateToProps)(Single);

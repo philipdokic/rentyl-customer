@@ -1,7 +1,7 @@
 # ================================================
-# RUBY->MODEL->UNIT ==============================
+# RUBY->MODEL->REVIEW ============================
 # ================================================
-class Unit < ApplicationRecord
+class Review < ApplicationRecord
 
   # ----------------------------------------------
   # DATABASE -------------------------------------
@@ -11,14 +11,11 @@ class Unit < ApplicationRecord
   # ----------------------------------------------
   # RELATIONS ------------------------------------
   # ----------------------------------------------
-  belongs_to :brand
-  belongs_to :organization
-  belongs_to :property
+  belongs_to :unit
 
-  has_many :bathrooms, -> { order(:created_at) }, dependent: :destroy
-  has_many :bedrooms, -> { order(:created_at) }, dependent: :destroy
-  has_many :reviews, dependent: :destroy
-  has_many :unit_images, -> { order(:order) }, dependent: :destroy
-  has_many :unit_listings, dependent: :destroy
+  # ----------------------------------------------
+  # SCOPES ---------------------------------------
+  # ----------------------------------------------
+  scope :with_status, -> (status) { where(status: status) }
 
 end

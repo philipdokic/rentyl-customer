@@ -1,7 +1,7 @@
 # ================================================
-# RUBY->MODEL->UNIT ==============================
+# RUBY->MODEL->BEDROOM ===========================
 # ================================================
-class Unit < ApplicationRecord
+class Bedroom < ApplicationRecord
 
   # ----------------------------------------------
   # DATABASE -------------------------------------
@@ -11,14 +11,6 @@ class Unit < ApplicationRecord
   # ----------------------------------------------
   # RELATIONS ------------------------------------
   # ----------------------------------------------
-  belongs_to :brand
-  belongs_to :organization
-  belongs_to :property
-
-  has_many :bathrooms, -> { order(:created_at) }, dependent: :destroy
-  has_many :bedrooms, -> { order(:created_at) }, dependent: :destroy
-  has_many :reviews, dependent: :destroy
-  has_many :unit_images, -> { order(:order) }, dependent: :destroy
-  has_many :unit_listings, dependent: :destroy
+  belongs_to :unit
 
 end
