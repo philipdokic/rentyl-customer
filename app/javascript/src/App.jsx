@@ -16,7 +16,6 @@ import Listing from './redux/containers/listing'
 import Listings from './redux/containers/listings'
 import TestListing from './components/Listings'
 import Home from './components/Home'
-import TestListing from './components/Listings'
 import NoMatch from './components/NoMatch'
 
 // Set Brand
