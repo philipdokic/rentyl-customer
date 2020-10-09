@@ -1,12 +1,13 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import axios from 'axios'
 import { connect } from 'react-redux';
-// import moment from 'moment';
-// import 'react-dates/initialize'; // Needed for rendering any react-dates components
-
-// import queryString from 'query-string';
 import { Helmet } from 'react-helmet';
+import moment from 'moment';
+import queryString from 'query-string';
+import 'react-dates/initialize'; // Needed for rendering any react-dates components
+import { isInclusivelyBeforeDay } from 'react-dates';
 import ReactI18n from 'react-i18n';
 
 // Components
@@ -27,90 +28,153 @@ import {
   Rules,
   Summary
 } from './single/';
-// import { isInclusivelyBeforeDay } from 'react-dates';
 
 // -----------------------------------------------
 // COMPONENT->SINGLE -----------------------------
 // -----------------------------------------------
 class Single extends React.Component {
-//   static propTypes = {};
 
-//   parseQuery = () => {
-//     const parsedQuery = queryString.parse(location.search);
-//     let queryInfo = {};
-//     //Dates
-//     if (parsedQuery['check-in'] && parsedQuery['check-out']) {
-//       queryInfo['checkIn'] = moment(parsedQuery['check-in'], 'DD-MM-YYYY');
-//       queryInfo['checkOut'] = moment(parsedQuery['check-out'], 'DD-MM-YYYY');
+  // Constructor
+  // ---------------------------------------------
+  constructor(props, _railsContext) {
+    super(props);
+    this.state = {
+      availability: null,
+      bookingType: null,
+      checkInDate: null,
+      checkOutDate: null,
+      bookingRange: null,
+      bookingLength: 0,
+      datesParsed: false,
+      guests: 1,
+      pricing: null,
+      addonFeeIds: [],
+      couponCode: '',
+      review_average: this.props.listing.review_average || 0,
+      reviews: this.props.listing.reviews.length || 0
+    };
+  }
 
-//       let bookingRange = [];
-//       let d = queryInfo['checkIn'].clone();
-//       while (isInclusivelyBeforeDay(d, queryInfo['checkOut'])) {
-//         bookingRange.push({
-//           key: d.format('DD-MM-YYYY'),
-//           day: d.day()
-//         });
-//         d.add(1, 'days');
-//       }
-//       queryInfo['bookingRange'] = bookingRange;
-//     }
+  componentDidMount() {
+    console.log("MOUNT");
+    this.handleBrowserState();
+    window.onpopstate = this.handleBrowserState;
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      element.scrollIntoView();
+    }
+  }
 
-//     //Num Guests
-//     if (parsedQuery['guests']) {
-//       queryInfo['guests'] = parsedQuery['guests'];
-//     }
-//     return queryInfo;
-//   };
-//   handleBrowserState = () => {
-//     const queryInfo = this.parseQuery();
-//     this.setState(
-//       {
-//         bookingRange: queryInfo.bookingRange || null,
-//         bookingLength: queryInfo.bookingRange
-//           ? queryInfo.bookingRange.length - 1
-//           : 0,
-//         checkInDate: queryInfo.checkIn || null,
-//         checkOutDate: queryInfo.checkOut || null,
-//         guests: queryInfo.guests || 1,
-//         isDirty: true,
-//         datesParsed: true
-//       },
-//       () => {
-//         if (this.state.bookingRange) {
-//           this.checkAvailability();
-//         }
-//       }
-//     );
-//   };
+  // Parse Query
+  // ---------------------------------------------
+  parseQuery = () => {
+    const parsedQuery = queryString.parse(location.search);
+    let queryInfo = {};
 
-//   checkAvailability = () => {
-//     const queryInfo = this.parseQuery();
-//     $.ajax({
-//       type: 'GET',
-//       url: '/api/details/single/' + this.props.listing.id + '/availability',
-//       context: this,
-//       data: {
-//         unit_id: this.props.unit.id,
-//         booking_range: JSON.stringify(this.state.bookingRange),
-//         guests: queryInfo['guests']
-//       }
-//     })
-//       .done(function(data) {
-//         this.setState(
-//           {
-//             availability: data
-//           },
-//           () => {
-//             if (data.bookable) {
-//               this.checkPricing();
-//             }
-//           }
-//         );
-//       })
-//       .fail(function(jqXhr) {
-//         console.warn(jqXhr);
-//       });
-//   };
+    //Dates
+    if (parsedQuery['check-in'] && parsedQuery['check-out']) {
+      queryInfo['checkIn'] = moment(parsedQuery['check-in'], 'DD-MM-YYYY');
+      queryInfo['checkOut'] = moment(parsedQuery['check-out'], 'DD-MM-YYYY');
+
+      let bookingRange = [];
+      let d = queryInfo['checkIn'].clone();
+      while (isInclusivelyBeforeDay(d, queryInfo['checkOut'])) {
+        bookingRange.push({
+          key: d.format('DD-MM-YYYY'),
+          day: d.day()
+        });
+        d.add(1, 'days');
+      }
+      queryInfo['bookingRange'] = bookingRange;
+    }
+
+    //Num Guests
+    if (parsedQuery['guests']) {
+      queryInfo['guests'] = parsedQuery['guests'];
+    }
+    return queryInfo;
+  };
+
+  // Handle Browser State
+  // ---------------------------------------------
+  handleBrowserState = () => {
+    console.log("HANDLE");
+    const queryInfo = this.parseQuery();
+
+    this.setState(
+      {
+        bookingRange: queryInfo.bookingRange || null,
+        bookingLength: queryInfo.bookingRange
+          ? queryInfo.bookingRange.length - 1
+          : 0,
+        checkInDate: queryInfo.checkIn || null,
+        checkOutDate: queryInfo.checkOut || null,
+        guests: queryInfo.guests || 1,
+        isDirty: true,
+        datesParsed: true
+      },
+      () => {
+        if (this.state.bookingRange) {
+          this.checkAvailability();
+        }
+      }
+    );
+  };
+
+  checkAvailability = () => {
+    const queryInfo = this.parseQuery();
+
+    console.log("AVAILABILITY");
+    console.log(this.props.listing.unit.id);
+    console.log(this.state.bookingRange);
+    console.log(queryInfo['guests']);
+
+
+    axios.get(`https://staging.getdirect.io/api/details/single/${this.props.listing.id}/availability`, {
+      context: this,
+      params: {
+        unit_id: this.props.listing.unit.id,
+        booking_range: JSON.stringify(this.state.bookingRange),
+        guests: queryInfo['guests']
+      }
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+
+
+    // $.ajax({
+    //   type: 'GET',
+    //   url: 'https://app.getdirect.io/api/details/single/' + this.props.listing.id + '/availability',
+    //   context: this,
+    //   data: {
+    //     unit_id: this.props.listing.unit.id,
+    //     booking_range: JSON.stringify(this.state.bookingRange),
+    //     guests: queryInfo['guests']
+    //   }
+    // })
+    //   .done(function(data) {
+    //     this.setState(
+    //       {
+    //         availability: data
+    //       },
+    //       () => {
+    //         if (data.bookable) {
+    //           console.log("CHECK PRICING");
+    //           console.log(data);
+    //           //this.checkPricing();
+    //         }
+    //       }
+    //     );
+    //   })
+    //   .fail(function(jqXhr) {
+    //     console.warn(jqXhr);
+    //   });
+  };
 
 //   checkPricing = () => {
 //     const queryInfo = this.parseQuery();
@@ -196,34 +260,9 @@ class Single extends React.Component {
 //     );
 //   };
 
-  constructor(props, _railsContext) {
-    super(props);
-    this.state = {
-      availability: null,
-      bookingType: null,
-      checkInDate: null,
-      checkOutDate: null,
-      bookingRange: null,
-      bookingLength: 0,
-      datesParsed: false,
-      guests: 1,
-      pricing: null,
-      addonFeeIds: [],
-      couponCode: '',
-      review_average: this.props.listing.review_average || 0,
-      reviews: this.props.listing.reviews.length || 0
-    };
-  }
 
-//   componentDidMount() {
-//     this.handleBrowserState();
-//     window.onpopstate = this.handleBrowserState;
-//     if (window.location.hash) {
-//       const id = window.location.hash.replace('#', '');
-//       const element = document.getElementById(id);
-//       element.scrollIntoView();
-//     }
-//   }
+
+
 
 //   updateQueryString = () => {
 //     const stringifiedQueryString = this.getStringifiedQueryString();
@@ -245,7 +284,7 @@ class Single extends React.Component {
 //   };
 
   // Render
-  // -------------------------------------------
+  // ---------------------------------------------
   render() {
     const translate = ReactI18n.getIntlMessage;
 

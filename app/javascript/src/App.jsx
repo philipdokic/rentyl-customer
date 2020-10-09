@@ -13,8 +13,9 @@ import * as listingsAction from './redux/action/listings'
 // Components
 // -----------------------------------------------
 import Listing from './redux/containers/listing'
-import Listings from './components/Listings'
+import Listings from './redux/containers/listings'
 import Home from './components/Home'
+import TestListing from './components/Listings'
 import NoMatch from './components/NoMatch'
 
 // Set Brand
@@ -36,6 +37,7 @@ const App = (props) => {
   setBrand(props)
   return (
     <Switch>
+      <Route path="/listings/test" component={TestListing } />
       <Route path="/listings/search" component={Listings} />
       <Route path="/listings/list" component={Listings} />
       <Route path="/listings/grid" component={Listings} />

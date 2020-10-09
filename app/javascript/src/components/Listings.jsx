@@ -14,7 +14,7 @@ const redirectListing = (props, id) => {
   axios.get(`/api/listings/${id}`, {headers:{'Content-Type': 'application/json'}})
     .then(res => {
       props.dispatch(listingAction.setListing(res.data))
-      props.history.push(`/listings/${id}`)
+      props.history.push(`/listings/${id}?check-in=13-11-2020&check-out=17-11-2020&guests=1&sort=default&zoom=14`)
     })
 }
 
