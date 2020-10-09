@@ -4,7 +4,7 @@ import React from 'react';
 
 // Components
 // -----------------------------------------------
-// import { Spinner } from 'cxThemeComponents';
+import Spinner from '../resources/spinner';
 import { SearchItem } from './index';
 import { SearchTile } from './index';
 
@@ -15,7 +15,7 @@ const SearchList = props => {
   if (props.isLoading) {
     return (
       <section className="search-tiles search-tiles-empty">
-        {/* <Spinner /> */} Loading
+        <Spinner />
       </section>
     );
   } else if (props.filteredResults && props.filteredResults.length) {

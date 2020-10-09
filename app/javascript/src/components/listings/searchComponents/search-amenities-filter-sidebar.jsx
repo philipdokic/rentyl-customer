@@ -4,7 +4,7 @@ import React from 'react';
 import Sidebar from 'react-sidebar';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
-// import { DirectCheckbox } from 'adminComponents';
+import DirectCheckbox from '../resources/direct-checkbox';
 
 export default class SearchAmenitiesFilterSidebar extends React.Component {
   constructor(props) {
@@ -43,13 +43,7 @@ export default class SearchAmenitiesFilterSidebar extends React.Component {
   };
 
   renderAmenity = amenity => (
-    // <DirectCheckbox
-    //   name={amenity}
-    //   checked={includes(this.state.selectedAmenities, amenity)}
-    //   onChange={this.onAmenityClick}
-    //   labelText={amenity}
-    // />
-    <radio
+    <DirectCheckbox
       name={amenity}
       checked={includes(this.state.selectedAmenities, amenity)}
       onChange={this.onAmenityClick}
