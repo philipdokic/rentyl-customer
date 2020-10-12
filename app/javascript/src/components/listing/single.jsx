@@ -131,7 +131,8 @@ class Single extends React.Component {
     console.log(queryInfo['guests']);
 
 
-    axios.get(`https://staging.getdirect.io/api/details/single/${this.props.listing.id}/availability`, {
+    axios.get(`http://localhost:5000/api/details/single/${this.props.listing.id}/availability`, {
+      headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
         unit_id: this.props.listing.unit.id,
