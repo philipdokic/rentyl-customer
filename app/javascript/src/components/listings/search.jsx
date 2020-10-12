@@ -221,7 +221,10 @@ export default class ThemeDefaultSearch extends React.Component {
 
   fetchPropertyData = () => {
     const queryParams = this.createQueryParams();
-    axios.get(`https://staging.getdirect.io/api/public/${this.props.brand.organization_id}/properties${queryParams}`).then(data => {
+    axios.get(`https://staging.getdirect.io/api/v2/properties${queryParams}`,{
+      headers: {'Content-Type': 'application/json'}
+    })
+    .then(data => {
       this.setState(
         {
           results: data.results,
