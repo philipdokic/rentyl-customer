@@ -1,7 +1,7 @@
 # ================================================
-# RUBY->MODEL->UNIT-LISTINGS =====================
+# RUBY->MODEL->BOOKING ===========================
 # ================================================
-class UnitListing < ApplicationRecord
+class Booking < ApplicationRecord
 
   # ----------------------------------------------
   # DATABASE -------------------------------------
@@ -11,14 +11,8 @@ class UnitListing < ApplicationRecord
   # ----------------------------------------------
   # RELATIONS ------------------------------------
   # ----------------------------------------------
-  belongs_to :brand
-  belongs_to :organization
-  belongs_to :unit
+  belongs_to :unit_listing
 
-  has_many :bookings, dependent: :nullify
-
-  has_one :property, through: :unit
-  has_one :unit_availability, through: :unit
-  has_one :unit_pricing, through: :unit
+  has_one :unit, through: :unit_listing
 
 end

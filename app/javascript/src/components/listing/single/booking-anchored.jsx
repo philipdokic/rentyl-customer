@@ -1,21 +1,24 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
+import Modal from 'react-modal';
+import Rater from 'react-rater';
+import ReactI18n from 'react-i18n';
 import Sticky from 'react-stickynode';
 import styled from 'styled-components';
-import Rater from 'react-rater';
-import Modal from 'react-modal';
+
 
 // Components
 // -----------------------------------------------
-import DetailsBookingBreakdown from './details-booking-breakdown';
-import DetailsBookingDatePicker from './details-booking-date-picker';
-import DetailsBookingNumGuests from './details-booking-num-guests';
-import DetailsBookingHeader from './details-booking-header';
-import DetailsSingleContact from './details-contact';
-import { StarContainer } from 'cxThemeComponents';
+// import DetailsBookingBreakdown from './details-booking-breakdown';
+import BookingDatePicker from './booking-date-picker';
+import BookingNumGuests from './booking-num-guests';
+import BookingHeader from './booking-header';
+// import DetailsSingleContact from './details-contact';
+
+// import { StarContainer } from 'cxThemeComponents';
 
 // Styled Components
 // -----------------------------------------------
@@ -41,19 +44,26 @@ const ReviewInfoContainer = styled.div`
 `;
 
 // -----------------------------------------------
-// COMPONENT->DETAILS-SINGLE-BOOKING-ANCHORED ----
+// COMPONENT->BOOKING-ANCHORED -------------------
 // -----------------------------------------------
-export default class DetailsSingleBookingAnchored extends React.Component {
+class BookingAnchored extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
     this.state = { contactModalOpen: false };
   }
 
+  // Toggle Modal
+  // ---------------------------------------------
   toggleModal = () =>
     this.setState({ contactModalOpen: !this.state.contactModalOpen });
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const modalStyles = {
       overlay: {
         zIndex: 999999999,
@@ -78,56 +88,37 @@ export default class DetailsSingleBookingAnchored extends React.Component {
       }
     };
     const isGameday = this.props.organizationId === 5;
+
     return (
       <div>
         <MediaQuery query="(min-width: 960px)">
           <Sticky>
             <section className="details-booking">
-              <DetailsBookingHeader
-                average_default_nightly_price={
-                  this.props.average_default_nightly_price
-                }
-                listing={this.props.listing}
-                pricing={this.props.pricing}
-                translate={translate}
-              />
-
-              {this.props.reviewCount > 0 && (
+              <BookingHeader pricing={this.props.pricing} />
+              {this.props.listing.reviews.length > 0 && (
                 <ReviewInfoContainer>
-                  <StarContainer>
+                  {/* <StarContainer>
                     <Rater
-                      rating={this.props.reviewAverage}
+                      rating={parseFloat(this.props.listing.review_average)}
                       interactive={false}
                     />
-                  </StarContainer>
-                  <label>{this.props.reviewCount} Reviews</label>
+                  </StarContainer> */}
+                  <label>{this.props.listing.reviews.length} Reviews</label>
                 </ReviewInfoContainer>
               )}
-
               {this.props.datesParsed ? (
-                <DetailsBookingDatePicker
-                  availability_calendar={this.props.availability_calendar}
-                  booking_calendar={this.props.booking_calendar}
-                  default_availability={this.props.default_availability}
+                <BookingDatePicker
                   checkInDate={this.props.checkInDate}
                   checkOutDate={this.props.checkOutDate}
-                  listing={this.props.listing}
-                  pricing={this.props.pricing}
                   respondToDatesChange={this.props.respondToDatesChange}
-                  unit_availability={this.props.unit_availability}
-                  translate={translate}
-                  unitID={this.props.listing.unit_id}
-                  organizationID={this.props.organizationId}
-                  displayFormat={this.props.displayFormat}
                 />
               ) : null}
-              <DetailsBookingNumGuests
+              <BookingNumGuests
                 guests={this.props.guests}
                 respondToGuestsChange={this.props.respondToGuestsChange}
-                translate={translate}
-                numSleep={this.props.numSleep}
               />
-              <DetailsBookingBreakdown
+
+              {/* <DetailsBookingBreakdown
                 addonFeeIds={this.props.addonFeeIds}
                 availability={this.props.availability}
                 checkInDate={this.props.checkInDate}
@@ -155,11 +146,11 @@ export default class DetailsSingleBookingAnchored extends React.Component {
                 >
                   Contact Owner
                 </a>
-              )}
+              )} */}
             </section>
           </Sticky>
         </MediaQuery>
-        <MediaQuery query="(max-width: 959px)">
+        {/* <MediaQuery query="(max-width: 959px)">
           {this.props.reviewCount > 0 && (
             <ReviewInfoContainer>
               <StarContainer>
@@ -203,8 +194,20 @@ export default class DetailsSingleBookingAnchored extends React.Component {
             unit_id={this.props.listing.unit_id}
             displayFormat={this.props.displayFormat}
           />
-        </Modal>
+        </Modal> */}
       </div>
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(BookingAnchored);

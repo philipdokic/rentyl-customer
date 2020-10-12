@@ -15,7 +15,7 @@ import ReactI18n from 'react-i18n';
 import {
   Amenities,
   // DetailsSingleAvailability,
-  // DetailsSingleBookingAnchored,
+  BookingAnchored,
   // DetailsSingleBookingToggle,
   // DetailsSingleContact,
   Header,
@@ -56,7 +56,6 @@ class Single extends React.Component {
   }
 
   componentDidMount() {
-    console.log("MOUNT");
     this.handleBrowserState();
     window.onpopstate = this.handleBrowserState;
     if (window.location.hash) {
@@ -99,7 +98,6 @@ class Single extends React.Component {
   // Handle Browser State
   // ---------------------------------------------
   handleBrowserState = () => {
-    console.log("HANDLE");
     const queryInfo = this.parseQuery();
 
     this.setState(
@@ -176,91 +174,102 @@ class Single extends React.Component {
     })
   };
 
-//   respondToDatesChange = (checkInDate, checkOutDate) => {
-//     if (isInclusivelyBeforeDay(checkInDate, checkOutDate)) {
-//       let bookingRange = [];
-//       let d = checkInDate.clone();
-//       while (isInclusivelyBeforeDay(d, checkOutDate)) {
-//         bookingRange.push({
-//           key: d.format('DD-MM-YYYY'),
-//           day: d.day()
-//         });
-//         d.add(1, 'days');
-//       }
-//       this.setState(
-//         {
-//           availability: null,
-//           bookingType: null,
-//           bookingRange: bookingRange,
-//           bookingLength: bookingRange.length - 1,
-//           datesParsed: true,
-//           pricing: null,
-//           checkInDate: checkInDate,
-//           checkOutDate: checkOutDate
-//         },
-//         () => {
-//           if (this.state.bookingRange) {
-//             this.updateQueryString();
-//             this.checkAvailability();
-//           }
-//         }
-//       );
-//     }
-//   };
+  // Respond To Dates Change
+  // ---------------------------------------------
+  respondToDatesChange = (checkInDate, checkOutDate) => {
+    if (isInclusivelyBeforeDay(checkInDate, checkOutDate)) {
+      let bookingRange = [];
+      let d = checkInDate.clone();
+      while (isInclusivelyBeforeDay(d, checkOutDate)) {
+        bookingRange.push({
+          key: d.format('DD-MM-YYYY'),
+          day: d.day()
+        });
+        d.add(1, 'days');
+      }
+      this.setState(
+        {
+          availability: null,
+          bookingType: null,
+          bookingRange: bookingRange,
+          bookingLength: bookingRange.length - 1,
+          datesParsed: true,
+          pricing: null,
+          checkInDate: checkInDate,
+          checkOutDate: checkOutDate
+        },
+        () => {
+          if (this.state.bookingRange) {
+            this.updateQueryString();
+            this.checkAvailability();
+          }
+        }
+      );
+    }
+  };
 
-//   getStringifiedQueryString = () => {
-//     let queryInfo = {};
-//     //Dates
-//     if (this.state.checkInDate && this.state.checkOutDate) {
-//       queryInfo['check-in'] = this.state.checkInDate.format('DD-MM-YYYY');
-//       queryInfo['check-out'] = this.state.checkOutDate.format('DD-MM-YYYY');
-//     }
+  // Get Stringified Query String
+  // ---------------------------------------------
+  getStringifiedQueryString = () => {
+    let queryInfo = {};
 
-//     //Guests
-//     if (this.state.guests) {
-//       queryInfo['guests'] = this.state.guests;
-//     }
-//     const stringifiedQueryString = '?' + queryString.stringify(queryInfo);
-//     return stringifiedQueryString;
-//   };
+    if (this.state.checkInDate && this.state.checkOutDate) {
+      queryInfo['check-in'] = this.state.checkInDate.format('DD-MM-YYYY');
+      queryInfo['check-out'] = this.state.checkOutDate.format('DD-MM-YYYY');
+    }
 
-//   respondToGuestsChange = guests => {
-//     this.setState(
-//       {
-//         availability: null,
-//         bookingType: null,
-//         pricing: null,
-//         guests: guests
-//       },
-//       () => {
-//         this.updateQueryString();
-//         this.checkAvailability();
-//       }
-//     );
-//   };
+    if (this.state.guests) {
+      queryInfo['guests'] = this.state.guests;
+    }
 
+    const stringifiedQueryString = '?' + queryString.stringify(queryInfo);
+    return stringifiedQueryString;
+  };
 
+  // Respond To Guests Change
+  // ---------------------------------------------
+  respondToGuestsChange = guests => {
+    this.setState(
+      {
+        availability: null,
+        bookingType: null,
+        pricing: null,
+        guests: guests
+      },
+      () => {
+        this.updateQueryString();
+        this.checkAvailability();
+      }
+    );
+  };
 
+  // Update Query String
+  // ---------------------------------------------
+  updateQueryString = () => {
+    const stringifiedQueryString = this.getStringifiedQueryString();
 
+    history.pushState(null, null, stringifiedQueryString);
+  };
 
-//   updateQueryString = () => {
-//     const stringifiedQueryString = this.getStringifiedQueryString();
-//     history.pushState(null, null, stringifiedQueryString);
-//   };
+  // Update Fees
+  // ---------------------------------------------
+  updateFees = feeId => {
+    let newArray = [];
 
-//   updateFees = feeId => {
-//     let newArray = [];
-//     if (this.state.addonFeeIds.includes(feeId)) {
-//       newArray = this.state.addonFeeIds.filter(id => id !== feeId);
-//     } else {
-//       newArray = this.state.addonFeeIds.concat(feeId);
-//     }
-//     this.setState({ addonFeeIds: newArray }, this.checkPricing);
-//   };
+    if (this.state.addonFeeIds.includes(feeId)) {
+      newArray = this.state.addonFeeIds.filter(id => id !== feeId);
+    } else {
+      newArray = this.state.addonFeeIds.concat(feeId);
+    }
 
-//   addCouponCode = code => {
-//     this.setState({ couponCode: code }, () => this.checkPricing());
-//   };
+    this.setState({ addonFeeIds: newArray }, this.checkPricing);
+  };
+
+  // Add Coupon Code
+  // ---------------------------------------------
+  addCouponCode = code => {
+    this.setState({ couponCode: code }, () => this.checkPricing());
+  };
 
   // Render
   // ---------------------------------------------
@@ -306,37 +315,21 @@ class Single extends React.Component {
         /> */}
 
         <section className="details-main">
-           {/* <DetailsSingleBookingAnchored
-             addonFeeIds={this.state.addonFeeIds}
-             average_default_nightly_price={
-               this.props.average_default_nightly_price
-             }
-             availability_calendar={this.props.availability_calendar}
-             booking_calendar={this.props.booking_calendar}
-             default_availability={this.props.default_availability_changeover}
-             availability={this.state.availability}
-             checkInDate={this.state.checkInDate}
-             checkOutDate={this.state.checkOutDate}
-             datesParsed={this.state.datesParsed}
-             guests={this.state.guests}
-             listing={this.props.listing}
-             organizationId={this.props.property.organization_id}
-             pricing={this.state.pricing}
-             propertyId={this.props.property.id}
-             propertyManager={this.props.property_manager}
-             respondToDatesChange={this.respondToDatesChange}
-             respondToGuestsChange={this.respondToGuestsChange}
-             unit_availability={this.props.unit_availability}
-             translate={translate}
-             updateFees={this.updateFees}
-             reviewCount={this.props.reviews ? this.props.reviews.length : 0}
-             reviewAverage={parseFloat(this.props.review_average)}
-             unit={this.props.unit}
-             displayFormat={this.props.brand.date_format}
-             numSleep={this.props.num_sleep}
-             updateQuantityFee={this.updateQuantityFees}
-             addCouponCode={this.addCouponCode}
-           />
+          <BookingAnchored
+            addonFeeIds={this.state.addonFeeIds}
+            availability={this.state.availability}
+            checkInDate={this.state.checkInDate}
+            checkOutDate={this.state.checkOutDate}
+            datesParsed={this.state.datesParsed}
+            guests={this.state.guests}
+            pricing={this.state.pricing}
+            respondToDatesChange={this.respondToDatesChange}
+            respondToGuestsChange={this.respondToGuestsChange}
+            updateFees={this.updateFees}
+            updateQuantityFee={this.updateQuantityFees}
+            addCouponCode={this.addCouponCode}
+          />
+          {/*
            <DetailsSingleBookingToggle
              addonFeeIds={this.state.addonFeeIds}
              average_default_nightly_price={

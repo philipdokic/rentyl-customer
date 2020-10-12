@@ -1,10 +1,10 @@
 import Amenities from './amenities';
 // import DetailsSingleAvailability from './details-availability';
-// import DetailsSingleBookingAnchored from './details-booking-anchored';
+import BookingAnchored from './booking-anchored';
 // import DetailsSingleContact from './details-contact';
-// import DetailsBookingDatePicker from './details-booking-date-picker';
+import BookingDatePicker from './booking-date-picker';
 // import DetailsBookingErrors from './details-booking-errors';
-// import DetailsBookingHeader from './details-booking-header';
+import BookingHeader from './booking-header';
 // import DetailsBookingNumGuests from './details-booking-num-guests';
 // import DetailsSingleBookingToggle from './details-booking-toggle';
 import Header from './header';
@@ -20,11 +20,11 @@ import ReviewList from './review-list';
 export {
   Amenities,
   // DetailsSingleAvailability,
-  // DetailsSingleBookingAnchored,
+  BookingAnchored,
   // DetailsSingleContact,
-  // DetailsBookingDatePicker,
+  BookingDatePicker,
   // DetailsBookingErrors,
-  // DetailsBookingHeader,
+  BookingHeader,
   // DetailsBookingNumGuests,
   // DetailsSingleBookingToggle,
   Header,
