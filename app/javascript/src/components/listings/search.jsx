@@ -1,20 +1,19 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import axios from 'axios'
 import { NavLink } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
 import { max, isNull } from 'lodash';
-// import queryString from 'query-string';
+import queryString from 'query-string';
 import ReactI18n from 'react-i18n';
 import Script from 'react-load-script';
 import styled from 'styled-components';
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
-
 import SearchSort from './searchComponents/search-sort';
-// import { isInclusivelyBeforeDay } from 'react-dates';
-// import { PropertyService } from 'cxApi';
-// import { initializeIntercom } from 'client/cx/Intercom';
+import { isInclusivelyBeforeDay } from 'react-dates';
+import { initializeIntercom } from './resources/Intercom';
 import AmenitiesList from './resources/amenities_list.json';
 
 // // Components
@@ -95,22 +94,22 @@ export default class ThemeDefaultSearch extends React.Component {
     this.setState({ view: view });
   }
 
-//   componentDidMount() {
-//     this.handleBrowserState();
-//     window.onpopstate = this.handleBrowserState;
-//     initializeIntercom(this.props.intercom_id);
-//     document.body.classList.add('search-view');
-//     document.body.classList.remove('checkout-view');
-//     document.body.classList.remove('home-view');
-//     document.body.classList.remove('listings-view');
-//     this.pageSetup();
-//   }
+  componentDidMount() {
+    this.handleBrowserState();
+    window.onpopstate = this.handleBrowserState;
+    initializeIntercom(this.props.intercom_id);
+    document.body.classList.add('search-view');
+    document.body.classList.remove('checkout-view');
+    document.body.classList.remove('home-view');
+    document.body.classList.remove('listings-view');
+    this.pageSetup();
+  }
 
-//   componentDidUpdate(prevProps, prevState, snapshot) {
-//     if (this.props.match.path !== prevProps.match.path) {
-//       this.pageSetup();
-//     }
-//   }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.match.path !== prevProps.match.path) {
+      this.pageSetup();
+    }
+  }
 
   calculateMaxes = () => {
     if (this.state.results) {
@@ -127,31 +126,31 @@ export default class ThemeDefaultSearch extends React.Component {
     }
   };
 
-//   handleBrowserState = () => {
-//     const queryInfo = this.parseQuery();
-//     this.setState(
-//       {
-//         bookingRange: queryInfo.bookingRange || null,
-//         checkIn: queryInfo.checkIn || null,
-//         checkOut: queryInfo.checkOut || null,
-//         geoNELat: queryInfo.geoNELat || null,
-//         geoNELon: queryInfo.geoNELon || null,
-//         geoSWLat: queryInfo.geoSWLat || null,
-//         geoSWLon: queryInfo.geoSWLon || null,
-//         guests: queryInfo.guests || 1,
-//         loc: queryInfo.loc || null,
-//         sort: queryInfo.sort || null,
-//         zoom: queryInfo.zoom || 13,
-//         distance: queryInfo.distance || null,
-//         selectedAmenities: queryInfo.selectedAmenities || null,
-//         amenities: this.getAmenitiesFromParams(queryInfo.selectedAmenities),
-//         isDirty: true
-//       },
-//       () => {
-//         this.fetchSearchData();
-//       }
-//     );
-//   };
+  handleBrowserState = () => {
+    const queryInfo = this.parseQuery();
+    this.setState(
+      {
+        bookingRange: queryInfo.bookingRange || null,
+        checkIn: queryInfo.checkIn || null,
+        checkOut: queryInfo.checkOut || null,
+        geoNELat: queryInfo.geoNELat || null,
+        geoNELon: queryInfo.geoNELon || null,
+        geoSWLat: queryInfo.geoSWLat || null,
+        geoSWLon: queryInfo.geoSWLon || null,
+        guests: queryInfo.guests || 1,
+        loc: queryInfo.loc || null,
+        sort: queryInfo.sort || null,
+        zoom: queryInfo.zoom || 13,
+        distance: queryInfo.distance || null,
+        selectedAmenities: queryInfo.selectedAmenities || null,
+        amenities: this.getAmenitiesFromParams(queryInfo.selectedAmenities),
+        isDirty: true
+      },
+      () => {
+        this.fetchSearchData();
+      }
+    );
+  };
 
   getAmenitiesFromParams = amenities => {
     if (!amenities || !amenities.length) return null;
@@ -165,101 +164,101 @@ export default class ThemeDefaultSearch extends React.Component {
     );
   };
 
-//   parseQuery = () => {
-//     const parsedQuery = queryString.parse(location.search);
-//     let queryInfo = {};
-//     let defaultSort = 'default';
-//     //Dates
-//     if (parsedQuery['check-in'] && parsedQuery['check-out']) {
-//       queryInfo['checkIn'] = moment(parsedQuery['check-in'], 'DD-MM-YYYY');
-//       queryInfo['checkOut'] = moment(parsedQuery['check-out'], 'DD-MM-YYYY');
+  parseQuery = () => {
+    const parsedQuery = queryString.parse(location.search);
+    let queryInfo = {};
+    let defaultSort = 'default';
+    //Dates
+    if (parsedQuery['check-in'] && parsedQuery['check-out']) {
+      queryInfo['checkIn'] = moment(parsedQuery['check-in'], 'DD-MM-YYYY');
+      queryInfo['checkOut'] = moment(parsedQuery['check-out'], 'DD-MM-YYYY');
 
-//       let bookingRange = [];
-//       let d = queryInfo['checkIn'].clone();
-//       while (isInclusivelyBeforeDay(d, queryInfo['checkOut'])) {
-//         bookingRange.push({
-//           key: d.format('DD-MM-YYYY'),
-//           day: d.day()
-//         });
-//         d.add(1, 'days');
-//       }
-//       queryInfo['bookingRange'] = bookingRange;
-//     }
-//     //Location
-//     if (
-//       parsedQuery['geo-ne-lat'] &&
-//       parsedQuery['geo-ne-lon'] &&
-//       parsedQuery['geo-sw-lat'] &&
-//       parsedQuery['geo-sw-lon']
-//     ) {
-//       queryInfo['geoNELat'] = JSON.parse(parsedQuery['geo-ne-lat']);
-//       queryInfo['geoNELon'] = JSON.parse(parsedQuery['geo-ne-lon']);
-//       queryInfo['geoSWLat'] = JSON.parse(parsedQuery['geo-sw-lat']);
-//       queryInfo['geoSWLon'] = JSON.parse(parsedQuery['geo-sw-lon']);
-//     } else if (parsedQuery['loc']) {
-//       queryInfo['loc'] = decodeURIComponent(parsedQuery['loc']);
-//     }
-//     //Num Guests
-//     if (parsedQuery['guests']) {
-//       queryInfo['guests'] = parsedQuery['guests'];
-//     }
-//     //Zoom
-//     if (parsedQuery['zoom']) {
-//       queryInfo['zoom'] = parseInt(parsedQuery['zoom']);
-//     } else {
-//       queryInfo['zoom'] = 14;
-//     }
-//     if (parsedQuery.amenities) {
-//       queryInfo.selectedAmenities = parsedQuery.amenities.split(',');
-//     }
-//     //Sort
-//     if (this.props.brand.organization_id === 52) {
-//       defaultSort = 'name';
-//     }
-//     queryInfo['sort'] = parsedQuery['sort'] || defaultSort;
-//     return queryInfo;
-//   };
+      let bookingRange = [];
+      let d = queryInfo['checkIn'].clone();
+      while (isInclusivelyBeforeDay(d, queryInfo['checkOut'])) {
+        bookingRange.push({
+          key: d.format('DD-MM-YYYY'),
+          day: d.day()
+        });
+        d.add(1, 'days');
+      }
+      queryInfo['bookingRange'] = bookingRange;
+    }
+    //Location
+    if (
+      parsedQuery['geo-ne-lat'] &&
+      parsedQuery['geo-ne-lon'] &&
+      parsedQuery['geo-sw-lat'] &&
+      parsedQuery['geo-sw-lon']
+    ) {
+      queryInfo['geoNELat'] = JSON.parse(parsedQuery['geo-ne-lat']);
+      queryInfo['geoNELon'] = JSON.parse(parsedQuery['geo-ne-lon']);
+      queryInfo['geoSWLat'] = JSON.parse(parsedQuery['geo-sw-lat']);
+      queryInfo['geoSWLon'] = JSON.parse(parsedQuery['geo-sw-lon']);
+    } else if (parsedQuery['loc']) {
+      queryInfo['loc'] = decodeURIComponent(parsedQuery['loc']);
+    }
+    //Num Guests
+    if (parsedQuery['guests']) {
+      queryInfo['guests'] = parsedQuery['guests'];
+    }
+    //Zoom
+    if (parsedQuery['zoom']) {
+      queryInfo['zoom'] = parseInt(parsedQuery['zoom']);
+    } else {
+      queryInfo['zoom'] = 14;
+    }
+    if (parsedQuery.amenities) {
+      queryInfo.selectedAmenities = parsedQuery.amenities.split(',');
+    }
+    //Sort
+    if (this.props.brand.organization_id === 52) {
+      defaultSort = 'name';
+    }
+    queryInfo['sort'] = parsedQuery['sort'] || defaultSort;
+    return queryInfo;
+  };
 
-//   fetchPropertyData = () => {
-//     const queryParams = this.createQueryParams();
-//     PropertyService.index(queryParams).then(data => {
-//       this.setState(
-//         {
-//           results: data.results,
-//           resultsLength: data.results.length,
-//           isLoading: false,
-//           isDirty: false,
-//           isLoaded: true,
-//           geoNELat: data.bounds ? data.bounds.ne.lat : null,
-//           geoNELon: data.bounds ? data.bounds.ne.lng : null,
-//           geoSWLat: data.bounds ? data.bounds.sw.lat : null,
-//           geoSWLon: data.bounds ? data.bounds.sw.lng : null,
-//           geoCenterLat: data.center ? data.center[0] : null,
-//           geoCenterLon: data.center ? data.center[1] : null,
-//           max_price: data.max_price || null,
-//           min_price: data.min_price || 0,
-//           maxBaths: data.max_baths,
-//           maxBedrooms: data.max_bedrooms,
-//           maxGuests: data.max_guests,
-//           totalPages: data.total_pages,
-//           totalProperties: data.total_properties,
-//           datesSet: !(
-//             data.results[0] && data.results[0].search_type === 'dateless'
-//           )
-//         },
-//         () => {
-//           this._div.scrollTop = 0;
-//           if (
-//             isNull(this.state.maxBaths) ||
-//             isNull(this.state.maxBedrooms) ||
-//             isNull(this.state.maxGuests)
-//           ) {
-//             this.calculateMaxes();
-//           }
-//         }
-//       );
-//     });
-//   };
+  fetchPropertyData = () => {
+    const queryParams = this.createQueryParams();
+    axios.get(`https://staging.getdirect.io/api/public/${this.props.brand.organization_id}/properties${queryParams}`).then(data => {
+      this.setState(
+        {
+          results: data.results,
+          resultsLength: data.results.length,
+          isLoading: false,
+          isDirty: false,
+          isLoaded: true,
+          geoNELat: data.bounds ? data.bounds.ne.lat : null,
+          geoNELon: data.bounds ? data.bounds.ne.lng : null,
+          geoSWLat: data.bounds ? data.bounds.sw.lat : null,
+          geoSWLon: data.bounds ? data.bounds.sw.lng : null,
+          geoCenterLat: data.center ? data.center[0] : null,
+          geoCenterLon: data.center ? data.center[1] : null,
+          max_price: data.max_price || null,
+          min_price: data.min_price || 0,
+          maxBaths: data.max_baths,
+          maxBedrooms: data.max_bedrooms,
+          maxGuests: data.max_guests,
+          totalPages: data.total_pages,
+          totalProperties: data.total_properties,
+          datesSet: !(
+            data.results[0] && data.results[0].search_type === 'dateless'
+          )
+        },
+        () => {
+          this._div.scrollTop = 0;
+          if (
+            isNull(this.state.maxBaths) ||
+            isNull(this.state.maxBedrooms) ||
+            isNull(this.state.maxGuests)
+          ) {
+            this.calculateMaxes();
+          }
+        }
+      );
+    });
+  };
 
   createQueryParams = () => {
     return (
@@ -287,132 +286,132 @@ export default class ThemeDefaultSearch extends React.Component {
     );
   };
 
-//   fetchSearchData = () => {
-//     if (!this.state.isLoading) {
-//       this.setState({ isLoading: true, isLoaded: false }, () => {
-//         this.fetchPropertyData();
-//         // Moved this data to a new method to keep for prosperity for
-//         // Fixing any potential bugs introduced with new search method
-//         // this.oldFetchData();
-//       });
-//     }
-//   };
+  fetchSearchData = () => {
+    if (!this.state.isLoading) {
+      this.setState({ isLoading: true, isLoaded: false }, () => {
+        this.fetchPropertyData();
+        // Moved this data to a new method to keep for prosperity for
+        // Fixing any potential bugs introduced with new search method
+        // this.oldFetchData();
+      });
+    }
+  };
 
-//   // oldFetchData = () => {
-//   //   $.ajax({
-//   //     type: 'GET',
-//   //     url: '/api/search',
-//   //     context: this,
-//   //     data: {
-//   //       booking_range: JSON.stringify(this.state.bookingRange),
-//   //       geo_ne_lat: this.state.geoNELat,
-//   //       geo_ne_lon: this.state.geoNELon,
-//   //       geo_sw_lat: this.state.geoSWLat,
-//   //       geo_sw_lon: this.state.geoSWLon,
-//   //       loc: this.state.loc,
-//   //       guests: this.state.guests,
-//   //       sort: this.state.sort,
-//   //       distance: this.state.distance,
-//   //       page_offset: this.state.pageOffset,
-//   //       filter: {
-//   //         num_bedrooms: this.state.filter_numBedrooms,
-//   //         num_bathrooms: this.state.filter_numBathrooms,
-//   //         num_guests: this.state.guests,
-//   //         instant_book: this.state.filter_instantBook,
-//   //         price_low: this.state.filter_priceLow,
-//   //         price_high: this.state.filter_priceHigh,
-//   //         distance: this.state.filter_distance
-//   //       }
-//   //     }
-//   //   })
-//   //     .done(function(data) {
-//   //       this.setState(
-//   //         {
-//   //           results: data.results,
-//   //           resultsLength: data.results.length,
-//   //           isLoading: false,
-//   //           isDirty: false,
-//   //           isLoaded: true,
-//   //           geoNELat: data.bounds ? data.bounds.ne.lat : null,
-//   //           geoNELon: data.bounds ? data.bounds.ne.lng : null,
-//   //           geoSWLat: data.bounds ? data.bounds.sw.lat : null,
-//   //           geoSWLon: data.bounds ? data.bounds.sw.lng : null,
-//   //           geoCenterLat: data.center ? data.center[0] : null,
-//   //           geoCenterLon: data.center ? data.center[1] : null,
-//   //           max_price: data.max_price || null,
-//   //           min_price: data.min_price || null,
-//   //           pageOffset: data.page_offset,
-//   //           totalPages: data.total_pages,
-//   //           totalProperties: data.total_properties,
-//   //           datesSet: !(
-//   //             data.results[0] && data.results[0].search_type === 'dateless'
-//   //           )
-//   //         },
-//   //         () => {
-//   //           this._div.scrollTop = 0;
-//   //         }
-//   //       );
-//   //     })
-//   //     .fail(function(jqXhr) {
-//   //       console.warn(jqXhr);
-//   //     });
-//   // };
+  // oldFetchData = () => {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: '/api/search',
+  //     context: this,
+  //     data: {
+  //       booking_range: JSON.stringify(this.state.bookingRange),
+  //       geo_ne_lat: this.state.geoNELat,
+  //       geo_ne_lon: this.state.geoNELon,
+  //       geo_sw_lat: this.state.geoSWLat,
+  //       geo_sw_lon: this.state.geoSWLon,
+  //       loc: this.state.loc,
+  //       guests: this.state.guests,
+  //       sort: this.state.sort,
+  //       distance: this.state.distance,
+  //       page_offset: this.state.pageOffset,
+  //       filter: {
+  //         num_bedrooms: this.state.filter_numBedrooms,
+  //         num_bathrooms: this.state.filter_numBathrooms,
+  //         num_guests: this.state.guests,
+  //         instant_book: this.state.filter_instantBook,
+  //         price_low: this.state.filter_priceLow,
+  //         price_high: this.state.filter_priceHigh,
+  //         distance: this.state.filter_distance
+  //       }
+  //     }
+  //   })
+  //     .done(function(data) {
+  //       this.setState(
+  //         {
+  //           results: data.results,
+  //           resultsLength: data.results.length,
+  //           isLoading: false,
+  //           isDirty: false,
+  //           isLoaded: true,
+  //           geoNELat: data.bounds ? data.bounds.ne.lat : null,
+  //           geoNELon: data.bounds ? data.bounds.ne.lng : null,
+  //           geoSWLat: data.bounds ? data.bounds.sw.lat : null,
+  //           geoSWLon: data.bounds ? data.bounds.sw.lng : null,
+  //           geoCenterLat: data.center ? data.center[0] : null,
+  //           geoCenterLon: data.center ? data.center[1] : null,
+  //           max_price: data.max_price || null,
+  //           min_price: data.min_price || null,
+  //           pageOffset: data.page_offset,
+  //           totalPages: data.total_pages,
+  //           totalProperties: data.total_properties,
+  //           datesSet: !(
+  //             data.results[0] && data.results[0].search_type === 'dateless'
+  //           )
+  //         },
+  //         () => {
+  //           this._div.scrollTop = 0;
+  //         }
+  //       );
+  //     })
+  //     .fail(function(jqXhr) {
+  //       console.warn(jqXhr);
+  //     });
+  // };
 
-//   getStringifiedQueryString = () => {
-//     let queryInfo = {};
-//     //Dates
-//     if (this.state.checkIn && this.state.checkOut) {
-//       queryInfo['check-in'] = this.state.checkIn.format('DD-MM-YYYY');
-//       queryInfo['check-out'] = this.state.checkOut.format('DD-MM-YYYY');
-//     }
-//     //Location
-//     if (
-//       this.state.geoNELat &&
-//       this.state.geoNELon &&
-//       this.state.geoSWLat &&
-//       this.state.geoSWLon
-//     ) {
-//       queryInfo['geo-ne-lat'] = this.state.geoNELat;
-//       queryInfo['geo-ne-lon'] = this.state.geoNELon;
-//       queryInfo['geo-sw-lat'] = this.state.geoSWLat;
-//       queryInfo['geo-sw-lon'] = this.state.geoSWLon;
-//     } else if (this.state.loc) {
-//       queryInfo['loc'] = this.state.loc;
-//     }
-//     //Num Guests
-//     if (this.state.guests && this.state.guests > 0) {
-//       queryInfo['guests'] = this.state.guests;
-//     }
-//     //Zoom
-//     if (this.state.zoom) {
-//       queryInfo['zoom'] = this.state.zoom;
-//     }
-//     //Sort
-//     if (this.state.sort) {
-//       queryInfo['sort'] = this.state.sort;
-//     }
-//     //Amenities
-//     if (this.state.selectedAmenities) {
-//       queryInfo.amenities = this.state.selectedAmenities.join(',');
-//     }
-//     const stringifiedQueryString = '?' + queryString.stringify(queryInfo);
-//     return stringifiedQueryString;
-//   };
+  getStringifiedQueryString = () => {
+    let queryInfo = {};
+    //Dates
+    if (this.state.checkIn && this.state.checkOut) {
+      queryInfo['check-in'] = this.state.checkIn.format('DD-MM-YYYY');
+      queryInfo['check-out'] = this.state.checkOut.format('DD-MM-YYYY');
+    }
+    //Location
+    if (
+      this.state.geoNELat &&
+      this.state.geoNELon &&
+      this.state.geoSWLat &&
+      this.state.geoSWLon
+    ) {
+      queryInfo['geo-ne-lat'] = this.state.geoNELat;
+      queryInfo['geo-ne-lon'] = this.state.geoNELon;
+      queryInfo['geo-sw-lat'] = this.state.geoSWLat;
+      queryInfo['geo-sw-lon'] = this.state.geoSWLon;
+    } else if (this.state.loc) {
+      queryInfo['loc'] = this.state.loc;
+    }
+    //Num Guests
+    if (this.state.guests && this.state.guests > 0) {
+      queryInfo['guests'] = this.state.guests;
+    }
+    //Zoom
+    if (this.state.zoom) {
+      queryInfo['zoom'] = this.state.zoom;
+    }
+    //Sort
+    if (this.state.sort) {
+      queryInfo['sort'] = this.state.sort;
+    }
+    //Amenities
+    if (this.state.selectedAmenities) {
+      queryInfo.amenities = this.state.selectedAmenities.join(',');
+    }
+    const stringifiedQueryString = '?' + queryString.stringify(queryInfo);
+    return stringifiedQueryString;
+  };
 
-//   updateQueryString = () => {
-//     const stringifiedQueryString = this.getStringifiedQueryString();
-//     history.pushState(null, null, stringifiedQueryString);
-//   };
+  updateQueryString = () => {
+    const stringifiedQueryString = this.getStringifiedQueryString();
+    history.pushState(null, null, stringifiedQueryString);
+  };
 
-//   updateFilter = (name, val, selectedAmenities) => {
-//     let stateChange = { filtersSet: true };
-//     stateChange[name] = val;
-//     if (selectedAmenities) stateChange.selectedAmenities = selectedAmenities;
-//     this.setState(stateChange, () => {
-//       this.updateQueryString();
-//       this.fetchSearchData();
-//     });
-//   };
+  updateFilter = (name, val, selectedAmenities) => {
+    let stateChange = { filtersSet: true };
+    stateChange[name] = val;
+    if (selectedAmenities) stateChange.selectedAmenities = selectedAmenities;
+    this.setState(stateChange, () => {
+      this.updateQueryString();
+      this.fetchSearchData();
+    });
+  };
 
   updatePriceFilters = (low, high) => {
     this.setState({
@@ -421,79 +420,79 @@ export default class ThemeDefaultSearch extends React.Component {
     });
   };
 
-//   updateSort = val => {
-//     this.setState({ sort: val }, () => {
-//       this.updateQueryString();
-//       this.fetchSearchData();
-//     });
-//   };
+  updateSort = val => {
+    this.setState({ sort: val }, () => {
+      this.updateQueryString();
+      this.fetchSearchData();
+    });
+  };
 
-//   toggleSortVisible = () =>
-//     this.setState({ sortVisible: !this.state.sortVisible });
+  toggleSortVisible = () =>
+    this.setState({ sortVisible: !this.state.sortVisible });
 
-//   updateBounds = (geoNELat, geoNELon, geoSWLat, geoSWLon) => {
-//     this.setState(
-//       {
-//         geoNELat: geoNELat,
-//         geoNELon: geoNELon,
-//         geoSWLat: geoSWLat,
-//         geoSWLon: geoSWLon
-//       },
-//       () => {
-//         this.updateQueryString();
-//         this.fetchSearchData();
-//         this.calculateMaxes();
-//       }
-//     );
-//   };
+  updateBounds = (geoNELat, geoNELon, geoSWLat, geoSWLon) => {
+    this.setState(
+      {
+        geoNELat: geoNELat,
+        geoNELon: geoNELon,
+        geoSWLat: geoSWLat,
+        geoSWLon: geoSWLon
+      },
+      () => {
+        this.updateQueryString();
+        this.fetchSearchData();
+        this.calculateMaxes();
+      }
+    );
+  };
 
-//   updateZoom = zoom => {
-//     this.setState({ zoom: zoom }, () => {
-//       this.updateQueryString();
-//     });
-//   };
+  updateZoom = zoom => {
+    this.setState({ zoom: zoom }, () => {
+      this.updateQueryString();
+    });
+  };
 
-//   respondToDatesChange = (checkInDate, checkOutDate) => {
-//     if (isInclusivelyBeforeDay(checkInDate, checkOutDate)) {
-//       let bookingRange = [];
-//       let d = checkInDate.clone();
-//       while (isInclusivelyBeforeDay(d, checkOutDate)) {
-//         bookingRange.push({
-//           key: d.format('DD-MM-YYYY'),
-//           day: d.day()
-//         });
-//         d.add(1, 'days');
-//       }
-//       this.setState(
-//         {
-//           bookingRange: bookingRange,
-//           bookingLength: bookingRange.length - 1,
-//           checkIn: checkInDate,
-//           checkOut: checkOutDate
-//         },
-//         () => {
-//           if (this.state.bookingRange) {
-//             this.updateQueryString();
-//             this.fetchSearchData();
-//             this.calculateMaxes();
-//           }
-//         }
-//       );
-//     }
-//   };
+  respondToDatesChange = (checkInDate, checkOutDate) => {
+    if (isInclusivelyBeforeDay(checkInDate, checkOutDate)) {
+      let bookingRange = [];
+      let d = checkInDate.clone();
+      while (isInclusivelyBeforeDay(d, checkOutDate)) {
+        bookingRange.push({
+          key: d.format('DD-MM-YYYY'),
+          day: d.day()
+        });
+        d.add(1, 'days');
+      }
+      this.setState(
+        {
+          bookingRange: bookingRange,
+          bookingLength: bookingRange.length - 1,
+          checkIn: checkInDate,
+          checkOut: checkOutDate
+        },
+        () => {
+          if (this.state.bookingRange) {
+            this.updateQueryString();
+            this.fetchSearchData();
+            this.calculateMaxes();
+          }
+        }
+      );
+    }
+  };
 
-//   respondToGuestsChange = guests => {
-//     this.setState(
-//       {
-//         guests: guests
-//       },
-//       () => {
-//         this.updateQueryString();
-//         this.fetchSearchData();
-//         this.calculateMaxes();
-//       }
-//     );
-//   };
+  respondToGuestsChange = guests => {
+    this.setState(
+      {
+        guests: guests
+      },
+      () => {
+        this.updateQueryString();
+        this.fetchSearchData();
+        this.calculateMaxes();
+      }
+    );
+  };
 
   toggleSearchWithMap = () => {
     this.setState({ searchWithMap: !this.state.searchWithMap });
@@ -513,26 +512,26 @@ export default class ThemeDefaultSearch extends React.Component {
     });
   };
 
-//   handlePageClick = data => {
-//     const newPage = data.selected;
-//     let offset = Math.ceil(data.selected * 18);
-//     this.setState(
-//       { pageOffset: offset, currentPage: newPage },
-//       this.fetchSearchData()
-//     );
-//   };
+  handlePageClick = data => {
+    const newPage = data.selected;
+    let offset = Math.ceil(data.selected * 18);
+    this.setState(
+      { pageOffset: offset, currentPage: newPage },
+      this.fetchSearchData()
+    );
+  };
 
-//   toggleInstantBooking = (id, status) => {
-//     const stateChange = {
-//       instantBookingOnly: !status,
-//       filter_instantBook: !status
-//     };
+  toggleInstantBooking = (id, status) => {
+    const stateChange = {
+      instantBookingOnly: !status,
+      filter_instantBook: !status
+    };
 
-//     if (!this.state.filtersSet) {
-//       stateChange['filtersSet'] = true;
-//     }
-//     this.setState(stateChange, this.fetchSearchData);
-//   };
+    if (!this.state.filtersSet) {
+      stateChange['filtersSet'] = true;
+    }
+    this.setState(stateChange, this.fetchSearchData);
+  };
 
   showTotalProperties = () => {
     const over300 =
