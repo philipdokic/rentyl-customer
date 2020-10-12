@@ -7,7 +7,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 // Redux
 // -----------------------------------------------
-import * as brandAction from './redux/action/brandActions'
+import * as brandAction from './redux/action/brand'
 import * as listingsAction from './redux/action/listings'
 
 // Components

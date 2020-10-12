@@ -122,16 +122,12 @@ class Single extends React.Component {
     );
   };
 
+  // Check Availability
+  // ---------------------------------------------
   checkAvailability = () => {
     const queryInfo = this.parseQuery();
 
-    console.log("AVAILABILITY");
-    console.log(this.props.listing.unit.id);
-    console.log(this.state.bookingRange);
-    console.log(queryInfo['guests']);
-
-
-    axios.get(`http://localhost:5000/api/details/single/${this.props.listing.id}/availability`, {
+    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/availability`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
@@ -140,63 +136,45 @@ class Single extends React.Component {
         guests: queryInfo['guests']
       }
     })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-
-
-    // $.ajax({
-    //   type: 'GET',
-    //   url: 'https://app.getdirect.io/api/details/single/' + this.props.listing.id + '/availability',
-    //   context: this,
-    //   data: {
-    //     unit_id: this.props.listing.unit.id,
-    //     booking_range: JSON.stringify(this.state.bookingRange),
-    //     guests: queryInfo['guests']
-    //   }
-    // })
-    //   .done(function(data) {
-    //     this.setState(
-    //       {
-    //         availability: data
-    //       },
-    //       () => {
-    //         if (data.bookable) {
-    //           console.log("CHECK PRICING");
-    //           console.log(data);
-    //           //this.checkPricing();
-    //         }
-    //       }
-    //     );
-    //   })
-    //   .fail(function(jqXhr) {
-    //     console.warn(jqXhr);
-    //   });
+    .then(response => {
+      this.setState(
+        {
+          availability: response
+        },
+        () => {
+          if (response.bookable) {
+            this.checkPricing();
+          }
+        }
+      );
+    })
+    .catch(error => {
+      console.log(error);
+    })
   };
 
-//   checkPricing = () => {
-//     const queryInfo = this.parseQuery();
-//     $.ajax({
-//       type: 'GET',
-//       url: '/api/details/single/' + this.props.listing.id + '/pricing',
-//       context: this,
-//       data: {
-//         booking_range: JSON.stringify(this.state.bookingRange),
-//         num_guests: queryInfo['guests'],
-//         addon_fee_ids: this.state.addonFeeIds,
-//         coupon_code: this.state.couponCode
-//       }
-//     })
-//       .done(function(data) {
-//         this.setState({ pricing: data });
-//       })
-//       .fail(function(jqXhr) {
-//         console.warn(jqXhr);
-//       });
-//   };
+  // Check Pricing
+  // ---------------------------------------------
+  checkPricing = () => {
+    const queryInfo = this.parseQuery();
+
+    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/pricing`, {
+      headers: {'Content-Type': 'application/json'},
+      context: this,
+      params: {
+        booking_range: JSON.stringify(this.state.bookingRange),
+        num_guests: queryInfo['guests'],
+        addon_fee_ids: this.state.addonFeeIds,
+        coupon_code: this.state.couponCode
+      }
+    })
+    .then(response => {
+      this.setState({ pricing: response });
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  };
 
 //   respondToDatesChange = (checkInDate, checkOutDate) => {
 //     if (isInclusivelyBeforeDay(checkInDate, checkOutDate)) {
@@ -297,8 +275,8 @@ class Single extends React.Component {
               "@context": "https://schema.org/",
               "@type": "LodgingBusiness",
               "name": "${this.props.listing.property.name}",
-              "description": "${this.props.listing.property.summary_description}",
               "brand": "${this.props.brand.name}",
+              "description": "${this.props.listing.property.summary_description}",
               ${ this.state.reviews > 0 ? `
                 "aggregateRating": {
                   "@type": "AggregateRating",
@@ -316,6 +294,7 @@ class Single extends React.Component {
             }
           `}</script>
           {/*
+
               "telephone": "${this.props.brand_info.contact.phone_primary.number}",
               "image": "${this.props.property_images[0].image.medium.url}",
               */}

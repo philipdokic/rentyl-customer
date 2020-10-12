@@ -2,10 +2,10 @@ import {combineReducers} from 'redux'
 import brand from './brandReducer'
 import listing from './listingReducer'
 import listings from './listingsReducer'
-const rootRuducer = combineReducers({
+const rootReducer = combineReducers({
     brand,
     listing,
     listings
 })
 
-export default rootRuducer
+export default rootReducer
