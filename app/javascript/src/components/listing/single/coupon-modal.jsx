@@ -1,7 +1,18 @@
+// Dependencies
+// -----------------------------------------------
 import React from 'react';
+import ReactI18n from 'react-i18n';
 
+// -----------------------------------------------
+// COMPONENT->COUPON-MODAL -----------------------
+// -----------------------------------------------
 export default class CouponModal extends React.PureComponent {
+
+  // Render
+  // ---------------------------------------------
   render() {
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <>
         <input
@@ -13,7 +24,7 @@ export default class CouponModal extends React.PureComponent {
         />
         {this.props.badCode && (
           <p style={{ color: 'red', marginRight: '50%' }}>
-            {this.props.translate(`cx.details.bad_code`)}
+            {translate(`cx.details.bad_code`)}
           </p>
         )}
       </>

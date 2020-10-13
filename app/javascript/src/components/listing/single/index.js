@@ -1,7 +1,7 @@
 import Amenities from './amenities';
 // import DetailsSingleAvailability from './details-availability';
 import BookingAnchored from './booking-anchored';
-// import DetailsSingleContact from './details-contact';
+import SingleContact from './contact';
 import BookingDatePicker from './booking-date-picker';
 import BookingErrors from './booking-errors';
 import BookingHeader from './booking-header';
@@ -21,7 +21,7 @@ export {
   Amenities,
   // DetailsSingleAvailability,
   BookingAnchored,
-  // DetailsSingleContact,
+  SingleContact,
   BookingDatePicker,
   // DetailsBookingErrors,
   BookingHeader,

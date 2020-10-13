@@ -12,7 +12,11 @@ class Brand < ApplicationRecord
   # RELATIONS ------------------------------------
   # ----------------------------------------------
   belongs_to :organization
+
+  has_and_belongs_to_many :employees
+
   has_many :domains
+  has_many :properties, -> { distinct }, through: :units
   has_many :unit_listings
 
 end

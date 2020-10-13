@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import Modal from 'react-modal';
 import Rater from 'react-rater';
-import ReactI18n from 'react-i18n';
 import Sticky from 'react-stickynode';
 import styled from 'styled-components';
-
 
 // Components
 // -----------------------------------------------
@@ -16,9 +14,8 @@ import BookingBreakdown from './booking-breakdown';
 import BookingDatePicker from './booking-date-picker';
 import BookingNumGuests from './booking-num-guests';
 import BookingHeader from './booking-header';
-// import DetailsSingleContact from './details-contact';
-
-// import { StarContainer } from 'cxThemeComponents';
+import SingleContact from './contact';
+import { StarContainer } from '../../miscellaneous/';
 
 // Styled Components
 // -----------------------------------------------
@@ -63,7 +60,6 @@ class BookingAnchored extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    const translate = ReactI18n.getIntlMessage;
     const modalStyles = {
       overlay: {
         zIndex: 999999999,
@@ -97,12 +93,12 @@ class BookingAnchored extends React.Component {
               <BookingHeader pricing={this.props.pricing} />
               {this.props.listing.reviews.length > 0 && (
                 <ReviewInfoContainer>
-                  {/* <StarContainer>
+                  <StarContainer>
                     <Rater
-                      rating={parseFloat(this.props.listing.review_average)}
                       interactive={false}
+                      rating={parseFloat(this.props.listing.review_average)}
                     />
-                  </StarContainer> */}
+                  </StarContainer>
                   <label>{this.props.listing.reviews.length} Reviews</label>
                 </ReviewInfoContainer>
               )}
@@ -119,7 +115,6 @@ class BookingAnchored extends React.Component {
               />
               <BookingBreakdown
                 addonFeeIds={this.props.addonFeeIds}
-                availability={this.props.availability}
                 checkInDate={this.props.checkInDate}
                 checkOutDate={this.props.checkOutDate}
                 guests={this.props.guests}
@@ -145,16 +140,19 @@ class BookingAnchored extends React.Component {
             </section>
           </Sticky>
         </MediaQuery>
-        {/* <MediaQuery query="(max-width: 959px)">
-          {this.props.reviewCount > 0 && (
+        <MediaQuery query="(max-width: 959px)">
+          {this.props.listing.reviews.length > 0 && (
             <ReviewInfoContainer>
               <StarContainer>
-                <Rater rating={this.props.reviewAverage} interactive={false} />
+                <Rater
+                  interactive={false}
+                  rating={this.props.listing.review_average}
+                />
               </StarContainer>
-              <label>{this.props.reviewCount} Reviews</label>
+              <label>{this.props.listing.reviews.length} Reviews</label>
             </ReviewInfoContainer>
           )}
-          {this.props.propertyManager && (
+          {/* {this.props.propertyManager && (
             <a
               id="contact-owner"
               className="button"
@@ -162,7 +160,7 @@ class BookingAnchored extends React.Component {
               onClick={this.toggleModal}
               style={{ display: 'none' }}
             />
-          )}
+          )} */}
         </MediaQuery>
         <Modal
           isOpen={this.state.contactModalOpen}
@@ -182,14 +180,8 @@ class BookingAnchored extends React.Component {
           >
             ×
           </a>
-          <DetailsSingleContact
-            unit_listing_id={this.props.listing.id}
-            property_id={this.props.propertyId}
-            organization_id={this.props.organizationId}
-            unit_id={this.props.listing.unit_id}
-            displayFormat={this.props.displayFormat}
-          />
-        </Modal> */}
+          <SingleContact />
+        </Modal>
       </div>
     );
   }

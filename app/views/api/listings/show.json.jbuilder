@@ -1,6 +1,7 @@
 json.(@listing, :id, :currency)
 json.unit @listing.unit
 json.property @listing.unit.property
+json.property_manager @listing.unit.property.get_manager
 json.location @listing.unit.property.location
 
 if @listing.unit.unit_images.present?

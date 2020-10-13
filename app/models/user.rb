@@ -1,7 +1,7 @@
 # ================================================
-# RUBY->MODEL->ORGANIZATION ======================
+# RUBY->MODEL->USER ==============================
 # ================================================
-class Organization < ApplicationRecord
+class User < ApplicationRecord
 
   # ----------------------------------------------
   # DATABASE -------------------------------------
@@ -11,9 +11,6 @@ class Organization < ApplicationRecord
   # ----------------------------------------------
   # RELATIONS ------------------------------------
   # ----------------------------------------------
-  belongs_to :user
-
-  has_many :brands, dependent: :destroy
-  has_many :employees, dependent: :destroy
+  has_many :organizations, dependent: :destroy
 
 end

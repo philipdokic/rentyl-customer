@@ -4,16 +4,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ReactI18n from 'react-i18n';
 import { reject, filter, sortBy, isNull } from 'lodash';
-// import { Link } from 'cxComponents';
 
 // Components
 // -----------------------------------------------
 import BookingErrors from './booking-errors';
-// import PortalModal from 'sharedComponents/PortalModal';
-// import CouponModal from '../../../../components/coupon-modal';
-// import PromotionService from 'adminApi/PromotionService';
-// import displayError from 'sharedComponents/ErrorDisplay';
-// import RoomTypeService from 'adminApi/RoomTypeService';
+import CouponModal from './coupon-modal';
+import Link from '../../links/link';
+import PortalModal from '../../modals/portal-modal';
 
 // -----------------------------------------------
 // COMPONENT->BOOKING-BREAKDOWN ------------------
@@ -34,10 +31,10 @@ class BookingBreakdown extends React.Component {
     };
   }
 
-  // componentDidMount = () => {
-  //   this.fetchCouponCodes();
-  //   this.findListingAndRoomType();
-  // };
+  componentDidMount = () => {
+    this.fetchCouponCodes();
+    this.findListingAndRoomType();
+  };
 
   // Build Go To Checkout URL
   // ---------------------------------------------
@@ -66,28 +63,30 @@ class BookingBreakdown extends React.Component {
     return goToCheckoutUrl;
   };
 
-  // findListingAndRoomType = () => {
-  //   const brandId = this.props.listing.brand_id
-  //   const unitId = this.props.unitId
-  //   if (unitId === undefined) {
-  //     this.setState({ roomType: false });
-  //   } else {
-  //     $.ajax({
-  //       type: 'GET',
-  //       url: `/api/details/single/find_listing/${brandId}/${unitId}`,
-  //       context: this
-  //     })
-  //       .done(data => {
-  //         this.setState({
-  //           listing: data,
-  //           roomType: true
-  //         });
-  //       })
-  //       .fail(jqXhr => {
-  //         console.warn(jqXhr);
-  //       });
-  //   }
-  // };
+  // Find Listing And Room Type
+  // ---------------------------------------------
+  findListingAndRoomType = () => {
+    const brandId = this.props.brand.id
+    const unitId = this.props.listing.unit.id
+
+    if (unitId === undefined) {
+      this.setState({ roomType: false });
+    } else {
+      axios.get(`https://staging.getdirect.io/api/v2/listings/single/find_listing/${brandId}/${unitId}`, {
+        headers: {'Content-Type': 'application/json'},
+        context: this
+      })
+      .then(response => {
+        this.setState({
+          listing: response,
+          roomType: true
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    }
+  };
 
   // Render Description Popover
   // ---------------------------------------------
@@ -242,8 +241,8 @@ class BookingBreakdown extends React.Component {
                   })}
                 </td>
               </tr>
-            ))}
-
+            ))
+          }
           {/* {addonFees.length > 0 && (
             <table
               style={{
@@ -435,7 +434,7 @@ class BookingBreakdown extends React.Component {
       return (
         <div className="details-booking-breakdown">
           {this.renderPricing()}
-          {/* <PortalModal
+          <PortalModal
             openByClickOn={openPortal => (
               <a onClick={openPortal}>
                 {translate(`cx.details.apply_coupon`)}
@@ -450,13 +449,10 @@ class BookingBreakdown extends React.Component {
           >
             <CouponModal
               badCode={this.state.badCode}
-              addCouponCode={this.props.addCouponCode}
               updateCouponCode={this.updateCouponCode}
-              organizationId={this.props.organizationId}
-              translate={this.props.translate}
             />
           </PortalModal>
-          {this.props.availability.instant_booking ? (
+          {this.props.listing.availability.instant_booking ? (
             <Link to={this.buildGoToCheckoutUrl()} className="button">
               {translate(`cx.global.book.long`)}
             </Link>
@@ -464,8 +460,7 @@ class BookingBreakdown extends React.Component {
             <Link to={this.buildGoToCheckoutUrl()} className="button">
               {translate(`cx.global.book_inquiry.long`)}
             </Link>
-          )} */}
-
+          )}
           <small>{translate(`cx.details.no_charge`)}</small>
         </div>
       );
@@ -481,6 +476,7 @@ class BookingBreakdown extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
+    brand: state.brand ? state.brand : {},
     listing: state.listing ? state.listing : {}
   };
 }
