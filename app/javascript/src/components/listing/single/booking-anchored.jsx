@@ -114,16 +114,15 @@ class BookingAnchored extends React.Component {
                 respondToGuestsChange={this.props.respondToGuestsChange}
               />
               <BookingBreakdown
+                addCouponCode={this.props.addCouponCode}
                 addonFeeIds={this.props.addonFeeIds}
                 checkInDate={this.props.checkInDate}
                 checkOutDate={this.props.checkOutDate}
                 guests={this.props.guests}
                 updateFees={this.props.updateFees}
                 updateQuantityFee={this.props.updateQuantityFee}
-                addCouponCode={this.props.addCouponCode}
               />
-
-              {/* {this.props.propertyManager && (
+              {this.props.listing.property_manager && (
                 <a
                   id="contact-owner"
                   className="button"
@@ -136,7 +135,7 @@ class BookingAnchored extends React.Component {
                 >
                   Contact Owner
                 </a>
-              )} */}
+              )}
             </section>
           </Sticky>
         </MediaQuery>
@@ -152,7 +151,7 @@ class BookingAnchored extends React.Component {
               <label>{this.props.listing.reviews.length} Reviews</label>
             </ReviewInfoContainer>
           )}
-          {/* {this.props.propertyManager && (
+          {this.props.listing.property_manager && (
             <a
               id="contact-owner"
               className="button"
@@ -160,7 +159,7 @@ class BookingAnchored extends React.Component {
               onClick={this.toggleModal}
               style={{ display: 'none' }}
             />
-          )} */}
+          )}
         </MediaQuery>
         <Modal
           isOpen={this.state.contactModalOpen}

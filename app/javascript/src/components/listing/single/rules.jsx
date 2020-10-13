@@ -109,12 +109,12 @@ class Rules extends React.Component {
   render() {
     const check_in =
       moment(
-        this.props.unit_availability.default_time_check_in,
+        this.props.listing.availability.default_time_check_in,
         'HH:mm'
       ).format('h:mm A') || null;
     const check_out =
       moment(
-        this.props.unit_availability.default_time_check_out,
+        this.props.listing.availability.default_time_check_out,
         'HH:mm'
       ).format('h:mm A') || null;
     const translate = ReactI18n.getIntlMessage;
@@ -186,8 +186,8 @@ class Rules extends React.Component {
               <SubHeaders>
                 {translate(`cx.details.headers.check_in_out`)}
               </SubHeaders>
-              {this.props.listing.unit.availability.check_in_check_out_policy ? (
-                <p>{this.props.listing.unit.availability.check_in_check_out_policy}</p>
+              {this.props.listing.availability.check_in_check_out_policy ? (
+                <p>{this.props.listing.availability.check_in_check_out_policy}</p>
               ) : null}
               {check_in && check_in !== 'Invalid date' ? (
                 <p>

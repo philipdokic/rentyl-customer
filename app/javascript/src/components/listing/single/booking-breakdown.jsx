@@ -1,6 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import axios from 'axios'
 import { connect } from 'react-redux';
 import ReactI18n from 'react-i18n';
 import { reject, filter, sortBy, isNull } from 'lodash';
