@@ -3,7 +3,7 @@ import Amenities from './amenities';
 import BookingAnchored from './booking-anchored';
 // import DetailsSingleContact from './details-contact';
 import BookingDatePicker from './booking-date-picker';
-// import DetailsBookingErrors from './details-booking-errors';
+import BookingErrors from './booking-errors';
 import BookingHeader from './booking-header';
 // import DetailsBookingNumGuests from './details-booking-num-guests';
 // import DetailsSingleBookingToggle from './details-booking-toggle';

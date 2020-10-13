@@ -12,7 +12,7 @@ import styled from 'styled-components';
 
 // Components
 // -----------------------------------------------
-// import DetailsBookingBreakdown from './details-booking-breakdown';
+import BookingBreakdown from './booking-breakdown';
 import BookingDatePicker from './booking-date-picker';
 import BookingNumGuests from './booking-num-guests';
 import BookingHeader from './booking-header';
@@ -117,23 +117,18 @@ class BookingAnchored extends React.Component {
                 guests={this.props.guests}
                 respondToGuestsChange={this.props.respondToGuestsChange}
               />
-
-              {/* <DetailsBookingBreakdown
+              <BookingBreakdown
                 addonFeeIds={this.props.addonFeeIds}
                 availability={this.props.availability}
                 checkInDate={this.props.checkInDate}
                 checkOutDate={this.props.checkOutDate}
                 guests={this.props.guests}
-                listing={this.props.listing}
-                pricing={this.props.pricing}
-                translate={translate}
                 updateFees={this.props.updateFees}
                 updateQuantityFee={this.props.updateQuantityFee}
                 addCouponCode={this.props.addCouponCode}
-                organizationId={this.props.organizationId}
-                unitId={this.props.unitId}
               />
-              {this.props.propertyManager && (
+
+              {/* {this.props.propertyManager && (
                 <a
                   id="contact-owner"
                   className="button"

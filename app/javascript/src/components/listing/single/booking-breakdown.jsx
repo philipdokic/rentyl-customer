@@ -1,21 +1,29 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import { connect } from 'react-redux';
+import ReactI18n from 'react-i18n';
 import { reject, filter, sortBy, isNull } from 'lodash';
-import { Link } from 'cxComponents';
+// import { Link } from 'cxComponents';
+
 // Components
 // -----------------------------------------------
-import DetailsBookingErrors from './details-booking-errors';
-import PortalModal from 'sharedComponents/PortalModal';
-import CouponModal from '../../../../components/coupon-modal';
-import PromotionService from 'adminApi/PromotionService';
-import displayError from 'sharedComponents/ErrorDisplay';
-import RoomTypeService from 'adminApi/RoomTypeService';
+import BookingErrors from './booking-errors';
+// import PortalModal from 'sharedComponents/PortalModal';
+// import CouponModal from '../../../../components/coupon-modal';
+// import PromotionService from 'adminApi/PromotionService';
+// import displayError from 'sharedComponents/ErrorDisplay';
+// import RoomTypeService from 'adminApi/RoomTypeService';
 
-export default class DetailsBookingBreakdown extends React.Component {
+// -----------------------------------------------
+// COMPONENT->BOOKING-BREAKDOWN ------------------
+// -----------------------------------------------
+class BookingBreakdown extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
-
     this.state = {
       numFees: 1,
       couponCode: null,
@@ -26,11 +34,13 @@ export default class DetailsBookingBreakdown extends React.Component {
     };
   }
 
-  componentDidMount = () => {
-    this.fetchCouponCodes();
-    this.findListingAndRoomType();
-  };
+  // componentDidMount = () => {
+  //   this.fetchCouponCodes();
+  //   this.findListingAndRoomType();
+  // };
 
+  // Build Go To Checkout URL
+  // ---------------------------------------------
   buildGoToCheckoutUrl = () => {
     const checkInDateFormatted = this.props.checkInDate.format('DD-MM-YYYY');
     const checkOutDateFormatted = this.props.checkOutDate.format('DD-MM-YYYY');
@@ -56,29 +66,31 @@ export default class DetailsBookingBreakdown extends React.Component {
     return goToCheckoutUrl;
   };
 
-  findListingAndRoomType = () => {
-    const brandId = this.props.listing.brand_id
-    const unitId = this.props.unitId
-    if (unitId === undefined) {
-      this.setState({ roomType: false });
-    } else {
-      $.ajax({
-        type: 'GET',
-        url: `/api/details/single/find_listing/${brandId}/${unitId}`,
-        context: this
-      })
-        .done(data => {
-          this.setState({
-            listing: data,
-            roomType: true
-          });
-        })
-        .fail(jqXhr => {
-          console.warn(jqXhr);
-        });
-    }
-  };
+  // findListingAndRoomType = () => {
+  //   const brandId = this.props.listing.brand_id
+  //   const unitId = this.props.unitId
+  //   if (unitId === undefined) {
+  //     this.setState({ roomType: false });
+  //   } else {
+  //     $.ajax({
+  //       type: 'GET',
+  //       url: `/api/details/single/find_listing/${brandId}/${unitId}`,
+  //       context: this
+  //     })
+  //       .done(data => {
+  //         this.setState({
+  //           listing: data,
+  //           roomType: true
+  //         });
+  //       })
+  //       .fail(jqXhr => {
+  //         console.warn(jqXhr);
+  //       });
+  //   }
+  // };
 
+  // Render Description Popover
+  // ---------------------------------------------
   renderDescriptionPopover(description) {
     return (
       <figure className="line-item-description">
@@ -88,9 +100,12 @@ export default class DetailsBookingBreakdown extends React.Component {
     );
   }
 
+  // Render Discount
+  // ---------------------------------------------
   renderDiscount(discount) {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const currency = this.props.listing.currency;
+
     return (
       <tr>
         <td>
@@ -110,19 +125,21 @@ export default class DetailsBookingBreakdown extends React.Component {
     );
   }
 
+  // Render Pricing
+  // ---------------------------------------------
   renderPricing() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const currency = this.props.listing.currency;
     const mandatoryFees = reject(
       this.props.pricing.fees,
       fee => fee.is_addon === 'true' || fee.value === 0
     );
-    const addonFees =
-      filter(this.props.pricing.fees, ['is_addon', 'true']) || [];
+    const addonFees = filter(this.props.pricing.fees, ['is_addon', 'true']) || [];
     const sortedAddonFees = sortBy(
       addonFees,
       fee => !this.props.addonFeeIds.includes(fee.id)
     );
+
     return (
       <table style={{ tableLayout: 'fixed' }}>
         <thead className="screenreader">
@@ -148,11 +165,11 @@ export default class DetailsBookingBreakdown extends React.Component {
                 ×{' '}
                 {translate(
                   `global.parsers.num_nights.${
-                    this.props.availability.length_of_stay > 1
+                    this.props.listing.availability.length_of_stay > 1
                       ? 'plural'
                       : 'single'
                   }`,
-                  { nights: this.props.availability.length_of_stay }
+                  { nights: this.props.listing.availability.length_of_stay }
                 )}
               </p>
             </td>
@@ -186,11 +203,11 @@ export default class DetailsBookingBreakdown extends React.Component {
                   ×{' '}
                   {translate(
                     `global.parsers.num_nights.${
-                      this.props.availability.length_of_stay > 1
+                      this.props.listing.availability.length_of_stay > 1
                         ? 'plural'
                         : 'single'
                     }`,
-                    { nights: this.props.availability.length_of_stay }
+                    { nights: this.props.listing.availability.length_of_stay }
                   )}
                 </p>
               </td>
@@ -361,27 +378,29 @@ export default class DetailsBookingBreakdown extends React.Component {
     );
   }
 
+  // Fetch Coupon Codes
+  // ---------------------------------------------
   fetchCouponCodes = () => {
-    $.ajax({
-      type: 'GET',
-      url:
-        '/api/details/single/' + this.props.listing.id + '/fetch_coupon_codes',
+    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/fetch_coupon_codes`, {
+      headers: {'Content-Type': 'application/json'},
       context: this
     })
-      .done(data => {
-        this.setState({
-          allCouponCodes: data
-        });
-      })
-      .fail(jqXhr => {
-        console.warn(jqXhr);
-      });
+    .then(response => {
+      this.setState({ allCouponCodes: response });
+    })
+    .catch(error => {
+      console.log(error);
+    })
   };
 
+  // Update Coupon Code
+  // ---------------------------------------------
   updateCouponCode = couponCode => {
     this.setState({ couponCode, badCode: false });
   };
 
+  // Verify Coupon Code
+  // ---------------------------------------------
   verifyCouponCode = closePortal => {
     if (isNull(this.state.allCouponCodes)) {
       this.setState({ badCode: true });
@@ -394,6 +413,9 @@ export default class DetailsBookingBreakdown extends React.Component {
       this.setState({ badCode: true });
     }
   };
+
+  // Render Submit Action
+  // ---------------------------------------------
   renderSubmitAction = closePortal => (
     <a
       className={'button positive'}
@@ -403,14 +425,17 @@ export default class DetailsBookingBreakdown extends React.Component {
     </a>
   );
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const currency = this.props.listing.currency;
-    if (this.props.availability && this.props.pricing) {
+
+    if (this.props.listing.availability && this.props.pricing) {
       return (
         <div className="details-booking-breakdown">
           {this.renderPricing()}
-          <PortalModal
+          {/* <PortalModal
             openByClickOn={openPortal => (
               <a onClick={openPortal}>
                 {translate(`cx.details.apply_coupon`)}
@@ -439,20 +464,27 @@ export default class DetailsBookingBreakdown extends React.Component {
             <Link to={this.buildGoToCheckoutUrl()} className="button">
               {translate(`cx.global.book_inquiry.long`)}
             </Link>
-          )}
+          )} */}
 
           <small>{translate(`cx.details.no_charge`)}</small>
         </div>
       );
     } else {
       return (
-        <DetailsBookingErrors
-          availability={this.props.availability}
-          checkInDate={this.props.checkInDate}
-          checkOutDate={this.props.checkOutDate}
-          translate={translate}
-        />
+        <BookingErrors />
       );
     }
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(BookingBreakdown);
