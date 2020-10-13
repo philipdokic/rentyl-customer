@@ -1,16 +1,22 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
+import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
-import DetailsBookingBreakdown from './details-booking-breakdown';
-import DetailsBookingDatePicker from './details-booking-date-picker';
-import DetailsBookingNumGuests from './details-booking-num-guests';
+import BookingBreakdown from './booking-breakdown';
+import BookingDatePicker from './booking-date-picker';
+import BookingNumGuests from './booking-num-guests';
 
-export default class DetailsSingleBookingToggle extends React.Component {
+// -----------------------------------------------
+// COMPONENT->SINGLE-BOOKING-TOGGLE --------------
+// -----------------------------------------------
+export default class SingleBookingToggle extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +24,8 @@ export default class DetailsSingleBookingToggle extends React.Component {
     };
   }
 
+  // Toggle Booking Module
+  // ---------------------------------------------
   toggleBookingModule = e => {
     e.preventDefault();
     this.setState({
@@ -25,8 +33,11 @@ export default class DetailsSingleBookingToggle extends React.Component {
     });
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <MediaQuery query="(max-width: 959px)">
         {this.state.toggled ? (
@@ -38,36 +49,21 @@ export default class DetailsSingleBookingToggle extends React.Component {
               ×
             </a>
             {this.props.datesParsed ? (
-              <DetailsBookingDatePicker
-                availability_calendar={this.props.availability_calendar}
-                booking_calendar={this.props.booking_calendar}
-                default_availability={this.props.default_availability}
+              <BookingDatePicker
                 checkInDate={this.props.checkInDate}
                 checkOutDate={this.props.checkOutDate}
-                listing={this.props.listing}
-                pricing={this.props.pricing}
                 respondToDatesChange={this.props.respondToDatesChange}
-                unit_availability={this.props.unit_availability}
-                translate={translate}
-                organizationID={this.props.organizationID}
-                unitID={this.props.unitID}
               />
             ) : null}
-            <DetailsBookingNumGuests
+            <BookingNumGuests
               guests={this.props.guests}
               respondToGuestsChange={this.props.respondToGuestsChange}
-              translate={translate}
-              numSleep={this.props.numSleep}
             />
-            <DetailsBookingBreakdown
+            <BookingBreakdown
               addonFeeIds={this.props.addonFeeIds}
-              availability={this.props.availability}
               checkInDate={this.props.checkInDate}
               checkOutDate={this.props.checkOutDate}
               guests={this.props.guests}
-              listing={this.props.listing}
-              pricing={this.props.pricing}
-              translate={translate}
               updateFees={this.props.updateFees}
               updateQuantityFee={this.props.updateQuantityFees}
             />

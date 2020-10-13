@@ -16,7 +16,7 @@ import {
   Amenities,
   // DetailsSingleAvailability,
   BookingAnchored,
-  // DetailsSingleBookingToggle,
+  SingleBookingToggle,
   // DetailsSingleContact,
   Header,
   Images,
@@ -329,40 +329,26 @@ class Single extends React.Component {
             updateQuantityFee={this.updateQuantityFees}
             addCouponCode={this.addCouponCode}
           />
-          {/*
-           <DetailsSingleBookingToggle
-             addonFeeIds={this.state.addonFeeIds}
-             average_default_nightly_price={
-               this.props.average_default_nightly_price
-             }
-             availability_calendar={this.props.availability_calendar}
-             default_availability={this.props.default_availability_changeover}
-             booking_calendar={this.props.booking_calendar}
-             availability={this.state.availability}
-             checkInDate={this.state.checkInDate}
-             checkOutDate={this.state.checkOutDate}
-             guests={this.state.guests}
-             datesParsed={this.state.datesParsed}
-             listing={this.props.listing}
-             pricing={this.state.pricing}
-             respondToDatesChange={this.respondToDatesChange}
-             respondToGuestsChange={this.respondToGuestsChange}
-             unit_availability={this.props.unit_availability}
-             translate={translate}
-             updateFees={this.updateFees}
-             unitID={this.props.unit.id}
-             organizationID={this.props.property.organization_id}
-             numSleep={this.props.num_sleep}
-             updateQuantityFees={this.updateQuantityFees}
-           />
-          */}
+          <SingleBookingToggle
+            addonFeeIds={this.state.addonFeeIds}
+            availability={this.state.availability}
+            checkInDate={this.state.checkInDate}
+            checkOutDate={this.state.checkOutDate}
+            datesParsed={this.state.datesParsed}
+            guests={this.state.guests}
+            pricing={this.state.pricing}
+            respondToDatesChange={this.respondToDatesChange}
+            respondToGuestsChange={this.respondToGuestsChange}
+            updateFees={this.updateFees}
+            updateQuantityFees={this.updateQuantityFees}
+          />
           <figure className="details-content">
             <Navbar />
             <Header />
             <Overview />
             {/* <Amenities /> */}
             <Summary />
-            {/* <Rules pricing={this.state.pricing} /> */}
+            <Rules pricing={this.state.pricing} />
           {/*
              <div id='review-section'/>
              {this.props.property_manager && (

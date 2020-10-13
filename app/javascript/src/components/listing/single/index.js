@@ -6,7 +6,7 @@ import BookingDatePicker from './booking-date-picker';
 import BookingErrors from './booking-errors';
 import BookingHeader from './booking-header';
 // import DetailsBookingNumGuests from './details-booking-num-guests';
-// import DetailsSingleBookingToggle from './details-booking-toggle';
+import SingleBookingToggle from './booking-toggle';
 import Header from './header';
 import Images from './images';
 // import DetailsSingleLocation from './details-location';
@@ -26,7 +26,7 @@ export {
   // DetailsBookingErrors,
   BookingHeader,
   // DetailsBookingNumGuests,
-  // DetailsSingleBookingToggle,
+  SingleBookingToggle,
   Header,
   Images,
   // DetailsSingleLocation,
