@@ -1,30 +1,31 @@
 // Dependencies
 // -----------------------------------------------
-import React from 'react';
 import axios from 'axios'
-import { NavLink } from 'react-router-dom';
-import ReactPaginate from 'react-paginate';
-import moment from 'moment';
+import React from 'react';
+import { isInclusivelyBeforeDay } from 'react-dates';
 import { max, isNull } from 'lodash';
+import moment from 'moment';
+import { NavLink } from 'react-router-dom';
 import queryString from 'query-string';
+import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import ReactI18n from 'react-i18n';
+import ReactPaginate from 'react-paginate';
 import Script from 'react-load-script';
 import styled from 'styled-components';
-import 'react-dates/initialize'; // Needed for rendering any react-dates components
-import SearchSort from './searchComponents/search-sort';
-import { isInclusivelyBeforeDay } from 'react-dates';
-import { initializeIntercom } from './resources/Intercom';
-import AmenitiesList from './resources/amenities_list.json';
+
 
 // // Components
 // // -----------------------------------------------
+import AmenitiesList from './resources/amenities_list.json';
+import { initializeIntercom } from './resources/Intercom';
 import {
-  SearchSortFilters,
   SearchInfo,
+  SearchList,
   SearchMap,
   SearchMapToggle,
-  SearchTiles,
-  SearchList
+  SearchSortFilters,
+  SearchSort,
+  SearchTiles
 } from './searchComponents';
 import { ThLarge, ThList, Map } from './resources/icons';
 
@@ -221,15 +222,15 @@ export default class ThemeDefaultSearch extends React.Component {
 
   fetchPropertyData = () => {
     const queryParams = this.createQueryParams();
-    axios.get(`https://staging.getdirect.io/api/v2/properties${queryParams}`,{
+    axios.get(`/api/properties${queryParams}`,{
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
-      const data = response.data
+      const data=response.data
       this.setState(
         {
-          results: data.properties,
-          resultsLength: data.total_count,
+          results: data.results,
+          resultsLength: data.results.length,
           isLoading: false,
           isDirty: false,
           isLoaded: true,
@@ -247,7 +248,7 @@ export default class ThemeDefaultSearch extends React.Component {
           totalPages: data.total_pages,
           totalProperties: data.total_properties,
           datesSet: !(
-            data.properties[0] && data.properties[0].search_type === 'dateless'
+            data.results[0] && data.results[0].search_type === 'dateless'
           )
         },
         () => {
@@ -883,7 +884,6 @@ export default class ThemeDefaultSearch extends React.Component {
             </ListingsWrapper>
           </div>
         )}
-        <button onClick={()=>this.setState({results: this.props.listings})}>Set IT</button>
       </div>
     );
   }
