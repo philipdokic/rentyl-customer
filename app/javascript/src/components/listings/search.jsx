@@ -224,11 +224,12 @@ export default class ThemeDefaultSearch extends React.Component {
     axios.get(`https://staging.getdirect.io/api/v2/properties${queryParams}`,{
       headers: {'Content-Type': 'application/json'}
     })
-    .then(data => {
+    .then(response => {
+      const data = response.data
       this.setState(
         {
-          results: data.results,
-          resultsLength: data.results.length,
+          results: data.properties,
+          resultsLength: data.total_count,
           isLoading: false,
           isDirty: false,
           isLoaded: true,
@@ -246,7 +247,7 @@ export default class ThemeDefaultSearch extends React.Component {
           totalPages: data.total_pages,
           totalProperties: data.total_properties,
           datesSet: !(
-            data.results[0] && data.results[0].search_type === 'dateless'
+            data.properties[0] && data.properties[0].search_type === 'dateless'
           )
         },
         () => {
