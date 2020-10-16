@@ -22,7 +22,6 @@ import Single from './single';
 class Listing extends React.Component {
 
   componentDidMount() {
-    this.setListing();
     document.body.classList.add('listings-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('home-view');
