@@ -1,27 +1,45 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import ReactI18n from 'react-i18n';
 import styled from 'styled-components';
 
 // Components
 // -----------------------------------------------
-import DetailsBathroom from './details-bathroom';
-import DetailsBedroom from './details-bedroom';
+import Bathroom from './bathroom';
+import Bedroom from './bedroom';
 
-export default class DetailsMultiUnitSummary extends React.Component {
+// Styles
+// -----------------------------------------------
+const SubHeaders = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+// -----------------------------------------------
+// COMPONENT->MULTI-UNIT-SUMMARY -----------------
+// -----------------------------------------------
+export default class MultiUnitSummary extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
   }
 
+  // Render Unit Description
+  // ---------------------------------------------
   renderUnitDescription = () => {
     return {
       __html: this.props.unit.summary_description
     };
   };
 
+  // Constructor
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section className="details-summary">
         <header>
@@ -54,10 +72,9 @@ export default class DetailsMultiUnitSummary extends React.Component {
                 ) : null}
               </p>
               {this.props.bedrooms.map(bedroom => (
-                <DetailsBedroom
+                <Bedroom
                   key={bedroom.id}
                   bedroom={bedroom}
-                  translate={translate}
                 />
               ))}
             </div>
@@ -74,10 +91,9 @@ export default class DetailsMultiUnitSummary extends React.Component {
                 })}
               </p>
               {this.props.bathrooms.map(bathroom => (
-                <DetailsBathroom
+                <Bathroom
                   key={bathroom.id}
                   bathroom={bathroom}
-                  translate={translate}
                 />
               ))}
             </div>
@@ -93,8 +109,3 @@ export default class DetailsMultiUnitSummary extends React.Component {
     );
   }
 }
-
-const SubHeaders = styled.p`
-  font-size: 16px;
-  font-weight: 600;
-`;

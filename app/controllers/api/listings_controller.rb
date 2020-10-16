@@ -17,7 +17,7 @@ class Api::ListingsController < ApplicationController
   # ----------------------------------------------
   def index
     @brand = Brand.find(params[:brand])
-    @listings = @brand.unit_listings
+    @listings = @brand.unit_listings.includes(:property)
     render json: @listings
   end
 

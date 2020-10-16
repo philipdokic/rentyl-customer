@@ -2,7 +2,7 @@
 // -----------------------------------------------
 import React from 'react'
 // import axios from 'axios'
-// import {connect} from 'react-redux'
+import {connect} from 'react-redux'
 //import './node_modules/react-dates/initialize'; // Needed for rendering any react-dates components
 //import get from './node_modules/lodash/get';
 
@@ -12,17 +12,14 @@ import * as listingAction from '../../redux/action/listing'
 
 // Components
 // -----------------------------------------------
-//import DetailsMulti from './details-multi';
+import Multi from './multi';
 //import DetailsRoom from './details-room';
 import Single from './single';
 
 // -----------------------------------------------
 // COMPONENT->LISTING ----------------------------
 // -----------------------------------------------
-export default class Listing extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+class Listing extends React.Component {
 
   // Set Listing
   // ---------------------------------------------
@@ -72,3 +69,15 @@ export default class Listing extends React.Component {
     // }
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Listing);

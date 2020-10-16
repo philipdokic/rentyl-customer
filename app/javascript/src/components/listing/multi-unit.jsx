@@ -1,25 +1,30 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import PortalModal from 'sharedComponents/PortalModal';
+import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
-import { Link } from 'cxComponents';
-import { PseudoModal } from 'cxComponents';
-import { Spinner } from 'cxThemeComponents';
-import DetailsMultiUnitAmenities from './details-multi-unit-amenities';
-import DetailsMultiUnitAvailability from './details-multi-unit-availability';
-import DetailsMultiUnitImages from './details-multi-unit-images';
-import DetailsMultiUnitSummary from './details-multi-unit-summary';
+import MultiUnitAmenities from './multi-unit-amenities';
+import MultiUnitAvailability from './multi-unit-availability';
+import MultiUnitImages from './multi-unit-images';
+import MultiUnitSummary from './multi-unit-summary';
+import Link from '../links/link';
+import PortalModal from '../modals/portal-modal';
 
-export default class DetailsMultiUnit extends React.Component {
+// -----------------------------------------------
+// COMPONENT->MULTI-UNIT -------------------------
+// -----------------------------------------------
+export default class MultiUnit extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
   }
 
+  // Build Go To Checkout URL
+  // ---------------------------------------------
   buildGoToCheckoutUrl = () => {
     const checkInDateFormatted = this.props.checkIn.format('DD-MM-YYYY');
     const checkOutDateFormatted = this.props.checkOut.format('DD-MM-YYYY');
@@ -35,8 +40,10 @@ export default class DetailsMultiUnit extends React.Component {
     return goToCheckoutUrl;
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const bathrooms = this.props.unit.bathrooms;
     const bedrooms = this.props.unit.bedrooms;
     const unit = this.props.unit.unit;
@@ -55,7 +62,7 @@ export default class DetailsMultiUnit extends React.Component {
         {this.props.availability && this.props.availability.bookable && (
           <tr>
             <td>
-              <DetailsMultiUnitImages images={images} translate={translate} />
+              <MultiUnitImages images={images} />
               <h4 className="highlight">{unit.name}</h4>
               <ul className="unit-info">
                 <li>
@@ -99,21 +106,18 @@ export default class DetailsMultiUnit extends React.Component {
                     )}
                   >
                     <div className="details-modal">
-                      <DetailsMultiUnitSummary
+                      <MultiUnitSummary
                         bathrooms={bathrooms}
                         bedrooms={bedrooms}
                         unit={unit}
-                        translate={translate}
                       />
-                      <DetailsMultiUnitAmenities
+                      <MultiUnitAmenities
                         unit={unit}
-                        translate={translate}
                       />
-                      <DetailsMultiUnitAvailability
+                      <MultiUnitAvailability
                         availability_calendar={availability_calendar}
                         default_availability={default_availability_changeover}
                         booking_calendar={booking_calendar}
-                        translate={translate}
                       />
                     </div>
                   </PortalModal>

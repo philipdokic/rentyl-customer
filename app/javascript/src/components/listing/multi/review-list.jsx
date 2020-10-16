@@ -9,10 +9,11 @@ import styled from 'styled-components';
 // Components
 // -----------------------------------------------
 import Review from '../review';
+import { StarContainer } from '../../miscellaneous/';
 
-// Styled Components
+// Styles
 // -----------------------------------------------
-const ListReviews = styled.div`
+const ListReview = styled.div`
   display: flex;
   flex-direction: column;
   padding: 22.624px 0;
@@ -25,37 +26,6 @@ const ReviewListHeader = styled.div`
   margin-bottom: 16px;
 `;
 
-const StarContainer = styled.div`
-  .react-rater {
-    display: flex;
-    justify-content: center;
-    margin-left: 16px;
-  }
-
-  .react-rater-star {
-    font-size: 20px;
-    margin: 0 4px;
-    color: white;
-    position: relative;
-    text-shadow: -1px -1px 0 #e5e2e2, 1px -1px 0 #e5e2e2, -1px 1px 0 #e5e2e2,
-      1px 1px 0 #e5e2e2;
-
-    &.will-be-active,
-    &.is-active {
-      color: gold;
-      text-shadow: none;
-    }
-    &.is-active-half::before {
-      color: gold;
-      content: '\u2605';
-      position: absolute;
-      left: 0;
-      width: 50%;
-      overflow: hidden;
-    }
-  }
-`;
-
 const PaginationContainer = styled.div`
   @media (max-width: 500px) {
     margin: 0 auto;
@@ -66,6 +36,21 @@ const PaginationContainer = styled.div`
     }
   }
 `;
+
+const ReviewContainer = styled(StarContainer)`
+  .react-rater {
+    margin-left: 16px;
+  }
+
+  .react-rater-star {
+    font-size: 20px;
+    margin: 0 4px;
+  }
+`;
+
+export {
+  ReviewContainer
+}
 
 // -----------------------------------------------
 // COMPONENT->REVIEW-LIST ------------------------
@@ -84,20 +69,20 @@ class ReviewList extends React.Component {
     };
   }
 
-  // ComponentDidMount
+  // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
     this.updatePagination();
     window.addEventListener('resize', this.updatePagination);
   }
 
-  // ComponentWillUnmount
+  // Component Will Unmount
   // ---------------------------------------------
   componentWillUnmount() {
     window.removeEventListener('resize', this.updatePagination);
   }
 
-  // UpdatePagination
+  // Update Pagination
   // ---------------------------------------------
   updatePagination = () => {
     let mobile = window.innerWidth < 500;
@@ -114,6 +99,7 @@ class ReviewList extends React.Component {
   // ---------------------------------------------
   handlePageClick = data => {
     let offset = Math.ceil(data.selected * this.state.rowsPerPage);
+
     this.setState({ pageOffset: offset });
   };
 
@@ -121,21 +107,21 @@ class ReviewList extends React.Component {
   // ---------------------------------------------
   render() {
     const pageCount = Math.ceil(
-      this.props.listing.reviews.length / this.state.rowsPerPage
+      this.props.reviews.length / this.state.rowsPerPage
     );
 
     return (
-      <ListReviews>
+      <ListReview>
         <ReviewListHeader>
-          <h3>{this.props.listing.reviews.length} Reviews</h3>
-          <StarContainer>
+          <h3>{this.props.reviews.length} Reviews</h3>
+          <ReviewContainer>
             <Rater
-              rating={parseFloat(this.props.listing.review_average)}
+              rating={parseFloat(this.props.average)}
               interactive={false}
             />
-          </StarContainer>
+          </ReviewContainer>
         </ReviewListHeader>
-        {this.props.listing.reviews
+        {this.props.reviews
           .slice(
             this.state.pageOffset,
             this.state.pageOffset + this.state.rowsPerPage
@@ -144,12 +130,14 @@ class ReviewList extends React.Component {
             <Review
               key={review.id}
               review={review}
-              displayFormat={this.props.displayFormat}
             />
           ))}
-        <PaginationContainer className="consolidated-key">
-          {pageCount > 1 && (
-            <div className="no-wrap" style={{ float: 'right' }}>
+        {pageCount > 1 && (
+          <PaginationContainer className="consolidated-key">
+            <div
+              className="no-wrap"
+              style={{ float: 'right', display: 'flex' }}
+            >
               <ReactPaginate
                 previousLabel={'<'}
                 nextLabel={'>'}
@@ -165,9 +153,9 @@ class ReviewList extends React.Component {
                 activeClassName={'active'}
               />
             </div>
-          )}
-        </PaginationContainer>
-      </ListReviews>
+          </PaginationContainer>
+        )}
+      </ListReview>
     );
   }
 }
