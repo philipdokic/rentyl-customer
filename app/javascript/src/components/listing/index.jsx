@@ -3,8 +3,8 @@
 import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
-//import './node_modules/react-dates/initialize'; // Needed for rendering any react-dates components
-//import get from './node_modules/lodash/get';
+import 'react-dates/initialize'; // Needed for rendering any react-dates components
+import get from 'lodash/get';
 
 // Redux
 // -----------------------------------------------
@@ -22,28 +22,34 @@ import Single from './single';
 class Listing extends React.Component {
 
   componentDidMount() {
+    this.fetchListingData(this.props);
     document.body.classList.add('listings-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('home-view');
     document.body.classList.remove('search-view');
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (
-  //     get(this, 'props.match.params.listing_slug') !==
-  //     get(nextProps, 'match.params.listing_slug')
-  //   ) {
-  //     this.setState({ is_multi_unit: null }, () => {
-  //       this.fetchListingData(nextProps);
-  //     });
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (
+      get(this, 'props.match.params.listing_slug') !==
+      get(nextProps, 'match.params.listing_slug')
+    ) {
+      this.fetchListingData(nextProps);
+    }
+  }
 
-  // fetchListingData = props => {
-  //   ListingService.details(get(props, 'match.params.listing_slug'), get(props, 'unit_id'))
-  //     .then(res => this.setState(res))
-  //     .catch(err => console.warn(err));
-  // };
+  fetchListingData = props => {
+    console.log(get(props, 'match.params.listing_slug'));
+    axios.get(`/api/listings/${get(props, 'match.params.listing_slug')}`, {
+      headers: {'Content-Type': 'application/json'}
+    })
+    .then(response => {
+      props.dispatch(listingAction.setListing(response.data))
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  };
 
   render() {
     if (this.props.listing.room_type) {

@@ -13,14 +13,12 @@ class UnitAvailability < ApplicationRecord
   # ----------------------------------------------
   belongs_to :unit
 
-
   # ----------------------------------------------
   # SERIALIZE ------------------------------------
   # ----------------------------------------------
   serialize :availability_calendar, JSON
   serialize :booking_calendar, JSON
   serialize :default_availability_changeover, JSON
-
 
   # ----------------------------------------------
   # CALLBACKS ------------------------------------

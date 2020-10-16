@@ -42,7 +42,7 @@ const App = (props) => {
       <Route path="/listings/list" component={Listings} />
       <Route path="/listings/grid" component={Listings} />
       <Route path="/listings/map" component={Listings} />
-      <Route path="/listings/:id" component={Listing} />
+      <Route path="/listings/:listing_slug" component={Listing} />
       <Redirect from="/listings" to="/listings/search" />
       <Route exact path="/" component={Home} />
 
