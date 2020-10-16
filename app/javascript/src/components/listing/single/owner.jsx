@@ -1,22 +1,26 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
+import { connect } from 'react-redux';
+import ReactI18n from 'react-i18n';
 
-export default class DetailsSingleOwner extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+// -----------------------------------------------
+// COMPONENT->SINGLE-OWNER -----------------------
+// -----------------------------------------------
+class SingleOwner extends React.Component {
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
-    const managerName = this.props.property_manager.name.split(' ');
+    const translate = ReactI18n.getIntlMessage;
+    const managerName = this.props.listing.property_manager.name.split(' ');
     const firstName = capitalize(managerName[0]);
     const lastInitial = managerName[1]
       ? `${capitalize(managerName[1][0])}`
       : '';
     const managerDisplayName = `${firstName} ${lastInitial}`;
+
     return (
       <section id="details-owner">
         <header>
@@ -37,3 +41,15 @@ export default class DetailsSingleOwner extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(SingleOwner);

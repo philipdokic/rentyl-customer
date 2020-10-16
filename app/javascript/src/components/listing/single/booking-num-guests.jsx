@@ -36,7 +36,7 @@ class BookingNumGuests extends React.Component {
             {translate(`global.parsers.num_guests.single`, { num: 1 })}
           </option>
           {sleepArr.map(num => (
-            <option value={num}>
+            <option key={num} value={num}>
               {translate(`global.parsers.num_guests.plural`, { num })}
             </option>
           ))}

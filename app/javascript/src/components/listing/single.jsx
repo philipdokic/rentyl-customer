@@ -23,7 +23,7 @@ import {
   // DetailsSingleLocation,
   Navbar,
   Overview,
-  // DetailsSingleOwner,
+  SingleOwner,
   ReviewList,
   Rules,
   Summary
@@ -349,15 +349,10 @@ class Single extends React.Component {
             {/* <Amenities /> */}
             <Summary />
             <Rules pricing={this.state.pricing} />
-          {/*
-             <div id='review-section'/>
-             {this.props.property_manager && (
-               <DetailsSingleOwner
-                 property_manager={this.props.property_manager}
-                 translate={translate}
-               />
-             )}
-          */}
+            <div id='review-section'/>
+            {this.props.property_manager && (
+              <SingleOwner />
+            )}
             {this.props.listing.reviews && this.props.listing.reviews.length > 0 ? (
               <ReviewList
                 displayFormat={this.props.brand.date_format}

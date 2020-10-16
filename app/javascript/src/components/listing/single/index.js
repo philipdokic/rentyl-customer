@@ -12,7 +12,7 @@ import Images from './images';
 // import DetailsSingleLocation from './details-location';
 import Navbar from './navbar';
 import Overview from './overview';
-// import DetailsSingleOwner from './details-owner';
+import SingleOwner from './owner';
 import Rules from './rules';
 import Summary from './summary';
 import ReviewList from './review-list';
@@ -32,7 +32,7 @@ export {
   // DetailsSingleLocation,
   Navbar,
   Overview,
-  // DetailsSingleOwner,
+  SingleOwner,
   Rules,
   Summary,
   ReviewList
