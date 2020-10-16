@@ -1,7 +1,7 @@
 // Dependencies
 // -----------------------------------------------
-import axios from 'axios'
 import React from 'react';
+import axios from 'axios'
 import { isInclusivelyBeforeDay } from 'react-dates';
 import { max, isNull } from 'lodash';
 import moment from 'moment';
@@ -13,9 +13,13 @@ import ReactPaginate from 'react-paginate';
 import Script from 'react-load-script';
 import styled from 'styled-components';
 
+// Redux
+// -----------------------------------------------
+import * as brandAction from '../../redux/action/brand'
+import * as listingsAction from '../../redux/action/listings'
 
-// // Components
-// // -----------------------------------------------
+// Components
+// -----------------------------------------------
 import AmenitiesList from './resources/amenities_list.json';
 import { initializeIntercom } from './resources/Intercom';
 import {
@@ -30,7 +34,7 @@ import {
 import { ThLarge, ThList, Map } from './resources/icons';
 
 // -----------------------------------------------
-// COMPONENT->THEME-DEFAULT-SEARCH ---------------
+// COMPONENT->SEARCH -----------------------------
 // -----------------------------------------------
 export default class ThemeDefaultSearch extends React.Component {
   constructor(props, _railsContext) {
@@ -98,6 +102,7 @@ export default class ThemeDefaultSearch extends React.Component {
   componentDidMount() {
     this.handleBrowserState();
     window.onpopstate = this.handleBrowserState;
+    this.fetchListingsData(this.props);
     initializeIntercom(this.props.intercom_id);
     document.body.classList.add('search-view');
     document.body.classList.remove('checkout-view');
@@ -111,6 +116,25 @@ export default class ThemeDefaultSearch extends React.Component {
       this.pageSetup();
     }
   }
+
+  fetchListingsData = props => {
+    axios.get('/api/organizations')
+    .then(response => {
+      props.dispatch(brandAction.setBrand(response.data))
+      axios.get(`/api/listings?brand=${response.data.id}`, {
+        headers: {'Content-Type': 'application/json'}
+      })
+      .then(res => {
+        props.dispatch(listingsAction.setListings(res.data))
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  };
 
   calculateMaxes = () => {
     if (this.state.results) {

@@ -29,17 +29,16 @@ class Listing extends React.Component {
     document.body.classList.remove('search-view');
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      get(this, 'props.match.params.listing_slug') !==
-      get(nextProps, 'match.params.listing_slug')
-    ) {
-      this.fetchListingData(nextProps);
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (
+  //     get(this, 'props.match.params.listing_slug') !==
+  //     get(nextProps, 'match.params.listing_slug')
+  //   ) {
+  //     this.fetchListingData(nextProps);
+  //   }
+  // }
 
   fetchListingData = props => {
-    console.log(get(props, 'match.params.listing_slug'));
     axios.get(`/api/listings/${get(props, 'match.params.listing_slug')}`, {
       headers: {'Content-Type': 'application/json'}
     })
