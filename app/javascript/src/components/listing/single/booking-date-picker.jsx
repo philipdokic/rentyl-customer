@@ -4,7 +4,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isInclusivelyAfterDay, isInclusivelyBeforeDay } from 'react-dates';
 import moment from 'moment';
-//import WidgetDatePicker from 'sharedComponents/WidgetDatePicker';
+
+// Components
+// -----------------------------------------------
+import WidgetDatePicker from '../../date-picker/widget-date-picker';
 
 // -----------------------------------------------
 // COMPONENT->BOOKING-DATE-PICKER ----------------
@@ -45,7 +48,7 @@ class BookingDatePicker extends React.Component {
   render() {
     return (
       <div style={{ textAlign: 'center' }}>
-        {/* <WidgetDatePicker
+        <WidgetDatePicker
           bookingCalendar={this.props.listing.availability_calendar}
           organizationID={this.props.brand.organization_id}
           unitID={this.props.listing.unit.id}
@@ -57,7 +60,7 @@ class BookingDatePicker extends React.Component {
           isOutsideRange={this.isOutsideRange}
           displayFormat={this.props.brand.displayFormat}
           readOnly
-        /> */}
+        />
       </div>
     );
   }
