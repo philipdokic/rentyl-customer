@@ -28,6 +28,8 @@ class Api::ListingsController < ApplicationController
     render json: {
       id: @listing.id,
       currency: @listing.currency,
+      multi_unit: @listing.is_multi_unit,
+      room_type: @listing.is_room_type,
       unit: @listing.unit,
       property: @listing.unit.property,
       property_manager: @listing.unit.property.get_manager,
@@ -54,7 +56,7 @@ class Api::ListingsController < ApplicationController
   # SET-LISTING ----------------------------------
   # ----------------------------------------------
   def set_listing
-    @listing = UnitListing.find(params[:id])
+    @listing = UnitListing.find_by(slug: params[:id])
   end
 
 end

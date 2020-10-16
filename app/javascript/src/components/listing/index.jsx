@@ -1,7 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react'
-// import axios from 'axios'
+import axios from 'axios'
 import {connect} from 'react-redux'
 //import './node_modules/react-dates/initialize'; // Needed for rendering any react-dates components
 //import get from './node_modules/lodash/get';
@@ -21,18 +21,8 @@ import Single from './single';
 // -----------------------------------------------
 class Listing extends React.Component {
 
-  // Set Listing
-  // ---------------------------------------------
-  // setListing = (props) => {
-  //   console.log(props);
-  //   axios.get(`/api/listings/${props.listing.id}`, {headers:{'Content-Type': 'application/json'}})
-  //   .then(res => {
-  //     console.log(res.data);
-  //     props.dispatch(listingAction.setListing(res.data))
-  //   })
-  // }
-
   componentDidMount() {
+    this.setListing();
     document.body.classList.add('listings-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('home-view');
@@ -57,16 +47,16 @@ class Listing extends React.Component {
   // };
 
   render() {
-    // if (props.is_room_type) {
-    //   return <DetailsRoom />; // {...this.state} {...this.props}
-    // } else if (props.is_multi_unit) {
-    //   return <DetailsMulti />; // {...this.state} {...this.props}
-    // } else
-    // if (props.is_room_type === false && props.is_multi_unit === false) {
+    if (this.props.listing.room_type) {
+      return "" //<DetailsRoom />; // {...this.state} {...this.props}
+    } else if (this.props.listing.multi_unit) {
+      return <Multi />; // {...this.state} {...this.props}
+    } else
+    if (this.props.listing.room_type === false && this.props.listing.multi_unit === false) {
       return <Single />; // {...this.state} {...this.props}
-    // } else {
-    //   return <div style={{ minHeight: '75vh' }} />;
-    // }
+    } else {
+      return <div style={{ minHeight: '75vh' }} />;
+    }
   }
 }
 

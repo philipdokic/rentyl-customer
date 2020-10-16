@@ -102,8 +102,8 @@ class Multi extends React.Component {
       },
       () => {
         if (this.state.bookingRange) {
-          this.getAvailabilities();
-          this.getPricings();
+          // this.getAvailabilities();
+          // this.getPricings();
         }
       }
     );
@@ -188,8 +188,8 @@ class Multi extends React.Component {
         () => {
           if (this.state.bookingRange) {
             this.updateQueryString();
-            this.getAvailabilities();
-            this.getPricings();
+            // this.getAvailabilities();
+            // this.getPricings();
           }
         }
       );
@@ -201,8 +201,8 @@ class Multi extends React.Component {
   updateGuests = guests => {
     this.setState({ guests: guests }, () => {
       this.updateQueryString();
-      this.getAvailabilities();
-      this.getPricings();
+      // this.getAvailabilities();
+      // this.getPricings();
     });
   };
 
