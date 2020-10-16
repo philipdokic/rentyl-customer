@@ -40,7 +40,8 @@ class Api::ListingsController < ApplicationController
       availability_calendar: @listing.unit.unit_availability.cx_availability_calendar,
       booking_calendar: @listing.unit.unit_availability.booking_calendar,
       default_availability_changeover: @listing.unit.unit_availability.default_availability_changeover,
-      average_default_nightly_price: @listing.unit_pricing.average_default_nightly_price
+      average_default_nightly_price: @listing.unit_pricing.average_default_nightly_price,
+      google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY']
     }
   end
 

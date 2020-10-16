@@ -1,35 +1,35 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
-import 'react-dates/initialize'; // Needed for rendering any react-dates components
-
+import axios from 'axios'
+import { connect } from 'react-redux';
 import moment from 'moment';
 import queryString from 'query-string';
-import ReactI18n from 'react-i18n';
-import { isInclusivelyBeforeDay } from 'react-dates';
 import Rater from 'react-rater';
+import 'react-dates/initialize'; // Needed for rendering any react-dates components
+import { isInclusivelyBeforeDay } from 'react-dates';
 import styled from 'styled-components';
-import LazyLoad from 'react-lazyload';
+
+// import LazyLoad from 'react-lazyload';
 
 // Components
 // -----------------------------------------------
-import { StarContainer } from 'cxThemeComponents';
-import {
-  DetailsMultiDatesGuests,
-  DetailsMultiLocation,
-  DetailsMultiNavbar,
-  DetailsMultiOwner,
-  DetailsMultiPropertyAmenities,
-  DetailsMultiPropertyHeader,
-  DetailsMultiPropertyImages,
-  DetailsMultiPropertyOverview,
-  DetailsMultiPropertyRules,
-  DetailsMultiUnitsList,
-  DetailsReviewList
-} from '../molecules/multi';
+import { StarContainer } from '../miscellaneous/';
+// import {
+//   DetailsMultiDatesGuests,
+//   DetailsMultiLocation,
+//   DetailsMultiNavbar,
+//   DetailsMultiOwner,
+//   DetailsMultiPropertyAmenities,
+//   DetailsMultiPropertyHeader,
+//   DetailsMultiPropertyImages,
+//   DetailsMultiPropertyOverview,
+//   DetailsMultiPropertyRules,
+//   DetailsMultiUnitsList,
+//   DetailsReviewList
+// } from '../multi/';
 
-// Styled Components
+// Styles
 // -----------------------------------------------
 const ReviewInfoContainer = styled.div`
   display: flex;
@@ -48,9 +48,13 @@ const ReviewInfoContainer = styled.div`
   }
 `;
 
-export default class DetailsMulti extends React.Component {
-  static propTypes = {};
+// -----------------------------------------------
+// COMPONENT->MULTI ------------------------------
+// -----------------------------------------------
+export default class Multi extends React.Component {
 
+  // Constructor
+  // ---------------------------------------------
   constructor(props, _railsContext) {
     super(props);
     this.state = {
@@ -364,3 +368,16 @@ export default class DetailsMulti extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    brand: state.brand ? state.brand : {},
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Multi);

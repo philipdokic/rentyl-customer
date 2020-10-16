@@ -1,15 +1,22 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
+import ReactI18n from 'react-i18n';
 import Script from 'react-load-script';
 
 // Components
 // -----------------------------------------------
-import { DetailsMapMarker } from '../../atoms';
+import MapMarker from '../map-marker';
 
-export default class DetailsSingleLocation extends React.Component {
+// -----------------------------------------------
+// COMPONENT->SINGLE-LOCATION --------------------
+// -----------------------------------------------
+class SingleLocation extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
 
@@ -19,6 +26,8 @@ export default class DetailsSingleLocation extends React.Component {
     };
   }
 
+  // Create Map Options
+  // ---------------------------------------------
   createMapOptions = maps => {
     return {
       gestureHandling: 'greedy',
@@ -28,8 +37,12 @@ export default class DetailsSingleLocation extends React.Component {
     };
   };
 
+  // Handle Change
+  // ---------------------------------------------
   handleChange = val => {};
 
+  // Handle Map Script Error
+  // ---------------------------------------------
   handleMapScriptError = () => {
     this.setState({
       mapsLoaded: false,
@@ -37,6 +50,8 @@ export default class DetailsSingleLocation extends React.Component {
     });
   };
 
+  // Handle Map Script Load
+  // ---------------------------------------------
   handleMapScriptLoad = () => {
     this.setState({
       mapsLoaded: true,
@@ -44,31 +59,37 @@ export default class DetailsSingleLocation extends React.Component {
     });
   };
 
+  // Render City Disclaimer
+  // ---------------------------------------------
   renderCityDisclaimer = () => {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return {
       __html: translate(`cx.details.location_disclaimer_with_city_html`, {
-        location: `${this.props.locationPlace.adr_city}, ${
-          this.props.locationPlace.adr_state
+        location: `${this.props.listing.location.adr_city}, ${
+          this.props.listing.location.adr_state
         }`
       })
     };
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section className="details-map" id="details-map">
         <Script
           url={`https://maps.googleapis.com/maps/api/js?key=${
-            this.props.google_maps_api_key
+            this.props.listing.google_maps_api_key
           }`}
           onError={this.handleMapScriptError.bind(this)}
           onLoad={this.handleMapScriptLoad.bind(this)}
         />
         <main>
-          {this.props.locationPlace.adr_city &&
-          this.props.locationPlace.adr_state ? (
+          {this.props.listing.location.adr_city &&
+          this.props.listing.location.adr_state ? (
             <p dangerouslySetInnerHTML={this.renderCityDisclaimer()} />
           ) : (
             <p>{translate(`cx.details.location_disclaimer`)}</p>
@@ -76,17 +97,17 @@ export default class DetailsSingleLocation extends React.Component {
           {!this.state.mapLoading && this.state.mapsLoaded ? (
             <GoogleMapReact
               center={[
-                this.props.locationPlace.geo_latitude,
-                this.props.locationPlace.geo_longitude
+                this.props.listing.location.geo_latitude,
+                this.props.listing.location.geo_longitude
               ]}
               zoom={12}
               options={this.createMapOptions}
               resetBoundsOnResize={false}
               onChange={this.handleChange}
             >
-              <DetailsMapMarker
-                lat={this.props.locationPlace.geo_latitude}
-                lng={this.props.locationPlace.geo_longitude}
+              <MapMarker
+                lat={this.props.listing.location.geo_latitude}
+                lng={this.props.listing.location.geo_longitude}
               />
             </GoogleMapReact>
           ) : null}
@@ -95,3 +116,15 @@ export default class DetailsSingleLocation extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(SingleLocation);

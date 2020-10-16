@@ -998,10 +998,10 @@
     humps "^2.0.1"
     prop-types "^15.5.7"
 
-"@googlemaps/js-api-loader@^1.2.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.5.0.tgz#7311bf452403218f6439c5e0e52ec8a34785bb36"
-  integrity sha512-jRUvbVuJInEPe1+/lzG861Qe9Ud76leTTL717sz6HyOnEp9WlECbC+KKrsNIYbn32mB28UkLC0al3Mr7eNyefQ==
+"@googlemaps/js-api-loader@^1.4.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.6.0.tgz#351c904ca31bcc7d961aa115373d5cd411ebee80"
+  integrity sha512-amuilneCf7q5A/jDUE3ml83c9NjW/3DzIqiBDFIKZcraD0JSKbetkEQa5s57Z6QY7jxcequXgoL9CKJUY1xZ5A==
 
 "@mapbox/point-geometry@^0.1.0":
   version "0.1.0"
@@ -1247,6 +1247,11 @@
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
+
+"@wojtekmaj/date-utils@^1.0.2":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@wojtekmaj/date-utils/-/date-utils-1.0.3.tgz#2dcfd92881425c5923e429c2aec86fb3609032a1"
+  integrity sha512-1VPkkTBk07gMR1fjpBtse4G+oJqpmE+0gUFB0dg3VIL7qJmUVaBoD/vlzMm/jNeOPfvlmerl1lpnsZyBUFIRuw==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -3680,6 +3685,13 @@ get-stream@^4.0.0:
   dependencies:
     pump "^3.0.0"
 
+get-user-locale@^1.2.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/get-user-locale/-/get-user-locale-1.4.0.tgz#a2c4b5da46feec9f03c9b07d197b1620490a5370"
+  integrity sha512-gQo03lP1OArHLKlnoglqrGGl7b04u2EP9Xutmp72cMdtrrSD7ZgIsCsUKZynYWLDkVJW33Cj3pliP7uP0UonHQ==
+  dependencies:
+    lodash.once "^4.1.1"
+
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
@@ -3796,12 +3808,12 @@ globule@^1.0.0:
     lodash "~4.17.10"
     minimatch "~3.0.2"
 
-google-map-react@^2.1.7:
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/google-map-react/-/google-map-react-2.1.7.tgz#0cab771e76b973e46c12f86b82468e7ff541ecd1"
-  integrity sha512-B13cV2JMLGjelLyfv4hAk08/EmvIVBLnwSJrshw3Dfd3RsqPapP34SvAslPErkY+sxba+5me6vH3IQqqCqLvIw==
+google-map-react@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/google-map-react/-/google-map-react-2.1.8.tgz#75dbde99e21a221f8131340ac390dd9db16dd2c5"
+  integrity sha512-7oaCVBO/nZBMQNTeIyGSwlWud9PgY+acO6yKxBcn95dD5I6flIOwfAfsqg8Ez751UrAOEWpP1v+PPdJaQd2Xug==
   dependencies:
-    "@googlemaps/js-api-loader" "^1.2.0"
+    "@googlemaps/js-api-loader" "^1.4.0"
     "@mapbox/point-geometry" "^0.1.0"
     eventemitter3 "^4.0.4"
     prop-types "^15.7.2"
@@ -4815,6 +4827,11 @@ lodash.memoize@^4.1.2:
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
 
+lodash.once@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
+  integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
+
 lodash.template@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.template/-/lodash.template-4.5.0.tgz#f976195cf3f347d0d5f52483569fe8031ccce8ab"
@@ -4969,6 +4986,11 @@ meow@^3.7.0:
     read-pkg-up "^1.0.1"
     redent "^1.0.0"
     trim-newlines "^1.0.0"
+
+merge-class-names@^1.1.1:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/merge-class-names/-/merge-class-names-1.3.0.tgz#c4cdc1a981a81dd9afc27aa4287e912a337c5dee"
+  integrity sha512-k0Qaj36VBpKgdc8c188LEZvo6v/zzry/FUufwopWbMSp6/knfVFU/KIB55/hJjeIpg18IH2WskXJCRnM/1BrdQ==
 
 merge-descriptors@1.0.1:
   version "1.0.1"
@@ -6755,6 +6777,16 @@ rc-util@^5.0.0, rc-util@^5.2.1, rc-util@^5.3.0, rc-util@^5.3.4:
   dependencies:
     react-is "^16.12.0"
     shallowequal "^1.1.0"
+
+react-calendar@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-3.1.0.tgz#7a384a70f98e02177d176c45f6918fb6a15ce41f"
+  integrity sha512-xoKdRe6FrnZ30LD9pyr20fhet1uwSbc6srLGm1ib7G4b7tAXniZrwzrJ4YV/Hbmmwf/zAFGyXtBzLAIV1KNvuA==
+  dependencies:
+    "@wojtekmaj/date-utils" "^1.0.2"
+    get-user-locale "^1.2.0"
+    merge-class-names "^1.1.1"
+    prop-types "^15.6.0"
 
 react-clientside-effect@^1.2.2:
   version "1.2.2"

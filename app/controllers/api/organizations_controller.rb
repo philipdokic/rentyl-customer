@@ -14,6 +14,7 @@ class Api::OrganizationsController < ApplicationController
     request_host = request.host
     domain = Domain.find_by(url: request_host)
     @brand = domain.brand
+
     render json: @brand
   end
 

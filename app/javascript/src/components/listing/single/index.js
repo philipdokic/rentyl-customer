@@ -1,5 +1,5 @@
 import Amenities from './amenities';
-// import DetailsSingleAvailability from './details-availability';
+import SingleAvailability from './availability';
 import BookingAnchored from './booking-anchored';
 import SingleContact from './contact';
 import BookingDatePicker from './booking-date-picker';
@@ -9,7 +9,7 @@ import BookingHeader from './booking-header';
 import SingleBookingToggle from './booking-toggle';
 import Header from './header';
 import Images from './images';
-// import DetailsSingleLocation from './details-location';
+import SingleLocation from './location';
 import Navbar from './navbar';
 import Overview from './overview';
 import SingleOwner from './owner';
@@ -19,7 +19,7 @@ import ReviewList from './review-list';
 
 export {
   Amenities,
-  // DetailsSingleAvailability,
+  SingleAvailability,
   BookingAnchored,
   SingleContact,
   BookingDatePicker,
@@ -29,7 +29,7 @@ export {
   SingleBookingToggle,
   Header,
   Images,
-  // DetailsSingleLocation,
+  SingleLocation,
   Navbar,
   Overview,
   SingleOwner,

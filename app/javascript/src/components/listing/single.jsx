@@ -14,13 +14,13 @@ import ReactI18n from 'react-i18n';
 // -----------------------------------------------
 import {
   Amenities,
-  // DetailsSingleAvailability,
+  SingleAvailability,
   BookingAnchored,
   SingleBookingToggle,
   // DetailsSingleContact,
   Header,
   Images,
-  // DetailsSingleLocation,
+  SingleLocation,
   Navbar,
   Overview,
   SingleOwner,
@@ -358,20 +358,8 @@ class Single extends React.Component {
                 displayFormat={this.props.brand.date_format}
               />
             ) : null}
-          {/*
-
-             <DetailsSingleAvailability
-               availability_calendar={this.props.availability_calendar}
-               default_availability={this.props.default_availability_changeover}
-               booking_calendar={this.props.booking_calendar}
-               translate={translate}
-             />
-             <DetailsSingleLocation
-               google_maps_api_key={this.props.google_maps_api_key}
-               locationPlace={this.props.location_place}
-               translate={translate}
-             />
-             */}
+            <SingleAvailability />
+            <SingleLocation />
            </figure>
         </section>
       </div>

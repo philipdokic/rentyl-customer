@@ -1,25 +1,31 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import { isInclusivelyAfterDay, isInclusivelyBeforeDay } from 'react-dates';
 import { Calendar } from 'react-calendar';
+import { connect } from 'react-redux';
+import { isInclusivelyAfterDay, isInclusivelyBeforeDay } from 'react-dates';
+import moment from 'moment';
+import ReactI18n from 'react-i18n';
 
-export default class DetailsSingleAvailability extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+// -----------------------------------------------
+// COMPONENT->AVAILABILITY -----------------------
+// -----------------------------------------------
+class SingleAvailability extends React.Component {
 
+  // UnTruncate
+  // ---------------------------------------------
   unTruncate = e => {
     e.preventDefault();
     $(this.truncated).removeClass('truncated');
     $(e.target).remove();
   };
 
+  // Create Unavailable Dates
+  // ---------------------------------------------
   createUnavailableDates = () => {
     const startDate = moment();
     const endDate = moment().add(23, 'months');
+
     let iterator = startDate.clone();
     let mods = [
       {
@@ -28,8 +34,10 @@ export default class DetailsSingleAvailability extends React.Component {
         component: ['day']
       }
     ];
+
     while (isInclusivelyBeforeDay(iterator, endDate)) {
       const dailyAvailability = this.getDailyAvailability(iterator);
+
       if (dailyAvailability === false) {
         mods.push({
           date: iterator.clone(),
@@ -54,11 +62,15 @@ export default class DetailsSingleAvailability extends React.Component {
     return mods;
   };
 
+  // Get Daily Availability
+  // ---------------------------------------------
   getDailyAvailability = day => {
     const dayOfWeek = day.day();
     const key = day.format('DD-MM-YYYY');
-    if (this.props.booking_calendar.hasOwnProperty(key)) {
-      const keyDate = this.props.booking_calendar[key];
+
+    if (this.props.listing.booking_calendar.hasOwnProperty(key)) {
+      const keyDate = this.props.listing.booking_calendar[key];
+
       if (keyDate['status'] === undefined || keyDate['status'] === 'blocked') {
         return false;
       } else if (keyDate['status'] === 'check_in') {
@@ -70,10 +82,11 @@ export default class DetailsSingleAvailability extends React.Component {
       }
     } else {
       let availability = '';
-      if (this.props.availability_calendar.hasOwnProperty(key)) {
-        availability = this.props.availability_calendar[key].availability;
+
+      if (this.props.listing.availability_calendar.hasOwnProperty(key)) {
+        availability = this.props.listing.availability_calendar[key].availability;
       } else {
-        availability = this.props.default_availability[dayOfWeek].availability;
+        availability = this.props.listing.default_availability[dayOfWeek].availability;
       }
       return availability === 'available' || availability === 'inquiry'
         ? true
@@ -81,11 +94,14 @@ export default class DetailsSingleAvailability extends React.Component {
     }
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
     // Updates to the react-dates library have messed up this calendar
     // Leaving off the page until we get it fixed
     return null;
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section className="details-availability" id="details-availability">
         <header>
@@ -112,3 +128,15 @@ export default class DetailsSingleAvailability extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(SingleAvailability);
