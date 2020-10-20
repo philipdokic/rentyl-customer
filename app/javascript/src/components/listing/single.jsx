@@ -348,7 +348,7 @@ class Single extends React.Component {
             <Overview />
             {/* <Amenities /> */}
             <Summary />
-            <Rules pricing={this.state.pricing} />
+            {/* <Rules pricing={this.state.pricing} /> */}
             <div id='review-section'/>
             {this.props.property_manager && (
               <SingleOwner />
