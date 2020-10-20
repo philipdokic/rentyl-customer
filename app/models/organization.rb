@@ -15,5 +15,6 @@ class Organization < ApplicationRecord
 
   has_many :brands, dependent: :destroy
   has_many :employees, dependent: :destroy
+  has_one :location
 
 end

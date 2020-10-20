@@ -8,12 +8,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // -----------------------------------------------
 import Listing from './redux/containers/listing'
 import Listings from './redux/containers/listings'
-import Home from './components/Home'
+import Home from './components/home/home'
 import NoMatch from './components/NoMatch'
 
 // App
 // -----------------------------------------------
-const App = (props) => {
+const App = () => {
   return (
     <Switch>
       <Route path="/listings/search" component={Listings} />

@@ -12,5 +12,7 @@ class Location < ApplicationRecord
   # RELATIONS ------------------------------------
   # ----------------------------------------------
   belongs_to :locationable
+  belongs_to :brand
+  belongs_to :organization
 
 end
