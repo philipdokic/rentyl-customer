@@ -99,7 +99,7 @@ class SearchForm extends React.Component {
     });
   };
 
-  onDatesChange({ startDate, endDate }) {
+  onDatesChange = ({ startDate, endDate }) => {
     this.setState({ startDate, endDate });
   }
 

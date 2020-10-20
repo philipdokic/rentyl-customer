@@ -51,7 +51,6 @@ const CustomCalendarDay = (props, calendarDayStatus) => {
 // -----------------------------------------------
 const WidgetDatePickerContainer = (props) => {
   const calendarDayStatus = props.calendarDayStatus;
-
   return (
     <DefaultRangePicker
       label={props.label}

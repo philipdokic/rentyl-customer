@@ -9,7 +9,7 @@ import Sticky from 'react-stickynode';
 
 // Components
 // -----------------------------------------------
-// import DefaultRangePicker from '../../date-picker/default-range-picker';
+import DefaultRangePicker from '../../date-picker/default-range-picker';
 
 // -----------------------------------------------
 // COMPONENT->MULTI-DATES-GUESTS -----------------
@@ -66,14 +66,14 @@ class MultiDatesGuests extends React.Component {
               <label>
                 <span>{translate(`cx.search.filter.dates`)}</span>
               </label>
-              {/* <DefaultRangePicker
+              <DefaultRangePicker
                 startPlaceholder={translate(`cx.global.check_in`)}
                 endPlaceholder={translate(`cx.global.check_out`)}
                 onDatesSet={this.onDatesChange}
                 isOutsideRange={this.isOutsideRange}
                 displayFormat={this.props.brand.displayFormat}
                 readOnly
-              /> */}
+              />
             </div>
             <div className="details-multi-guests">
               <label>

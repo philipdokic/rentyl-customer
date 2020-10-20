@@ -96,6 +96,7 @@ export default class DefaultRangePicker extends React.Component {
 }
 
 DefaultRangePicker.defaultProps = {
+  onDatesSet: () => false,
   isOutsideRange: () => false,
   isDayBlocked: () => false,
   startPlaceholder: 'Start',
