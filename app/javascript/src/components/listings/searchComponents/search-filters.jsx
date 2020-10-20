@@ -3,7 +3,7 @@
 import React from 'react';
 import moment from 'moment';
 import { isInclusivelyAfterDay, isInclusivelyBeforeDay } from 'react-dates';
-import DefaultRangePicker from '../resources/DefaultRangePicker';
+import DefaultRangePicker from '../../date-picker/default-range-picker';
 import MediaQuery from 'react-responsive';
 import { Range } from 'rc-slider';
 import { get, times } from 'lodash';

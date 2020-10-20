@@ -11,37 +11,30 @@ import WidgetDatePickerContainer from './widget-date-picker-container';
 
 // Props
 // -----------------------------------------------
-type Props = {
-  organizationID: number,
-  unitID: number,
-  onDatesChange: () => void,
-  startDate: ?Date,
-  endDate: ?Date,
-  initialStartDate: ?Date,
-  initialEndDate: ?Date,
-  isOutsideRange: (date: moment) => boolean
-};
+// type Props = {
+//   organizationID: number,
+//   unitID: number,
+//   onDatesChange: () => void,
+//   startDate: ?Date,
+//   endDate: ?Date,
+//   initialStartDate: ?Date,
+//   initialEndDate: ?Date,
+//   isOutsideRange: (date: moment) => boolean
+// };
 
 // State
 // -----------------------------------------------
-type State = {
-  bookingCalendar: {}
-};
+// type State = {
+//   bookingCalendar: {}
+// };
 
 // -----------------------------------------------
 // COMPONENT->WIDGET-DATE-PICKER -----------------
 // -----------------------------------------------
-export default class WidgetDatePicker extends React.Component<Props, State> {
+export default class WidgetDatePicker extends React.Component {
 
-  // Constructor
-  // ---------------------------------------------
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      bookingCalendar: props.bookingCalendar || {}
-    };
-  }
+  state = {bookingCalendar: this.props.bookingCalendar || {}}
+  
 
   // Component Did Mount
   // ---------------------------------------------
@@ -65,7 +58,7 @@ export default class WidgetDatePicker extends React.Component<Props, State> {
 
   // Calendar Day Status
   // ---------------------------------------------
-  calendarDayStatus = (day: moment) => {
+  calendarDayStatus = (day = moment()) => {
     const key = day.format('DD-MM-YYYY');
     const keyDate = this.state.bookingCalendar[key];
 
@@ -89,7 +82,7 @@ export default class WidgetDatePicker extends React.Component<Props, State> {
 
   // Is Day Blocked
   // ---------------------------------------------
-  isDayBlocked = (day: moment) => {
+  isDayBlocked = (day = moment()) => {
     const status = this.calendarDayStatus(day);
 
     let blocked =

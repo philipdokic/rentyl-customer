@@ -21,7 +21,7 @@ import * as listingsAction from '../../redux/action/listings'
 // Components
 // -----------------------------------------------
 import AmenitiesList from './resources/amenities_list.json';
-import { initializeIntercom } from './resources/Intercom';
+import { initializeIntercom } from '../miscellaneous/Intercom';
 import {
   SearchInfo,
   SearchList,

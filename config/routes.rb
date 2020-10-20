@@ -10,5 +10,5 @@ Rails.application.routes.draw do
   resources :brands
   #resources :organizations
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  get '*path', to: 'organizations#index', via: :all #Comment this out to see routes
+  get '*path', to: 'organizations#index', via: :all #Comment this out to see routes in browser
 end

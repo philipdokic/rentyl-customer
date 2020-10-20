@@ -11,15 +11,15 @@ import { WidgetCalendarDay } from './widget-date-picker-styles';
 
 // Props
 // -----------------------------------------------
-type Props = {
-  startDate: ?Date,
-  endDate: ?Date,
-  onDatesChange: () => void,
-  isDayBlocked: (day: moment) => boolean,
-  calendarDayStatus: (day: moment) => string,
-  isOutsideRange: (day: moment) => boolean,
-  label: ?string
-};
+// type Props = {
+//   startDate: ?Date,
+//   endDate: ?Date,
+//   onDatesChange: () => void,
+//   isDayBlocked: (day: moment) => boolean,
+//   calendarDayStatus: (day: moment) => string,
+//   isOutsideRange: (day: moment) => boolean,
+//   label: ?string
+// };
 
 // Custom Calendar Day
 // -----------------------------------------------
@@ -49,9 +49,8 @@ const CustomCalendarDay = (props, calendarDayStatus) => {
 
 // Widget Date Picker Container
 // -----------------------------------------------
-const WidgetDatePickerContainer = (props: Props) => {
+const WidgetDatePickerContainer = (props) => {
   const calendarDayStatus = props.calendarDayStatus;
-
   return (
     <DefaultRangePicker
       label={props.label}

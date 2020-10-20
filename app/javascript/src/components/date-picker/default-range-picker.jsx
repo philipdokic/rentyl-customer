@@ -2,32 +2,10 @@
 // -----------------------------------------------
 import React from 'react';
 import { DateRangePicker } from 'react-dates';
+// import { OrganizationContext } from 'adminContexts';
 import get from 'lodash/get';
 
-// import { OrganizationContext } from 'adminContexts';
-
-// Props
-// -----------------------------------------------
-DefaultRangePicker.defaultProps = {
-  isOutsideRange: () => false,
-  isDayBlocked: () => false,
-  startPlaceholder: 'Start',
-  endPlaceholder: 'End',
-  numberOfMonths: 1,
-  minimumNights: 1,
-  renderUnsetLink: func => null,
-  readOnly: false
-};
-
-// DefaultRangePicker.contextType = OrganizationContext;
-
-// -----------------------------------------------
-// COMPONENT->DEFAULT-RANGE-PICKER ---------------
-// -----------------------------------------------
 export default class DefaultRangePicker extends React.Component {
-
-  // Constructor
-  // ---------------------------------------------
   constructor(props) {
     super(props);
 
@@ -38,8 +16,6 @@ export default class DefaultRangePicker extends React.Component {
     };
   }
 
-  // Component Will Receive Props
-  // ---------------------------------------------
   componentWillReceiveProps(nextProps) {
     const { startDateOverride, endDateOverride } = nextProps;
 
@@ -51,14 +27,10 @@ export default class DefaultRangePicker extends React.Component {
     });
   }
 
-  // On Dates Change
-  // ---------------------------------------------
   onDatesChange = ({ startDate, endDate }) => {
     this.setState({ startDate, endDate });
   };
 
-  // On Focus Change
-  // ---------------------------------------------
   onFocusChange = focusedInput => {
     this.setState({ focusedInput }, () => {
       if (
@@ -74,8 +46,6 @@ export default class DefaultRangePicker extends React.Component {
     });
   };
 
-  // On Dates Unset
-  // ---------------------------------------------
   onDatesUnset = () => {
     const data = { startDate: null, endDate: null };
 
@@ -84,14 +54,11 @@ export default class DefaultRangePicker extends React.Component {
     });
   };
 
-  // Render
-  // ---------------------------------------------
   render() {
     if ( !this.state.startDate && this.props.initialStartDate ){
       this.state.startDate = this.props.initialStartDate;
       this.state.endDate = this.props.initialEndDate;
     }
-
     return (
       <figure style={this.props.styles} className={this.props.containerClass}>
         {this.props.label && (
@@ -127,3 +94,17 @@ export default class DefaultRangePicker extends React.Component {
     );
   }
 }
+
+DefaultRangePicker.defaultProps = {
+  onDatesSet: () => false,
+  isOutsideRange: () => false,
+  isDayBlocked: () => false,
+  startPlaceholder: 'Start',
+  endPlaceholder: 'End',
+  numberOfMonths: 1,
+  minimumNights: 1,
+  renderUnsetLink: func => null,
+  readOnly: false
+};
+
+// DefaultRangePicker.contextType = OrganizationContext;
