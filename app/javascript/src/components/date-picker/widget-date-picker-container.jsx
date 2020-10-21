@@ -2,7 +2,7 @@
 // -----------------------------------------------
 import React from 'react';
 import { CalendarDay } from 'react-dates';
-import moment from 'moment';
+// import moment from 'moment';
 
 // Components
 // -----------------------------------------------

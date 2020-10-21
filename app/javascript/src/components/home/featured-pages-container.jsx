@@ -1,23 +1,30 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux'
+import ReactI18n from 'react-i18n';
+
+// Components
+// -----------------------------------------------
 import Link from '../links/link';
 
-export default class FeaturedPagesContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+// -----------------------------------------------
+// COMPONENT->FEATURED-PAGES-CONTAINER -----------
+// -----------------------------------------------
+class FeaturedPagesContainer extends React.Component {
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section className="home-section">
         <h2 className="text-center">
           {translate(`cx.global.page.featured.plural`)}
         </h2>
         <div className="featured-pages">
-          {this.props.featured_pages.map(page => (
+          {this.props.brand.featured_pages.map(page => (
             <figure className="featured-page">
               <Link to={page.url}>
                 {page.image ? (
@@ -41,3 +48,15 @@ export default class FeaturedPagesContainer extends React.Component {
     );
   }
 }
+
+// Map State to Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    brand: state.brand.id ? state.brand : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(FeaturedPagesContainer);

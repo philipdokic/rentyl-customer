@@ -34,7 +34,6 @@ import WidgetDatePickerContainer from './widget-date-picker-container';
 export default class WidgetDatePicker extends React.Component {
 
   state = {bookingCalendar: this.props.bookingCalendar || {}}
-  
 
   // Component Did Mount
   // ---------------------------------------------

@@ -1,14 +1,20 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux'
+import ReactI18n from 'react-i18n';
+
+// Components
+// -----------------------------------------------
 import Link from '../links/link';
 
-export default class FeaturedListingsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+// -----------------------------------------------
+// COMPONENT->FEATURED-LISTINGS-CONTAINER --------
+// -----------------------------------------------
+class FeaturedListingsContainer extends React.Component {
 
+  // Listing Image
+  // ---------------------------------------------
   listingImage = listing => {
     if (listing.image && listing.image.image.small) {
       return listing.image.image.small.url;
@@ -19,6 +25,8 @@ export default class FeaturedListingsContainer extends React.Component {
     }
   };
 
+  // Listing Address
+  // ---------------------------------------------
   listingAddress = listing => {
     return (
       <address>
@@ -27,8 +35,11 @@ export default class FeaturedListingsContainer extends React.Component {
     );
   };
 
+  // Listing Info
+  // ---------------------------------------------
   listingInfo = listing => {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section>
         <ul>
@@ -49,8 +60,11 @@ export default class FeaturedListingsContainer extends React.Component {
     );
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section className="home-section">
         <h2 className="text-center">
@@ -58,7 +72,7 @@ export default class FeaturedListingsContainer extends React.Component {
         </h2>
 
         <div className="featured-tiles">
-          {this.props.featured_listings.map(listing => (
+          {this.props.brand.featured_listings.map(listing => (
             <figure className="featured-tile">
               <Link to={`/listings/${listing.slug}`} target="_blank">
                 <div
@@ -95,3 +109,15 @@ export default class FeaturedListingsContainer extends React.Component {
     );
   }
 }
+
+// Map State to Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    brand: state.brand.id ? state.brand : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(FeaturedListingsContainer);

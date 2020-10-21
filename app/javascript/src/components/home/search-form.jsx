@@ -2,23 +2,29 @@
 // -----------------------------------------------
 import React from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux'
+import get from 'lodash/get';
+import { isInclusivelyAfterDay, isInclusivelyBeforeDay } from 'react-dates';
 import moment from 'moment';
-import { withRouter } from 'react-router-dom';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from 'react-places-autocomplete';
-import { isInclusivelyAfterDay, isInclusivelyBeforeDay } from 'react-dates';
 import Script from 'react-load-script';
 import Select from 'react-select';
-import get from 'lodash/get';
-// import { OrganizationContext } from 'adminContexts';
+import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
-import DefaultRangePicker from '../date-picker';
+import DefaultRangePicker from '../date-picker/default-range-picker';
 
+// -----------------------------------------------
+// COMPONENT->SEARCH-FORM ------------------------
+// -----------------------------------------------
 class SearchForm extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
     this.state = {
@@ -36,6 +42,8 @@ class SearchForm extends React.Component {
     this.onDatesChange = this.onDatesChange.bind(this);
   }
 
+  // Handle Search Change
+  // ---------------------------------------------
   handleSearchChange = address => {
     this.setState({ address });
     if (address.length > 3) {
@@ -45,13 +53,17 @@ class SearchForm extends React.Component {
     }
   };
 
+  // Search Events
+  // ---------------------------------------------
   searchEvents = query => {
     return axios.get(`/events/search?query=${query}`);
   };
 
+  // Check Required Search Fields
+  // ---------------------------------------------
   checkRequiredSearchFields = () => {
     if (
-      this.props.options.location_search === 'true' &&
+      this.props.brand.options.location_search === 'true' &&
       !(this.state.lat || this.state.lng || this.state.geoKeys)
     ) {
       this.props.setError(true);
@@ -61,6 +73,8 @@ class SearchForm extends React.Component {
     return true;
   };
 
+  // Go To Search
+  // ---------------------------------------------
   goToSearch = e => {
     e.preventDefault();
     if (!this.checkRequiredSearchFields()) return;
@@ -85,6 +99,8 @@ class SearchForm extends React.Component {
     this.props.history.push(searchLink);
   };
 
+  // Handle Map Script Error
+  // ---------------------------------------------
   handleMapScriptError = () => {
     this.setState({
       mapsLoaded: false,
@@ -92,6 +108,8 @@ class SearchForm extends React.Component {
     });
   };
 
+  // Handle Map Script Load
+  // ---------------------------------------------
   handleMapScriptLoad = () => {
     this.setState({
       mapsLoaded: true,
@@ -99,10 +117,14 @@ class SearchForm extends React.Component {
     });
   };
 
+  // On Dates Change
+  // ---------------------------------------------
   onDatesChange = ({ startDate, endDate }) => {
     this.setState({ startDate, endDate });
   }
 
+  // Is Outside Range
+  // ---------------------------------------------
   isOutsideRange = day => {
     const today = moment();
     const limitEnd = moment().add(3, 'years');
@@ -111,11 +133,15 @@ class SearchForm extends React.Component {
     return isBeforeToday || isAfterLimitEnd;
   };
 
+  // On Guest Change
+  // ---------------------------------------------
   onGuestsChange = e => {
     e.preventDefault();
     this.setState({ guests: e.target.value });
   };
 
+  // Handle Event Click
+  // ---------------------------------------------
   handleEventClick = (domEvent, event) => {
     this.setState({
       lat: event.lat,
@@ -126,11 +152,13 @@ class SearchForm extends React.Component {
     });
   };
 
+  // Render Search Field
+  // ---------------------------------------------
   renderSearchField = () => {
-    if (this.props.options.location_search !== 'true') return null;
+    if (this.props.brand.options.location_search !== 'true') return null;
     if (this.state.mapsLoading || !this.state.mapsLoaded) return null;
 
-    const searchType = this.props.options.location_search_type;
+    const searchType = this.props.brand.options.location_search_type;
 
     if (searchType === 'text_input') {
       return this.renderTextInputSearch();
@@ -140,10 +168,12 @@ class SearchForm extends React.Component {
     return null;
   };
 
+  // Render Text Input Search
+  // ---------------------------------------------
   renderTextInputSearch = () => {
     const inputProps = {
       placeholder:
-        this.props.organization_id == 5
+      this.props.brand.organization_id == 5
           ? 'Enter game or location'
           : 'All locations',
       className: 'location-search-input'
@@ -181,7 +211,10 @@ class SearchForm extends React.Component {
     );
   };
 
+  // Render Dropdown Search
+  // ---------------------------------------------
   renderDropdownSearch = () => {
+
     const dropdownTheme = theme => ({
       ...theme,
       borderRadius: 0,
@@ -206,7 +239,7 @@ class SearchForm extends React.Component {
     return (
       <Select
         name="city"
-        options={this.props.cities}
+        options={this.props.brand.cities}
         className="city-dropdown"
         isClearable={false}
         isSearchable={false}
@@ -218,6 +251,8 @@ class SearchForm extends React.Component {
     );
   };
 
+  // Handle Text Input Select
+  // ---------------------------------------------
   handleTextInputSelect = (address, placeId) => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
@@ -226,8 +261,10 @@ class SearchForm extends React.Component {
       });
   };
 
+  // Handle Dropdown Select
+  // ---------------------------------------------
   handleDropdownSelect = option => {
-    const searchType = this.props.options.location_search_type;
+    const searchType = this.props.brand.options.location_search_type;
 
     if (searchType === 'custom') {
       this.setState({ geoKeys: option.value });
@@ -241,6 +278,8 @@ class SearchForm extends React.Component {
     }
   };
 
+  // Render Event
+  // ---------------------------------------------
   renderEvent = event => (
     <div
       style={{ padding: '5px', zIndex: '5555' }}
@@ -251,7 +290,7 @@ class SearchForm extends React.Component {
         {moment
           .utc(event.start_date)
           .format(
-            get(this, 'props.displayFormat') === 'DD/MM/YYYY'
+            get(this, 'props.brand.date_format') === 'DD/MM/YYYY'
               ? 'Do MMM YY'
               : 'MMM Do YY'
           )}
@@ -259,17 +298,21 @@ class SearchForm extends React.Component {
     </div>
   );
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <figure
         className={`homepage-search-form ${
-          this.props.options.location_search === 'true' ? 'with-location' : ''
+          this.props.brand.options.location_search === 'true' ? 'with-location' : ''
         }`}
       >
+        {/* FIX: MOVE GOOGLE API SCRIPT TO TOP OF APP FOR ALL VIEWS */}
         <Script
           url={`https://maps.googleapis.com/maps/api/js?key=${
-            this.props.google_maps_api_key
+            this.props.brand.google_maps_api_key
           }&libraries=places`}
           onError={this.handleMapScriptError.bind(this)}
           onLoad={this.handleMapScriptLoad.bind(this)}
@@ -281,7 +324,7 @@ class SearchForm extends React.Component {
           onDatesSet={this.onDatesChange}
           isOutsideRange={this.isOutsideRange}
           styles={{ width: '100%' }}
-          displayFormat={this.props.displayFormat}
+          displayFormat={this.props.brand.date_format}
           startDateOverride={this.state.startDate}
           endDateOverride={this.state.endDate}
           readOnly
@@ -291,7 +334,7 @@ class SearchForm extends React.Component {
             value={this.state.guests}
             onChange={e => this.onGuestsChange(e)}
           >
-            {[...Array(this.props.maxGuests)].map((x, i) => (
+            {[...Array(this.props.brand.max_guests)].map((x, i) => (
               <option value={i + 1} key={i}>
                 {translate(
                   `global.parsers.num_guests.${i > 0 ? 'plural' : 'single'}`,
@@ -318,6 +361,14 @@ class SearchForm extends React.Component {
   }
 }
 
-export default withRouter(SearchForm);
+// Map State to Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    brand: state.brand.id ? state.brand : {}
+  };
+}
 
-// SearchForm.contextType = OrganizationContext;
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(SearchForm);

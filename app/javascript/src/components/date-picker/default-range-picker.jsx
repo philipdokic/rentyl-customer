@@ -2,10 +2,15 @@
 // -----------------------------------------------
 import React from 'react';
 import { DateRangePicker } from 'react-dates';
-// import { OrganizationContext } from 'adminContexts';
 import get from 'lodash/get';
 
+// -----------------------------------------------
+// COMPONENT->DEFAULT-RANGE-PICKER ---------------
+// -----------------------------------------------
 export default class DefaultRangePicker extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
 
@@ -16,6 +21,8 @@ export default class DefaultRangePicker extends React.Component {
     };
   }
 
+  // Component Will Receive Props
+  // ---------------------------------------------
   componentWillReceiveProps(nextProps) {
     const { startDateOverride, endDateOverride } = nextProps;
 
@@ -27,10 +34,14 @@ export default class DefaultRangePicker extends React.Component {
     });
   }
 
+  // On Dates Change
+  // ---------------------------------------------
   onDatesChange = ({ startDate, endDate }) => {
     this.setState({ startDate, endDate });
   };
 
+  // On Focus Change
+  // ---------------------------------------------
   onFocusChange = focusedInput => {
     this.setState({ focusedInput }, () => {
       if (
@@ -46,6 +57,8 @@ export default class DefaultRangePicker extends React.Component {
     });
   };
 
+  // On Date Unset
+  // ---------------------------------------------
   onDatesUnset = () => {
     const data = { startDate: null, endDate: null };
 
@@ -54,11 +67,14 @@ export default class DefaultRangePicker extends React.Component {
     });
   };
 
+  // Component Did Mount
+  // ---------------------------------------------
   render() {
     if ( !this.state.startDate && this.props.initialStartDate ){
       this.state.startDate = this.props.initialStartDate;
       this.state.endDate = this.props.initialEndDate;
     }
+
     return (
       <figure style={this.props.styles} className={this.props.containerClass}>
         {this.props.label && (
@@ -85,7 +101,7 @@ export default class DefaultRangePicker extends React.Component {
             displayFormat={
               this.props.displayFormat ||
               get(this, 'context.dateFormat', () => {})()
-            } // The only time displayFormat is passed in props is on the cx app. The admin app takes advantage of the OrganizationConext
+            }
             readOnly={this.props.readOnly}
           />
           {this.props.renderUnsetLink(this.onDatesUnset)}
@@ -95,6 +111,8 @@ export default class DefaultRangePicker extends React.Component {
   }
 }
 
+// Default Props
+// -----------------------------------------------
 DefaultRangePicker.defaultProps = {
   onDatesSet: () => false,
   isOutsideRange: () => false,
@@ -106,5 +124,3 @@ DefaultRangePicker.defaultProps = {
   renderUnsetLink: func => null,
   readOnly: false
 };
-
-// DefaultRangePicker.contextType = OrganizationContext;

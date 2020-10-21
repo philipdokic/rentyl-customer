@@ -8,7 +8,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // -----------------------------------------------
 import Listing from './redux/containers/listing'
 import Listings from './redux/containers/listings'
-import Home from './components/home/home'
+import Home from './components/home/index'
 import NoMatch from './components/NoMatch'
 
 // App
