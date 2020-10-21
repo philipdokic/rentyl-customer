@@ -30,9 +30,9 @@ import {
 } from './single/';
 
 // -----------------------------------------------
-// COMPONENT->SINGLE -----------------------------
+// COMPONENT->ROOM -------------------------------
 // -----------------------------------------------
-class Single extends React.Component {
+class Room extends React.Component {
 
   // Constructor
   // ---------------------------------------------
@@ -50,8 +50,8 @@ class Single extends React.Component {
       pricing: null,
       addonFeeIds: [],
       couponCode: '',
-      review_average: this.props.listing.review_average || 0,
-      reviews: this.props.listing.reviews.length || 0
+      review_average: this.props.review_average || 0,
+      reviews: this.props.reviews.length || 0
     };
   }
 
@@ -127,7 +127,7 @@ class Single extends React.Component {
   checkAvailability = () => {
     const queryInfo = this.parseQuery();
 
-    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/availability`, {
+    axios.get(`https://staging.getdirect.io/api/v2/listings/room/${this.props.listing.id}/availability`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
@@ -158,7 +158,7 @@ class Single extends React.Component {
   checkPricing = () => {
     const queryInfo = this.parseQuery();
 
-    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/pricing`, {
+    axios.get(`https://staging.getdirect.io/api/v2/listings/room/${this.props.listing.id}/pricing`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
@@ -263,7 +263,6 @@ class Single extends React.Component {
     } else {
       newArray = this.state.addonFeeIds.concat(feeId);
     }
-
     this.setState({ addonFeeIds: newArray }, this.checkPricing);
   };
 
@@ -362,7 +361,7 @@ class Single extends React.Component {
             ) : null}
             <SingleAvailability />
             <SingleLocation />
-           </figure>
+          </figure>
         </section>
       </div>
     );
@@ -380,4 +379,4 @@ function mapStateToProps(state) {
 
 // Export
 // -----------------------------------------------
-export default connect(mapStateToProps)(Single);
+export default connect(mapStateToProps)(Room);

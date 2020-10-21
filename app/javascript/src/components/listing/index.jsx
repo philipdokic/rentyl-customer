@@ -13,7 +13,7 @@ import * as listingAction from '../../redux/action/listing'
 // Components
 // -----------------------------------------------
 import Multi from './multi';
-//import DetailsRoom from './details-room';
+import DetailsRoom from './room';
 import Single from './single';
 
 // -----------------------------------------------
@@ -21,6 +21,8 @@ import Single from './single';
 // -----------------------------------------------
 class Listing extends React.Component {
 
+  // Component Did Mount
+  // ---------------------------------------------
   componentDidMount() {
     this.fetchListingData(this.props);
     document.body.classList.add('listings-view');
@@ -29,15 +31,8 @@ class Listing extends React.Component {
     document.body.classList.remove('search-view');
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (
-  //     get(this, 'props.match.params.listing_slug') !==
-  //     get(nextProps, 'match.params.listing_slug')
-  //   ) {
-  //     this.fetchListingData(nextProps);
-  //   }
-  // }
-
+  // Fetch Listing Data
+  // ---------------------------------------------
   fetchListingData = props => {
     axios.get(`/api/listings/${get(props, 'match.params.listing_slug')}`, {
       headers: {'Content-Type': 'application/json'}
@@ -50,14 +45,16 @@ class Listing extends React.Component {
     })
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
     if (this.props.listing.room_type) {
-      return "" //<DetailsRoom />; // {...this.state} {...this.props}
+      return <DetailsRoom />;
     } else if (this.props.listing.multi_unit) {
-      return <Multi />; // {...this.state} {...this.props}
+      return <Multi />;
     } else
     if (this.props.listing.room_type === false && this.props.listing.multi_unit === false) {
-      return <Single />; // {...this.state} {...this.props}
+      return <Single />;
     } else {
       return <div style={{ minHeight: '75vh' }} />;
     }

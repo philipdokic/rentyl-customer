@@ -10,11 +10,11 @@ class Api::ListingsController < ApplicationController
   # ----------------------------------------------
   # INDEX ----------------------------------------
   # ----------------------------------------------
-  # def index
-  #   @brand = Brand.find(params[:brand])
-  #   @listings = @brand.unit_listings.includes(:property)
-  #   render json: @listings
-  # end
+  def index
+    @brand = Brand.find(params[:brand])
+    @listings = @brand.unit_listings.includes(:property)
+    render json: @listings
+  end
 
   # ----------------------------------------------
   # SHOW -----------------------------------------
