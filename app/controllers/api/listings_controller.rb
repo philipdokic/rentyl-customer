@@ -20,7 +20,7 @@ class Api::ListingsController < ApplicationController
   # SHOW -----------------------------------------
   # ----------------------------------------------
   def show
-    listing = UnitListing.where(slug: 'belmont-chalet').includes({ property: [:location] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_pricing] }).first
+    listing = UnitListing.where(slug: params[:id]).includes({ property: [:location] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_pricing] }).first
     render json: {
       id: listing.id,
       currency: listing.currency,
