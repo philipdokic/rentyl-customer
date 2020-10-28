@@ -21,7 +21,7 @@ class Api::PropertiesController < ApplicationController
 
 private
   def search_service
-    @search_service ||= CxApiService::Search::CxProperties.new(
+    @search_service ||= Search::Properties.new(
         params,
         grab_brand
       )
@@ -31,5 +31,5 @@ private
     request_host = request.host
     domain = Domain.find_by(url: request_host)
     @brand = domain.brand
-  end 
+  end
 end
