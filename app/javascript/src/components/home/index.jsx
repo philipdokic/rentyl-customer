@@ -13,7 +13,7 @@ import ContactForm from '../contact-form/default-form';
 import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
-import { initializeIntercom } from '../miscellaneous/intercom';
+import { Intercom } from '../miscellaneous/';
 
 // Redux
 // -----------------------------------------------
@@ -27,7 +27,7 @@ class Home extends React.Component {
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
-    initializeIntercom(this.props.intercom_id);
+    Intercom(this.props.intercom_id);
     document.body.classList.add('home-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('listings-view');

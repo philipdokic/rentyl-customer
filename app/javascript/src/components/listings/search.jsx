@@ -21,7 +21,7 @@ import * as listingsAction from '../../redux/action/listings'
 // Components
 // -----------------------------------------------
 import AmenitiesList from './resources/amenities_list.json';
-import { initializeIntercom } from '../miscellaneous/intercom';
+import { Intercom } from '../miscellaneous/';
 import {
   SearchInfo,
   SearchList,
@@ -103,7 +103,7 @@ export default class ThemeDefaultSearch extends React.Component {
     this.handleBrowserState();
     window.onpopstate = this.handleBrowserState;
     this.fetchListingsData(this.props);
-    initializeIntercom(this.props.intercom_id);
+    Intercom(this.props.intercom_id);
     document.body.classList.add('search-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('home-view');

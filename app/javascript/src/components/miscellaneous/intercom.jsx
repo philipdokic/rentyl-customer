@@ -1,4 +1,4 @@
-export const initializeIntercom = APP_ID => {
+export const Intercom = APP_ID => {
   if (APP_ID && !window.Intercom) {
     window.intercomSettings = {
       app_id: APP_ID
