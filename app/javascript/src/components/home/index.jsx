@@ -9,11 +9,11 @@ import { Helmet } from 'react-helmet';
 
 // Components
 // -----------------------------------------------
-// import { ContactForm } from 'cxThemeComponents';
+import ContactForm from '../contact-form/default-form';
 import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
-import { initializeIntercom } from '../miscellaneous/Intercom';
+import { initializeIntercom } from '../miscellaneous/intercom';
 
 // Redux
 // -----------------------------------------------

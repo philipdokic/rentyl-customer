@@ -14,16 +14,16 @@ import ReactI18n from 'react-i18n';
 // -----------------------------------------------
 import {
   Amenities,
-  SingleAvailability,
+  Availability,
   BookingAnchored,
-  SingleBookingToggle,
-  // DetailsSingleContact,
+  BookingToggle,
+  Contact,
   Header,
   Images,
-  SingleLocation,
+  Location,
   Navbar,
   Overview,
-  SingleOwner,
+  Owner,
   ReviewList,
   Rules,
   Summary
@@ -331,7 +331,7 @@ class Single extends React.Component {
             updateQuantityFee={this.updateQuantityFees}
             addCouponCode={this.addCouponCode}
           />
-          <SingleBookingToggle
+          <BookingToggle
             addonFeeIds={this.state.addonFeeIds}
             availability={this.state.availability}
             checkInDate={this.state.checkInDate}
@@ -353,15 +353,15 @@ class Single extends React.Component {
             {/* <Rules pricing={this.state.pricing} /> */}
             <div id='review-section'/>
             {this.props.property_manager && (
-              <SingleOwner />
+              <Owner />
             )}
             {this.props.listing.reviews && this.props.listing.reviews.length > 0 ? (
               <ReviewList
                 displayFormat={this.props.brand.date_format}
               />
             ) : null}
-            <SingleAvailability />
-            <SingleLocation />
+            <Availability />
+            <Location />
            </figure>
         </section>
       </div>

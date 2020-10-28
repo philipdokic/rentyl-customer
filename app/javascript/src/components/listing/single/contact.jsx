@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 
 // Components
 // -----------------------------------------------
-//import ContactForm from 'cxThemeComponents/contact-form';
+import ContactForm from '../../contact-form/default-form';
 
 // -----------------------------------------------
-// COMPONENT->SINGLE-CONTACT ------------------
+// COMPONENT->CONTACT ----------------------------
 // -----------------------------------------------
-class SingleContact extends React.Component {
+class Contact extends React.Component {
 
   // Render
   // ---------------------------------------------
@@ -19,8 +19,7 @@ class SingleContact extends React.Component {
       <section id="details-contact">
         <main>
           <div>
-            !!! Add Contact Form !!!
-            {/* <ContactForm {...this.props} subject="Property Inquiry" /> */}
+            <ContactForm {...this.props} subject="Property Inquiry" />
           </div>
         </main>
       </section>
@@ -39,4 +38,4 @@ function mapStateToProps(state) {
 
 // Export
 // -----------------------------------------------
-export default connect(mapStateToProps)(SingleContact);
+export default connect(mapStateToProps)(Contact);

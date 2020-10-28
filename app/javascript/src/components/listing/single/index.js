@@ -1,38 +1,38 @@
 import Amenities from './amenities';
-import SingleAvailability from './availability';
+import Availability from './availability';
 import BookingAnchored from './booking-anchored';
-import SingleContact from './contact';
+import Contact from './contact';
 import BookingDatePicker from './booking-date-picker';
 import BookingErrors from './booking-errors';
 import BookingHeader from './booking-header';
 // import DetailsBookingNumGuests from './details-booking-num-guests';
-import SingleBookingToggle from './booking-toggle';
+import BookingToggle from './booking-toggle';
 import Header from './header';
 import Images from './images';
-import SingleLocation from './location';
+import Location from './location';
 import Navbar from './navbar';
 import Overview from './overview';
-import SingleOwner from './owner';
+import Owner from './owner';
 import Rules from './rules';
 import Summary from './summary';
 import ReviewList from './review-list';
 
 export {
   Amenities,
-  SingleAvailability,
+  Availability,
   BookingAnchored,
-  SingleContact,
+  Contact,
   BookingDatePicker,
   // DetailsBookingErrors,
   BookingHeader,
   // DetailsBookingNumGuests,
-  SingleBookingToggle,
+  BookingToggle,
   Header,
   Images,
-  SingleLocation,
+  Location,
   Navbar,
   Overview,
-  SingleOwner,
+  Owner,
   Rules,
   Summary,
   ReviewList
