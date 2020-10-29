@@ -2,7 +2,7 @@
 # RUBY->CONTROLLER->ORGANIZATIONS ================
 # ================================================
 class Api::OrganizationsController < ApplicationController
-  before_action :grab_brand
+
   # ==============================================
   # ACTIONS ======================================
   # ==============================================
@@ -50,12 +50,7 @@ class Api::OrganizationsController < ApplicationController
 
   private
 
-  def grab_brand
-    request_host = request.host
-    domain = Domain.find_by(url: request_host)
-    @brand = domain.brand
-  end 
-
+  # TODO: refactor
   def build_featured_listing_models
     featured_listings = @brand.unit_listings.where(featured: true)
     featured_listings_info = []

@@ -1,6 +1,22 @@
+# ================================================
+# RUBY->MODEL->BRAND-INFO ========================
+# ================================================
 class BrandInfo < ApplicationRecord
-    connects_to database: { writing: :direct, reading: :direct_replica }
+
+  # ----------------------------------------------
+  # DATABASE -------------------------------------
+  # ----------------------------------------------
+  connects_to database: { writing: :direct, reading: :direct_replica }
+
+  # ----------------------------------------------
+  # RELATIONS ------------------------------------
+  # ----------------------------------------------
   belongs_to :brand
   belongs_to :organization
+
+  # ----------------------------------------------
+  # ENUMS/CONSTANTS ------------------------------
+  # ----------------------------------------------
+  enum theme: [ :default, :default_mixed, :default_single_property ]
 
 end

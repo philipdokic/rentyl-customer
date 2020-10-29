@@ -9,7 +9,7 @@
 
 
     <%= stylesheet_link_tag 'https://cxstaging.getdirect.io/assets/cx-3245ddcdd2615848279ba79fe9b215ca194d4f4d0af5437114944d8501f6ed2f.css' %>
-    <%= stylesheet_link_tag 'https://cxstaging.getdirect.io/assets/theme-default_mixed-90e887f95e6f7659a1e37d449ce79032f2c3f2246ef8ae1f47682ab0d0e47f1f.css' %>
+    <%= stylesheet_link_tag 'https://cxstaging.getdirect.io/assets/theme-default_mixed-90e887f95e6f7659a1e37d449ce79032f2c3f2246ef8ae1f47682ab0d0e47f1f.css' %> <!-- Default layout styles, move to React -->
 
 </head>
 
@@ -20,9 +20,9 @@
 
   <%= javascript_include_tag('application', defer: true) %>
   <script type="text/javascript" defer>
-      I18n.defaultLocale = "<%= I18n.default_locale %>";
-      I18n.locale = "<%= I18n.locale %>";
-    </script>
+    I18n.defaultLocale = "<%= I18n.default_locale %>";
+    I18n.locale = "<%= I18n.locale %>";
+  </script>
   <%= javascript_pack_tag('index', defer: true) %>
 </body>
 </html>
