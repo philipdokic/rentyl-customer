@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>WhiteLabelTest</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>WhiteLabelTest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
 
 
-    <%= stylesheet_link_tag 'https://cxstaging.getdirect.io/assets/cx-3245ddcdd2615848279ba79fe9b215ca194d4f4d0af5437114944d8501f6ed2f.css' %>
-    <%= stylesheet_link_tag 'https://cxstaging.getdirect.io/assets/theme-default_mixed-90e887f95e6f7659a1e37d449ce79032f2c3f2246ef8ae1f47682ab0d0e47f1f.css' %> <!-- Default layout styles, move to React -->
+  <%= stylesheet_link_tag 'https://cxstaging.getdirect.io/assets/cx-3245ddcdd2615848279ba79fe9b215ca194d4f4d0af5437114944d8501f6ed2f.css' %>
+
+  <% if @brand.brand_info.bootstrap4? %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <% end %>
+
+  <%= stylesheet_link_tag 'https://cxstaging.getdirect.io/assets/theme-default_mixed-90e887f95e6f7659a1e37d449ce79032f2c3f2246ef8ae1f47682ab0d0e47f1f.css' %> <!-- Default layout styles, move to React -->
+  <!-- %= stylesheet_link_tag 'theme-'+@brand.brand_info.theme, media: 'all' %> -->
+
+  <%= render "layouts/components/brand_style" %>
 
 </head>
 

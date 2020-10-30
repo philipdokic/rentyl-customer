@@ -11,7 +11,13 @@ class Api::OrganizationsController < ApplicationController
   # INDEX ----------------------------------------
   # ----------------------------------------------
   def index
-    render json: @brand
+    render json: {
+      brand: @brand,
+      brand_info: @brand.brand_info,
+      contact: @brand.brand_info.contact,
+      header: @brand.brand_header,
+      menu: menu_data
+    }
   end
 
   def show
@@ -88,8 +94,8 @@ class Api::OrganizationsController < ApplicationController
   end
 
   def menu_data
-  menu = @brand.menus.find_or_create_by(menu_type: 0, active: true)
-     {
+    menu = @brand.menus.find_or_create_by(menu_type: 0, active: true)
+    {
       id: menu.id,
       type: menu.menu_type,
       active: menu.active,
