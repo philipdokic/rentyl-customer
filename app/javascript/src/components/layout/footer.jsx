@@ -41,68 +41,68 @@ class Footer extends React.Component {
 
     return this.shouldHideFooter() ? null : (
       <footer className="site-footer">
-        {get(this, 'props.footer.custom_html') ? (
+        {get(this, 'props.brand.footer.custom_html') ? (
           <Container>
             <div
               dangerouslySetInnerHTML={{
-                __html: this.props.footer.custom_html
+                __html: this.props.brand.footer.custom_html
               }}
             />
           </Container>
         ) : (
           <div className="site-footer-content">
             <FooterLinks
-              sections={_get(this, 'props.footer.sections')}
+              sections={_get(this, 'props.brand.footer.sections')}
             />
             <section>
-              {this.props.contact ? (
+              {this.props.brand.contact ? (
                 <figure className="footer-contact">
-                  {this.props.contact.email ? (
+                  {this.props.brand.contact.email ? (
                     <div>
                       {translate(`global.actions.email`)}:{' '}
-                      <Link to={`mailto:${this.props.contact.email}`}>
-                        {this.props.contact.email}
+                      <Link to={`mailto:${this.props.brand.contact.email}`}>
+                        {this.props.brand.contact.email}
                       </Link>
                     </div>
                   ) : null}
-                  {this.props.contact.phone_primary &&
-                  this.props.contact.phone_primary.label &&
-                  this.props.contact.phone_primary.number ? (
+                  {this.props.brand.contact.phone_primary &&
+                  this.props.brand.contact.phone_primary.label &&
+                  this.props.brand.contact.phone_primary.number ? (
                     <div>
-                      {this.props.contact.phone_primary.label}:{' '}
+                      {this.props.brand.contact.phone_primary.label}:{' '}
                       <Link
-                        to={`tel:${this.props.contact.phone_primary.number.replace(
+                        to={`tel:${this.props.brand.contact.phone_primary.number.replace(
                           /[^0-9]/,
                           ''
                         )}`}
                       >
-                        {this.props.contact.phone_primary.number}
+                        {this.props.brand.contact.phone_primary.number}
                       </Link>
                     </div>
                   ) : null}
-                  {this.props.contact.phone_secondary &&
-                  this.props.contact.phone_secondary.label &&
-                  this.props.contact.phone_secondary.number ? (
+                  {this.props.brand.contact.phone_secondary &&
+                  this.props.brand.contact.phone_secondary.label &&
+                  this.props.brand.contact.phone_secondary.number ? (
                     <div>
-                      {this.props.contact.phone_secondary.label}:{' '}
+                      {this.props.brand.contact.phone_secondary.label}:{' '}
                       <Link
-                        to={`tel:${this.props.contact.phone_secondary.number.replace(
+                        to={`tel:${this.props.brand.contact.phone_secondary.number.replace(
                           /[^0-9]/,
                           ''
                         )}`}
                       >
-                        {this.props.contact.phone_secondary.number}
+                        {this.props.brand.contact.phone_secondary.number}
                       </Link>
                     </div>
                   ) : null}
                 </figure>
               ) : null}
-              {this.props.social ? (
+              {this.props.brand.social ? (
                 <figure className="footer-social">
-                  {this.props.social.social_facebook ? (
+                  {this.props.brand.social.social_facebook ? (
                     <Link
                       target="_blank"
-                      to={`http://${this.props.social.social_facebook}`}
+                      to={`http://${this.props.brand.social.social_facebook}`}
                       title={`${this.props.brand.name} on ${translate(
                         `cx.global.social.facebook`
                       )}`}
@@ -110,10 +110,10 @@ class Footer extends React.Component {
                       <i className="icon icon-facebook" />
                     </Link>
                   ) : null}
-                  {this.props.social.social_twitter ? (
+                  {this.props.brand.social.social_twitter ? (
                     <Link
                       target="_blank"
-                      to={`http://${this.props.social.social_twitter}`}
+                      to={`http://${this.props.brand.social.social_twitter}`}
                       title={`${this.props.brand.name} on ${translate(
                         `cx.global.social.twitter`
                       )}`}
@@ -121,10 +121,10 @@ class Footer extends React.Component {
                       <i className="icon icon-twitter" />
                     </Link>
                   ) : null}
-                  {this.props.social.social_instagram ? (
+                  {this.props.brand.social.social_instagram ? (
                     <Link
                       target="_blank"
-                      to={`http://${this.props.social.social_instagram}`}
+                      to={`http://${this.props.brand.social.social_instagram}`}
                       title={`${this.props.brand.name} on ${translate(
                         `cx.global.social.instagram`
                       )}`}
@@ -132,10 +132,10 @@ class Footer extends React.Component {
                       <i className="icon icon-instagram" />
                     </Link>
                   ) : null}
-                  {this.props.social.social_pinterest ? (
+                  {this.props.brand.social.social_pinterest ? (
                     <Link
                       target="_blank"
-                      to={`http://${this.props.social.social_pinterest}`}
+                      to={`http://${this.props.brand.social.social_pinterest}`}
                       title={`${this.props.brand.name} on ${translate(
                         `cx.global.social.pinterest`
                       )}`}
@@ -143,11 +143,11 @@ class Footer extends React.Component {
                       <i className="icon icon-pinterest" />
                     </Link>
                   ) : null}
-                  {this.props.social.social_snapchat ? (
+                  {this.props.brand.social.social_snapchat ? (
                     <Link
                       target="_blank"
                       to={`http://www.snapchat.com/add/${
-                        this.props.social.social_snapchat
+                        this.props.brand.social.social_snapchat
                       }`}
                       title={`${this.props.brand.name} on ${translate(
                         `cx.global.social.snapchat`
@@ -158,11 +158,11 @@ class Footer extends React.Component {
                   ) : null}
                 </figure>
               ) : null}
-              {_get(this, 'props.footer.credit_cards') ? (
+              {_get(this, 'props.brand.footer.credit_cards') ? (
                 <figure className="footer-cards">
-                  {Object.keys(_get(this, 'props.footer.credit_cards'))
+                  {Object.keys(_get(this, 'props.brand.footer.credit_cards'))
                     .filter(card =>
-                      _get(this, `props.footer.credit_cards.${card}`, {})
+                      _get(this, `props.brand.footer.credit_cards.${card}`, {})
                     )
                     .map(card => (
                       <i

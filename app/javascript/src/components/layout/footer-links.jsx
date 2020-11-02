@@ -42,9 +42,10 @@ class FooterLinks extends React.Component {
           {this.props.brand.brand_info.copyright != ''
             ? this.props.brand.brand_info.copyright
             : translate(`cx.global.colophon`, {
-                brand: this.props.brand.name,
-                year: moment().format('YYYY')
-              })}
+              brand: this.props.brand.name,
+              year: moment().format('YYYY')
+            })
+          }
         </li> */}
       </ul>
     );
