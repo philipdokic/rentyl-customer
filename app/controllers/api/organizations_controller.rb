@@ -20,6 +20,9 @@ class Api::OrganizationsController < ApplicationController
     }
   end
 
+  # ----------------------------------------------
+  # SHOW -----------------------------------------
+  # ----------------------------------------------
   def show
     build_featured_listing_models
     @homepage = @brand.brand_home_page
@@ -54,8 +57,14 @@ class Api::OrganizationsController < ApplicationController
   }
   end
 
+  # ==============================================
+  # PRIVATE ======================================
+  # ==============================================
   private
 
+  # ----------------------------------------------
+  # BUILD-FEATURED-LISTING-MODELS ----------------
+  # ----------------------------------------------
   # TODO: refactor
   def build_featured_listing_models
     featured_listings = @brand.unit_listings.where(featured: true)
@@ -93,6 +102,9 @@ class Api::OrganizationsController < ApplicationController
     @featured_listings = featured_listings_info
   end
 
+  # ----------------------------------------------
+  # MENU-DATA ------------------------------------
+  # ----------------------------------------------
   def menu_data
     menu = @brand.menus.find_or_create_by(menu_type: 0, active: true)
     {

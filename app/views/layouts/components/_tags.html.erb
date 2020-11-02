@@ -1,0 +1,59 @@
+<title><%= @brand.name %></title><!-- FIX: make dynamic -->
+
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+
+<!-- Format -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="robots" content="index,follow">
+<meta name="googlebot" content="index,follow">
+<link rel="canonical" href="<%= request.original_url %>" />
+<link rel="index" href="/" title="<%= @brand.name %>">
+
+<!-- Information -->
+<meta name="description" content="<%= @brand.description %>"><!-- FIX: make dynamic -->
+<meta name="subject" content="<%= @brand.name %>"><!-- FIX: make dynamic -->
+<meta name="abstract" content="<%= @brand.name %>"><!-- FIX: make dynamic -->
+<meta name="topic" content="<%= @brand.name %>"><!-- FIX: make dynamic -->
+<meta name="classification" content="business">
+<meta name="coverage" content="Worldwide">
+<meta name="distribution" content="Global">
+<meta itemprop="name" content="<%= @brand.name %>"><!-- FIX: make dynamic -->
+<meta itemprop="description" content="<%= @brand.description %>"><!-- FIX: make dynamic -->
+<!--<meta itemprop="image" content="<= @brand.image.url %>">-->
+
+<!-- Google -->
+<% unless @brand.brand_info.google_verification.blank? %>
+  <meta name="google-site-verification" content="<%= @brand.brand_info.google_verification %>" />
+<% end %>
+
+<!-- Facebook -->
+<meta property="og:url" content="<%= request.original_url %>">
+<meta property="og:type" content="website">
+<meta property="og:title" content="<%= @brand.name %>">
+<!--<meta property="og:image" content="<= @brand.image.url %>">-->
+<meta property="og:description" content="<%= @brand.description %>">
+<meta property="og:site_name" content="<%= @brand.name %>">
+
+<!-- Twitter -->
+<% if @brand.brand_info.social[:social_twitter].present? %>
+  <meta name="twitter:card" content="<%= @brand.name %>">
+  <meta name="twitter:site" content="<%= @brand.brand_info.social[:social_twitter] %>">
+  <meta name="twitter:title" content="<%= @brand.name %>">
+  <meta name="twitter:description" content="<%= @brand.description %>">
+  <!--<meta name="twitter:image" content="<= @brand.image.url %>">-->
+<% end %>
+
+<!-- Favicon -->
+<% if @brand.brand_info.favicon_image.present? %>
+  <!--
+  <link rel="icon" href="<= @brand.brand_info.favicon_image.tiny.url %>" sizes="16x16" type="image/png">
+  <link rel="icon" href="<= @brand.brand_info.favicon_image.small.url %>" sizes="32x32" type="image/png">
+  <link rel="icon" href="<= @brand.brand_info.favicon_image.medium.url %>" sizes="48x48" type="image/png">
+  <link rel="icon" href="<= @brand.brand_info.favicon_image.url %>" sizes="62x62" type="image/png">
+  <link rel="icon" href="<= @brand.brand_info.favicon_image.large.url %>" sizes="192x192" type="image/png">
+  -->
+<% end %>

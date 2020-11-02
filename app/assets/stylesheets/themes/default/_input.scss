@@ -1,0 +1,195 @@
+@import 'themes/default/vars';
+label {
+  font-size: $em-s;
+  font-weight: 500;
+}
+input,
+input[type='date'],
+input[type='datetime'],
+input[type='email'],
+input[type='number'],
+input[type='password'],
+input[type='tel'],
+input[type='text'],
+input[type='time'],
+input[type='url'],
+select,
+textarea {
+  @include placeholder-text {
+    color: $color-light-gray;
+  }
+  background: $color-white;
+  border: 1px solid $color-light-gray;
+  border-radius: 1px;
+  color: $color-darker-gray;
+  display: block;
+  font-size: $em;
+  line-height: 1.44;
+  margin-bottom: $em;
+  outline: none;
+  padding: $em-s;
+  transition: border-color $transition-short;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  &:focus {
+    outline: none;
+  }
+  &.invalid-field {
+    border-color: $color-red;
+  }
+}
+.select-wrapper {
+  position: relative;
+  &:before {
+    content: '';
+    cursor: pointer;
+    display: block;
+    border-left: $em-xxs solid transparent;
+    border-right: $em-xxs solid transparent;
+    border-top: $em-xxs solid $color-darker-gray;
+    bottom: $em;
+    height: 0;
+    right: $em-xs;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+  }
+}
+select {
+  background: $color-white;
+  border-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1px;
+  color: #757575;
+  cursor: pointer;
+  font-size: $em;
+  font-weight: 300;
+  outline: none;
+  padding: $em-xs;
+  transition: all $transition-short;
+  -webkit-appearance: none;
+  width: 100%;
+  &:hover {
+    box-shadow: $shadow-standard;
+  }
+  &:hover,
+  &:focus {
+    color: $color-darker-gray;
+  }
+}
+
+.indicator-toggle-link {
+  @include align-items(center);
+  @include flex-direction(row);
+  @include justify-content(flex-start);
+  border: none;
+  color: $color-dark-gray;
+  display: flex;
+  font-size: $em-s;
+}
+.indicator-toggle {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  display: block;
+  height: 24px;
+  margin-right: $em-xs;
+  position: relative;
+  width: 37px;
+  &:after {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    content: '';
+    display: block;
+    height: 16px;
+    left: 4px;
+    position: absolute;
+    top: 4px;
+    transition: all $transition-short;
+    width: 16px;
+  }
+  &:before {
+    background: $color-white;
+    border-radius: 10px;
+    content: '';
+    display: block;
+    height: 20px;
+    left: 2px;
+    position: absolute;
+    margin-right: $em-xs;
+    top: 2px;
+    transition: all $transition-short;
+    width: 33px;
+  }
+  &.toggled-true {
+    &:after {
+      background: $color-white;
+      left: 16px;
+    }
+    &:before {
+      background: $color-green-blue;
+    }
+  }
+}
+
+.checkbox {
+  padding: $em $em-s;
+  input[type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+  }
+  label {
+    @include align-items(center);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    position: relative;
+    &:after {
+      color: $color-green-blue;
+      content: "";
+      display: block;
+      font-size: $em-xl;
+      left: 2px;
+      position: absolute;
+      top: -10px;
+    }
+    &:before {
+      background: $color-white;
+      border: 2px solid $color-light-gray;
+      content: "";
+      display: block;
+      height: $em;
+      left: 2px;
+      position: absolute;
+      transition: border-color $transition-short;
+      width: $em;
+      top: 2px;
+    }
+    &:hover {
+      &:before {
+        border-color: $color-aqua-blue;
+      }
+    }
+    span {
+      color: $color-darker-gray;
+      font-size: $em;
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.44;
+      margin-left: $em-xl;
+    }
+  }
+  input[type="checkbox"]:checked + label:after {
+    content: "✓";
+  }
+  input[type="checkbox"]:disabled + label:before {
+    background: $color-lightest-gray;
+    cursor: not-allowed;
+  }
+  input[type="checkbox"]:disabled + label:hover {
+    cursor: not-allowed;
+    &:before {
+      border-color: $color-light-gray;
+    }
+  }
+}

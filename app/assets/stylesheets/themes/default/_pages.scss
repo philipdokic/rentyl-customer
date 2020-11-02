@@ -1,0 +1,47 @@
+@import
+       "themes/default/vars"
+;
+
+.cx-main {
+  @media screen and (max-width: 640px) {
+    margin-top: 60px;
+  }
+
+  .static-page-header {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    height: 33vh;
+    width: 100%;
+    h1 {
+      font-size: $em-xl;
+      font-weight: 500;
+      @media screen and (min-width: $m-l) {
+        font-size: $em-xxxl;
+      }
+    }
+  }
+  .static-page-jumbotron {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    background-color: $color-lightest-gray;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    height: 66vh;
+    width: 100%;
+    h1 {
+      color: $color-white;
+      font-size: $em-xl;
+      font-weight: 500;
+      text-shadow: 0 0 1px $color-black;
+      @media screen and (min-width: $m-l) {
+        font-size: $em-xxxl;
+      }
+    }
+  }
+}

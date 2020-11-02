@@ -1,0 +1,48 @@
+@import
+       "themes/default/vars"
+;
+body {
+  font-size: $em;
+  font-weight: 300;
+}
+
+h1 {
+  font-size: $em-xxl;
+  font-weight: 300;
+  &.muted {
+    font-size: $em-s;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+}
+h2 {
+  font-size: $em-l;
+  font-weight: 600;
+}
+h3 {
+  font-size: $em-l;
+  font-weight: 300;
+}
+h4 {
+  font-size: $em;
+  font-weight: 600;
+}
+h5 {
+
+}
+h6 {
+
+}
+b {
+  font-weight: 900;
+}
+code,
+pre {
+  font-size: $em-s;
+  font-weight: 600;
+  white-space: pre-wrap;
+}
+.text-center {
+  text-align: center;
+}

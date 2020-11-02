@@ -15,7 +15,7 @@
     "draft-js-import-html": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
     "google-map-react": "^2.1.8",
-    "i18n-js": "^3.7.1",
+    "i18n-js": "^3.8.0",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "rc-slider": "^9.5.2",

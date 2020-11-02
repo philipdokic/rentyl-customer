@@ -1,0 +1,232 @@
+@import
+       "cx/vars"
+;
+
+.user-container {
+  @include align-items(center);
+  @include flex-direction(column);
+  @include justify-content(flex-start);
+  display: flex;
+  margin: auto;
+  max-width: $l;
+  padding: $em;
+  padding-top: 80px;
+  @media screen and (min-width: $m-l) {
+    @include justify-content(center);
+  }
+}
+
+.user-creation-content {
+  @include align-items(flex-start);
+  @include flex-direction(column);
+  @include justify-content(flex-start);
+  background: $color-green-blue;
+  border: 1px solid $color-background-gray;
+  border-radius: 2px;
+  box-shadow: $shadow-standard;
+  display: flex;
+  width: 100%;
+  @media screen and (min-width: $m-l) {
+    @include flex-direction(row);
+  }
+
+  .user-creation-explainer {
+    @include align-items(center);
+    @include flex-direction(row-reverse);
+    @include justify-content(flex-end);
+    color: $color-white;
+    display: flex;
+    padding: $em;
+    width: 100%;
+    @media screen and (min-width: $m-l) {
+      @include align-items(flex-start);
+      @include flex-direction(column);
+      @include justify-content(space-between);
+      min-height: $s-m-padded;
+      padding: $em-xxxxl $em-xl;
+      width: 40%;
+    }
+    img {
+      margin: 0 $em 0 0;
+      height: 48px;
+      @media screen and (min-width: $m-l) {
+        margin: 0;
+        height: 96px;
+      }
+    }
+    b.subtitle {
+      color: $color-white;
+      display: block;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  }
+  .user-creation-options {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    background: $color-white;
+    display: flex;
+    padding: $em;
+    width: 100%;
+    @media screen and (min-width: $m-l) {
+      min-height: $s-m-padded;
+      width: 60%;
+    }
+    form {
+      margin: auto;
+      max-width: $s;
+      width: 100%;
+      .user-hint {
+        color: $color-red;
+        font-weight: 500;
+        opacity: 1;
+        transition: opacity $transition-short;
+        &.user-form-invisible {
+          opacity: 0;
+        }
+      }
+      .hint {
+        display: block;
+        font-size: $em-s;
+        font-weight: 500;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="password"] {
+        margin-bottom: $em-xxs;
+      }
+      input[type="submit"] {
+        margin-top: $em;
+      }
+      .hint + .error,
+      .error + .hint {
+        margin-top: 0;
+      }
+      .error_notification,
+      .error {
+        color: $color-red;
+        text-transform: uppercase;
+      }
+      .error {
+        display: block;
+        font-size: $em-s;
+        font-weight: 400;
+        margin: 0;
+      }
+      abbr[title="required"] {
+        color: $color-medium-gray;
+        text-decoration: none;
+      }
+    }
+    label {
+      display: block;
+    }
+    input.field-error {
+      border-color: $color-red;
+    }
+    input.field-okay {
+      border-color: $color-green-blue;
+    }
+    input[type="submit"] {
+      margin: 0;
+      width: 100%;
+    }
+    .checkbox,
+    input[type="checkbox"] {
+      left: auto;
+      position: relative;
+    }
+    &.after-create-options {
+      .after-create-section {
+        max-width: $s-padded;
+      }
+    }
+  }
+
+  .checkbox {
+    margin-bottom: 16px;
+    input[type="checkbox"] {
+      position: absolute;
+      left: -9999px;
+    }
+    label {
+      @include align-items(center);
+      @include flex-direction(row);
+      @include justify-content(flex-start);
+      cursor: pointer;
+      display: flex;
+      padding: 0;
+      position: relative;
+      &:after {
+        color: $color-green-blue;
+        content: "";
+        display: block;
+        font-size: $em-xl;
+        left: 2px;
+        position: absolute;
+        top: -12px;
+      }
+      &:before {
+        background: $color-white;
+        border: 2px solid $color-light-gray;
+        content: "";
+        display: block;
+        height: $em;
+        left: 2px;
+        position: absolute;
+        transition: border-color $transition-short;
+        width: $em;
+        top: 2px;
+      }
+      &:hover {
+        &:before {
+          border-color: $color-aqua-blue;
+        }
+      }
+      span {
+        color: $color-darker-gray;
+        font-size: $em;
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.44;
+        margin-left: $em-xl;
+      }
+    }
+    input[type="checkbox"]:checked + label:after {
+      content: "✓";
+    }
+    input[type="checkbox"]:disabled + label:before {
+      background: $color-lightest-gray;
+      cursor: not-allowed;
+    }
+    input[type="checkbox"]:disabled + label:hover {
+      cursor: not-allowed;
+      &:before {
+        border-color: $color-light-gray;
+      }
+    }
+  }
+}
+
+.user-internal-link {
+  margin-top: $em;
+  text-align: center;
+}
+.user-links {
+  border-top: 1px solid $color-light-gray;
+  font-size: $em-m;
+  line-height: 1.44*$em;
+  margin-top: $em-xxl;
+  max-width: $s;
+  padding: $em-xl $em $em;
+  text-align: center;
+  @media screen and (min-width: $m-l) {
+    border-top: 1px solid $color-light-gray;
+    margin-top: $em-xxxl;
+    padding: $em-xxl $em $em;
+  }
+}
+.user-cancel {
+  margin-top: $em;
+}

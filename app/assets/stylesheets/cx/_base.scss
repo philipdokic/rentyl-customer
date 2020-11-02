@@ -1,0 +1,303 @@
+@import
+       "cx/vars"
+;
+
+html {
+  background: $color-background-gray;
+}
+body {
+  background: $color-white-gray;
+  line-height: 1.44;
+}
+body.disable_all main,
+body.disable_all header,
+body.disable_all footer {
+  pointer-events: none !important;
+}
+* {
+  box-sizing: border-box;
+}
+::-moz-selection {
+}
+::selection {
+}
+.screenreader {
+  height:1px;
+  left:-10000px;
+  overflow:hidden;
+  position:absolute;
+  top:auto;
+  width:1px;
+}
+a.direct-branded {
+  border-bottom: 1px solid $color-darker-gray;
+  color: $color-link-blue;
+  cursor: pointer;
+  font-family: "Avenir Next","Avenir","Century Gothic","Catamaran",Helvetica,Arial,sans-serif;
+  font-size: $em-s;
+  font-weight: 500;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all $transition-short;
+  sup {
+    font-size: .5em;
+    vertical-align: super;
+  }
+  &:hover {
+    border-color: $color-aqua-blue;
+    color: $color-aqua-blue;
+  }
+}
+#preview-message {
+  background: $color-aqua-blue;
+  border: 1px solid $color-link-blue;
+  box-shadow: $shadow-standard;
+  color: $color-white;
+  font-weight: 500;
+  left: 2%;
+  opacity: 1;
+  padding: $em 3*$em $em $em;
+  position: fixed;
+  top: 36px;
+  transition: all $transition-short;
+  width: 96%;
+  z-index: $z-lightbox;
+  @media screen and (min-width: $m-l) {
+    left: 10%;
+    width: 80%;
+  }
+  @media screen and (min-width: $xl) {
+    left: 17%;
+    width: 66%;
+  }
+  .close-link {
+    border: none;
+    color: $color-white;
+    font-weight: 500;
+    font-size: $em-xl;
+    position: absolute;
+    margin-top: 6px;
+    right: 2px;
+    top: $em-xxs;
+  }
+}
+@media print {
+  .site-header,
+  .site-footer,
+  .print-hide {
+    display: none !important;
+  }
+}
+
+.consolidated-key {
+  max-width: $xl;
+  text-align: center;
+  h4 {
+    font-size: $em-s;
+    font-weight: 500;
+    padding-bottom: $em-s;
+    text-transform: uppercase;
+    letter-spacing: 0.125em;
+  }
+  ul {
+    @include align-items(center);
+    @include flex-direction(row);
+    @include justify-content(center);
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .no-wrap ul {
+    flex-wrap: nowrap;
+  }
+  li {
+    @include align-items(center);
+    @include flex-direction(row);
+    @include justify-content(center);
+    display: flex;
+    margin-top: $em-s;
+    width: 100%;
+    color: #4a4a4a;
+    flex-basis: 50px;
+    @media screen and (min-width: $m) {
+      width: 50%;
+    }
+    @media screen and (min-width: $l) {
+      width: 25%;
+    }
+    @media screen and (min-width: $l-xl) {
+      width: 75%;
+    }
+    @media screen and (min-width: $xl) {
+      width: auto;
+    }
+    &:hover {
+      border: 1px solid #4a4a4a;
+      flex-basis: 49px;
+      border-radius: 100%;
+    }
+
+    &.previous {
+      margin-right: 10px;
+    }
+
+    &.next {
+      margin-left: 10px;
+    }
+
+    &.previous, &.next {
+      border: 2px solid #4a4a4a;
+      border-radius: 100%;
+        a {
+          line-height: 50px;
+          width: 50px;
+          font-size: 25px;
+          color: #4a4a4a;
+        }
+    }
+
+    &.active {
+      border-radius: 100%;
+      background-color: #4a4a4a;
+      pointer-events: none;
+      a {
+        line-height: 50px;
+        width: 50px;
+        color: $color-white;
+        pointer-events: none;
+      }
+    }
+    a {
+      border-bottom: none;
+      color: #4a4a4a;
+      font-size: $em-m;
+      text-transform: none;
+      line-height: 49px;
+      width: 49px;
+      flex-basis: 50px;
+    }
+  }
+}
+
+.checkbox {
+  padding: $em $em-s;
+  input[type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+  }
+  label {
+    @include align-items(center);
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    position: relative;
+    &:after {
+      color: $color-green-blue;
+      content: "";
+      display: block;
+      font-size: $em-xl;
+      left: 2px;
+      position: absolute;
+      top: 6px;
+    }
+    &:before {
+      background: $color-white;
+      border: 2px solid $color-light-gray;
+      content: "";
+      display: block;
+      height: $em;
+      left: 2px;
+      position: absolute;
+      transition: border-color $transition-short;
+      width: $em;
+      top: 2px;
+    }
+    &:hover {
+      &:before {
+        border-color: $color-aqua-blue;
+      }
+    }
+    span {
+      color: $color-darker-gray;
+      font-size: $em;
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.44;
+      margin-left: $em-xl;
+    }
+  }
+  input[type="checkbox"]:checked + label:after {
+    content: "✓";
+  }
+  input[type="checkbox"]:disabled + label:before {
+    background: $color-lightest-gray;
+    cursor: not-allowed;
+  }
+  input[type="checkbox"]:disabled + label:hover {
+    cursor: not-allowed;
+    &:before {
+      border-color: $color-light-gray;
+    }
+  }
+}
+
+.geosuggest__suggests-wrapper {
+  position: relative;
+}
+.geosuggest__suggests {
+  background: $color-white;
+  border: 1px solid $color-white-gray;
+  border-top-color: $color-medium-gray;
+  box-shadow: $shadow-standard;
+  margin-top: -1*$em-l;
+  max-height: $s-padded;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+  .geosuggest__item {
+    color: $color-darker-gray;
+    cursor: pointer;
+    padding: $em-xs $em-s;
+    &:hover {
+      background-color: $color-link-blue;
+      color: $color-white;
+    }
+  }
+}
+.geosuggest__suggests--hidden {
+  display: none;
+}
+
+.terms-conditions {
+  background: $color-white;
+  border: 1px solid $color-light-gray;
+  border-radius: 2px;
+  color: $color-black;
+  font-family: 'Roboto', sans-serif;
+  max-height: 50vh;
+  overflow: scroll;
+  padding: $em-xs;
+
+  ul, ol {
+    margin-left: 20px;;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+}

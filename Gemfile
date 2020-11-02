@@ -7,6 +7,7 @@ gem 'pg', '~> 0.18'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'jbuilder', '~> 2.5'
 gem 'puma', '~> 5'
+gem 'sass-rails'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 

@@ -1,0 +1,120 @@
+@import
+       "themes/default/vars"
+;
+
+.site-footer {
+  margin-top: $em-xxxxl;
+  border-top: solid 1px rgba(0,0,0,.15);
+  min-height: 40vh;
+
+  section {
+    background: inherit;
+    @media screen and (max-width: $m) {
+      width: 90%;
+    }
+  }
+  .site-footer-content {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    display: flex;
+    font-size: 1em;
+    padding: $em-l $em;
+    margin: auto;
+    max-width: $xl;
+    @media screen and (min-width: $m) {
+      @include align-items(flex-start);
+      @include flex-direction(row);
+      @include justify-content(space-between);
+    }
+    ul {
+      color: $color-darker-gray;
+      li {
+        font-size: 17px;
+
+        &:first-child {
+          font-weight: 600;
+          padding-bottom: $em-xs;
+          font-size: 24px;
+        }
+        &.extra-padding-top {
+          padding-top: $em;
+        }
+        a {
+          font-weight: 400;
+        }
+      }
+    }
+    .footer-sections-container {
+      display: flex;
+      ul {
+        padding-right: 100px;
+      }
+      @media screen and (max-width: $m) {
+        @include align-items(flex-start);
+        width: 90%;
+        flex-direction: column;
+        ul {
+          padding-bottom: 50px;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .footer-contact {
+      @include align-items(center);
+      @include flex-direction(column);
+      @include justify-content(center);
+      display: flex;
+      margin-top: $em;
+      @media screen and (max-width: $m) {
+        @include align-items(flex-start);
+      }
+    }
+    .footer-social {
+      @include align-items(center);
+      @include flex-direction(row);
+      @include justify-content(space-between);
+      display: flex;
+      @media screen and (min-width: $m) {
+        @include justify-content(flex-end);
+        a {
+          margin-left: 0;
+        }
+      }
+      a,
+      span {
+        margin-left: $em-s;
+      }
+    }
+    .footer-cards {
+      @include align-items(center);
+      @include flex-direction(row);
+      @include justify-content(flex-end);
+      display: flex;
+      margin-right: -12px;
+      a,
+      span {
+        margin-left: $em-s;
+      }
+      @media screen and (max-width: $m) {
+        @include justify-content(space-between);
+        margin-right: 0;
+      }
+    }
+    .footer-contact + .footer-social {
+      border-top: 1px solid rgba(0,0,0,.15);
+      margin-top: $em-l;
+      padding-top: $em-l;
+    }
+  }
+}
+.site-postfooter {
+  border-top: 1px solid rgba(0,0,0,.15);
+  .site-postfooter-content {
+    font-size: $em-s;
+    padding: $em-s $em;
+    margin: auto;
+    max-width: $xl;
+  }
+}

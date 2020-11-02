@@ -1,0 +1,61 @@
+@import
+       "admin/vars"
+;
+
+a {
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity $transition-short;
+  &:hover {
+    opacity: .8;
+  }
+}
+
+a.button {
+  border: 1px solid;
+  border-radius: 2px;
+  box-shadow: $shadow-standard;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: .125*$em;
+  min-width: $xs-padded;
+  padding: $em-s $em-l;
+  text-align: center;
+  text-decoration: none;
+  transition: all $transition-short;
+  &:hover {
+    box-shadow: $shadow-highlight;
+    opacity: 1;
+    transform: scale(1.025);
+  }
+  &.disabled {
+    background: $color-background-gray;
+    border: 1px solid $color-medium-gray;
+    color: $color-medium-gray;
+    cursor: not-allowed;
+    &:hover {
+      background: lighten($color-background-gray,3);
+      box-shadow: $shadow-standard;
+      transform: scale(1);
+    }
+  }
+}
+a.close-link {
+  display: block;
+  font-size: $em-xl;
+  height: $em-xl;
+  line-height: $em-xl;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  vertical-align: middle;
+  width: $em-xl;
+}
+a.expand-link {
+  display: inline-block;
+  padding: $em-s 0;
+}
