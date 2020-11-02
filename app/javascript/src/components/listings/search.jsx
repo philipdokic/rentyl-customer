@@ -121,7 +121,7 @@ export default class ThemeDefaultSearch extends React.Component {
     axios.get('/api/organizations')
     .then(response => {
       //props.dispatch(brandAction.setBrand(response.data))
-      props.dispatch(brandAction.setBigBrand(response.data))
+      props.dispatch(brandAction.setBrand(response.data))
       axios.get(`/api/listings?brand=${response.data.brand.id}`, {
         headers: {'Content-Type': 'application/json'}
       })

@@ -1,9 +1,11 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import axios from 'axios';
 import {connect} from 'react-redux';
 import 'react-dates/initialize';
 import { Helmet } from 'react-helmet';
+
 
 // Components
 // -----------------------------------------------
@@ -12,10 +14,20 @@ import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
 
+// Redux
+// -----------------------------------------------
+import * as brandAction from '../../redux/action/brand'
+
 // -----------------------------------------------
 // COMPONENT->HOME -------------------------------
 // -----------------------------------------------
 class Home extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
+  constructor() {
+    this.state = { isLoading: true };
+   }
 
   // Component Did Mount
   // ---------------------------------------------
@@ -24,20 +36,31 @@ class Home extends React.Component {
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('listings-view');
     document.body.classList.remove('search-view');
+    !this.props.brand.canonical && this.setBrand(this.props)
+  }
+
+  // Set Brand
+  // ---------------------------------------------
+  setBrand = (props) => {
+    axios.get('/api/organizations/home')
+    .then(async (res) => {
+      await props.dispatch(brandAction.setHome(res.data));
+      this.setState({isLoading: false});
+    })
   }
 
   // Render Homepage Content
   // ---------------------------------------------
   renderHomepageContent() {
     return {
-      __html: this.props.brand.payload.content
+      __html: this.props.brand.home.payload.content
     };
   }
 
   // Render
   // ---------------------------------------------
   render() {
-    if(this.props.brand.canonical){
+    if(!this.state.isLoading){
       return (
         <main>
           <Helmet>
@@ -51,11 +74,11 @@ class Home extends React.Component {
                 "image": "${this.props.brand.logo_image.url}",
                 "address": {
                   "@type": "PostalAddress",
-                  "streetAddress": "${this.props.brand.location.adr_street}",
-                  "addressLocality": "${this.props.brand.location.adr_city}",
-                  "addressRegion": "${this.props.brand.location.adr_state}",
-                  "postalCode": "${this.props.brand.location.adr_postal_code}",
-                  "addressCountry": "${this.props.brand.location.adr_country}"
+                  "streetAddress": "${this.props.brand.home.location.adr_street}",
+                  "addressLocality": "${this.props.brand.home.location.adr_city}",
+                  "addressRegion": "${this.props.brand.home.location.adr_state}",
+                  "postalCode": "${this.props.brand.home.location.adr_postal_code}",
+                  "addressCountry": "${this.props.brand.home.location.adr_country}"
                 }
               }
             `}</script>
@@ -78,14 +101,14 @@ class Home extends React.Component {
           )}
         </main>
       );
-    } else { return(<div></div>) }}
+    } else { return(<div>Loading...</div>) }}
 }
 
 // Map State to Props
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand.id ? state.brand : {}
+    brand: state.brand
   };
 }
 

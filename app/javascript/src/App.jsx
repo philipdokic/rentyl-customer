@@ -30,7 +30,7 @@ class App extends React.Component {
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
-    Intercom(this.props.intercom_id);
+    // Intercom(this.props.brand.footer.intercom_id);
     !this.props.brand.canonical && this.setBrand(this.props)
   }
 
@@ -39,7 +39,7 @@ class App extends React.Component {
   setBrand = (props) => {
     axios.get('/api/organizations')
     .then(res => {
-      props.dispatch(brandAction.setBigBrand(res.data))
+      props.dispatch(brandAction.setBrand(res.data))
     })
   }
 

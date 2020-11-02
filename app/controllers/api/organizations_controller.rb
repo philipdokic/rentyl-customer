@@ -16,9 +16,11 @@ class Api::OrganizationsController < ApplicationController
       brand_info: @brand.brand_info,
       canonical: request.original_url,
       contact: @brand.brand_info.contact,
+      footer: @brand.brand_footer,
       header: @brand.brand_header,
+      logo_image: @brand.brand_info.logo_image,
       menu: menu_data,
-      options: @brand.brand_home_page.options
+      organization: @brand.organization
     }
   end
 
@@ -29,33 +31,13 @@ class Api::OrganizationsController < ApplicationController
     build_featured_listing_models
     @homepage = @brand.brand_home_page
     render json:{
-      canonical: request.original_url,
-      brand: @brand,
       featured_listings: @featured_listings,
       featured_pages: @brand.featured_page_content,
       homepage: @homepage,
       hero_image: @homepage.hero_image,
-      options: @homepage.options,
-      payload: @homepage.payload,
-      google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY'],
-      # slug: @brand.unit_listings.where(active:true).first&.slug,
-      cities: @brand.city_options,
-      intercom_id: @brand.brand_footer&.intercom_id,
-      logo_image: @brand.brand_info.logo_image,
-      footer: @brand.brand_footer,
-      contact: @brand.brand_info.contact,
-      social: @brand.brand_info.social,
-      subdomain: @brand.organization.subdomain,
-      brand_info: @brand.brand_info,
-      menu: menu_data,
-      theme: @theme,
-      organization: @brand.organization,
       location: @brand.organization.location,
-      header: @brand.brand_header,
-      max_guests: @brand.max_guests,
-      max_baths: @brand.max_baths,
-      max_bedrooms: @brand.max_bedrooms,
-      unit_id: params[:unit_id] ? params[:unit_id] : 0
+      options: @homepage.options,
+      payload: @homepage.payload
     }
   end
 
