@@ -1,11 +1,9 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import axios from 'axios';
 import {connect} from 'react-redux';
 import 'react-dates/initialize';
 import { Helmet } from 'react-helmet';
-
 
 // Components
 // -----------------------------------------------
@@ -13,11 +11,6 @@ import ContactForm from '../contact-form/default-form';
 import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
-import { Intercom } from '../miscellaneous/';
-
-// Redux
-// -----------------------------------------------
-import * as brandAction from '../../redux/action/brand'
 
 // -----------------------------------------------
 // COMPONENT->HOME -------------------------------
@@ -27,21 +20,10 @@ class Home extends React.Component {
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
-    Intercom(this.props.intercom_id);
     document.body.classList.add('home-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('listings-view');
     document.body.classList.remove('search-view');
-    !this.props.brand.canonical && this.setBrand(this.props)
-  }
-
-  // Set Brand
-  // ---------------------------------------------
-  setBrand = (props) => {
-    axios.get('/api/organizations/home')
-    .then(res => {
-      props.dispatch(brandAction.setBigBrand(res.data))
-    })
   }
 
   // Render Homepage Content

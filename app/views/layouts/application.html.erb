@@ -14,6 +14,9 @@
 </head>
 <body class="cx cx-main theme-default_mixed beach-theme cx-listings_details">
 
+  <!-- Google Tag Manager -->
+  <%= render "layouts/components/google_tag_manager" %>
+
   <!-- Content -->
   <main>
     <%= yield %>
@@ -21,6 +24,9 @@
 
   <!-- Scripts -->
   <%= render "layouts/components/scripts" %>
+
+  <!-- Tracking Pixels -->
+  <%= render "layouts/components/tracking_body" %>
 
 </body>
 </html>

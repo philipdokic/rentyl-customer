@@ -1,6 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react'
+import axios from 'axios';
 import {connect} from 'react-redux'
 import { get } from 'lodash';
 import { Helmet } from 'react-helmet';
@@ -11,15 +12,36 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // -----------------------------------------------
 import Footer from './components/layout/footer';
 import Header from './components/layout/header';
+import { Intercom } from './components/miscellaneous/';
 import Listing from './redux/containers/listing'
 import Listings from './redux/containers/listings'
 import Home from './components/home/index'
 import NoMatch from './components/NoMatch'
 
+// Redux
+// -----------------------------------------------
+import * as brandAction from './redux/action/brand'
+
 // -----------------------------------------------
 // COMPONENT->APP --------------------------------
 // -----------------------------------------------
 class App extends React.Component {
+
+  // Component Did Mount
+  // ---------------------------------------------
+  componentDidMount() {
+    Intercom(this.props.intercom_id);
+    !this.props.brand.canonical && this.setBrand(this.props)
+  }
+
+  // Set Brand
+  // ---------------------------------------------
+  setBrand = (props) => {
+    axios.get('/api/organizations')
+    .then(res => {
+      props.dispatch(brandAction.setBigBrand(res.data))
+    })
+  }
 
   // Import Custom Tags
   // ---------------------------------------------

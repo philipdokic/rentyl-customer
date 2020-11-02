@@ -14,9 +14,11 @@ class Api::OrganizationsController < ApplicationController
     render json: {
       brand: @brand,
       brand_info: @brand.brand_info,
+      canonical: request.original_url,
       contact: @brand.brand_info.contact,
       header: @brand.brand_header,
-      menu: menu_data
+      menu: menu_data,
+      options: @brand.brand_home_page.options
     }
   end
 
@@ -54,7 +56,7 @@ class Api::OrganizationsController < ApplicationController
       max_baths: @brand.max_baths,
       max_bedrooms: @brand.max_bedrooms,
       unit_id: params[:unit_id] ? params[:unit_id] : 0
-  }
+    }
   end
 
   # ==============================================
