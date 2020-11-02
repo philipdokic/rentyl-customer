@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link renders properly 1`] = `
+<a
+  href="http://www.google.com"
+  rel="nofollow"
+>
+  Google
+</a>
+`;

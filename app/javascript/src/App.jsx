@@ -6,6 +6,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 // Components
 // -----------------------------------------------
+import Checkout from './components/checkout/checkout'
 import Listing from './redux/containers/listing'
 import Listings from './redux/containers/listings'
 import Home from './components/home/index'
@@ -16,6 +17,7 @@ import NoMatch from './components/NoMatch'
 const App = () => {
   return (
     <Switch>
+      <Route path="/checkout/:id" component={Checkout} />
       <Route path="/listings/search" component={Listings} />
       <Route path="/listings/list" component={Listings} />
       <Route path="/listings/grid" component={Listings} />
