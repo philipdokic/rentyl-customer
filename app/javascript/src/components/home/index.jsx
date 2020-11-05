@@ -4,8 +4,6 @@ import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import 'react-dates/initialize';
-import { Helmet } from 'react-helmet';
-
 
 // Components
 // -----------------------------------------------
@@ -29,7 +27,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isLoading: true };
-   }
+  }
 
   // Component Did Mount
   // ---------------------------------------------
@@ -66,26 +64,6 @@ class Home extends React.Component {
       return (
         <main>
           <Meta />
-          <Helmet>
-            <script type="application/ld+json">{`
-              {
-                "@context": "https://schema.org",
-                "@type": "LodgingBusiness",
-                "name": "${this.props.brand.name}",
-                "url": "${this.props.brand.canonical}",
-                "telephone": "${this.props.brand.contact.phone_primary.number}",
-                "image": "${this.props.brand.logo_image.url}",
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "${this.props.brand.home.location.adr_street}",
-                  "addressLocality": "${this.props.brand.home.location.adr_city}",
-                  "addressRegion": "${this.props.brand.home.location.adr_state}",
-                  "postalCode": "${this.props.brand.home.location.adr_postal_code}",
-                  "addressCountry": "${this.props.brand.home.location.adr_country}"
-                }
-              }
-            `}</script>
-          </Helmet>
           <Jumbotron />
           <article
             className="freeform home-section"

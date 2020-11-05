@@ -23,6 +23,7 @@ class Api::ListingsController < ApplicationController
     @listing = UnitListing.where(slug: params[:id]).includes({ property: [:location] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_pricing] }).first
     render json: {
       id: @listing.id,
+      slug: params[:id],
       currency: @listing.currency,
       multi_unit: @listing.is_multi_unit,
       room_type: @listing.is_room_type,

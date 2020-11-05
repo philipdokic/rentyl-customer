@@ -14,6 +14,7 @@ import styled from 'styled-components';
 
 // Components
 // -----------------------------------------------
+import Meta from './meta';
 import { StarContainer } from '../miscellaneous/';
 import {
   MultiDatesGuests,
@@ -291,6 +292,7 @@ class Multi extends React.Component {
 
     return (
       <div className="details-multi">
+        <Meta />
         {/* <DetailsMultiPropertyImages
           property_images={this.props.property_images}
 
