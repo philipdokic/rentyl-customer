@@ -26,7 +26,25 @@ class Brand < ApplicationRecord
   has_one :brand_info
   has_one :brand_home_page
   has_one :location
-  
+
+  # ----------------------------------------------
+  # ENUMS/CONSTANTS ------------------------------
+  # ----------------------------------------------
+  enum currency: [ :aud, :brl, :cad, :chf, :cny,
+                  :eur, :gbp, :hkd, :inr, :jpy,
+                  :krw, :mxn, :nok, :nzd, :rub,
+                  :sek, :sgd, :try, :usd, :zar, :clp ]
+
+  enum language: [ :ar, :bn, :cs, :da, :nl,
+                  :en, :et, :fr, :de, :el,
+                  :hi, :hu, :id, :it, :ja,
+                  :jv, :ko, :nb, :pa, :pl,
+                  :pt, :ru, :es, :sv, :th,
+                  :tr, :vi, :zh ]
+
+  # ----------------------------------------------
+  # FEATURED-PAGE-CONTENT ------------------------
+  # ----------------------------------------------
   def featured_page_content
     if(fp_array = featured_pages)
       fp_links = []
@@ -45,15 +63,24 @@ class Brand < ApplicationRecord
     end
   end
 
+  # ----------------------------------------------
+  # FEATURED-PAGES -------------------------------
+  # ----------------------------------------------
   def featured_pages
     brand_pages.includes(:hero_image).where(published:true, featured: true)
   end
 
+  # ----------------------------------------------
+  # CITY-OPTIONS ---------------------------------
+  # ----------------------------------------------
   def city_options
     return [] if brand_home_page.blank? || (home_search_type != 'dropdown' && home_search_type != 'custom')
     home_search_type == 'custom' ? custom_city_options : default_city_options
   end
 
+  # ----------------------------------------------
+  # HOME-SEARCH-TYPE -----------------------------
+  # ----------------------------------------------
   def home_search_type
     return if brand_home_page.blank?
     return if brand_home_page.options['location_search'] != 'true'
@@ -61,14 +88,23 @@ class Brand < ApplicationRecord
     brand_home_page.options['location_search_type']
   end
 
+  # ----------------------------------------------
+  # MAX-GUESTS -----------------------------------
+  # ----------------------------------------------
   def max_guests
     units.map(&:num_sleep).max
   end
 
+  # ----------------------------------------------
+  # MAX-BATHS ------------------------------------
+  # ----------------------------------------------
   def max_baths
     units.where('num_bathrooms > 0').map(&:num_bathrooms).max
   end
 
+  # ----------------------------------------------
+  # MAX-BEDROOMS ---------------------------------
+  # ----------------------------------------------
   def max_bedrooms
     units.where('num_bedrooms > 0').map(&:num_bedrooms).max
   end

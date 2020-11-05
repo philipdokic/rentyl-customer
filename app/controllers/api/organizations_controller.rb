@@ -14,7 +14,7 @@ class Api::OrganizationsController < ApplicationController
     render json: {
       brand: @brand,
       brand_info: @brand.brand_info,
-      canonical: request.original_url,
+      canonical: request.host,
       contact: @brand.brand_info.contact,
       footer: @brand.brand_footer,
       header: @brand.brand_header,

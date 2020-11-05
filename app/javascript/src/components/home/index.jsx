@@ -13,6 +13,7 @@ import ContactForm from '../contact-form/default-form';
 import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
+import Meta from './meta';
 
 // Redux
 // -----------------------------------------------
@@ -25,7 +26,8 @@ class Home extends React.Component {
 
   // Constructor
   // ---------------------------------------------
-  constructor() {
+  constructor(props) {
+    super(props);
     this.state = { isLoading: true };
    }
 
@@ -63,6 +65,7 @@ class Home extends React.Component {
     if(!this.state.isLoading){
       return (
         <main>
+          <Meta />
           <Helmet>
             <script type="application/ld+json">{`
               {
@@ -88,15 +91,15 @@ class Home extends React.Component {
             className="freeform home-section"
             dangerouslySetInnerHTML={this.renderHomepageContent()}
           />
-          {this.props.brand.options.show_featured_properties == 'true' &&
-          this.props.brand.featured_listings.length > 0 ? (
+          {this.props.brand.home.options.show_featured_properties == 'true' &&
+          this.props.brand.home.featured_listings.length > 0 ? (
             <FeaturedListingsContainer />
           ) : null}
-          {this.props.brand.options.show_featured_pages == 'true' &&
-          this.props.brand.featured_pages.length > 0 ? (
+          {this.props.brand.home.options.show_featured_pages == 'true' &&
+          this.props.brand.home.featured_pages.length > 0 ? (
             <FeaturedPagesContainer />
           ) : null}
-          {this.props.brand.options.show_contact_form == 'true' && (
+          {this.props.brand.home.options.show_contact_form == 'true' && (
             <ContactForm subject="General Question" />
           )}
         </main>

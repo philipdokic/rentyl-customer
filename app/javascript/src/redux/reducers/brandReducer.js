@@ -3,7 +3,7 @@ export default function brandReducer(state={}, action){
     case "SET_BRAND":
       return {...state.brand, ...{...action.brand, contact: JSON.parse(action.brand.contact)}}
     case "SET_HOME":
-      return {...state, home: {...action.brand}}
+      return {...state, home: {...action.brand, options: JSON.parse(action.brand.options)}}
     default:
       return state;
   }
