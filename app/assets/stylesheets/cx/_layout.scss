@@ -1,0 +1,125 @@
+@import
+       "cx/vars"
+;
+
+p + *,
+ul + p,
+img + p,
+object + p,
+small + p {
+  margin-top: $em-l;
+}
+
+.jumbotron {
+  background-color: $color-lightest-gray;
+  background-size: cover;
+  background-position: center;
+  height: 66vh;
+  width: 100%;
+  position: relative;
+}
+
+.jumbotron-button {
+  position: absolute;
+  cursor: pointer;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  bottom: 20px;
+  left: 20px;
+  background: #FFF;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.05);
+}
+
+.modal-overlay {
+  @include align-items(center);
+  @include flex-direction(column);
+  @include justify-content(flex-start);
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: $z-lightbox;
+  .modal {
+    background: $color-background-gray;
+    border: 1px solid $color-medium-gray;
+    padding: $em;
+    margin-top: $em-xxxl;
+    max-height: 80vh;
+    overflow: auto;
+    max-width: $l;
+    .modal-header {
+      background: $color-background-gray;
+      border-bottom: 1px solid $color-light-gray;
+      font-size: $em-s;
+      font-weight: 600;
+      margin: -1*$em -1*$em $em;
+      padding: $em-s $em $em-s;
+      position: relative;
+      width: calc(100% + 32px);
+      .modal-close {
+        font-size: $em;
+        line-height: $em;
+        padding: $em-s;
+        right: 0;
+        top: 0;
+      }
+    }
+  }
+  .modal-close {
+    border: none;
+    position: absolute;
+    font-size: $em-xxl;
+    line-height: $em-xxl;
+    right: $em-s;
+    top: $em-s;
+  }
+}
+
+.flash-message {
+  background: #387BD2;
+  border-bottom: 1px solid $color-link-blue;
+  border-top: 1px solid $color-link-blue;
+  box-shadow: $shadow-standard;
+  color: $color-white;
+  font-weight: 500;
+  left: 2%;
+  opacity: 1;
+  padding: $em 3*$em $em $em;
+  position: fixed;
+  top: 56px;
+  transition: all $transition-short;
+  width: 96%;
+  z-index: $z-lightbox;
+  @media screen and (min-width: $m-l) {
+    left: 10%;
+    width: 80%;
+  }
+  @media screen and (min-width: $xl) {
+    left: 17%;
+    width: 66%;
+  }
+  &.flash-hide {
+    opacity: 0;
+    top: 52px;
+  }
+  .close-link {
+    border: none;
+    color: $color-white;
+    font-weight: 500;
+    font-size: $em-xl;
+    position: absolute;
+    right: $em;
+    top: $em-xxs;
+  }
+}
+
+.bookings  {
+  margin-top: 60px;
+}
+.conversations {
+  margin-top: 60px;
+}

@@ -63,7 +63,7 @@ class SearchForm extends React.Component {
   // ---------------------------------------------
   checkRequiredSearchFields = () => {
     if (
-      this.props.brand.options.location_search === 'true' &&
+      this.props.brand.home.options.location_search === 'true' &&
       !(this.state.lat || this.state.lng || this.state.geoKeys)
     ) {
       this.props.setError(true);
@@ -155,10 +155,10 @@ class SearchForm extends React.Component {
   // Render Search Field
   // ---------------------------------------------
   renderSearchField = () => {
-    if (this.props.brand.options.location_search !== 'true') return null;
+    if (this.props.brand.home.options.location_search !== 'true') return null;
     if (this.state.mapsLoading || !this.state.mapsLoaded) return null;
 
-    const searchType = this.props.brand.options.location_search_type;
+    const searchType = this.props.brand.home.options.location_search_type;
 
     if (searchType === 'text_input') {
       return this.renderTextInputSearch();
@@ -264,7 +264,7 @@ class SearchForm extends React.Component {
   // Handle Dropdown Select
   // ---------------------------------------------
   handleDropdownSelect = option => {
-    const searchType = this.props.brand.options.location_search_type;
+    const searchType = this.props.brand.home.options.location_search_type;
 
     if (searchType === 'custom') {
       this.setState({ geoKeys: option.value });
@@ -306,7 +306,7 @@ class SearchForm extends React.Component {
     return (
       <figure
         className={`homepage-search-form ${
-          this.props.brand.options.location_search === 'true' ? 'with-location' : ''
+          this.props.brand.home.options.location_search === 'true' ? 'with-location' : ''
         }`}
       >
         {/* FIX: MOVE GOOGLE API SCRIPT TO TOP OF APP FOR ALL VIEWS */}
@@ -365,7 +365,7 @@ class SearchForm extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand.id ? state.brand : {}
+    brand: state.brand
   };
 }
 

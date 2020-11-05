@@ -1,0 +1,163 @@
+$color-white: #ffffff;
+$color-white-gray: #fcfcfc;
+$color-muted-gray: #f9f9f9;
+$color-background-gray: #f5f5f5;
+$color-lightest-gray: #EDEDED;
+$color-light-gray: #E5E2E2;
+$color-medium-gray: #BBC5C7;
+$color-dark-gray: #777777;
+$color-darker-gray: #404040;
+$color-background-black: #1a1919;
+$color-link-blue: #387BD2;
+$color-blue: #5794E4;
+$color-aqua-blue: lighten($color-link-blue,10);
+$color-green-blue: #50E3C2;
+$color-white-blue: lighten($color-link-blue,45);
+$color-subtle-blue: lighten($color-link-blue,44);
+$color-green: #64db88;
+$color-orange: #f7a537;
+$color-dark-orange: #f69a1e;
+$color-red: #FB5872;
+$color-yellow: #FFC15A;
+$color-black: #000000;
+
+$status-owner: #FB5872;
+$status-maintenance:#FF995A;
+$status-confirmed:#0AC299;
+$status-cancelled:#404040;
+$status-request:#1A62C4;
+$status-archived:#BBC5C7;
+
+$payment-full: #50e3c2;
+$payment-partial: #FFC15A;
+$payment-no-payment: #FF585B;
+
+$color-modifiers: 'white' 'black';
+
+//Font and padding styles follow Augmented Fourth scale
+$em: 16px;
+// TODO: Browsers can be weird with how they handle floating point pixels. It did cause an issue with creating oblong circles on Chrome. Should we refactor this to use round?
+$em-xxxs: .17675*$em;    // 2.828px
+$em-xxs: .3535*$em;      // 5.656px
+$em-xs: .5*$em;          // 8px
+$em-s: .707*$em;         // 11.312px
+$em-m: round(.85*$em);         // 13.6px
+
+$em-l: 1.414*$em;        // 22.624px
+$em-xl: 1.999*$em;       // 31.984px
+$em-xxl: 2.121*$em;      // 33.936px
+$em-xxxl: 2.828*$em;      // 45.248px
+$em-xxxxl: 4.242*$em;      // 45.248px
+
+$xs: 10*$em;             // 160px
+$s: 20*$em;              // 320px
+$s-m: 30*$em;            // 480px
+$m: 40*$em;              // 640px
+$m-l: 50*$em;            // 800px
+$l: 60*$em;              // 960px
+$l-xl: 64*$em;           // 1024px
+$xl: 80*$em;             // 1280px
+$xxl: 90*$em;            // 1440px
+
+$xs-padded: 8*$em;       // 160px-32px = 128px
+$s-double-padded: 16*$em;// 320px-64px=256px
+$s-padded: 18*$em;       // 320px-32px=288px
+$s-m-padded: 28*$em;     // 480px-32px=448px
+$m-padded: 38*$em;       // 640px-32px=608px
+$m-l-padded: 48*$em;     // 800px-32px=768px
+$l-padded: 58*$em;       // 960px-32px=928px
+$l-xl-padded: 62*$em;    // 1024px-32px=992px
+$xl-padded: 78*$em;      // 1280px-32px=1248px
+$xxl-padded: 88*$em;     // 1440px-32px=1408px
+
+$transition-standard: 1.6s;
+$transition-short: .3s;
+
+$shadow-standard: 0 3px 5px -4px transparentize(#1a1919,.5);
+$shadow-highlight: 0 4px 6px -4px transparentize(#1a1919,.5);
+
+$z-stack: 1;
+$z-header: 11;
+$z-nav: 10;
+$z-nav-overlay: 9;
+$z-lightbox-stack: 101;
+$z-lightbox: 100;
+$z-lightbox-overlay: 99;
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+@mixin display($a) {
+  display: $a;
+}
+@mixin flex-direction($a) {
+  -moz-flex-direction: $a;
+  -ms-flex-direction: $a;
+  -webkit-flex-direction: $a;
+  flex-direction: $a;
+}
+@mixin align-content($a) {
+  align-content: $a;
+}
+@mixin align-items($a) {
+  -moz-align-items: $a;
+  -webkit-align-items: $a;
+  align-items: $a;
+}
+@mixin align-self($a) {
+  -moz-align-self: $a;
+  -webkit-align-self: $a;
+  align-self: $a;
+}
+@mixin justify-content($a) {
+  -moz-box-pack: $a;
+  -ms-box-pack: $a;
+  -webkit-box-pack: $a;
+  box-pack: $a;
+  -moz-justify-content: $a;
+  -ms-justify-content: $a;
+  -webkit-justify-content: $a;
+  justify-content: $a;
+}
+@mixin justify-self($a) {
+  -moz-justify-self: $a;
+  -ms-justify-self: $a;
+  -webkit-justify-self: $a;
+  justify-self: $a;
+}
+@mixin calc($property, $expression) {
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -ms-calc(#{$expression});
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: calc(#{$expression});
+}
+@mixin placeholder-text {
+  $placeholders: ":-webkit-input" ":-moz" "-moz" "-ms-input";
+  @each $placeholder in $placeholders {
+    &:#{$placeholder}-placeholder {
+      @content;
+    }
+  }
+}
+@mixin transition($p, $a) {
+  -webkit-transition: $p $a ease-in;
+  -moz-transition: $p $a ease-in;
+  -ms-transition: $p $a ease-in;
+  transition: $p $a ease-in;
+}
+@mixin rotate($deg) {
+  -webkit-transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -ms-transform: rotate($deg);
+  transform: rotate($deg);
+}
+
+@mixin grayscale-element($value) {
+    -webkit-filter: #{"grayscale(#{$value})"};
+    -moz-filter: #{"grayscale(#{$value})"};
+    filter:#{"grayscale(#{$value})"};
+}

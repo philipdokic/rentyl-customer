@@ -1,0 +1,610 @@
+@import 'themes/default/vars';
+
+$invalid-background: #fef8f6;
+$valid-background: #eef9f1;
+
+.checkout-main {
+  @include align-items(center);
+  @include flex-direction(column-reverse);
+  @include justify-content(flex-start);
+  display: flex;
+  margin: auto;
+  max-width: $l-xl;
+  min-height: min-content;
+  position: relative;
+  @media screen and (min-width: $l) {
+    @include align-items(flex-start);
+    @include flex-direction(row);
+    @include justify-content(space-between);
+  }
+
+  section.addons {
+    margin-bottom: $em-xl;
+  }
+
+  .addons-title {
+    text-align: left;
+    font-weight: bold;
+    margin: 0 0 12px;
+    padding: 10px 0 4px 0;
+  }
+
+  .addons-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .addons-item {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 2px;
+      box-shadow: 0 3px 5px -4px rgba(26, 25, 25, 0.5);
+      margin-bottom: 4%;
+      width: 48%;
+    }
+
+    .addons-item-quantity {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 2px;
+      box-shadow: 0 3px 5px -4px rgba(26, 25, 25, 0.5);
+      margin-bottom: 4%;
+      width: 13em;
+    }
+
+    .addons-image {
+      background-position: center;
+      background-size: cover;
+      height: 96px;
+      position: relative;
+      z-index: 1;
+
+      a.indicator-toggle-link {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 8px;
+      }
+    }
+
+    .addons-info {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+    }
+
+    .line-item-description {
+      display: inline-block;
+      line-height: $em-l;
+      position: relative;
+      vertical-align: middle;
+      &:hover {
+        span {
+          display: block;
+        }
+      }
+      i {
+        background-color: rgba(0, 0, 0, 0.15);
+        background-image: url(asset_path('cx/global/info.svg'));
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+        height: $em-m;
+        line-height: $em-l;
+        margin-right: $em-xxs;
+        opacity: 0.85;
+        width: $em-m;
+      }
+      span {
+        background: $color-white;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: $shadow-standard;
+        cursor: default;
+        bottom: calc(100% + 6px);
+        display: none;
+        font-size: $em-s;
+        font-weight: 600;
+        left: calc(-80px + 8px);
+        line-height: 1.44;
+        padding: $em-xxxs $em-xxs;
+        position: absolute;
+        text-align: left;
+        width: $xs;
+        &:after {
+          content: '';
+          display: block;
+          border-left: $em-xs solid transparent;
+          border-right: $em-xs solid transparent;
+          border-top: $em-xs solid white;
+          bottom: -7px;
+          height: 0;
+          left: calc(50% - 8px);
+          position: absolute;
+          width: 0;
+        }
+        &:before {
+          content: '';
+          display: block;
+          border-left: $em-xs solid transparent;
+          border-right: $em-xs solid transparent;
+          border-top: $em-xs solid rgba(0, 0, 0, 0.15);
+          bottom: -1 * $em-xs;
+          height: 0;
+          left: calc(50% - 8px);
+          position: absolute;
+          width: 0;
+        }
+      }
+    }
+  }
+
+  section.information,
+  section.payment {
+    padding: $em;
+    width: 100%;
+  }
+
+  section.information {
+    max-width: $s-m;
+    margin-top: $em-xxxl;
+    @media screen and (min-width: $l) {
+      padding-left: $em-xxxl;
+      max-width: $m;
+    }
+  }
+  section.payment {
+    max-width: $s-m;
+    margin-top: $em-xxxl;
+    @media screen and (min-width: $l) {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+  }
+
+  button {
+    border: 1px solid;
+    border-radius: 2px;
+    box-shadow: $shadow-standard;
+    cursor: pointer;
+    display: inline-block;
+    font-size: $em;
+    font-weight: 500;
+    letter-spacing: 0.125 * $em;
+    margin-top: $em;
+    min-width: $xs-padded;
+    padding: $em-s $em-l;
+    text-align: center;
+    text-decoration: none;
+    transition: all $transition-short;
+    width: 100%;
+    &:hover {
+      box-shadow: $shadow-highlight;
+      opacity: 1;
+      transform: scale(1.025);
+    }
+    &:disabled {
+      background: $color-background-gray;
+      border: 1px solid $color-medium-gray;
+      color: $color-medium-gray;
+      cursor: not-allowed;
+      &:hover {
+        background: lighten($color-background-gray, 3);
+        box-shadow: $shadow-standard;
+        transform: scale(1);
+      }
+    }
+  }
+  input,
+  select {
+    &.invalid {
+      background: $invalid-background;
+      border-color: $color-red;
+    }
+    &.valid {
+      background: $valid-background;
+      border-color: $color-green;
+    }
+  }
+  select {
+    color: $color-darker-gray;
+    font-weight: 400;
+    padding: $em-s;
+  }
+  .select-wrapper:before {
+    right: $em-s;
+    bottom: 35px;
+  }
+
+  .checkout-errors {
+    color: $color-red;
+    display: block;
+    font-size: $em-m;
+    font-weight: 600;
+    width: 100%;
+    li:first-child {
+    }
+    li:last-child {
+      margin-bottom: $em-xs;
+    }
+  }
+  .fields-cc {
+    @include align-items(flex-start);
+    @include flex-direction(row);
+    @include justify-content(space-between);
+    background: $color-white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: $shadow-subdued;
+    border-radius: $em-xxs;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: $em-xl;
+    padding: $em $em;
+    transition: background $transition-short, border-color $transition-short;
+    width: 100%;
+    &.invalid {
+      border-color: $color-red;
+      header {
+        background: $color-red;
+        color: $color-white;
+      }
+    }
+    &.valid {
+      background: $valid-background;
+      border-color: $color-green;
+      &:hover {
+        background: $color-white;
+        input.valid {
+          background: $valid-background;
+          border-color: $color-green;
+        }
+        label {
+          color: inherit;
+        }
+      }
+      header {
+        background: $color-green;
+        color: $color-white;
+      }
+      input.valid {
+        background: transparent;
+        border-color: transparent;
+      }
+      label {
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+    header {
+      background: rgba(0, 0, 0, 0.075);
+      font-weight: 600;
+      display: block;
+      margin: 0 -1 * $em $em;
+      padding: $em-s;
+      transition: background $transition-short, color $transition-short;
+
+      width: calc(100% + 32px);
+    }
+    input {
+      margin-bottom: 0;
+    }
+    label {
+      transition: color $transition-short;
+    }
+    .field-cc-cvv {
+      width: 40%;
+      @media screen and (min-width: $s) {
+        width: 80px;
+      }
+    }
+    .field-cc-exp {
+      width: 56%;
+      margin: 0 0 $em 0;
+      @media screen and (min-width: $s) {
+        margin: 0;
+        width: 124px;
+      }
+    }
+    .field-cc-number {
+      margin: 0 0 $em 0;
+      width: 100%;
+    }
+    .spinner {
+      padding: $em-xl 0;
+      margin: auto;
+    }
+  }
+  .fields-customer {
+    @include align-items(flex-start);
+    @include flex-direction(row);
+    @include justify-content(space-between);
+    display: flex;
+    flex-wrap: wrap;
+
+    header {
+      font-weight: 600;
+      display: block;
+      margin: 0 0 $em;
+    }
+    .field-customer-email {
+      width: 100%;
+    }
+    .field-customer-guests {
+      width: 100%;
+    }
+    .field-customer-name {
+      width: 100%;
+    }
+    .field-customer-postal-code {
+      width: 100%;
+      @media screen and (min-width: $s-m) {
+        width: 36%;
+      }
+    }
+    .field-customer-telephone {
+      width: 100%;
+      @media screen and (min-width: $s-m) {
+        width: 60%;
+      }
+    }
+  }
+  .ancillary {
+    display: block;
+    font-size: $em-s;
+    margin: $em auto;
+  }
+
+  .checkout-info-booking,
+  .checkout-info-listing,
+  .checkout-info-pricing {
+    background: $color-white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    table {
+      margin: auto;
+      width: 100%;
+      b.discount {
+        color: $color-green;
+        font-weight: 600;
+      }
+      tr {
+        &:first-child td {
+          padding-top: 0;
+        }
+        &:last-child td {
+          padding-bottom: 0;
+        }
+      }
+      tr + tr {
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      tr.inquiry td:last-child {
+        color: $color-green;
+      }
+      tr.total {
+        td {
+          font-weight: 600;
+        }
+      }
+      td {
+        padding: $em-xxs;
+        &:last-child {
+          font-weight: 500;
+          text-align: right;
+          .line-item-description {
+            span {
+              left: calc(-80px + 13px);
+            }
+            i {
+              margin-right: 0;
+              margin-left: $em-xxs;
+            }
+          }
+        }
+      }
+      .line-item-description {
+        display: inline-block;
+        line-height: $em-l;
+        position: relative;
+        vertical-align: middle;
+        &:hover {
+          span {
+            display: block;
+          }
+        }
+        i {
+          background-color: rgba(0, 0, 0, 0.15);
+          background-image: url(asset_path('cx/global/info.svg'));
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          border: 1px solid rgba(0, 0, 0, 0.15);
+          border-radius: 50%;
+          cursor: pointer;
+          display: inline-block;
+          height: $em-m;
+          line-height: $em-l;
+          margin-right: $em-xxs;
+          opacity: 0.85;
+          width: $em-m;
+        }
+        span {
+          background: $color-white;
+          border: 1px solid rgba(0, 0, 0, 0.15);
+          box-shadow: $shadow-standard;
+          cursor: default;
+          bottom: calc(100% + 6px);
+          display: none;
+          font-size: $em-s;
+          font-weight: 600;
+          left: calc(-80px + 8px);
+          line-height: 1.44;
+          padding: $em-xxxs $em-xxs;
+          position: absolute;
+          text-align: left;
+          width: $xs;
+          &:after {
+            content: '';
+            display: block;
+            border-left: $em-xs solid transparent;
+            border-right: $em-xs solid transparent;
+            border-top: $em-xs solid white;
+            bottom: -7px;
+            height: 0;
+            left: calc(50% - 8px);
+            position: absolute;
+            width: 0;
+          }
+          &:before {
+            content: '';
+            display: block;
+            border-left: $em-xs solid transparent;
+            border-right: $em-xs solid transparent;
+            border-top: $em-xs solid rgba(0, 0, 0, 0.15);
+            bottom: -1 * $em-xs;
+            height: 0;
+            left: calc(50% - 8px);
+            position: absolute;
+            width: 0;
+          }
+        }
+      }
+    }
+    .checkout-info-subsection {
+      padding: $em-l $em;
+      @media screen and (min-width: $m-l) {
+        padding: $em-xl $em-xxl;
+      }
+      .spinner {
+        padding: $em-xl 0;
+      }
+    }
+    .checkout-info-subsection + .checkout-info-subsection {
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+    }
+  }
+  .checkout-info-booking {
+    border-bottom-width: 0;
+    border-radius: 0;
+    border-top-width: 0;
+    b {
+      display: inline-block;
+      font-weight: 900;
+    }
+    span {
+      display: block;
+      text-align: center;
+    }
+  }
+  .checkout-info-listing {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    .checkout-info-listing-header {
+      @include align-items(flex-start);
+      @include flex-direction(row);
+      @include justify-content(space-between);
+      display: flex;
+      flex-wrap: wrap;
+      font-size: $em-m;
+      h2 {
+        margin-bottom: $em-xxs;
+        width: 100%;
+      }
+    }
+    .featured-image {
+      background: $color-lightest-gray;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      height: $xs;
+      width: 100%;
+      @media screen and (min-width: $s-m) {
+        height: $s-double-padded;
+      }
+    }
+  }
+  .checkout-info-pricing {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: $shadow-subdued;
+    .checkout-info-subsection.checkout-error {
+      background: $color-red;
+      color: $color-white;
+      font-size: $em;
+      font-weight: 600;
+      text-align: center;
+    }
+  }
+}
+
+.regular-tooltip {
+  display: inline-block;
+  line-height: $em-l;
+  position: relative;
+  vertical-align: middle;
+  &:hover {
+    span {
+      display: block;
+    }
+  }
+  i {
+    background-color: #34adc3 !important;
+    border-color: #34adc3 !important;
+    background-image: url(asset_path('cx/global/info.svg'));
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    height: $em-m;
+    line-height: $em-l;
+    margin-right: $em-xxs;
+    opacity: 0.85;
+    width: $em-m;
+    margin-left: 8px;
+  }
+  span {
+    background: $color-white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: $shadow-standard;
+    cursor: default;
+    bottom: calc(100% + 6px);
+    display: none;
+    font-size: $em-s;
+    font-weight: 600;
+    left: calc(-80px + 8px);
+    line-height: 1.44;
+    padding: $em-xxxs $em-xxs;
+    position: absolute;
+    text-align: left;
+    width: $xs;
+    &:after {
+      content: '';
+      display: block;
+      border-left: $em-xs solid transparent;
+      border-right: $em-xs solid transparent;
+      border-top: $em-xs solid white;
+      bottom: -7px;
+      height: 0;
+      left: calc(50% - 8px);
+      position: absolute;
+      width: 0;
+    }
+    &:before {
+      content: '';
+      display: block;
+      border-left: $em-xs solid transparent;
+      border-right: $em-xs solid transparent;
+      border-top: $em-xs solid rgba(0, 0, 0, 0.15);
+      bottom: -1 * $em-xs;
+      height: 0;
+      left: calc(50% - 8px);
+      position: absolute;
+      width: 0;
+    }
+  }
+}

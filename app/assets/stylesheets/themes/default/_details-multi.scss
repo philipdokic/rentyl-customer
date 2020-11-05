@@ -1,0 +1,267 @@
+@import
+       "themes/default/vars"
+;
+body.cx-listings_details .details-multi {
+  .details-content {
+    padding-right: 0;
+    max-width: $l-xl;
+    margin: auto;
+  }
+  .details-multi-dates-guests-container {
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    border-top: 1px solid rgba(0,0,0,.15);
+    border-radius: 2px;
+    margin: 0 -1*$em;
+    padding: 0 $em;
+    @media screen and (min-width: $l-xl) {
+      border: 1px solid rgba(0,0,0,.15);
+    }
+  }
+  .sticky-outer-wrapper.active .details-multi-dates-guests-container {
+    box-shadow: $shadow-standard;
+    margin-top: -50px;
+    @media screen and (min-width: $s-m) {
+      margin-top: 0;
+    }
+  }
+  .details-multi-dates-guests {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    display: flex;
+    margin: auto;
+    max-width: $m;
+    width: 100%;
+    @media screen and (min-width: $s-m) {
+      @include align-items(center);
+      @include flex-direction(row);
+      @include justify-content(space-between);
+    }
+    .details-multi-dates,
+    .details-multi-guests {
+      max-width: $s-padded;
+      width: 100%;
+    }
+    .details-booking-num-guests {
+      border-top: 0;
+      padding: 0;
+      margin: 0;
+      max-width: $s-padded;
+      width: 100%;
+      select {
+        margin: 0;
+      }
+    }
+    .DateRangePicker {
+      max-width: $s-padded;
+      width: 100%;
+    }
+  }
+  .units-table {
+    text-align: left;
+    width: 100%;
+    thead {
+      tr {
+        display: none;
+        @media screen and (min-width: $m-l) {
+          border-bottom: 1px solid rgba(0,0,0,.15);
+          display: table-row;
+        }
+        th {
+          font-size: $em-s;
+          font-weight: 600;
+          padding: $em;
+          &:first-child {
+            padding-left: 0;
+          }
+          &:last-child {
+            padding-right: 0;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        @include align-items(flex-start);
+        @include flex-direction(column);
+        @include justify-content(flex-start);
+        display: flex;
+        width: 100%;
+        @media screen and (min-width: $m-l) {
+          display: table-row;
+        }
+        td {
+          display: block;
+          margin: auto;
+          text-align: center;
+          @media screen and (min-width: $m-l) {
+            display: table-cell;
+            text-align: left;
+            vertical-align: top;
+            &:first-child {
+              padding-left: 0;
+            }
+            &:last-child {
+              padding-right: 0;
+            }
+          }
+          padding: $em;
+        }
+      }
+      tr + tr {
+        border-top: 1px solid rgba(0,0,0,.15);
+      }
+      .truncated {
+        max-height: $xs;
+        overflow: hidden;
+      }
+    }
+  }
+  .units-images-link {
+    background-position: center;
+    background-size: cover;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 1px;
+    display: block;
+    margin-bottom: $em-xxs;
+    height: $xs-double-padded;
+    width: $xs;
+  }
+  .unit-info {
+    font-size: $em-m;
+  }
+  .unit-pricing-booking {
+    min-width: $s-double-padded;
+    @media screen and (min-width: $m-l) {
+      text-align: right;
+    }
+    b {
+      display: block;
+      font-size: $em;
+      font-weight: 900;
+      margin-bottom: $em-xs;
+    }
+    small {
+      display: block;
+      font-size: $em-s;
+      margin-top: $em-xs;
+    }
+  }
+}
+body.cx-listings_details .details-modal {
+  section {
+    @include align-items(flex-start);
+    @include flex-direction(column);
+    @include justify-content(flex-start);
+    display: flex;
+    padding: $em-l 0;
+    @media screen and (min-width: $m) {
+      @include flex-direction(row);
+    }
+    @media screen and (min-width: $l) {
+      @include flex-direction(column);
+    }
+    @media screen and (min-width: $xl) {
+      @include flex-direction(row);
+    }
+    & > header {
+      flex-shrink: 0;
+      @media screen and (min-width: $m) {
+        width: $xs;
+      }
+      @media screen and (min-width: $l) {
+        width: auto;
+      }
+      @media screen and (min-width: $xl) {
+        width: $xs;
+      }
+    }
+    & > main {
+      margin-top: $em-xl;
+      width: 100%;
+      @media screen and (min-width: $m) {
+        margin-top: 0;
+      }
+      @media screen and (min-width: $l) {
+        margin-top: $em-xl;
+      }
+      @media screen and (min-width: $xl) {
+        margin-top: 0;
+      }
+      .subsection {
+        position: relative;
+        h4 {
+          padding-bottom: $em-xs;
+        }
+      }
+      .subsection + .subsection {
+        margin-top: $em;
+        padding-top: $em;
+        &:before {
+          background: rgba(0,0,0,.15);
+          content: "";
+          display: block;
+          height: 1px;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: $em-xxxl;
+        }
+      }
+      .truncated {
+        max-height: $xs;
+        overflow: hidden;
+      }
+    }
+  }
+  section + section {
+    border-top: 1px solid rgba(0,0,0,.15);
+  }
+  .details-amenities {
+    .amenities-list {
+      ul {
+        @include align-items(flex-start);
+        @include flex-direction(row);
+        @include justify-content(flex-start);
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          display: block;
+          line-height: $em-xl;
+          width: 100%;
+          @media screen and (min-width: $s-m) {
+            width: 50%;
+          }
+          @media screen and (min-width: $m-l) {
+            width: 33%;
+          }
+          @media screen and (min-width: $l) {
+            width: 50%;
+          }
+          @media screen and (min-width: $l-xl) {
+            width: 33%;
+          }
+          i {
+            font-size: $em-s;
+            line-height: $em-xl;
+            margin-right: $em-xxs;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+  }
+  .details-availability {
+    .calendar {
+      margin-top: -1*$em-xl;
+      text-align: center;
+    }
+    .truncated {
+      max-height: $s-m;
+    }
+    a.expand-link{
+      display: block;
+      text-align: center;
+    }
+  }
+}

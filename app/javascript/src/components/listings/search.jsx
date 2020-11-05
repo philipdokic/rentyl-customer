@@ -2,6 +2,7 @@
 // -----------------------------------------------
 import React from 'react';
 import axios from 'axios'
+import {connect} from 'react-redux';
 import { isInclusivelyBeforeDay } from 'react-dates';
 import { max, isNull } from 'lodash';
 import moment from 'moment';
@@ -13,15 +14,11 @@ import ReactPaginate from 'react-paginate';
 import Script from 'react-load-script';
 import styled from 'styled-components';
 
-// Redux
-// -----------------------------------------------
-import * as brandAction from '../../redux/action/brand'
-import * as listingsAction from '../../redux/action/listings'
-
 // Components
 // -----------------------------------------------
 import AmenitiesList from './resources/amenities_list.json';
 import { Intercom } from '../miscellaneous/';
+import Meta from './meta';
 import {
   SearchInfo,
   SearchList,
@@ -33,11 +30,16 @@ import {
 } from './searchComponents';
 import { ThLarge, ThList, Map } from './resources/icons';
 
+// Redux
+// -----------------------------------------------
+import * as brandAction from '../../redux/action/brand'
+import * as listingsAction from '../../redux/action/listings'
+
 // -----------------------------------------------
 // COMPONENT->SEARCH -----------------------------
 // -----------------------------------------------
-export default class ThemeDefaultSearch extends React.Component {
-  constructor(props, _railsContext) {
+class ThemeDefaultSearch extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -121,7 +123,7 @@ export default class ThemeDefaultSearch extends React.Component {
     axios.get('/api/organizations')
     .then(response => {
       props.dispatch(brandAction.setBrand(response.data))
-      axios.get(`/api/listings?brand=${response.data.id}`, {
+      axios.get(`/api/listings?brand=${response.data.brand.id}`, {
         headers: {'Content-Type': 'application/json'}
       })
       .then(res => {
@@ -662,6 +664,7 @@ export default class ThemeDefaultSearch extends React.Component {
 
     return (
       <div>
+        <Meta/>
         {this.state.view === 'map' && (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <SearchSortFilters
@@ -913,3 +916,14 @@ export default class ThemeDefaultSearch extends React.Component {
   }
 }
 
+// Map State to Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    brand: state.brand ? state.brand : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(ThemeDefaultSearch)

@@ -1,0 +1,312 @@
+@import
+       "themes/default/vars"
+;
+
+.cx-main {
+  .homepage-jumbotron {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    background-color: $color-lightest-gray;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    height: 66vh;
+    width: 100%;
+    h1 {
+      color: $color-white;
+      font-size: $em-xxl;
+      font-weight: 500;
+      text-align: center;
+      text-shadow: 0 0 1px $color-black;
+      @media screen and (min-width: $m-l) {
+        font-size: $em-xxxxl;
+      }
+    }
+    h2 {
+      color: $color-white;
+      font-size: $em;
+      text-align: center;
+      text-shadow: 0 0 1px $color-black;
+      @media screen and (min-width: $m-l) {
+        font-size: $em-l;
+      }
+    }
+    .homepage-jumbotron-container {
+      @include align-items(center);
+      @include flex-direction(column);
+      @include justify-content(center);
+      border-radius: 2px;
+      max-width: 100%;
+    }
+    &.background-black {
+      .homepage-jumbotron-container {
+        background: rgba(0,0,0,.5);
+        padding: $em;
+        margin: 1*$em;
+      }
+    }
+    &.background-white {
+      .homepage-jumbotron-container {
+        background: rgba(255,255,255,.5);
+        padding: $em;
+      }
+    }
+  }
+  .homepage-listings-link {
+    margin-top: $em-s;
+    a {
+      font-size: $em-m;
+      text-shadow:
+       -1px -1px 1px $color-white,
+        1px -1px 1px $color-white,
+        -1px 1px 1px $color-white,
+         1px 1px 1px $color-white;
+    }
+  }
+  .homepage-search-form {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    display: flex;
+    max-width: 100%;
+    margin: $em-xl auto 0;
+    @media screen and (min-width: $m-l) {
+      @include align-items(center);
+      @include flex-direction(row);
+      @include justify-content(center);
+    }
+    input[type="text"] {
+      margin: 0;
+      height: 41px;
+      border-top: 1px solid #dbdbdb;
+      border-bottom: 1px solid #dbdbdb;
+      @media screen and (min-width: $m-l) {
+        margin: 0;
+        min-width: $xs;
+      }
+    }
+    .DateRangePicker {
+      width: 100%;
+      .DateInput {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        position: relative;
+        display: inline-block;
+        min-width: 130px;
+        vertical-align: middle;
+        width: 100%;
+      }
+
+      input.DateInput_input__focused {
+        border-bottom-width: 1px !important;
+      }
+    }
+    .city-dropdown {
+      min-width: 200px;
+      input[type="text"] {
+        height: 24px;
+      }
+    }
+    .button {
+      margin: $em 0 0 0;
+      width: 100%;
+      @media screen and (min-width: $m-l) {
+        margin: 0;
+        padding: $em-xs $em-l;
+        width: auto;
+      }
+    }
+    .DateRangePicker {
+      flex: 0 0 auto;
+      .DateRangePickerInput {
+        height: 41px;
+      }
+      @media screen and (max-width: $m-l) {
+        margin-top: 5px;
+        width: 100%;
+      }
+    }
+    .select-wrapper {
+      min-width: $s-padded;
+      @media screen and (min-width: $m-l) {
+        min-width: 130px;
+      }
+      select {
+        margin-bottom: 0;
+      }
+      @media screen and (max-width: $m-l) {
+        margin-top: 5px;
+        width: 100%;
+      }
+    }
+  }
+  .search-error {
+    color: $color-red;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .home-section {
+    margin: auto;
+    max-width: $xl;
+    padding: $em-xxl $em;
+    width: 100%;
+  }
+  .home-section + .home-section {
+    @media screen and (min-width: $m) {
+      margin-top: $em-xl;
+    }
+  }
+  .featured-tiles {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    display: flex;
+    flex-wrap: wrap;
+    @media screen and (min-width: $m) {
+      padding-top: $em-l;
+      @include flex-direction(row);
+    }
+  }
+  .featured-tile {
+    border: 1px solid transparent;
+    padding: $em 0 0 0;
+    position: relative;
+    transition: transform $transition-short;
+    width: 100%;
+    @media screen and (min-width: $m) {
+      padding: $em $em-xs 0;
+      width: 50%;
+    }
+    @media screen and (min-width: $xl) {
+      width: 33%;
+    }
+    a {
+      font-weight: 600;
+    }
+    address {
+      font-size: $em-m;
+      font-weight: 600;
+      opacity: .75;
+    }
+    h3 {
+      border-bottom: 1px solid;
+      font-size: $em;
+      font-weight: 600;
+      padding: $em-xs 0;
+      margin-bottom: $em-xs;
+      transition: border-color $transition-short;
+      b {
+        font-weight: 900;
+      }
+    }
+    ul {
+      @include align-items(flex-start);
+      @include flex-direction(row);
+      @include justify-content(flex-start);
+      display: flex;
+      font-size: $em-m;
+      padding-top: $em-xxxs;
+      li {
+        border-right: 1px solid rgba(0,0,0,.15);
+        margin-right: $em-xxs;
+        padding-right: $em-xxs;
+        &:last-child {
+          border-right: none;
+          margin-right: 0;
+          padding-right: 0;
+        }
+      }
+    }
+    .featured-image {
+      background-color: $color-background-gray;
+      background-position: center;
+      background-size: cover;
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+      height: $s-padded;
+    }
+    .featured-listing-banner {
+      background: rgba(0,0,0,.65);
+      border-radius: 2px;
+      bottom: 0;
+      color: $color-white;
+      font-weight: 600;
+      left: 0;
+      padding: $em-xxs $em-xs;
+      position: absolute;
+      text-align: right;
+      transition: bottom $transition-short;
+      width: 100%;
+    }
+    &:hover {
+      transform: scale(1.025);
+      .featured-listing-banner {
+        bottom: -36px;
+      }
+    }
+  }
+  .featured-pages {
+    @media screen and (min-width: $m) {
+      padding-top: $em-l;
+    }
+  }
+  .featured-page {
+    padding: $em;
+    max-width: $xl;
+    margin: 0 auto $em-xxl;
+  }
+  .featured-page a {
+    @include align-items(center);
+    @include flex-direction(column);
+    @include justify-content(center);
+    flex-wrap: wrap;
+    display: flex;
+    width: 100%;
+    @media screen and (min-width: $m) {
+      @include align-items(flex-start);
+      @include flex-direction(row);
+      @include justify-content(flex-start);
+      .featured-image + .featured-page-content {
+        padding-left: $em;
+        width: calc(100% - 288px);
+      }
+    }
+    @media screen and (min-width: $xl) {
+      .featured-image + .featured-page-content {
+        width: calc(100% - 448px);
+      }
+    }
+    h3 {
+      font-weight: 600;
+      padding: $em-s 0;
+      text-align: center;
+      @media screen and (min-width: $m) {
+        padding-top: 0;
+        text-align: left;
+      }
+    }
+    .featured-image {
+      background-position: center;
+      background-size: cover;
+      height: $s-padded;
+      width: 100%;
+      @media screen and (min-width: $m) {
+        width: $s-padded;
+      }
+      @media screen and (min-width: $xl) {
+        width: $s-m-padded;
+      }
+    }
+    .featured-page-content {
+      width: 100%;
+    }
+    .featured-read-more {
+      display: block;
+      text-align: right;
+      width: 100%;
+    }
+  }
+}

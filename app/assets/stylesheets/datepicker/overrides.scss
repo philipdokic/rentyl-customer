@@ -1,0 +1,89 @@
+@import 'variables';
+@import 'admin/vars';
+
+.datepicker {
+  .DateRangePicker {
+    max-width: 100%;
+  }
+
+  .DateRangePickerInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow .3s;
+  }
+
+  .DateInput_input {
+    font-size: 16px;
+    line-height: 16px;
+    padding: 8px 10px 8px;
+    text-align: center;
+    font-family: inherit;
+    font-weight: 400;
+    color: rgb(51, 51, 51);
+    margin-bottom: 0;
+    border: none;
+    text-align: left;
+  }
+
+  .DateInput_input::placeholder {
+    color: rgb(51, 51, 51);
+    font-family: inherit;
+    font-weight: normal;
+  }
+
+  .DateRangePickerInput_arrow {
+    position: relative;
+  }
+
+  .DateInput_input__disabled {
+    background-color: #f2f2f2
+  }
+
+  input.DateInput_input__focused {
+    border-bottom: 2px solid #50E3C2 !important;
+  }
+
+  td.CalendarDay {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .CalendarDay__selected_span {
+    background: #5D96E4;
+    border: 1px double #5284ca;
+  }
+
+  .CalendarDay__selected_span:active,
+  .CalendarDay__selected_span:hover {
+    background: #5c95e4;
+    border: 1px double #5284ca;
+  }
+
+  .CalendarDay__selected,
+  .CalendarDay__selected:active,
+  .CalendarDay__selected:hover {
+    background: #5284ca;
+    border: 1px double #5284ca;
+  }
+
+  .CalendarDay__hovered_span,
+  .CalendarDay__hovered_span:hover {
+    background: #5c95e4;
+    border: 1px double #5284ca;
+    color: #fff;
+  }
+
+  .CalendarDay__hovered_span:active {
+    background: #5284ca;
+    border: 1px double #5284ca;
+  }
+
+  table.CalendarMonth_table td {
+    padding: 0
+  }
+
+  table.CalendarMonth_table td:first-child:not(.CalendarDay) {
+    border-right: none;
+  }
+}

@@ -1,0 +1,3 @@
+<% unless @brand.brand_info.google_tag_manager.blank? %>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= @brand.brand_info.google_tag_manager %>" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<% end %>

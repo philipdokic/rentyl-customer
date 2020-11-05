@@ -1,0 +1,21 @@
+@import
+       "themes/default/vars"
+;
+
+.freeform {
+  margin: auto;
+  max-width: $xl;
+  overflow-x: hidden;
+  padding: $em-xxl $em;
+  width: 100%;
+  iframe,
+  img {
+    display: block;
+    margin: $em-l auto;
+    max-width: 100%;
+  }
+  b,
+  strong {
+    font-weight: 600;
+  }
+}

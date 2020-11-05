@@ -2,7 +2,7 @@
 # RUBY->CONTROLLER->ORGANIZATIONS ================
 # ================================================
 class Api::OrganizationsController < ApplicationController
-  before_action :grab_brand
+
   # ==============================================
   # ACTIONS ======================================
   # ==============================================
@@ -11,51 +11,45 @@ class Api::OrganizationsController < ApplicationController
   # INDEX ----------------------------------------
   # ----------------------------------------------
   def index
-    render json: @brand
+    render json: {
+      brand: @brand,
+      brand_info: @brand.brand_info,
+      canonical: request.host,
+      contact: @brand.brand_info.contact,
+      footer: @brand.brand_footer,
+      header: @brand.brand_header,
+      logo_image: @brand.brand_info.logo_image,
+      menu: menu_data,
+      organization: @brand.organization
+    }
   end
 
+  # ----------------------------------------------
+  # SHOW -----------------------------------------
+  # ----------------------------------------------
   def show
     build_featured_listing_models
     @homepage = @brand.brand_home_page
     render json:{
-      canonical: request.original_url,
-      brand: @brand,
       featured_listings: @featured_listings,
       featured_pages: @brand.featured_page_content,
       homepage: @homepage,
       hero_image: @homepage.hero_image,
-      options: @homepage.options,
-      payload: @homepage.payload,
-      google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY'],
-      # slug: @brand.unit_listings.where(active:true).first&.slug,
-      cities: @brand.city_options,
-      intercom_id: @brand.brand_footer&.intercom_id,
-      logo_image: @brand.brand_info.logo_image,
-      footer: @brand.brand_footer,
-      contact: @brand.brand_info.contact,
-      social: @brand.brand_info.social,
-      subdomain: @brand.organization.subdomain,
-      brand_info: @brand.brand_info,
-      menu: menu_data,
-      theme: @theme,
-      organization: @brand.organization,
       location: @brand.organization.location,
-      header: @brand.brand_header,
-      max_guests: @brand.max_guests,
-      max_baths: @brand.max_baths,
-      max_bedrooms: @brand.max_bedrooms,
-      unit_id: params[:unit_id] ? params[:unit_id] : 0
-  }
+      options: @homepage.options,
+      payload: @homepage.payload
+    }
   end
 
+  # ==============================================
+  # PRIVATE ======================================
+  # ==============================================
   private
 
-  def grab_brand
-    request_host = request.host
-    domain = Domain.find_by(url: request_host)
-    @brand = domain.brand
-  end 
-
+  # ----------------------------------------------
+  # BUILD-FEATURED-LISTING-MODELS ----------------
+  # ----------------------------------------------
+  # TODO: refactor
   def build_featured_listing_models
     featured_listings = @brand.unit_listings.where(featured: true)
     featured_listings_info = []
@@ -92,9 +86,12 @@ class Api::OrganizationsController < ApplicationController
     @featured_listings = featured_listings_info
   end
 
+  # ----------------------------------------------
+  # MENU-DATA ------------------------------------
+  # ----------------------------------------------
   def menu_data
-  menu = @brand.menus.find_or_create_by(menu_type: 0, active: true)
-     {
+    menu = @brand.menus.find_or_create_by(menu_type: 0, active: true)
+    {
       id: menu.id,
       type: menu.menu_type,
       active: menu.active,

@@ -61,16 +61,17 @@ class Jumbotron extends React.Component {
           </>
         ) : (
           <header
+            className={`homepage-jumbotron`}
             className={`homepage-jumbotron background-${
-              this.props.brand.options.header_background
+              this.props.brand.home.options.header_background
             }`}
             style={{ backgroundImage: `url(${heroImage})` }}
           >
             <div className="homepage-jumbotron-container">
-              {this.props.brand.payload.header ? (
-                <h1 className="font-heading">{this.props.brand.payload.header}</h1>
+              {this.props.brand.home.payload.header ? (
+                <h1 className="font-heading">{this.props.brand.home.payload.header}</h1>
               ) : null}
-              {this.props.brand.payload.subheader ? <h2>{this.props.brand.payload.subheader}</h2> : null}
+              {this.props.brand.home.payload.subheader ? <h2>{this.props.brand.home.payload.subheader}</h2> : null}
               <SearchForm
                 error={this.state.error}
                 setError={this.setError}
@@ -99,7 +100,7 @@ const searchStyle = {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand.id ? state.brand : {}
+    brand: state.brand.brand.id ? state.brand : {}
   };
 }
 
