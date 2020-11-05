@@ -4,8 +4,6 @@ import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import 'react-dates/initialize';
-import { Helmet } from 'react-helmet';
-
 
 // Components
 // -----------------------------------------------
@@ -13,7 +11,7 @@ import ContactForm from '../contact-form/default-form';
 import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
-import { Intercom } from '../miscellaneous/';
+import Meta from './meta';
 
 // Redux
 // -----------------------------------------------
@@ -24,10 +22,16 @@ import * as brandAction from '../../redux/action/brand'
 // -----------------------------------------------
 class Home extends React.Component {
 
+  // Constructor
+  // ---------------------------------------------
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true };
+  }
+
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
-    Intercom(this.props.intercom_id);
     document.body.classList.add('home-view');
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('listings-view');
@@ -39,8 +43,9 @@ class Home extends React.Component {
   // ---------------------------------------------
   setBrand = (props) => {
     axios.get('/api/organizations/home')
-    .then(res => {
-      props.dispatch(brandAction.setBigBrand(res.data))
+    .then(async (res) => {
+      await props.dispatch(brandAction.setHome(res.data));
+      this.setState({isLoading: false});
     })
   }
 
@@ -48,62 +53,43 @@ class Home extends React.Component {
   // ---------------------------------------------
   renderHomepageContent() {
     return {
-      __html: this.props.brand.payload.content
+      __html: this.props.brand.home.payload.content
     };
   }
 
   // Render
   // ---------------------------------------------
   render() {
-    if(this.props.brand.canonical){
+    if(!this.state.isLoading){
       return (
         <main>
-          <Helmet>
-            <script type="application/ld+json">{`
-              {
-                "@context": "https://schema.org",
-                "@type": "LodgingBusiness",
-                "name": "${this.props.brand.name}",
-                "url": "${this.props.brand.canonical}",
-                "telephone": "${this.props.brand.contact.phone_primary.number}",
-                "image": "${this.props.brand.logo_image.url}",
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "${this.props.brand.location.adr_street}",
-                  "addressLocality": "${this.props.brand.location.adr_city}",
-                  "addressRegion": "${this.props.brand.location.adr_state}",
-                  "postalCode": "${this.props.brand.location.adr_postal_code}",
-                  "addressCountry": "${this.props.brand.location.adr_country}"
-                }
-              }
-            `}</script>
-          </Helmet>
+          <Meta />
           <Jumbotron />
           <article
             className="freeform home-section"
             dangerouslySetInnerHTML={this.renderHomepageContent()}
           />
-          {this.props.brand.options.show_featured_properties == 'true' &&
-          this.props.brand.featured_listings.length > 0 ? (
+          {this.props.brand.home.options.show_featured_properties == 'true' &&
+          this.props.brand.home.featured_listings.length > 0 ? (
             <FeaturedListingsContainer />
           ) : null}
-          {this.props.brand.options.show_featured_pages == 'true' &&
-          this.props.brand.featured_pages.length > 0 ? (
+          {this.props.brand.home.options.show_featured_pages == 'true' &&
+          this.props.brand.home.featured_pages.length > 0 ? (
             <FeaturedPagesContainer />
           ) : null}
-          {this.props.brand.options.show_contact_form == 'true' && (
+          {this.props.brand.home.options.show_contact_form == 'true' && (
             <ContactForm subject="General Question" />
           )}
         </main>
       );
-    } else { return(<div></div>) }}
+    } else { return(<div>Loading...</div>) }}
 }
 
 // Map State to Props
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand.id ? state.brand : {}
+    brand: state.brand
   };
 }
 

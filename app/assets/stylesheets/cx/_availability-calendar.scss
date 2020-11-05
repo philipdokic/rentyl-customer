@@ -1,0 +1,80 @@
+@import
+       "cx/vars"
+;
+
+.cell {
+  cursor: default;
+  display: inline-block;
+  width: $em-xxxl;
+  height: $em-xxxl;
+  padding: $em-xxs;
+  text-align: center;
+}
+.rc-Calendar-header {
+  display: none;
+}
+.rc-Month {
+  display: inline-block;
+  margin: $em-xl $em-l 0;
+  vertical-align: top;
+}
+.rc-Month-header {
+  text-align: center;
+  font-weight: 600;
+}
+.rc-Month-weekdays-weekday {
+  display: inline-block;
+  width: $em-xxxl;
+  height: $em-xl;
+  padding: $em-xxs $em-xxs 0;
+  text-align: center;
+  font-weight: bolder;
+  border-bottom: 1px solid rgba(0,0,0,.15);
+}
+.rc-Week {
+  height: $em-xxxl;
+}
+.rc-Week-number {
+  display: inline-block;
+  width: $em-xxxl;
+  height: $em-xxxl;
+  padding: $em-xxs;
+  text-align: center;
+}
+.rc-Week-days {
+  display: inline-block;
+}
+.rc-Day {
+  cursor: default;
+  display: inline-block;
+  font-weight: 600;
+  width: $em-xxxl;
+  height: $em-xxxl;
+  line-height: $em-xxxl;
+  text-align: center;
+  vertical-align: middle;
+}
+.rc-Day--outside {
+  color: rgba(0,0,0,.15);
+}
+.rc-Day--current {
+  border-radius: 50%;
+  font-weight: 600;
+}
+.rc-Day--unavailable {
+  background: rgba(0,0,0,.05);
+  cursor: not-allowed;
+  color: rgba(0,0,0,.25);
+}
+.rc-Day--check_in {
+  background: -moz-linear-gradient(45deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+  background: -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+  cursor: not-allowed;
+}
+.rc-Day--check_out {
+  background: -moz-linear-gradient(45deg, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0) 50%);
+  background: -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0) 50%);
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0) 50%);
+  cursor: not-allowed;
+}

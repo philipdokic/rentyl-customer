@@ -14,5 +14,5 @@ Rails.application.routes.draw do
   end
   resources :brands
 
-  # get '*path', to: 'organizations#index', via: :all #Comment this out to see routes in browser
+  get '*path', to: 'organizations#index', via: :all #Comment this out to see routes in browser
 end

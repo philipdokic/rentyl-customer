@@ -12,6 +12,7 @@ import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
+import Meta from './meta';
 import {
   Amenities,
   Availability,
@@ -279,36 +280,7 @@ class Room extends React.Component {
 
     return (
       <div>
-        <Helmet>
-          <script type="application/ld+json">{`
-            {
-              "@context": "https://schema.org/",
-              "@type": "LodgingBusiness",
-              "name": "${this.props.listing.property.name}",
-              "brand": "${this.props.brand.name}",
-              "description": "${this.props.listing.property.summary_description}",
-              ${ this.state.reviews > 0 ? `
-                "aggregateRating": {
-                  "@type": "AggregateRating",
-                  "ratingValue": "${this.state.review_average}",
-                  "ratingCount": "${this.state.reviews}"
-                },` : '' }
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "${this.props.listing.location.adr_street}",
-                "addressLocality": "${this.props.listing.location.adr_city}",
-                "addressRegion": "${this.props.listing.location.adr_state}",
-                "postalCode": "${this.props.listing.location.adr_postal_code}",
-                "addressCountry": "${this.props.listing.location.adr_country}"
-              }
-            }
-          `}</script>
-          {/*
-
-              "telephone": "${this.props.brand_info.contact.phone_primary.number}",
-              "image": "${this.props.property_images[0].image.medium.url}",
-              */}
-        </Helmet>
+        <Meta />
         {/* <Images
           property_images={this.props.property_images}
           unit_images={this.props.unit_images}
