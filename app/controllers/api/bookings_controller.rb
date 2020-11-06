@@ -93,10 +93,11 @@ class Api::BookingsController < ApplicationController
   end
 
   def set_quote
-    check_in = Date.parse(params['check_in'])
-    check_out = Date.parse(params['check_out'])
-    num_guests = params['num_guests'].to_i
-    @quote ||= Quotes::Main.new(@listing.unit, check_in, check_out, num_guests)
+    uri = URI("http://www.lvh.me:3000/api/v2/checkout/#{params[:listing_id]}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Get.new(uri.path, {'Content-Type' => 'application/json'})
+    request.body = {check_in: Date.parse(params['check_in']), check_out: Date.parse(params['check_out']), num_guests: params['num_guests'].to_i}.to_json
+    @quote ||= JSON.parse(http.request(request).body)
   end
 
   def get_property_manager_from_property_and_brand
