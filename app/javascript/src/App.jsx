@@ -13,19 +13,25 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Footer from './components/layout/footer';
 import Header from './components/layout/header';
 import { Intercom } from './components/miscellaneous/';
-import Listing from './redux/containers/listing'
-import Listings from './redux/containers/listings'
-import Home from './components/home/index'
-import NoMatch from './components/NoMatch'
+import Listing from './redux/containers/listing';
+import Listings from './redux/containers/listings';
+import Page from './components/pages/index';
+import Home from './components/home/index';
+import NoMatch from './components/NoMatch';
 
 // Redux
 // -----------------------------------------------
-import * as brandAction from './redux/action/brand'
+import * as brandAction from './redux/action/brand';
 
 // -----------------------------------------------
 // COMPONENT->APP --------------------------------
 // -----------------------------------------------
 class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true };
+  }
 
   // Component Did Mount
   // ---------------------------------------------
@@ -38,8 +44,10 @@ class App extends React.Component {
   // ---------------------------------------------
   setBrand = (props) => {
     axios.get('/api/organizations')
-    .then(res => {
-      props.dispatch(brandAction.setBrand(res.data))
+    .then(async (res) => {
+      await props.dispatch(brandAction.setBrand(res.data))
+      console.log("HIT");
+      this.setState({isLoading: false});
     })
   }
 
@@ -71,32 +79,35 @@ class App extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    return (
-      <>
-        <Helmet>
-          {this.importCustomTags()}
-          {this.importCustomScripts()}
-          {this.importCustomStyles()}
-        </Helmet>
-        <Header />
-        <main
-          className="cx-main listings_details theme-default_mixed"
-          style={this.contentStyles}
-        >
-          <Switch>
-            <Route path="/listings/search" component={Listings} />
-            <Route path="/listings/list" component={Listings} />
-            <Route path="/listings/grid" component={Listings} />
-            <Route path="/listings/map" component={Listings} />
-            <Route path="/listings/:listing_slug" component={Listing} />
-            <Redirect from="/listings" to="/listings/search" />
-            <Route exact path="/" component={Home} />
-            <Route component={NoMatch} />
-          </Switch>
-          <Footer />
-        </main>
-      </>
-    )
+    if(!this.state.isLoading){
+      return (
+        <>
+          <Helmet>
+            {this.importCustomTags()}
+            {this.importCustomScripts()}
+            {this.importCustomStyles()}
+          </Helmet>
+          <Header />
+          <main
+            className="cx-main listings_details theme-default_mixed"
+            style={this.contentStyles}
+          >
+            <Switch>
+              <Route path="/listings/search" component={Listings} />
+              <Route path="/listings/list" component={Listings} />
+              <Route path="/listings/grid" component={Listings} />
+              <Route path="/listings/map" component={Listings} />
+              <Route path="/listings/:listing_slug" component={Listing} />
+              <Redirect from="/listings" to="/listings/search" />
+              <Route path="/pages/:page_slug" component={Page} />
+              <Route exact path="/" component={Home} />
+              <Route component={NoMatch} />
+            </Switch>
+            <Footer />
+          </main>
+        </>
+      )
+    } else { return(<div>Loading...</div>) }
   }
 }
 
