@@ -35,7 +35,7 @@ class Api::OrganizationsController < ApplicationController
       featured_listings: @featured_listings,
       featured_pages: @brand.featured_page_content,
       homepage: @homepage,
-      hero_image: @homepage.hero_image,
+      hero_image: @homepage.hero_image.url,
       location: @brand.organization.location,
       options: @homepage.options,
       payload: @homepage.payload

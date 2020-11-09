@@ -41,8 +41,8 @@ class Jumbotron extends React.Component {
   // Generate Hero Image
   // ---------------------------------------------
   generateHeroImage() {
-    if (this.props.brand.hero_image && this.props.brand.hero_image.image) {
-      return this.props.brand.hero_image.image.url;
+    if (this.props.brand.home.hero_image) {
+      return this.props.brand.home.hero_image;
     } else {
       return '';
     }
