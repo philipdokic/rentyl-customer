@@ -24,7 +24,7 @@ class Meta extends React.Component {
   render() {
     return (
       <Helmet>
-        <title>{`${this.props.listing.property.name} | ${this.props.brand.brand.name}`}</title>
+        <title>{`${this.props.listing.property.name} | ${this.props.brand.name}`}</title>
         <link rel="canonical" href={`${this.props.brand.canonical}/listings/${this.props.listing.slug}`} />
         <meta name="description" content={this.props.listing.property.summary_description} />
         <meta itemprop="name" content={this.props.listing.property.name} />
@@ -39,8 +39,8 @@ class Meta extends React.Component {
         <meta name="twitter:image" content="https://example.com/image.jpg" />
         {/* Facebook */}
         <meta property="og:image" content="http://example.com/image.jpg" />
-        <meta property="og:site_name" content={this.props.brand.brand.name} />
-        <meta property="og:title" content={`${this.props.listing.property.name} | ${this.props.brand.brand.name}`} />
+        <meta property="og:site_name" content={this.props.brand.name} />
+        <meta property="og:title" content={`${this.props.listing.property.name} | ${this.props.brand.name}`} />
         <meta property="og:description" content={this.props.listing.property.summary_description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${this.props.brand.canonical}/listings/${this.props.listing.slug}`} />
@@ -58,7 +58,7 @@ class Meta extends React.Component {
             "@context": "https://schema.org/",
             "@type": "LodgingBusiness",
             "name": "${this.props.listing.property.name}",
-            "brand": "${this.props.brand.brand.name}",
+            "brand": "${this.props.brand.name}",
             "description": "${this.props.listing.property.summary_description}",
             ${ this.state.reviews > 0 ? `
               "aggregateRating": {

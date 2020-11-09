@@ -17,7 +17,7 @@ class Meta extends React.Component {
         <title>Title | Site Name</title>
         <link rel="canonical" href={this.props.brand.canonical} />
         <meta name="description" content="custom..." />
-        <meta itemprop="name" content={this.props.brand.brand.name} />
+        <meta itemprop="name" content={this.props.brand.name} />
         <meta itemprop="description" content="custom..." />
         <meta itemprop="image" content="https://example.com/image.jpg" />
         {/* Twitter */}
@@ -29,7 +29,7 @@ class Meta extends React.Component {
         <meta name="twitter:image" content="https://example.com/image.jpg" />
         {/* Facebook */}
         <meta property="og:image" content="http://example.com/image.jpg" />
-        <meta property="og:site_name" content={this.props.brand.brand.name} />
+        <meta property="og:site_name" content={this.props.brand.name} />
         <meta property="og:title" content="Title | Site Name" />
         <meta property="og:description" content="custom..." />
         <meta property="og:type" content="website" />
@@ -47,7 +47,7 @@ class Meta extends React.Component {
           {
             "@context": "https://schema.org",
             "@type": "LodgingBusiness",
-            "name": "${this.props.brand.brand.name}",
+            "name": "${this.props.brand.name}",
             "url": "${this.props.brand.canonical}",
             "telephone": "${this.props.brand.contact.phone_primary.number}",
             "image": "${this.props.brand.logo_image.url}",
@@ -61,10 +61,6 @@ class Meta extends React.Component {
             }
           }
         `}</script>
-        {/*
-        "telephone": "${this.props.brand_info.contact.phone_primary.number}",
-        "image": "${this.props.property_images[0].image.medium.url}",
-        */}
       </Helmet>
     );
   }

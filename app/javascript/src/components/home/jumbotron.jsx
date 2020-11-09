@@ -8,6 +8,17 @@ import { get } from 'lodash'
 // -----------------------------------------------
 import SearchForm from './search-form';
 
+// Styles
+// -----------------------------------------------
+const searchStyle = {
+  position: 'absolute',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  left: 0,
+  right: 0,
+  top: '10em'
+};
+
 // -----------------------------------------------
 // COMPONENT->JUMBOTRON --------------------------
 // -----------------------------------------------
@@ -30,8 +41,8 @@ class Jumbotron extends React.Component {
   // Generate Hero Image
   // ---------------------------------------------
   generateHeroImage() {
-    if (this.props.brand.hero_image && this.props.brand.hero_image.image) {
-      return this.props.brand.hero_image.image.url;
+    if (this.props.brand.home.hero_image) {
+      return this.props.brand.home.hero_image;
     } else {
       return '';
     }
@@ -87,20 +98,11 @@ class Jumbotron extends React.Component {
   }
 }
 
-const searchStyle = {
-  position: 'absolute',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  left: 0,
-  right: 0,
-  top: '10em'
-};
-
 // Map State to Props
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand.brand.id ? state.brand : {}
+    brand: state.brand.id ? state.brand : {}
   };
 }
 

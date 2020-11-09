@@ -309,7 +309,6 @@ class SearchForm extends React.Component {
           this.props.brand.home.options.location_search === 'true' ? 'with-location' : ''
         }`}
       >
-        {/* FIX: MOVE GOOGLE API SCRIPT TO TOP OF APP FOR ALL VIEWS */}
         <Script
           url={`https://maps.googleapis.com/maps/api/js?key=${
             this.props.brand.google_maps_api_key
@@ -365,7 +364,7 @@ class SearchForm extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand
+    brand: state.brand ? state.brand : {}
   };
 }
 

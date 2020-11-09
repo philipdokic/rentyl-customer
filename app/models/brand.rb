@@ -26,6 +26,7 @@ class Brand < ApplicationRecord
   has_one :brand_info
   has_one :brand_home_page
   has_one :location
+  has_one :rental_agreement
 
   # ----------------------------------------------
   # ENUMS/CONSTANTS ------------------------------

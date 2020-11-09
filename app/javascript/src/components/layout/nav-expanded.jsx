@@ -8,9 +8,9 @@ import { get, filter, isEmpty, each } from 'lodash';
 // -----------------------------------------------
 import Link from '../links/link';
 
-
+// Constants
+// -----------------------------------------------
 const timeout = 300;
-
 const linkPadding = {
   padding: '20px 0px'
 };
@@ -212,7 +212,7 @@ class NavExpanded extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand
+    brand: state.brand ? state.brand : {}
   };
 }
 

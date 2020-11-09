@@ -6,7 +6,23 @@ class Api::BookingsController < ApplicationController
     get_listing_by_id
     set_quote
     get_checkout_data_by_listing_id
-    @stripe_publishable_key = ENV['STRIPE_PUBLISHABLE_KEY']
+    render json:{
+      listing: @listing,
+      obfuscated_address: @property.location.obfuscated_address,
+      property: @property,
+      featured_image: @property.property_images[0],
+      rental_agreement: @brand.rental_agreement,
+      slug: @property.name.parameterize,
+      stripe_publishable_key: ENV['STRIPE_PUBLISHABLE_KEY'],
+      unit: @unit,
+      deposits: @deposits,
+      fees: @fees,
+      checkout_total: @quote['total'],
+      verify_signature: @brand.verify_signature,
+      verify_image: @brand.verify_image,
+      verify_image_description: @brand.verify_image_description,
+      brand_currency: @listing.brand.currency
+    }
   end
 
   def receipt
@@ -81,19 +97,19 @@ class Api::BookingsController < ApplicationController
   def get_checkout_data_by_listing_id
     @unit ||= @listing.unit
     @deposits ||= @listing.deposits
-    @fees ||= @quote.fees.all_outside_base_rent_with_addons
+    @fees ||= @quote['fees']
     @property ||= @unit.property
     @availability ||= @unit.unit_availability
     @pricing ||= @unit.unit_pricing
     @fees.each do |f|
       if f['name'] == 'Travel Insurance Fee'
-        f['value'] = @quote.csa_insurance_fee
+        f['value'] = @quote['csa_insurance_fee']
       end
     end
   end
 
   def set_quote
-    uri = URI("http://www.lvh.me:3000/api/v2/checkout/#{params[:listing_id]}")
+    uri = URI("http://www.lvh.me:3000/api/v2/checkout/#{@listing.unit.id}")
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.path, {'Content-Type' => 'application/json'})
     request.body = {check_in: Date.parse(params['check_in']), check_out: Date.parse(params['check_out']), num_guests: params['num_guests'].to_i}.to_json

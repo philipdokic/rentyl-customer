@@ -6,8 +6,8 @@ import styled from 'styled-components';
 
 // Components
 // -----------------------------------------------
-import Bathroom from './bathroom';
-import Bedroom from './bedroom';
+import Bathroom from '../bathroom';
+import Bedroom from '../bedroom';
 
 // Styles
 // -----------------------------------------------

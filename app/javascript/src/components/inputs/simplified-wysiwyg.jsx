@@ -137,17 +137,6 @@ export default class SimplifiedWysiwyg extends React.Component {
   // ---------------------------------------------
   render() {
     const { contentState, editorState } = this.state;
-    const toolbar_slim = {
-      inline: {
-        inDropdown: true,
-        options: ['bold', 'italic', 'underline']
-      },
-      list: {
-        inDropdown: true,
-        options: ['unordered', 'ordered']
-      },
-      options: ['inline', 'list', 'history']
-    };
     const toolbar_wide = {
       inline: {
         inDropdown: false,

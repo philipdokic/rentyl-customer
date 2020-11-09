@@ -44,5 +44,5 @@ class Property < ApplicationRecord
   def is_multi_unit?
     multi_unit || units.length > 1
   end
-  
+
 end

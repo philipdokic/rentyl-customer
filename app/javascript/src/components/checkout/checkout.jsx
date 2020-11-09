@@ -2,6 +2,7 @@
 // -----------------------------------------------
 import React from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import moment from 'moment';
@@ -28,7 +29,7 @@ import AddOnModal from '../modals/addons-modal';
 import PortalModal from '../modals/portal-modal';
 import LocationForm from '../forms/location-form';
 
-export default class Checkout extends React.Component {
+class Checkout extends React.Component {
   static propTypes = {
     customer: PropTypes.object,
     listing: PropTypes.object,
@@ -120,7 +121,8 @@ export default class Checkout extends React.Component {
         check_in: parsedDates.check_in,
         check_out: parsedDates.check_out,
         num_guests: guests}
-    ).then(data => {
+    ).then(res => {
+      const data = res.data
       this.setState(
         {
           brandCurrency: data.brand_currency,
@@ -581,7 +583,7 @@ export default class Checkout extends React.Component {
                     closeOnSubmit
                   >
                     <AddOnModal
-                      addonImages={this.props.organization.add_on_images}
+                      addonImages={this.props.brand.organization.add_on_images}
                       fee={fee}
                       renderDescriptionPopover={this.renderDescriptionPopover}
                       currency={currency}
@@ -595,7 +597,7 @@ export default class Checkout extends React.Component {
                   </PortalModal>
                 ) : null
               )}
-              {this.props.organization.add_on_images ? (
+              {this.props.brand.organization.add_on_images ? (
                 <AddOns
                   availability={this.state.availability}
                   currency={this.state.brandCurrency}
@@ -715,13 +717,13 @@ export default class Checkout extends React.Component {
               addonFeeIds={this.state.addonFeeIds}
               checkInDate={this.state.checkInDate}
               checkoutTotal={this.state.checkoutTotal}
-              addonImages={this.props.organization.add_on_images}
+              addonImages={this.props.brand.organization.add_on_images}
               checkPricing={this.checkPricing}
               addFeeIds={this.addFeeIds}
               feeQuantities={this.state.feeQuantities}
               availabilityLoading={this.state.availabilityLoading}
               addCouponCode={this.addCouponCode}
-              organizationId={this.props.organization.id}
+              organizationId={this.props.brand.organization.id}
               allCouponCodes={this.state.allCouponCodes}
             />
           </section>
@@ -730,3 +732,15 @@ export default class Checkout extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    brand: state.brand
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Checkout)

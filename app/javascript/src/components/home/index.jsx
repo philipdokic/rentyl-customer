@@ -26,7 +26,7 @@ class Home extends React.Component {
   // ---------------------------------------------
   constructor(props) {
     super(props);
-    this.state = { isLoading: true };
+    this.state = { pageLoading: true };
   }
 
   // Component Did Mount
@@ -36,16 +36,16 @@ class Home extends React.Component {
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('listings-view');
     document.body.classList.remove('search-view');
-    !this.props.brand.canonical && this.setBrand(this.props)
+    this.setBrand(this.props)
   }
 
   // Set Brand
   // ---------------------------------------------
   setBrand = (props) => {
     axios.get('/api/organizations/home')
-    .then(async (res) => {
-      await props.dispatch(brandAction.setHome(res.data));
-      this.setState({isLoading: false});
+    .then(async (response) => {
+      await props.dispatch(brandAction.setHome(response.data));
+      this.setState({pageLoading: false});
     })
   }
 
@@ -60,7 +60,7 @@ class Home extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    if(!this.state.isLoading){
+    if(!this.state.pageLoading){
       return (
         <main>
           <Meta />
@@ -82,14 +82,15 @@ class Home extends React.Component {
           )}
         </main>
       );
-    } else { return(<div>Loading...</div>) }}
+    } else { return(<div>Loading...</div>) }
+  }
 }
 
 // Map State to Props
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand
+    brand: state.brand ? state.brand : {}
   };
 }
 

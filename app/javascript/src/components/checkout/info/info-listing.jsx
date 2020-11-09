@@ -10,7 +10,7 @@ import { every, some } from 'lodash';
 
 const InfoListing = (props) => {
 
-  buildDetaisLink = () => {
+  const buildDetaisLink = () => {
     let link = '/listings/' + props.slug + '?';
     if (props.checkInDate) {
       link += '&check-in=' + props.checkInDate.format('DD-MM-YYYY');
@@ -24,7 +24,7 @@ const InfoListing = (props) => {
     return link;
   }
 
-  getDepositRefundPolicy = () => {
+  const getDepositRefundPolicy = () => {
     const deposits = props.pricing.deposits;
     if (every(deposits, ['refundable', true])) {
       return 'full';

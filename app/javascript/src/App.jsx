@@ -7,31 +7,51 @@ import { get } from 'lodash';
 import { Helmet } from 'react-helmet';
 import HtmlParser from 'react-html-parser';
 import { Route, Switch, Redirect } from "react-router-dom";
+import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
 import Checkout from './components/checkout/checkout'
 import Footer from './components/layout/footer';
 import Header from './components/layout/header';
+import Home from './components/home/index';
 import { Intercom } from './components/miscellaneous/';
-import Listing from './redux/containers/listing'
-import Listings from './redux/containers/listings'
-import Home from './components/home/index'
-import NoMatch from './components/NoMatch'
+import Listing from './redux/containers/listing';
+import Listings from './redux/containers/listings';
+import NoMatch from './components/NoMatch';
+import Page from './components/pages/index';
+import Ripple from './components/miscellaneous/ripple';
 
 // Redux
 // -----------------------------------------------
-import * as brandAction from './redux/action/brand'
+import * as brandAction from './redux/action/brand';
+
+// Styles
+// -----------------------------------------------
+const LoadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+`;
 
 // -----------------------------------------------
 // COMPONENT->APP --------------------------------
 // -----------------------------------------------
 class App extends React.Component {
 
+  // Constructor
+  // ---------------------------------------------
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true };
+  }
+
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
-    // Intercom(this.props.brand.footer.intercom_id);
+    this.props.brand.footer !== undefined && Intercom(this.props.brand.footer.intercom_id)
     !this.props.brand.canonical && this.setBrand(this.props)
   }
 
@@ -39,8 +59,9 @@ class App extends React.Component {
   // ---------------------------------------------
   setBrand = (props) => {
     axios.get('/api/organizations')
-    .then(res => {
-      props.dispatch(brandAction.setBrand(res.data))
+    .then(async (res) => {
+      await props.dispatch(brandAction.setBrand(res.data))
+      this.setState({isLoading: false});
     })
   }
 
@@ -72,33 +93,42 @@ class App extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    return (
-      <>
-        <Helmet>
-          {this.importCustomTags()}
-          {this.importCustomScripts()}
-          {this.importCustomStyles()}
-        </Helmet>
-        <Header />
-        <main
-          className="cx-main listings_details theme-default_mixed"
-          style={this.contentStyles}
-        >
-          <Switch>
-            <Route path="/checkout/:id" component={Checkout} />
-            <Route path="/listings/search" component={Listings} />
-            <Route path="/listings/list" component={Listings} />
-            <Route path="/listings/grid" component={Listings} />
-            <Route path="/listings/map" component={Listings} />
-            <Route path="/listings/:listing_slug" component={Listing} />
-            <Redirect from="/listings" to="/listings/search" />
-            <Route exact path="/" component={Home} />
-            <Route component={NoMatch} />
-          </Switch>
-          <Footer />
-        </main>
-      </>
-    )
+    if(!this.state.isLoading){
+      return (
+        <>
+          <Helmet>
+            {this.importCustomTags()}
+            {this.importCustomScripts()}
+            {this.importCustomStyles()}
+          </Helmet>
+          <Header />
+          <main
+            className="cx-main listings_details theme-default_mixed"
+            style={this.contentStyles}
+          >
+            <Switch>
+              <Route path="/checkout/:id" component={Checkout} />
+              <Route path="/listings/search" component={Listings} />
+              <Route path="/listings/list" component={Listings} />
+              <Route path="/listings/grid" component={Listings} />
+              <Route path="/listings/map" component={Listings} />
+              <Route path="/listings/:listing_slug" component={Listing} />
+              <Redirect from="/listings" to="/listings/search" />
+              <Route path="/pages/:page_slug" component={Page} />
+              <Route exact path="/" component={Home} />
+              <Route component={NoMatch} />
+            </Switch>
+            <Footer />
+          </main>
+        </>
+      )
+    } else {
+      return(
+        <LoadingWrapper>
+          <Ripple color="#50E3C2" />
+        </LoadingWrapper>
+      )
+    }
   }
 }
 
@@ -106,7 +136,7 @@ class App extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand
+    brand: state.brand ? state.brand : {}
   };
 }
 

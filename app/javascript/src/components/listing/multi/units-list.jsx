@@ -6,7 +6,7 @@ import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
-import MultiUnit from '../multi-unit';
+import MultiUnit from './multi-unit';
 
 // -----------------------------------------------
 // COMPONENT->MULTI-DATES-GUESTS -----------------

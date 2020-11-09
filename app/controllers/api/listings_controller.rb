@@ -35,7 +35,6 @@ class Api::ListingsController < ApplicationController
       bathrooms: @listing.unit.bathrooms,
       reviews: @listing.unit.reviews.with_status("published").order('reviewed_date DESC'),
       review_average: @listing.unit.reviews.with_status("published").average(:rating),
-      google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY'],
       availability: @listing.unit.unit_availability,
       availability_calendar: @listing.unit.unit_availability.cx_availability_calendar,
       booking_calendar: @listing.unit.unit_availability.booking_calendar,

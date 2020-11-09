@@ -17,6 +17,7 @@ class Api::OrganizationsController < ApplicationController
       canonical: request.host,
       contact: @brand.brand_info.contact,
       footer: @brand.brand_footer,
+      google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY'],
       header: @brand.brand_header,
       logo_image: @brand.brand_info.logo_image,
       menu: menu_data,
@@ -34,7 +35,7 @@ class Api::OrganizationsController < ApplicationController
       featured_listings: @featured_listings,
       featured_pages: @brand.featured_page_content,
       homepage: @homepage,
-      hero_image: @homepage.hero_image,
+      hero_image: @homepage.hero_image.url,
       location: @brand.organization.location,
       options: @homepage.options,
       payload: @homepage.payload

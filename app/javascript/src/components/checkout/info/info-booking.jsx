@@ -8,7 +8,7 @@ const InfoBooking = (props) => {
 
   const translate = ReactI18n.getIntlMessage
 
-  buildBookingInfo = () => {
+  const buildBookingInfo = () => {
     if (
       props.checkInDate &&
       props.checkOutDate &&

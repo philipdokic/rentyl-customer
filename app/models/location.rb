@@ -15,4 +15,8 @@ class Location < ApplicationRecord
   belongs_to :brand
   belongs_to :organization
 
+  def obfuscated_address
+    [adr_city, adr_state, adr_country].compact.join(', ')
+  end
+  
 end
