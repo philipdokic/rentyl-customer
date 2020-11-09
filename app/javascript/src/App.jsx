@@ -7,21 +7,33 @@ import { get } from 'lodash';
 import { Helmet } from 'react-helmet';
 import HtmlParser from 'react-html-parser';
 import { Route, Switch, Redirect } from "react-router-dom";
+import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
 import Footer from './components/layout/footer';
 import Header from './components/layout/header';
+import Home from './components/home/index';
 import { Intercom } from './components/miscellaneous/';
 import Listing from './redux/containers/listing';
 import Listings from './redux/containers/listings';
-import Page from './components/pages/index';
-import Home from './components/home/index';
 import NoMatch from './components/NoMatch';
+import Page from './components/pages/index';
+import Ripple from './components/miscellaneous/ripple';
 
 // Redux
 // -----------------------------------------------
 import * as brandAction from './redux/action/brand';
+
+// Styles
+// -----------------------------------------------
+const LoadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+`;
 
 // -----------------------------------------------
 // COMPONENT->APP --------------------------------
@@ -46,7 +58,6 @@ class App extends React.Component {
     axios.get('/api/organizations')
     .then(async (res) => {
       await props.dispatch(brandAction.setBrand(res.data))
-      console.log("HIT");
       this.setState({isLoading: false});
     })
   }
@@ -107,7 +118,13 @@ class App extends React.Component {
           </main>
         </>
       )
-    } else { return(<div>Loading...</div>) }
+    } else {
+      return(
+        <LoadingWrapper>
+          <Ripple color="#50E3C2" />
+        </LoadingWrapper>
+      )
+    }
   }
 }
 
