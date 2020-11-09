@@ -772,7 +772,7 @@ class ThemeDefaultSearch extends React.Component {
               <section className="map">
                 <Script
                   url={`https://maps.googleapis.com/maps/api/js?key=${
-                    this.props.google_maps_api_key
+                    this.props.brand.google_maps_api_key
                   }`}
                   onError={this.handleMapScriptError.bind(this)}
                   onLoad={this.handleMapScriptLoad.bind(this)}

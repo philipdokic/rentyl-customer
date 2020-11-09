@@ -17,6 +17,7 @@ class Api::OrganizationsController < ApplicationController
       canonical: request.host,
       contact: @brand.brand_info.contact,
       footer: @brand.brand_footer,
+      google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY'],
       header: @brand.brand_header,
       logo_image: @brand.brand_info.logo_image,
       menu: menu_data,

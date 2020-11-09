@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
 import ReactI18n from 'react-i18n';
-import Script from 'react-load-script';
 
 // Components
 // -----------------------------------------------
@@ -41,24 +40,6 @@ class MultiLocation extends React.Component {
   // ---------------------------------------------
   handleChange = val => {};
 
-  // Handle Map Script Error
-  // ---------------------------------------------
-  handleMapScriptError = () => {
-    this.setState({
-      mapsLoaded: false,
-      mapsLoading: false
-    });
-  };
-
-  // Handle Map Script Load
-  // ---------------------------------------------
-  handleMapScriptLoad = () => {
-    this.setState({
-      mapsLoaded: true,
-      mapsLoading: false
-    });
-  };
-
   // Render City Disclaimer
   // ---------------------------------------------
   renderCityDisclaimer = () => {
@@ -80,13 +61,6 @@ class MultiLocation extends React.Component {
 
     return (
       <section className="details-map" id="details-map">
-        <Script
-          url={`https://maps.googleapis.com/maps/api/js?key=${
-            this.props.listing.google_maps_api_key
-          }`}
-          onError={this.handleMapScriptError.bind(this)}
-          onLoad={this.handleMapScriptLoad.bind(this)}
-        />
         <main>
           {this.props.listing.location.adr_city &&
           this.props.listing.location.adr_state ? (
@@ -94,23 +68,22 @@ class MultiLocation extends React.Component {
           ) : (
             <p>{translate(`cx.details.location_disclaimer`)}</p>
           )}
-          {!this.state.mapLoading && this.state.mapsLoaded ? (
-            <GoogleMapReact
-              center={[
-                this.props.listing.location.geo_latitude,
-                this.props.listing.location.geo_longitude
-              ]}
-              zoom={12}
-              options={this.createMapOptions}
-              resetBoundsOnResize={false}
-              onChange={this.handleChange}
-            >
-              <MapMarker
-                lat={this.props.listing.location.geo_latitude}
-                lng={this.props.listing.location.geo_longitude}
-              />
-            </GoogleMapReact>
-          ) : null}
+          <GoogleMapReact
+            bootstrapURLKeys={{ key: this.props.brand.google_maps_api_key }}
+            center={[
+              this.props.listing.location.geo_latitude,
+              this.props.listing.location.geo_longitude
+            ]}
+            zoom={12}
+            options={this.createMapOptions}
+            resetBoundsOnResize={false}
+            onChange={this.handleChange}
+          >
+            <MapMarker
+              lat={this.props.listing.location.geo_latitude}
+              lng={this.props.listing.location.geo_longitude}
+            />
+          </GoogleMapReact>
         </main>
       </section>
     );

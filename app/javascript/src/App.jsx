@@ -40,6 +40,8 @@ const LoadingWrapper = styled.div`
 // -----------------------------------------------
 class App extends React.Component {
 
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
     this.state = { isLoading: true };
@@ -48,7 +50,7 @@ class App extends React.Component {
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
-    // Intercom(this.props.brand.footer.intercom_id);
+    this.props.brand.footer !== undefined && Intercom(this.props.brand.footer.intercom_id)
     !this.props.brand.canonical && this.setBrand(this.props)
   }
 
@@ -132,7 +134,7 @@ class App extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand
+    brand: state.brand ? state.brand : {}
   };
 }
 
