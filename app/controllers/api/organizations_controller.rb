@@ -19,7 +19,7 @@ class Api::OrganizationsController < ApplicationController
       footer: @brand.brand_footer,
       google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY'],
       header: @brand.brand_header,
-      logo_image: @brand.brand_info.logo_image,
+      logo_image: @brand.brand_info.logo_image_url,
       menu: menu_data,
       organization: @brand.organization
     }
