@@ -38,7 +38,7 @@ class FooterLinks extends React.Component {
         <li key="li-sitemap">
           <Link to="/sitemap.xml">{translate(`cx.global.sitemap`)}</Link>
         </li>
-        {/* <li key="li-copyright" className="extra-padding-top">
+        <li key="li-copyright" className="extra-padding-top">
           {this.props.brand.brand_info.copyright != ''
             ? this.props.brand.brand_info.copyright
             : translate(`cx.global.colophon`, {
@@ -46,7 +46,7 @@ class FooterLinks extends React.Component {
               year: moment().format('YYYY')
             })
           }
-        </li> */}
+        </li>
       </ul>
     );
   };
@@ -81,7 +81,7 @@ class FooterLinks extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand
+    brand: state.brand ? state.brand : {}
   };
 }
 

@@ -8,6 +8,17 @@ import { get } from 'lodash'
 // -----------------------------------------------
 import SearchForm from './search-form';
 
+// Styles
+// -----------------------------------------------
+const searchStyle = {
+  position: 'absolute',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  left: 0,
+  right: 0,
+  top: '10em'
+};
+
 // -----------------------------------------------
 // COMPONENT->JUMBOTRON --------------------------
 // -----------------------------------------------
@@ -86,15 +97,6 @@ class Jumbotron extends React.Component {
     );
   }
 }
-
-const searchStyle = {
-  position: 'absolute',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  left: 0,
-  right: 0,
-  top: '10em'
-};
 
 // Map State to Props
 // -----------------------------------------------

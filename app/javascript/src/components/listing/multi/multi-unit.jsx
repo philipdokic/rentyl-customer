@@ -9,8 +9,8 @@ import MultiUnitAmenities from './multi-unit-amenities';
 import MultiUnitAvailability from './multi-unit-availability';
 import MultiUnitImages from './multi-unit-images';
 import MultiUnitSummary from './multi-unit-summary';
-import Link from '../links/link';
-import PortalModal from '../modals/portal-modal';
+import Link from '../../links/link';
+import PortalModal from '../../modals/portal-modal';
 
 // -----------------------------------------------
 // COMPONENT->MULTI-UNIT -------------------------

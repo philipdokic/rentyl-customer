@@ -61,10 +61,6 @@ class Meta extends React.Component {
             }
           }
         `}</script>
-        {/*
-        "telephone": "${this.props.brand_info.contact.phone_primary.number}",
-        "image": "${this.props.property_images[0].image.medium.url}",
-        */}
       </Helmet>
     );
   }

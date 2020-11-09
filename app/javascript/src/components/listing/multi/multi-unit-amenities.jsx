@@ -5,7 +5,7 @@ import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
-import AmenitiesList from './amenities-list';
+import AmenitiesList from '../amenities-list';
 
 // -----------------------------------------------
 // COMPONENT->MULTI-UNIT-AMENITIES ---------------
