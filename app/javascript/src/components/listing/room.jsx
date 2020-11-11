@@ -281,12 +281,7 @@ class Room extends React.Component {
     return (
       <div>
         <Meta />
-        {/* <Images
-          property_images={this.props.property_images}
-          unit_images={this.props.unit_images}
-          translate={translate}
-        /> */}
-
+        <Images />
         <section className="details-main">
           <BookingAnchored
             addonFeeIds={this.state.addonFeeIds}

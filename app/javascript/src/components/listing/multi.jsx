@@ -23,7 +23,7 @@ import {
   MultiOwner,
   MultiPropertyAmenities,
   MultiPropertyHeader,
-//   DetailsMultiPropertyImages,
+  Images,
   MultiPropertyOverview,
   MultiPropertyRules,
   MultiUnitsList,
@@ -103,8 +103,8 @@ class Multi extends React.Component {
       },
       () => {
         if (this.state.bookingRange) {
-          // this.getAvailabilities();
-          // this.getPricings();
+          this.getAvailabilities();
+          this.getPricings();
         }
       }
     );
@@ -189,8 +189,8 @@ class Multi extends React.Component {
         () => {
           if (this.state.bookingRange) {
             this.updateQueryString();
-            // this.getAvailabilities();
-            // this.getPricings();
+            this.getAvailabilities();
+            this.getPricings();
           }
         }
       );
@@ -202,89 +202,88 @@ class Multi extends React.Component {
   updateGuests = guests => {
     this.setState({ guests: guests }, () => {
       this.updateQueryString();
-      // this.getAvailabilities();
-      // this.getPricings();
+      this.getAvailabilities();
+      this.getPricings();
     });
   };
 
   // Get Availabilities
   // ---------------------------------------------
-  // getAvailabilities = () => {
-  //   let availabilities = {};
+  getAvailabilities = () => {
+    let availabilities = {};
 
-  //   this.props.units.map(unit => {
-  //     var p = this.getAvailability(unit.listing.id, unit.unit.id);
-  //     p.then(data => {
-  //       availabilities[unit.unit.id] = data;
-  //       this.setState({ availabilities: availabilities });
-  //     }).catch(err => {
-  //       console.error(err);
-  //     });
-  //   });
-  // };
+    this.props.units.map(unit => {
+      var p = this.getAvailability(unit.listing.id, unit.unit.id);
+      p.then(data => {
+        availabilities[unit.unit.id] = data;
+        this.setState({ availabilities: availabilities });
+      }).catch(err => {
+        console.error(err);
+      });
+    });
+  };
 
   // Get Availability
   // ---------------------------------------------
-  // getAvailability = (listingID, unitID) => {
-  //   let getAvailability = new Promise((resolve, reject) => {
-  //     $.ajax({
-  //       type: 'GET',
-  //       url: '/api/details/multi/' + listingID + '/availability',
-  //       context: this,
-  //       data: {
-  //         unit_id: unitID,
-  //         booking_range: JSON.stringify(this.state.bookingRange),
-  //         guests: this.state.guests
-  //       }
-  //     })
-  //       .done(function(data) {
-  //         resolve(data);
-  //       })
-  //       .fail(function(jqXhr) {
-  //         reject(jqXhr);
-  //       });
-  //   });
-  //   return getAvailability;
-  // };
+  getAvailability = (listingID, unitID) => {
+    let getAvailability = new Promise((resolve, reject) => {
+      axios.get(`https://staging.getdirect.io/api/v2/listings/multi/${listingID}/availability`, {
+        headers: {'Content-Type': 'application/json'},
+        context: this,
+        params: {
+          unit_id: unitID,
+          booking_range: JSON.stringify(this.state.bookingRange),
+          guests: this.state.guests
+        }
+      })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      })
+    });
+    return getAvailability;
+  };
 
   // Get Pricings
   // ---------------------------------------------
-  // getPricings = () => {
-  //   let pricings = {};
+  getPricings = () => {
+    let pricings = {};
 
-  //   this.props.units.map(unit => {
-  //     var p = this.getPricing(unit.listing.id);
-  //     p.then(data => {
-  //       pricings[unit.unit.id] = data;
-  //       this.setState({ pricings: pricings });
-  //     }).catch(err => {
-  //       console.error(err);
-  //     });
-  //   });
-  // };
+    this.props.units.map(unit => {
+      var p = this.getPricing(unit.listing.id);
+      p.then(data => {
+        pricings[unit.unit.id] = data;
+        this.setState({ pricings: pricings });
+      }).catch(err => {
+        console.error(err);
+      });
+    });
+  };
 
   // Get Pricing
   // ---------------------------------------------
-  // getPricing = listingID => {
-  //   let getPricing = new Promise((resolve, reject) => {
-  //     $.ajax({
-  //       type: 'GET',
-  //       url: '/api/details/multi/' + listingID + '/pricing',
-  //       context: this,
-  //       data: {
-  //         booking_range: JSON.stringify(this.state.bookingRange),
-  //         addon_fee_ids: this.state.addonFeeIds
-  //       }
-  //     })
-  //       .done(function(data) {
-  //         resolve(data);
-  //       })
-  //       .fail(function(jqXhr) {
-  //         reject(jqXhr);
-  //       });
-  //   });
-  //   return getPricing;
-  // };
+  getPricing = listingID => {
+    let getPricing = new Promise((resolve, reject) => {
+
+      axios.get(`https://staging.getdirect.io/api/v2/listings/multi/${listingID}/pricing`, {
+        headers: {'Content-Type': 'application/json'},
+        context: this,
+        params: {
+          booking_range: JSON.stringify(this.state.bookingRange),
+          addon_fee_ids: this.state.addonFeeIds
+        }
+      })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      })
+    });
+    return getPricing;
+  };
 
   // Render
   // ---------------------------------------------
@@ -293,10 +292,7 @@ class Multi extends React.Component {
     return (
       <div className="details-multi">
         <Meta />
-        {/* <DetailsMultiPropertyImages
-          property_images={this.props.property_images}
-
-        /> */}
+        <Images />
         <section className="details-main">
           <figure className="details-content">
             <MultiNavbar />
@@ -322,11 +318,11 @@ class Multi extends React.Component {
                 updateGuests={this.updateGuests}
               />
             ) : null}
-            {/* <LazyLoad
+            <LazyLoad
               height={600}
               once
               offset={300}
-            > */}
+            >
               {this.state.availabilities !== {} && this.state.pricings !== {} ? (
                 <MultiUnitsList
                   availabilities={this.state.availabilities}
@@ -347,7 +343,7 @@ class Multi extends React.Component {
                 <ReviewList />
               )}
               <MultiLocation />
-          {/* </LazyLoad> */}
+            </LazyLoad>
           </figure>
         </section>
       </div>

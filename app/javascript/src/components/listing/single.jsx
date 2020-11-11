@@ -7,7 +7,6 @@ import moment from 'moment';
 import queryString from 'query-string';
 import 'react-dates/initialize';
 import { isInclusivelyBeforeDay } from 'react-dates';
-import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
@@ -276,17 +275,10 @@ class Single extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    const translate = ReactI18n.getIntlMessage;
-
     return (
       <div>
         <Meta />
-        {/* <Images
-          property_images={this.props.property_images}
-          unit_images={this.props.unit_images}
-          translate={translate}
-        /> */}
-
+        <Images />
         <section className="details-main">
           <BookingAnchored
             addonFeeIds={this.state.addonFeeIds}
@@ -321,7 +313,7 @@ class Single extends React.Component {
             <Overview />
             {/* <Amenities /> */}
             <Summary />
-            {/* <Rules pricing={this.state.pricing} /> */}
+            <Rules pricing={this.state.pricing} />
             <div id='review-section'/>
             {this.props.property_manager && (
               <Owner />

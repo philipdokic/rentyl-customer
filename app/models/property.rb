@@ -41,8 +41,11 @@ class Property < ApplicationRecord
     return property_manager
   end
 
+  # ----------------------------------------------
+  # IS-MULTI-UNIT --------------------------------
+  # ----------------------------------------------
   def is_multi_unit?
     multi_unit || units.length > 1
   end
-  
+
 end

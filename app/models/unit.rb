@@ -25,6 +25,9 @@ class Unit < ApplicationRecord
   has_one :unit_availability, dependent: :destroy
   has_one :unit_pricing, dependent: :destroy
 
+  # ----------------------------------------------
+  # FEATURED-IMAGE -------------------------------
+  # ----------------------------------------------
   def featured_image
     property.multi_unit ? unit_images.first : property.featured_image
   end

@@ -13,4 +13,25 @@ class PropertyImage < ApplicationRecord
   # ----------------------------------------------
   belongs_to :property
 
+  ATTRIBUTES = [
+    :property_image_url
+  ]
+
+  # ----------------------------------------------
+  # PROPERTY-IMAGE-URL ---------------------------
+  # ----------------------------------------------
+  def property_image_url
+    image_id = self.id.to_s.last(6)
+    image_id = image_id.remove("0")
+
+    property_id = self.property.id.to_s.last(6)
+    property_id = property_id.remove("0")
+
+    if self.created_at > "September 9, 2020"
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{self.property.id}/property_image/image/#{self.id}/#{self.image}"
+    else
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/#{self.image}"
+    end
+  end
+
 end
