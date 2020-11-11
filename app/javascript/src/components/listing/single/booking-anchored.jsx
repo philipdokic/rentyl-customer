@@ -116,11 +116,16 @@ class BookingAnchored extends React.Component {
               <BookingBreakdown
                 addCouponCode={this.props.addCouponCode}
                 addonFeeIds={this.props.addonFeeIds}
+                availability={this.props.availability}
                 checkInDate={this.props.checkInDate}
                 checkOutDate={this.props.checkOutDate}
                 guests={this.props.guests}
+                listing={this.props.listing}
+                pricing={this.props.pricing}
                 updateFees={this.props.updateFees}
                 updateQuantityFee={this.props.updateQuantityFee}
+                organizationId={this.props.organizationId}
+                unitId={this.props.unitId}
               />
               {this.props.listing.property_manager && (
                 <a

@@ -7,7 +7,7 @@ import moment from 'moment';
 
 // Components
 // -----------------------------------------------
-//import WidgetDatePicker from '../../date-picker/widget-date-picker';
+import WidgetDatePicker from '../../date-picker/widget-date-picker';
 
 // -----------------------------------------------
 // COMPONENT->BOOKING-DATE-PICKER ----------------
@@ -48,10 +48,10 @@ class BookingDatePicker extends React.Component {
   render() {
     return (
       <div style={{ textAlign: 'center' }}>
-        {/* <WidgetDatePicker
-          bookingCalendar={this.props.listing.availability_calendar}
-          organizationID={this.props.brand.organization_id}
-          unitID={this.props.listing.unit.id}
+        <WidgetDatePicker
+          bookingCalendar={this.props.availability_calendar}
+          organizationID={this.props.organizationID}
+          unitID={this.props.unitID}
           onDatesChange={this.onDatesChange}
           initialStartDate={this.state.startDate}
           initialEndDate={this.state.endDate}
@@ -60,7 +60,7 @@ class BookingDatePicker extends React.Component {
           isOutsideRange={this.isOutsideRange}
           displayFormat={this.props.brand.displayFormat}
           readOnly
-        /> */}
+        />
       </div>
     );
   }
@@ -70,8 +70,7 @@ class BookingDatePicker extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand ? state.brand : {},
-    listing: state.listing ? state.listing : {}
+    brand: state.brand ? state.brand : {}
   };
 }
 

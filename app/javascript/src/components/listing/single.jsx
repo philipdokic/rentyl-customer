@@ -138,10 +138,10 @@ class Single extends React.Component {
     .then(response => {
       this.setState(
         {
-          availability: response
+          availability: response.data
         },
         () => {
-          if (response.bookable) {
+          if (response.data.bookable) {
             this.checkPricing();
           }
         }
@@ -168,7 +168,7 @@ class Single extends React.Component {
       }
     })
     .then(response => {
-      this.setState({ pricing: response });
+      this.setState({ pricing: response.data });
     })
     .catch(error => {
       console.log(error);

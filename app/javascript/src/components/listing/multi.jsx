@@ -237,7 +237,7 @@ class Multi extends React.Component {
         }
       })
       .then(response => {
-        resolve(response);
+        resolve(response.data);
       })
       .catch(error => {
         reject(error);
@@ -276,7 +276,7 @@ class Multi extends React.Component {
         }
       })
       .then(response => {
-        resolve(response);
+        resolve(response.data);
       })
       .catch(error => {
         reject(error);
