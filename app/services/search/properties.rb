@@ -64,7 +64,7 @@ module Search
         'currency': nil,
         'property': property,
         'location': property.location,
-        # 'distance': property.location&.distance_to(center),
+        'distance': property.location&.distance_to(center),
         'listings': Set.new,
         'bookable': false,
         'featured': false,
@@ -74,7 +74,7 @@ module Search
         'multi_unit': property.multi_unit || units.length > 1,
         # 'room_type_property': property.room_types.present? && units.map(&:calendar).reject(&:nil?).count == units.count,
         'default_unit_id': property.units.first.id,
-        # 'featured_image': property.featured_image,
+        'featured_image': property.featured_image,
         'search_type': 'dateless',
         'slug': property.name.parameterize
       }
@@ -101,7 +101,7 @@ module Search
 
         search_datum['featured'] = listing.featured
         search_datum['can_fit_guests'] = search_listing[:can_fit_guests]
-        # search_datum[:featured_image] ||= unit.featured_image
+        search_datum[:featured_image] ||= unit.featured_image
         search_datum[:currency] ||= listing.currency
 
         if booking_range.present?

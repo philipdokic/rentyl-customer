@@ -171,17 +171,18 @@ const SearchItem = props => {
 
   const getImageUrl = () => {
     const featuredImage = props.result.featured_image;
-    const image = featuredImage && featuredImage.image;
-    if (image) {
-      if (
-        !featuredImage.image_processing &&
-        image.small &&
-        image.small.url !== ''
-      ) {
-        return image.small.url;
-      } else {
-        return image.url;
-      }
+    // const image = featuredImage && featuredImage.image;
+    if (featuredImage) {
+      // if (
+      //   !featuredImage.image_processing &&
+      //   image.small &&
+      //   image.small.url !== ''
+      // ) {
+      //   return image.small.url;
+      // } else {
+      //   return image.url;
+      // }
+      return featuredImage;
     } else {
       return '';
     }

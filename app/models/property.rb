@@ -42,6 +42,13 @@ class Property < ApplicationRecord
   end
 
   # ----------------------------------------------
+  # FEATURED-IMAGE -------------------------------
+  # ----------------------------------------------
+  def featured_image
+    property_images.first.property_image_url if property_images.first.present?
+  end
+
+  # ----------------------------------------------
   # IS-MULTI-UNIT --------------------------------
   # ----------------------------------------------
   def is_multi_unit?

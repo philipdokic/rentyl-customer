@@ -84,10 +84,10 @@ class BrandInfo < ApplicationRecord
   # ----------------------------------------------
   def logo_image_url
     brand_info_id = self.id.to_s.last(6)
-    brand_info_id = brand_info_id.remove("0")
+    brand_info_id = brand_info_id.sub!(/^[0]+/,'')
 
     brand_id = self.brand.id.to_s.last(6)
-    brand_id = brand_id.remove("0")
+    brand_id = brand_id.sub!(/^[0]+/,'')
 
     if self.created_at > "September 9, 2020"
       return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{self.brand.id}/brand_info/logo_image/#{self.id}/#{self.logo_image}"
@@ -101,10 +101,10 @@ class BrandInfo < ApplicationRecord
   # ----------------------------------------------
   def favicon_image_url
     brand_info_id = self.id.to_s.last(6)
-    brand_info_id = brand_info_id.remove("0")
+    brand_info_id = brand_info_id.sub!(/^[0]+/,'')
 
     brand_id = self.brand.id.to_s.last(6)
-    brand_id = brand_id.remove("0")
+    brand_id = brand_id.sub!(/^[0]+/,'')
 
     if self.created_at > "September 9, 2020"
       return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{self.brand.id}/brand_info/logo_image/#{self.id}/#{self.favicon_image}"
