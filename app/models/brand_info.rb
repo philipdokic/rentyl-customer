@@ -79,4 +79,38 @@ class BrandInfo < ApplicationRecord
     ("0x"+(self.colors['color_highlight'][1,6].to_s)).hex > 0xffffff/2 ? '#000000' : '#ffffff'
   end
 
+  # ----------------------------------------------
+  # LOGO-IMAGE-URL -------------------------------
+  # ----------------------------------------------
+  def logo_image_url
+    brand_info_id = self.id.to_s.last(6)
+    brand_info_id = brand_info_id.remove("0")
+
+    brand_id = self.brand.id.to_s.last(6)
+    brand_id = brand_id.remove("0")
+
+    if self.created_at > "September 9, 2020"
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{self.brand.id}/brand_info/logo_image/#{self.id}/#{self.logo_image}"
+    else
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{brand_id}/brand_info/logo_image/#{brand_info_id}/#{self.logo_image}"
+    end
+  end
+
+  # ----------------------------------------------
+  # FAVICON-IMAGE-URL ----------------------------
+  # ----------------------------------------------
+  def favicon_image_url
+    brand_info_id = self.id.to_s.last(6)
+    brand_info_id = brand_info_id.remove("0")
+
+    brand_id = self.brand.id.to_s.last(6)
+    brand_id = brand_id.remove("0")
+
+    if self.created_at > "September 9, 2020"
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{self.brand.id}/brand_info/logo_image/#{self.id}/#{self.favicon_image}"
+    else
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{brand_id}/brand_info/logo_image/#{brand_info_id}/#{self.favicon_image}"
+    end
+  end
+
 end

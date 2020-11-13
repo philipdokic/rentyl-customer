@@ -131,7 +131,7 @@ class Api::BookingsController < ApplicationController
   def set_quote
     @quote = Quote.find(params[:quote_id]) if params[:quote_id] 
     unless @quote
-      uri = URI("http://www.lvh.me:3000/api/v2/checkout/#{@listing.unit.id}")
+      uri = URI("https://staging.getdirect.io/api/v2/checkout/#{@listing.unit.id}")
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       request = Net::HTTP::Get.new(uri.path, {'Content-Type' => 'application/json'})

@@ -93,7 +93,7 @@ class App extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    if(!this.state.isLoading){
+    if (!this.state.isLoading) {
       return (
         <>
           <Helmet>
@@ -122,13 +122,13 @@ class App extends React.Component {
           </main>
         </>
       )
-    } else {
-      return(
-        <LoadingWrapper>
-          <Ripple color="#50E3C2" />
-        </LoadingWrapper>
-      )
     }
+
+    return(
+      <LoadingWrapper>
+        <Ripple color="#50E3C2" />
+      </LoadingWrapper>
+    )
   }
 }
 

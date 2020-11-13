@@ -366,7 +366,7 @@ class Checkout extends React.Component {
 
   handleStripeSuccess = json => {
     const token = json.id;
-    axios.post('http://www.lvh.me:3000/api/v2/checkout_booking/' + this.state.listing.id,{
+    axios.post('https://staging.getdirect.io/api/v2/checkout_booking/' + this.state.listing.id,{
         headers: {'Content-Type': 'application/json'},
         skip_quote_creation: !!this.state.quoteId,
         quote_id: this.state.quoteId,
@@ -388,8 +388,9 @@ class Checkout extends React.Component {
         coupon_code: this.state.couponCode,
         room_type_booking: isNull(this.state.unit.room_type_id) ? false : true
     })
-      .done(data => {
-        if (this.props.brand_info.google_events) {
+      .then(res => {
+        const data = res.data
+        if (this.props.brand.brand_info.google_events) {
           gtag('event', 'purchase', {
             transaction_id: data.booking_code,
             affiliation: 'Direct',
@@ -399,7 +400,7 @@ class Checkout extends React.Component {
             shipping: 0
           });
         }
-        if (this.props.brand_info.facebook_pixel) {
+        if (this.props.brand.brand_info.facebook_pixel) {
           fbq('track', 'Purchase', {
             currency: 'USD',
             value: this.state.pricing.total
@@ -416,7 +417,7 @@ class Checkout extends React.Component {
           window.location = '/my-bookings/receipt/' + data.booking_code;
         }
       })
-      .fail(response => toast.error(response.responseJSON.error));
+      .catch(response => toast.error(response.responseJSON.error));
   };
 
   handleStripeFailure = ({ error }) => {

@@ -51,8 +51,8 @@ class Room extends React.Component {
       pricing: null,
       addonFeeIds: [],
       couponCode: '',
-      review_average: this.props.review_average || 0,
-      reviews: this.props.reviews.length || 0
+      review_average: this.props.listing.review_average || 0,
+      reviews: this.props.listing.reviews.length || 0
     };
   }
 
@@ -140,10 +140,10 @@ class Room extends React.Component {
     .then(response => {
       this.setState(
         {
-          availability: response
+          availability: response.data
         },
         () => {
-          if (response.bookable) {
+          if (response.data.bookable) {
             this.checkPricing();
           }
         }
@@ -170,7 +170,7 @@ class Room extends React.Component {
       }
     })
     .then(response => {
-      this.setState({ pricing: response });
+      this.setState({ pricing: response.data });
     })
     .catch(error => {
       console.log(error);
@@ -276,17 +276,10 @@ class Room extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    const translate = ReactI18n.getIntlMessage;
-
     return (
       <div>
         <Meta />
-        {/* <Images
-          property_images={this.props.property_images}
-          unit_images={this.props.unit_images}
-          translate={translate}
-        /> */}
-
+        <Images />
         <section className="details-main">
           <BookingAnchored
             addonFeeIds={this.state.addonFeeIds}
@@ -321,7 +314,7 @@ class Room extends React.Component {
             <Overview />
             {/* <Amenities /> */}
             <Summary />
-            {/* <Rules pricing={this.state.pricing} /> */}
+            <Rules pricing={this.state.pricing} />
             <div id='review-section'/>
             {this.props.property_manager && (
               <Owner />

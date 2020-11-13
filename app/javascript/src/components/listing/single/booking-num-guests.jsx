@@ -1,14 +1,13 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import { connect } from 'react-redux';
 import { range } from 'lodash';
 import ReactI18n from 'react-i18n';
 
 // -----------------------------------------------
 // COMPONENT->BOOKING-NUM-GUESTS -----------------
 // -----------------------------------------------
-class BookingNumGuests extends React.Component {
+export default class BookingNumGuests extends React.Component {
 
   // Constructor
   // ---------------------------------------------
@@ -27,7 +26,7 @@ class BookingNumGuests extends React.Component {
   // ---------------------------------------------
   render() {
     const translate = ReactI18n.getIntlMessage;
-    const sleepArr = range(2, this.props.listing.numSleep + 1);
+    const sleepArr = range(2, this.props.numSleep + 1);
 
     return (
       <figure className="details-booking-num-guests">
@@ -45,15 +44,3 @@ class BookingNumGuests extends React.Component {
     );
   }
 }
-
-// Map State To Props
-// -----------------------------------------------
-function mapStateToProps(state) {
-  return {
-    listing: state.listing ? state.listing : {}
-  };
-}
-
-// Export
-// -----------------------------------------------
-export default connect(mapStateToProps)(BookingNumGuests);

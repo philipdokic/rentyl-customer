@@ -94,6 +94,7 @@ class SingleLocation extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
+    brand: state.brand ? state.brand : {},
     listing: state.listing ? state.listing : {}
   };
 }

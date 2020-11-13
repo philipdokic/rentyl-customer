@@ -20,7 +20,30 @@ class Api::ListingsController < ApplicationController
   # SHOW -----------------------------------------
   # ----------------------------------------------
   def show
-    @listing = UnitListing.where(slug: params[:id]).includes({ property: [:location] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_pricing] }).first
+    @listing = UnitListing.where(slug: params[:id]).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
+
+    # Property Images
+    property_images = @listing.property.property_images
+    property_images_url = []
+    property_images.each do |p|
+      p_obj = {}
+      p_obj[:url] = p.property_image_url
+      p_obj[:label] = p.label
+      property_images_url.push(p_obj)
+    end
+    @property_images = property_images_url
+
+    # Unit Images
+    unit_images = @listing.unit.unit_images
+    unit_images_url = []
+    unit_images.each do |u|
+      u_obj = {}
+      u_obj[:url] = u.unit_image_url
+      u_obj[:label] = u.label
+      unit_images_url.push(u_obj)
+    end
+    @unit_images = unit_images_url
+
     render json: {
       id: @listing.id,
       slug: params[:id],
@@ -28,11 +51,13 @@ class Api::ListingsController < ApplicationController
       multi_unit: @listing.is_multi_unit,
       room_type: @listing.is_room_type,
       unit: @listing.unit,
-      property: @listing.unit.property,
-      property_manager: @listing.unit.property.get_manager,
-      location: @listing.unit.property.location,
+      property: @listing.property,
+      property_manager: @listing.property.get_manager,
+      property_images: @property_images,
+      location: @listing.property.location,
       bedrooms: @listing.unit.bedrooms,
       bathrooms: @listing.unit.bathrooms,
+      unit_images: @unit_images,
       reviews: @listing.unit.reviews.with_status("published").order('reviewed_date DESC'),
       review_average: @listing.unit.reviews.with_status("published").average(:rating),
       availability: @listing.unit.unit_availability,

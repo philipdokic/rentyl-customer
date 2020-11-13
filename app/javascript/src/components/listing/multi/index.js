@@ -4,7 +4,7 @@ import MultiNavbar from './navbar';
 import MultiOwner from './owner';
 import MultiPropertyAmenities from './property-amenities';
 import MultiPropertyHeader from './property-header';
-// import DetailsMultiPropertyImages from './details-property-images';
+import Images from './images';
 import MultiPropertyOverview from './property-overview';
 import MultiPropertyRules from './property-rules';
 import MultiUnitsList from './units-list';
@@ -17,7 +17,7 @@ export {
   MultiOwner,
   MultiPropertyAmenities,
   MultiPropertyHeader,
-  // DetailsMultiPropertyImages,
+  Images,
   MultiPropertyOverview,
   MultiPropertyRules,
   MultiUnitsList,

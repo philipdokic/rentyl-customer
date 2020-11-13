@@ -2,7 +2,6 @@
 // -----------------------------------------------
 import React from 'react';
 import axios from 'axios'
-import { connect } from 'react-redux';
 import ReactI18n from 'react-i18n';
 import { reject, filter, sortBy, isNull } from 'lodash';
 
@@ -16,7 +15,7 @@ import PortalModal from '../../modals/portal-modal';
 // -----------------------------------------------
 // COMPONENT->BOOKING-BREAKDOWN ------------------
 // -----------------------------------------------
-class BookingBreakdown extends React.Component {
+export default class BookingBreakdown extends React.Component {
 
   // Constructor
   // ---------------------------------------------
@@ -67,8 +66,8 @@ class BookingBreakdown extends React.Component {
   // Find Listing And Room Type
   // ---------------------------------------------
   findListingAndRoomType = () => {
-    const brandId = this.props.brand.id
-    const unitId = this.props.listing.unit.id
+    const brandId = this.props.listing.brand_id
+    const unitId = this.props.unitId
 
     if (unitId === undefined) {
       this.setState({ roomType: false });
@@ -79,7 +78,7 @@ class BookingBreakdown extends React.Component {
       })
       .then(response => {
         this.setState({
-          listing: response,
+          listing: response.data,
           roomType: true
         });
       })
@@ -165,11 +164,11 @@ class BookingBreakdown extends React.Component {
                 ×{' '}
                 {translate(
                   `global.parsers.num_nights.${
-                    this.props.listing.availability.length_of_stay > 1
+                    this.props.availability.length_of_stay > 1
                       ? 'plural'
                       : 'single'
                   }`,
-                  { nights: this.props.listing.availability.length_of_stay }
+                  { nights: this.props.availability.length_of_stay }
                 )}
               </p>
             </td>
@@ -203,11 +202,11 @@ class BookingBreakdown extends React.Component {
                   ×{' '}
                   {translate(
                     `global.parsers.num_nights.${
-                      this.props.listing.availability.length_of_stay > 1
+                      this.props.availability.length_of_stay > 1
                         ? 'plural'
                         : 'single'
                     }`,
-                    { nights: this.props.listing.availability.length_of_stay }
+                    { nights: this.props.availability.length_of_stay }
                   )}
                 </p>
               </td>
@@ -244,105 +243,6 @@ class BookingBreakdown extends React.Component {
               </tr>
             ))
           }
-          {/* {addonFees.length > 0 && (
-            <table
-              style={{
-                display: 'block',
-                borderTop: '1px solid rgba(0, 0, 0, 0.05)',
-                borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-                width: '256px'
-              }}
-            >
-              <tr>
-                <td
-                  style={{
-                    textAlign: 'left',
-                    fontWeight: 'bold',
-                    padding: '5.656px'
-                  }}
-                >
-                  Extra Add-Ons
-                </td>
-                <td />
-              </tr>
-              <div
-                style={{
-                  width: '256px',
-                  paddingRight: '12px',
-                  maxHeight: '180px',
-                  overflowX: 'hidden',
-                  overflowY: 'auto',
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-                  paddingBottom: '5.656px'
-                }}
-              >
-                {sortedAddonFees.map((fee, index) => (
-                  <tr
-                    style={{
-                      border: '0',
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center'
-                    }}
-                    key={fee.id}
-                  >
-                    <td
-                      style={{
-                        display: 'flex',
-                        fontWeight: '300'
-                      }}
-                    >
-                      <IndicatorToggle
-                        toggleAction={this.props.updateFees}
-                        toggleStatus={this.props.addonFeeIds.includes(fee.id)}
-                        toggleItemId={fee.id}
-                        toggleFalseLabel=""
-                        toggleTrueLabel=""
-                      />
-                      {fee.name}
-                      {fee.description
-                        ? this.renderDescriptionPopover(fee.description)
-                        : null}
-                    </td>
-                    <td
-                      style={{
-                        minWidth: '90px',
-                        verticalAlign: 'middle',
-                        fontWeight: '300'
-                      }}
-                    >
-                      {translate(`global.parsers.currency.${currency}`, {
-                        value: fee.value.toFixed(2)
-                      })}
-                    </td>
-                    <td style={{ minWidth: '66px' }}>
-                      <InputIncrementer
-                        name="numFees"
-                        min="1"
-                        max="48"
-                        value={this.state.numFees}
-                        callbackIncrement={value =>
-                          this.props.updateQuantityFee(fee.id, value)
-                        }
-                        callbackDecrement={value =>
-                          this.props.updateQuantityFee(fee.id, value)
-                        }
-                        inputStyles={{
-                          fontSize: '10px',
-                          marginTop: '16px'
-                        }}
-                        symbolStyles={{
-                          lineHeight: '35px',
-                          width: '12px',
-                          marginTop: '-17px'
-                        }}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </div>
-            </table>
-          )} */}
           <tr>
             <td>{translate(`cx.global.taxes`)}</td>
             <td>
@@ -386,7 +286,7 @@ class BookingBreakdown extends React.Component {
       context: this
     })
     .then(response => {
-      this.setState({ allCouponCodes: response });
+      this.setState({ allCouponCodes: response.data });
     })
     .catch(error => {
       console.log(error);
@@ -429,9 +329,9 @@ class BookingBreakdown extends React.Component {
   // ---------------------------------------------
   render() {
     const translate = ReactI18n.getIntlMessage;
-    const currency = this.props.listing.currency;
+    const currency = this.props.currency;
 
-    if (this.props.listing.availability && this.props.pricing) {
+    if (this.props.availability && this.props.pricing) {
       return (
         <div className="details-booking-breakdown">
           {this.renderPricing()}
@@ -453,7 +353,7 @@ class BookingBreakdown extends React.Component {
               updateCouponCode={this.updateCouponCode}
             />
           </PortalModal>
-          {this.props.listing.availability.instant_booking ? (
+          {this.props.availability.instant_booking ? (
             <Link to={this.buildGoToCheckoutUrl()} className="button">
               {translate(`cx.global.book.long`)}
             </Link>
@@ -467,21 +367,12 @@ class BookingBreakdown extends React.Component {
       );
     } else {
       return (
-        <BookingErrors />
+        <BookingErrors
+          availability={this.props.availability}
+          checkInDate={this.props.checkInDate}
+          checkOutDate={this.props.checkOutDate}
+        />
       );
     }
   }
 }
-
-// Map State To Props
-// -----------------------------------------------
-function mapStateToProps(state) {
-  return {
-    brand: state.brand ? state.brand : {},
-    listing: state.listing ? state.listing : {}
-  };
-}
-
-// Export
-// -----------------------------------------------
-export default connect(mapStateToProps)(BookingBreakdown);
