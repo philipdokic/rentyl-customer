@@ -118,7 +118,7 @@ export default class DefaultForm extends React.Component {
       body: body
     };
     const allParams = assign({}, messageParams, this.props);
-    axios.post(`http://www.lvh.me:3000/api/v2/conversations`, allParams)
+    axios.post(`https://staging.getdirect.io/api/v2/conversations`, allParams)
     .then(response => {
       const conversationId = {
         conversation_id: response.id
@@ -130,7 +130,7 @@ export default class DefaultForm extends React.Component {
         messageParams,
         conversationId
       );
-      axios.post(`http://www.lvh.me:3000/api/v2/opportunities`, opportunityData)
+      axios.post(`https://staging.getdirect.io/api/v2/opportunities`, opportunityData)
       this.setState({ sent: true });
     })
     .catch(error => {

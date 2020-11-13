@@ -20,6 +20,8 @@ import Listings from './redux/containers/listings';
 import NoMatch from './components/NoMatch';
 import Page from './components/pages/index';
 import Ripple from './components/miscellaneous/ripple';
+import SignIn from './components/guests/sign-in';
+import SignUp from './components/guests/sign-up';
 
 // Redux
 // -----------------------------------------------
@@ -113,6 +115,8 @@ class App extends React.Component {
               <Route path="/listings/:listing_slug" component={Listing} />
               <Redirect from="/listings" to="/listings/search" />
               <Route path="/pages/:page_slug" component={Page} />
+              <Route path="/sign_in" component={SignIn} />
+              <Route path="/sign_up" component={SignUp} />
               <Route exact path="/" component={Home} />
               <Route component={NoMatch} />
             </Switch>
