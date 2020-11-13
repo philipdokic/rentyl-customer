@@ -144,7 +144,8 @@ class Checkout extends React.Component {
           verifyImage: data.verify_image,
           verifyImageDescription: data.verify_image_description,
           verifySignature: data.verify_signature,
-          loading: false
+          loading: false,
+          quoteIdFromDb: data.quote_id
         },
         () => this.parseUrl()
       );
@@ -204,7 +205,7 @@ class Checkout extends React.Component {
           guests: guests,
           datesParsed: true,
           addonFeeIds: addonFeeIds,
-          quoteId: quoteId
+          quoteId: quoteId ? quoteId : this.state.quoteIdFromDb
         },
         () => {
           this.checkAvailability();
@@ -221,17 +222,14 @@ class Checkout extends React.Component {
 
   checkAvailability = () => {
     if (isNull(this.state.unit.room_type_id)) {
-      $.ajax({
-        type: 'GET',
-        url: '/api/checkout/' + this.state.listing.id + '/availability',
-        context: this,
-        data: {
+      axios.post('/api/bookings/checkout/' + this.state.listing.id + '/availability', {
+        headers: {'Content-Type': 'application/json'},
           unit_id: this.state.unit.id,
           booking_range: JSON.stringify(this.state.bookingDaysInclusive),
           guests: this.state.guests
-        }
-      })
-        .done(function(data) {
+        })
+        .then(res => {
+          const data = res.data
           this.setState(
             {
               availability: data
@@ -245,24 +243,19 @@ class Checkout extends React.Component {
             }
           );
         })
-        .fail(function(jqXhr) {
+        .catch(jqXhr => {
           console.warn(jqXhr);
         });
     } else {
-      $.ajax({
-        type: 'GET',
-        url:
-          '/api/details/room/' +
-          this.state.listing.id +
-          '/room_type_availability',
-        context: this,
-        data: {
-          unit_id: this.state.unit.id,
-          booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-          guests: this.state.guests
-        }
+      axios.get('/api/details/room/' +
+      this.state.listing.id +
+      '/room_type_availability',
+      { headers: {'Content-Type': 'application/json'},
+        unit_id: this.state.unit.id,
+        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+        guests: this.state.guests
       })
-        .done(function(data) {
+        .then(data => {
           this.setState(
             {
               availability: data
@@ -276,7 +269,7 @@ class Checkout extends React.Component {
             }
           );
         })
-        .fail(function(jqXhr) {
+        .catch(jqXhr => {
           console.warn(jqXhr);
         });
     }
@@ -315,18 +308,14 @@ class Checkout extends React.Component {
   checkPricing = () => {
     const parsedQuery = queryString.parse(location.search);
     const guests = parsedQuery.guests;
-    $.ajax({
-      type: 'GET',
-      url: '/api/checkout/' + this.state.listing.id + '/pricing',
-      context: this,
-      data: {
-        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-        addon_fee_ids: this.state.addonFeeIds,
-        num_guests: guests,
-        coupon_code: this.state.couponCode
-      }
+    axios.get('https://staging.getdirect.io/api/v2/unit_pricing/' + this.state.quoteId, {
+      headers: {'Content-Type': 'application/json'},
+      quote_id: this.state.quoteId,
+      addon_fee_ids: this.state.addonFeeIds,
+      coupon_code: this.state.couponCode
     })
-      .done(function(data) {
+      .then(res =>{
+        const data = res.data
         this.setState({
           fees: data.fees,
           pricing: data,
@@ -334,7 +323,7 @@ class Checkout extends React.Component {
           checkoutTotal: data.total
         });
       })
-      .fail(function(jqXhr) {
+      .catch(jqXhr => {
         console.warn(jqXhr);
       });
   };
@@ -377,14 +366,8 @@ class Checkout extends React.Component {
 
   handleStripeSuccess = json => {
     const token = json.id;
-    $.ajax({
-      type: 'POST',
-      url:
-        '/api/checkout/' +
-        this.state.listing.id +
-        '/book_listing_from_checkout',
-      context: this,
-      data: {
+    axios.post('http://www.lvh.me:3000/api/v2/checkout_booking/' + this.state.listing.id,{
+        headers: {'Content-Type': 'application/json'},
         skip_quote_creation: !!this.state.quoteId,
         quote_id: this.state.quoteId,
         unit_id: this.state.unit.id,
@@ -404,7 +387,6 @@ class Checkout extends React.Component {
         stripe_token: token,
         coupon_code: this.state.couponCode,
         room_type_booking: isNull(this.state.unit.room_type_id) ? false : true
-      }
     })
       .done(data => {
         if (this.props.brand_info.google_events) {
@@ -474,18 +456,16 @@ class Checkout extends React.Component {
   };
 
   fetchCouponCodes = () => {
-    $.ajax({
-      type: 'GET',
-      url:
-        '/api/details/single/' + this.state.listing.id + '/fetch_coupon_codes',
-      context: this
+    axios.get(`https://staging.getdirect.io/api/v2/fetch_coupon_codes/` + this.state.listing.id,{
+      headers: {'Content-Type': 'application/json'}
     })
-      .done(data => {
+      .then(res => {
+        const data= res.data
         this.setState({
           allCouponCodes: data
         });
       })
-      .fail(jqXhr => {
+      .catch(jqXhr => {
         console.warn(jqXhr);
       });
   };

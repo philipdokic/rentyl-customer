@@ -4,7 +4,7 @@ import React from 'react';
 
  const ErrorsPaymentTransaction = (props) => {
 
-  renderError = error => {
+  const renderError = error => {
     if (error === null) {
       return null;
     }
@@ -17,7 +17,7 @@ import React from 'react';
 
     return (
       <figure>
-        <ul>{props.errors.map(error => this.renderError(error))}</ul>
+        <ul>{props.errors.map(error => renderError(error))}</ul>
       </figure>
     );
   }

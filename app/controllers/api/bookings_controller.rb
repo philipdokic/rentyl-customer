@@ -6,6 +6,7 @@ class Api::BookingsController < ApplicationController
     get_listing_by_id
     set_quote
     get_checkout_data_by_listing_id
+
     render json:{
       listing: @listing,
       obfuscated_address: @property.location.obfuscated_address,
@@ -21,7 +22,8 @@ class Api::BookingsController < ApplicationController
       verify_signature: @brand.verify_signature,
       verify_image: @brand.verify_image,
       verify_image_description: @brand.verify_image_description,
-      brand_currency: @listing.brand.currency
+      brand_currency: @listing.brand.currency,
+      quote_id: @quote['id']
     }
   end
 
@@ -62,6 +64,24 @@ class Api::BookingsController < ApplicationController
         #Date.today
       puts "XXXXX -> Booking Code: #{@booking.booking_code}/ Due Date: #{remaining_balance_due_date} / Amount Due #{@booking.price_remaining.to_i}"
     end
+  end
+
+  def checkout_availability
+    @unit = get_listing_by_id.unit
+    booking_range = JSON.parse(params[:booking_range])
+    check_in = Date.parse(booking_range[0]['key'])
+    check_out = Date.parse(booking_range[-1]['key'])
+    availability = AvailabilityService.new(@unit, check_in, check_out)
+
+    render json: {
+      'bookable': availability.bookable?,
+      'booked': availability.booked?,
+      'can_fit_guests': @unit.can_fit_guests(params[:guests].to_i),
+      'can_stay': availability.can_stay?,
+      'available': availability.available?,
+      'instant_booking': availability.instant_bookable?,
+      'changeover': @unit.changeover_calendar_rules(booking_range)
+    }
   end
 
   private
@@ -109,11 +129,21 @@ class Api::BookingsController < ApplicationController
   end
 
   def set_quote
-    uri = URI("http://www.lvh.me:3000/api/v2/checkout/#{@listing.unit.id}")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.path, {'Content-Type' => 'application/json'})
-    request.body = {check_in: Date.parse(params['check_in']), check_out: Date.parse(params['check_out']), num_guests: params['num_guests'].to_i}.to_json
-    @quote ||= JSON.parse(http.request(request).body)
+    @quote = Quote.find(params[:quote_id]) if params[:quote_id] 
+    unless @quote
+      uri = URI("http://www.lvh.me:3000/api/v2/checkout/#{@listing.unit.id}")
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == "https")
+      request = Net::HTTP::Get.new(uri.path, {'Content-Type' => 'application/json'})
+      request.body = {check_in: Date.parse(params['check_in']), check_out: Date.parse(params['check_out']), num_guests: params['num_guests'].to_i}.to_json
+      @quote ||= JSON.parse(http.request(request).body)
+    end
+  end
+
+  def set_pricing
+    get_listing_by_id unless @listing
+    @pricing ||= @listing&.unit_pricing
+    @pricing_calendar = @pricing&.pricing_calendar
   end
 
   def get_property_manager_from_property_and_brand
@@ -129,4 +159,5 @@ class Api::BookingsController < ApplicationController
       @property_manager = false
     end
   end
+  
 end

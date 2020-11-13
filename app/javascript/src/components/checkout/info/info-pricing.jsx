@@ -110,7 +110,7 @@ export default class InfoPricing extends React.Component {
   );
 
   renderPricing() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage
     const currency = this.props.currency;
     const mandatoryFees = reject(this.props.temp_fees, ['is_addon', 'true']);
     const addonFees = filter(this.props.temp_fees, ['is_addon', 'true']);
@@ -394,7 +394,7 @@ export default class InfoPricing extends React.Component {
   };
 
   renderTotalAndImmediatePayment = () => {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage
     const currency = this.props.currency;
     const isInstantBooking = this.props.availability.instant_booking;
     const price_total =

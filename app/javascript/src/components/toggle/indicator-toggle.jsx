@@ -4,7 +4,7 @@ import React from 'react';
 
 const IndicatorToggle = (props) => {
 
-  toggleAction = e => {
+  const toggleAction = e => {
     e.preventDefault();
     if (props.args) {
       props.toggleAction(
@@ -13,7 +13,7 @@ const IndicatorToggle = (props) => {
       props.args
       );
     } else {
-      props.toggleAction(this.props.toggleItemId, this.props.toggleStatus);
+      props.toggleAction(props.toggleItemId, props.toggleStatus);
     }
   };
 
@@ -22,7 +22,7 @@ const IndicatorToggle = (props) => {
       <a
         className="indicator-toggle-link"
         href="#"
-        onClick={e => this.toggleAction(e)}
+        onClick={e => toggleAction(e)}
       >
         <i
           className={`indicator-toggle ${

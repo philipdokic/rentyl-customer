@@ -16,7 +16,7 @@ const AddOns = (props) => {
 
   const translate = ReactI18n.getIntlMessage
 
-  renderAddOns = () => {
+  const renderAddOns = () => {
     const currency = props.currency;
     const addonFees = filter(props.temp_fees, ['is_addon', 'true']);
     const sortedAddonFees = sortBy(

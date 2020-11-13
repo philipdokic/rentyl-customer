@@ -7,7 +7,7 @@ const ErrorsPaymentCard = (props) => {
 
   const translate = ReactI18n.getIntlMessage
 
-  renderError = error => {
+  const renderError = error => {
     if (error.code === 'empty' || error.code == null) {
       return null;
     }

@@ -44,7 +44,6 @@ class Fee < ApplicationRecord
     #  * internal use only fees
 
     # Use in conjunction with subtotal_with_agg_fees usually
-    binding.remote_pry
     [
       all_outside_base_rent,
       build_fees(@addon_fees)
