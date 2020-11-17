@@ -698,13 +698,11 @@ class Checkout extends React.Component {
               addonFeeIds={this.state.addonFeeIds}
               checkInDate={this.state.checkInDate}
               checkoutTotal={this.state.checkoutTotal}
-              addonImages={this.props.brand.organization.add_on_images}
               checkPricing={this.checkPricing}
               addFeeIds={this.addFeeIds}
               feeQuantities={this.state.feeQuantities}
               availabilityLoading={this.state.availabilityLoading}
               addCouponCode={this.addCouponCode}
-              organizationId={this.props.brand.organization.id}
               allCouponCodes={this.state.allCouponCodes}
             />
           </section>

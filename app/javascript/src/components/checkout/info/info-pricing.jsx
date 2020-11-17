@@ -326,8 +326,6 @@ export default class InfoPricing extends React.Component {
               badCode={this.state.badCode}
               addCouponCode={this.props.addCouponCode}
               updateCouponCode={this.updateCouponCode}
-              organizationId={this.props.organizationId}
-              translate={this.props.translate}
             />
           </PortalModal>
         </div>
