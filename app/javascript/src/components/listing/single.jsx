@@ -37,6 +37,7 @@ class Single extends React.Component {
   // ---------------------------------------------
   constructor(props) {
     super(props);
+
     this.state = {
       availability: null,
       bookingType: null,

@@ -1,10 +1,20 @@
+// Dependencies
+// -----------------------------------------------
 import React from 'react';
 
-export default class DirectCheckbox extends React.Component {
+// -----------------------------------------------
+// COMPONENT->CHECKBOX ---------------------------
+// -----------------------------------------------
+export default class Checkbox extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
   }
 
+  // Render
+  // ---------------------------------------------
   render() {
     return (
       <figure className="checkbox" style={{ display: 'inline-block' }}>

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 // Components
 // -----------------------------------------------
-import DirectCheckbox from '../inputs/direct-checkbox';
+import Checkbox from '../inputs/checkbox';
 
 // Styles
 // -----------------------------------------------
@@ -49,7 +49,7 @@ const RegisterForm = props => {
       />
       {props.brand.organization.id === 5 && (
         <div>
-          <DirectCheckbox
+          <Checkbox
             name="terms_agreement"
             checked={props.terms_agreement}
             onChange={props.onCheckboxClick}
@@ -63,7 +63,7 @@ const RegisterForm = props => {
               </a>
             )}`}
           />
-          <DirectCheckbox
+          <Checkbox
             name="privacy_agreement"
             checked={props.privacy_agreement}
             onChange={props.onCheckboxClick}

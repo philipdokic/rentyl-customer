@@ -17,11 +17,14 @@ import Home from './components/home/index';
 import { Intercom } from './components/miscellaneous/';
 import Listing from './redux/containers/listing';
 import Listings from './redux/containers/listings';
+import NewContract from './components/contract/new';
 import NoMatch from './components/NoMatch';
 import Page from './components/pages/index';
+import Review from './components/reviews/new';
 import Ripple from './components/miscellaneous/ripple';
 import SignIn from './components/guests/sign-in';
 import SignUp from './components/guests/sign-up';
+import Verification from './components/verification/index';
 
 // Redux
 // -----------------------------------------------
@@ -115,6 +118,28 @@ class App extends React.Component {
               <Route path="/listings/:listing_slug" component={Listing} />
               <Redirect from="/listings" to="/listings/search" />
               <Route path="/pages/:page_slug" component={Page} />
+              <Route path="/my-bookings/verification/:booking_code" component={Verification} />
+              <Route path="/my-bookings/new-contract/:booking_code" component={NewContract} />
+                    {/*
+                    <Route
+                      path="/my-bookings/receipt/:booking_code"
+                      render={routeProps => (
+                        <Receipt {...this.props} {...routeProps} />
+                      )}
+                    />
+                    <Route
+                      path="/my-bookings/payment/:booking_code"
+                      render={routeProps => (
+                        <Payment {...this.props} {...routeProps} />
+                      )}
+                    />
+                    <Route
+                      path="/my-bookings/:booking_code"
+                      render={routeProps => (
+                        <Payment {...this.props} {...routeProps} />
+                      )}
+                    /> */}
+              <Route path="/reviews/new/:booking_code" component={Review} />
               <Route path="/sign_in" component={SignIn} />
               <Route path="/sign_up" component={SignUp} />
               <Route exact path="/" component={Home} />
