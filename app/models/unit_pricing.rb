@@ -13,6 +13,8 @@ class UnitPricing < ApplicationRecord
   # ----------------------------------------------
   belongs_to :unit
 
+  has_many :deposits
+  has_many :fees
   has_many :unit_listings, through: :unit
 
   ATTRIBUTES = [

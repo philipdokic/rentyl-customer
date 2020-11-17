@@ -11,6 +11,7 @@ import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
+import Checkout from './components/checkout/checkout'
 import Footer from './components/layout/footer';
 import Header from './components/layout/header';
 import Home from './components/home/index';
@@ -106,6 +107,7 @@ class App extends React.Component {
             style={this.contentStyles}
           >
             <Switch>
+              <Route path="/checkout/:id" component={Checkout} />
               <Route path="/listings/search" component={Listings} />
               <Route path="/listings/list" component={Listings} />
               <Route path="/listings/grid" component={Listings} />

@@ -52,7 +52,7 @@ class Page extends React.Component {
   // Fetch Page Info
   // ---------------------------------------------
   fetchPageInfo = (props) => {
-    axios.get(`/api/pages/${props.match.params.page_slug}?brand=${props.brand.brand.id}`)
+    axios.get(`/api/pages/${props.match.params.page_slug}?brand=${props.brand.id}`)
     .then(response => {
       this.setState({
         hero_image: response.data.hero_image,

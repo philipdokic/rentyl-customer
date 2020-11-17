@@ -102,7 +102,7 @@ class Jumbotron extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand.brand.id ? state.brand : {}
+    brand: state.brand.id ? state.brand : {}
   };
 }
 
