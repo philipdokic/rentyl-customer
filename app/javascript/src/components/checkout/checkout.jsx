@@ -18,7 +18,7 @@ import { get, times, filter, sortBy, isNull } from 'lodash';
 import AddOns from './add-ons'
 import FormPayment from '../forms/form-payment'
 import Notification from '../notification';
-import Spinner from '../spinner/spinner';
+import Ripple from '../miscellaneous/ripple';
 import ErrorsPaymentTransaction from '../errors/payment-transaction';
 import {
   InfoBooking,
@@ -664,7 +664,7 @@ class Checkout extends React.Component {
             <section className="payment">
               {this.state.isStripeSuccessful ? null : (
                 <section className="fields-cc">
-                  <Spinner />
+                  <Ripple color="#50E3C2" />
                 </section>
               )}
             </section>

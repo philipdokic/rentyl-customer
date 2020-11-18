@@ -11,7 +11,7 @@ import { CurrencyDisplay }from '../../miscellaneous/currency-display';
 import PortalModal from '../../modals/portal';
 import CouponModal from '../../modals/coupon';
 import Indicator from '../../toggle/indicator';
-import Spinner from '../../spinner/spinner'
+import Ripple from '../miscellaneous/ripple';
 
 export default class InfoPricing extends React.Component {
   constructor(props) {
@@ -518,7 +518,7 @@ export default class InfoPricing extends React.Component {
           </div>
         ) : (
           <div className="checkout-info-subsection">
-            <Spinner />
+            <Ripple color="#50E3C2" />
           </div>
         )}
       </section>

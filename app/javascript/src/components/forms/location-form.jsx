@@ -6,7 +6,7 @@ import Script from 'react-load-script';
 
 // Components
 // -----------------------------------------------
-import Spinner from '../spinner/spinner';
+import Ripple from '../miscellaneous/ripple';
 
 export default class LocationForm extends React.Component {
   constructor(props) {
@@ -226,7 +226,7 @@ export default class LocationForm extends React.Component {
           onLoad={this.handleMapScriptLoad.bind(this)}
         />
         {this.state.mapsLoading ? (
-          <Spinner />
+          <Ripple color="#50E3C2" />
         ) : (
           this.renderGeoSuggestedAddress()
         )}

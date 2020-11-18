@@ -9,7 +9,7 @@ import {
 
 // Components
 // -----------------------------------------------
-import Spinner from '../spinner/spinner'
+import Ripple from '../miscellaneous/ripple';
 import Indicator from '../toggle/indicator'
 
 const AddOns = (props) => {
@@ -89,7 +89,7 @@ const AddOns = (props) => {
         </div>
       ) : (
           <div className="checkout-info-subsection">
-            <Spinner />
+            <Ripple color="#50E3C2" />
           </div>
         )}
     </section>
