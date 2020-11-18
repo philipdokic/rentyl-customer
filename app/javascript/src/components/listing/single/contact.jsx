@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // Components
 // -----------------------------------------------
-import ContactForm from '../../contact-form/default-form';
+import ContactForm from '../../forms/contact';
 
 // -----------------------------------------------
 // COMPONENT->CONTACT ----------------------------

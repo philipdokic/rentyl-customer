@@ -22,6 +22,11 @@ class Booking < ApplicationRecord
   serialize :booking_range, JSON
 
   # ----------------------------------------------
+  # SCOPES------------------------------------
+  # ----------------------------------------------
+  scope :still_active, -> { where(cancelled: false, archived: false).where('check_out > ?', Date.today - 1.day) }
+
+  # ----------------------------------------------
   # ATTRIBUTES -----------------------------------
   # ----------------------------------------------
   ATTRIBUTES = %i[
@@ -37,5 +42,19 @@ class Booking < ApplicationRecord
     price_total
     stripe_customer_id
   ].freeze
+  
+  # ----------------------------------------------
+  # CREATE-BOOKING-RANGE -------------------------
+  # ----------------------------------------------
+  def self.create_booking_range(check_in, check_out)
+    return if check_in.blank? || check_out.blank?
+
+    (check_in..check_out).map do |date|
+      {
+        'key' => date.strftime('%d-%m-%Y'),
+        'day' => date.wday
+      }
+    end
+  end
 
 end

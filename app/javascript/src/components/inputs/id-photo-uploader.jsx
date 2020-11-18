@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 // Components
 // -----------------------------------------------
-import displayError from '../errors/error-display';
+import displayError from '../errors/display';
 import Ripple from '../miscellaneous/ripple';
 //import { Trash } from 'cxThemeComponents/icons';
 

@@ -1,13 +1,14 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import axios from 'axios'
 import styled from 'styled-components';
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import get from 'lodash/get';
 
 // Components
 // -----------------------------------------------
-import displayError from '../errors/error-display';
+import displayError from '../errors/display';
 import Form from './form';
 import Message from './message';
 import Notification from '../miscellaneous/notification';
@@ -65,30 +66,23 @@ export default class Review extends React.Component {
     this.setState(changeState, this.validateFields());
   };
 
-
+  // On Submit
+  // ---------------------------------------------
   onSubmit = () => {
     this.setState({ loading: true, incomplete: true });
-    //axios.post(`https://staging.getdirect.io/api/v2/sessions`, sessionParams)
-    // .then(response => {
-    //   window.location.href = response.redirect_url;
-    // })
-    // .catch(error => {
-    //   this.setState({ error: error });
-    //   console.log(error);
-    // })
-    ReviewService.create(get(this, 'props.match.params.booking_code'), {
+    axios.post(`/${get(this, 'props.match.params.booking_code')}/reviews/create`, {
       rating: this.state.rating,
       title: this.state.title,
       body: this.state.body
     })
-      .then(response => {
-        this.setState({ review: response.review });
-        this.setState({ loading: false });
-      })
-      .catch(err => {
-        displayError({ message: 'Review was unable to submit', err });
-        this.setState({ loading: false });
-      });
+    .then(response => {
+      this.setState({ review: response.data.review });
+      this.setState({ loading: false });
+    })
+    .catch(error => {
+      displayError({ message: 'Review was unable to submit', error });
+      this.setState({ loading: false });
+    })
   };
 
   // Render Review Form

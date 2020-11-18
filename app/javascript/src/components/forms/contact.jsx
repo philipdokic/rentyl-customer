@@ -9,7 +9,7 @@ import assign from 'lodash/assign';
 // -----------------------------------------------
 import SimplifiedWysiwyg from '../inputs/simplified-wysiwyg';
 import WidgetDatePicker from '../date-picker/widget-date-picker';
-import displayError from '../errors/error-display';
+import displayError from '../errors/display';
 
 // Styled Components
 // -----------------------------------------------
@@ -50,9 +50,9 @@ const SubmitButton = styled.button`
 `;
 
 // -----------------------------------------------
-// COMPONENT->DEFAULT-FORM -----------------------
+// COMPONENT->CONTACT ----------------------------
 // -----------------------------------------------
-export default class DefaultForm extends React.Component {
+export default class Contact extends React.Component {
 
   // Constructor
   // ---------------------------------------------

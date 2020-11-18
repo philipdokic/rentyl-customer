@@ -15,10 +15,11 @@ class UnitListing < ApplicationRecord
   belongs_to :organization
   belongs_to :unit
 
-  has_many :bookings, dependent: :nullify
-
   has_one :property, through: :unit
   has_one :unit_availability, through: :unit
   has_one :unit_pricing, through: :unit
+
+  has_many :bookings, dependent: :nullify
+  has_many :deposits, through: :unit_pricing
 
 end

@@ -10,7 +10,7 @@ import { reject, filter, sortBy, isNull } from 'lodash';
 import BookingErrors from './booking-errors';
 import CouponModal from './coupon-modal';
 import Link from '../../links/link';
-import PortalModal from '../../modals/portal-modal';
+import PortalModal from '../../modals/portal';
 
 // -----------------------------------------------
 // COMPONENT->BOOKING-BREAKDOWN ------------------
@@ -31,6 +31,8 @@ export default class BookingBreakdown extends React.Component {
     };
   }
 
+  // Component Did Mount
+  // ---------------------------------------------
   componentDidMount = () => {
     this.fetchCouponCodes();
     this.findListingAndRoomType();

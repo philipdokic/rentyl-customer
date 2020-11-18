@@ -11,6 +11,7 @@ import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
+import Checkout from './components/checkout/checkout'
 import Footer from './components/layout/footer';
 import Header from './components/layout/header';
 import Home from './components/home/index';
@@ -20,8 +21,8 @@ import Listings from './redux/containers/listings';
 import NewContract from './components/contract/new';
 import NoMatch from './components/NoMatch';
 import Page from './components/pages/index';
-// import Payment from './components/payment/index';
-// import Receipt from './components/receipt/index';
+import Payment from './components/payment/index';
+import Receipt from './components/receipt/index';
 import Review from './components/reviews/new';
 import Ripple from './components/miscellaneous/ripple';
 import SignIn from './components/guests/sign-in';
@@ -113,6 +114,7 @@ class App extends React.Component {
             style={this.contentStyles}
           >
             <Switch>
+              <Route path="/checkout/:id" component={Checkout} />
               <Route path="/listings/search" component={Listings} />
               <Route path="/listings/list" component={Listings} />
               <Route path="/listings/grid" component={Listings} />
@@ -122,9 +124,9 @@ class App extends React.Component {
               <Route path="/pages/:page_slug" component={Page} />
               <Route path="/my-bookings/verification/:booking_code" component={Verification} />
               <Route path="/my-bookings/new-contract/:booking_code" component={NewContract} />
-              {/* <Route path="/my-bookings/receipt/:booking_code" component={Receipt} />
+              <Route path="/my-bookings/receipt/:booking_code" component={Receipt} />
               <Route path="/my-bookings/payment/:booking_code" component={Payment} />
-              <Route path="/my-bookings/:booking_code" component={Payment} /> */}
+              <Route path="/my-bookings/:booking_code" component={Payment} />
               <Route path="/reviews/new/:booking_code" component={Review} />
               <Route path="/sign_in" component={SignIn} />
               <Route path="/sign_up" component={SignUp} />

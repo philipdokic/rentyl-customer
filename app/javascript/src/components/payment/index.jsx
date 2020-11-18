@@ -1,29 +1,27 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import ReactI18n from 'react-i18n';
-import Script from 'react-load-script';
-import get from 'lodash/get';
+import axios from 'axios'
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
+import get from 'lodash/get';
+import moment from 'moment';
+import Script from 'react-load-script';
 
 // Components
 // -----------------------------------------------
-import { BookingService } from 'cxApi';
-import {
-  InfoListing,
-  InfoPricing,
-  InfoStay,
-  InfoSecDep,
-  FormPayment
-} from '../molecules';
+import Form from './form';
+import Listing from './listing';
+import Pricing from './pricing';
+import PaymentTransaction from '../errors/payment-transaction';
+import Stay from './stay';
 
-import { ErrorsPaymentTransaction } from '../../Checkout/atoms';
-
+// -----------------------------------------------
+// COMPONENT->PAYMENT ----------------------------
+// -----------------------------------------------
 export default class Payment extends React.Component {
-  static propTypes = {};
 
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
 
@@ -53,18 +51,28 @@ export default class Payment extends React.Component {
     };
   }
 
+  // Component Did Mount
+  // ---------------------------------------------
   componentDidMount = () => {
     this.fetchData(this.props);
   };
 
+  // Fetch Data
+  // ---------------------------------------------
   fetchData = props => {
     this.setState({ loading: true }, () => {
-      BookingService.payment(props.match.params.booking_code)
-        .then(res => this.setState({ loading: false, ...res }))
-        .catch(err => console.error(err));
+      axios.post(`/bookings/payment/${props.match.params.booking_code}`)
+      .then(response => {
+        this.setState({ loading: false, ...response.data })
+      })
+      .catch(error => {
+        console.error(error);
+      })
     });
   };
 
+  // Parse Time
+  // ---------------------------------------------
   parseTime = time => {
     const t = moment(time, 'hh:mm');
     if (t !== 'Invalid date') {
@@ -73,21 +81,26 @@ export default class Payment extends React.Component {
     return null;
   };
 
+  // Handle Stripe Script Error
+  // ---------------------------------------------
   handleStripeScriptError = () => {
     this.setState({
       isStripeSuccessful: false
     });
   };
 
+  // Handle Stripe Script Load
+  // ---------------------------------------------
   handleStripeScriptLoad = () => {
     Stripe.setPublishableKey(this.state.stripePublishableKey);
     this.setState({
       isStripeSuccessful: true
     });
     this.render();
-    console.log('Stripe:', Stripe);
   };
 
+  // Create Stripe Token
+  // ---------------------------------------------
   createStripeToken = () => {
     Stripe.card.createToken(
       {
@@ -101,6 +114,8 @@ export default class Payment extends React.Component {
     );
   };
 
+  // Create Stripe Callback
+  // ---------------------------------------------
   handleStripeCallback = (statusCode, json) => {
     if (statusCode === 200) {
       this.handleStripeSuccess(json);
@@ -109,13 +124,14 @@ export default class Payment extends React.Component {
     }
   };
 
+  // Create Stripe Success
+  // ---------------------------------------------
   handleStripeSuccess = json => {
     const token = json.id;
-    $.ajax({
-      type: 'POST',
-      url: `/api/checkout/${this.state.listing.id}/process_payment`,
+
+    axios.post(`/api/checkout/${this.state.listing.id}/process_payment`, {
       context: this,
-      data: {
+      params: {
         charge_amount: parseFloat(this.state.chargeAmount),
         booking_id: this.state.booking.id,
         customer_email: this.state.customerEmail,
@@ -124,22 +140,25 @@ export default class Payment extends React.Component {
         stripe_token: token
       }
     })
-      .done(() => {
-        window.location = window.location;
-        // Get rid of the card form and replace with success message
-      })
-      .fail(jqXhr => {
-        console.warn(jqXhr);
-        alert('Payment Failed' + jqXhr.error.responseText);
-        window.location = window.location;
-      });
+    .then(response => {
+      window.location = window.location;
+    })
+    .catch(error => {
+      console.warn(error);
+      alert('Payment Failed' + error.responseText);
+      window.location = window.location;
+    })
   };
 
+  // Handle Stripe Failure
+  // ---------------------------------------------
   handleStripeFailure = ({ error }) => {
     console.error(error);
     this.setState({ transactionError: error });
   };
 
+  // Get Charge Amount
+  // ---------------------------------------------
   getChargeAmount = () => {
     return Math.max(
       0,
@@ -147,6 +166,8 @@ export default class Payment extends React.Component {
     ).toFixed(2);
   };
 
+  // Process Security Deposit
+  // ---------------------------------------------
   processSecurityDeposit = (
     chargeAmount,
     cardNumber,
@@ -174,9 +195,10 @@ export default class Payment extends React.Component {
     );
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
     if (this.state.loading) return null;
-    const translate = ReactI18n.getIntlMessage;
     const bookingLength = this.state.booking.booking_range.length - 1;
     const checkIn = moment(this.state.booking.check_in, 'YYYY-MM-DD');
     const checkOut = moment(this.state.booking.check_out, 'YYYY-MM-DD');
@@ -200,7 +222,7 @@ export default class Payment extends React.Component {
         />
         {this.getChargeAmount() === (0).toFixed(2) ? (
           <section className="payment">
-            <InfoStay
+            <Stay
               booking={this.state.booking}
               bookingLength={bookingLength}
               checkIn={checkIn}
@@ -209,7 +231,6 @@ export default class Payment extends React.Component {
               checkOutTime={checkOutTime}
               customer={this.state.customer}
               guests={guests}
-              translate={translate}
               verified={this.state.verified}
               displayFormat={get(this, 'props.brand.date_format', 'MM/DD/YYYY')}
             />
@@ -227,17 +248,16 @@ export default class Payment extends React.Component {
             ) : (
               <span />
             )}
-            <FormPayment
+            <Form
               chargeAmount={this.getChargeAmount()}
               processSecurityDeposit={this.processSecurityDeposit}
               slug={this.state.slug}
-              translate={translate}
             />
-            <ErrorsPaymentTransaction errors={[this.state.transactionError]} />
+            <PaymentTransaction errors={[this.state.transactionError]} />
           </section>
         )}
         <section className="information">
-          <InfoListing
+          <Listing
             checkInDate={checkIn}
             checkOutDate={checkOut}
             featured_image={this.state.featured_image}
@@ -247,13 +267,11 @@ export default class Payment extends React.Component {
             property={this.state.property}
             slug={this.state.slug}
             unit={this.state.unit}
-            translate={translate}
           />
-          <InfoPricing
+          <Pricing
             booking={this.state.booking}
             charges={this.state.charges}
             currency={currency}
-            translate={translate}
           />
         </section>
       </main>

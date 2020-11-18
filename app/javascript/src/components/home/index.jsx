@@ -7,7 +7,7 @@ import 'react-dates/initialize';
 
 // Components
 // -----------------------------------------------
-import ContactForm from '../contact-form/default-form';
+import ContactForm from '../forms/contact';
 import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';

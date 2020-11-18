@@ -68,4 +68,15 @@ class Api::ListingsController < ApplicationController
     }
   end
 
+  # ----------------------------------------------
+  # FETCH-COUPON-CODES ---------------------------
+  # ----------------------------------------------
+  def fetch_coupon_codes
+    unit_id = UnitListing.find(params[:listing_id]).unit.id
+    promotion_ids = UnitPromo.where(unit_id: unit_id).map(&:promotion_id)
+    coupon_codes = Promotion.where(id: promotion_ids).map(&:coupon_code).reject(&:nil?).map(&:downcase)
+
+    render json: coupon_codes.as_json
+  end
+
 end

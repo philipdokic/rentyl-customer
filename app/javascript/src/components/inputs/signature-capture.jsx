@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 // -----------------------------------------------
 import Ripple from '../miscellaneous/ripple';
 //import { Trash } from 'cxThemeComponents/icons';
-import displayError from '../errors/error-display';
+import displayError from '../errors/display';
 
 // Styles
 // -----------------------------------------------
