@@ -17,7 +17,7 @@ import { get, times, filter, sortBy, isNull } from 'lodash';
 // -----------------------------------------------
 import AddOns from './add-ons'
 import FormPayment from '../forms/form-payment'
-import Notification from '../notification';
+import Notification from '../miscellaneous/notification';
 import Ripple from '../miscellaneous/ripple';
 import ErrorsPaymentTransaction from '../errors/payment-transaction';
 import {
