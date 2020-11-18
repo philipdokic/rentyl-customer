@@ -11,7 +11,7 @@ import { CurrencyDisplay }from '../../miscellaneous/currency-display';
 import PortalModal from '../../modals/portal';
 import CouponModal from '../../modals/coupon';
 import Indicator from '../../toggle/indicator';
-import Ripple from '../miscellaneous/ripple';
+import Ripple from '../../miscellaneous/ripple';
 
 export default class InfoPricing extends React.Component {
   constructor(props) {
