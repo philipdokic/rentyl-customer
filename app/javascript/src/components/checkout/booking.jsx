@@ -4,10 +4,10 @@ import React from 'react';
 import get from 'lodash/get';
 import ReactI18n from 'react-i18n'
 
-const InfoBooking = (props) => {
-
+// Booking
+// -----------------------------------------------
+const Booking = (props) => {
   const translate = ReactI18n.getIntlMessage
-
   const buildBookingInfo = () => {
     if (
       props.checkInDate &&
@@ -55,5 +55,6 @@ const InfoBooking = (props) => {
   );
 }
 
-
-export default InfoBooking
+// Export
+// -----------------------------------------------
+export default Booking

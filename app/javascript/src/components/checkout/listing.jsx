@@ -5,11 +5,12 @@ import ReactI18n from 'react-i18n'
 
 // Components
 // -----------------------------------------------
-import Link from '../../links/link';
-import { every, some } from 'lodash';
+import Link from '../links/link';
 
-const InfoListing = (props) => {
-
+// Listing
+// -----------------------------------------------
+const Listing = (props) => {
+  const translate = ReactI18n.getIntlMessage;
   const buildDetaisLink = () => {
     let link = '/listings/' + props.slug + '?';
     if (props.checkInDate) {
@@ -23,19 +24,6 @@ const InfoListing = (props) => {
     }
     return link;
   }
-
-  const getDepositRefundPolicy = () => {
-    const deposits = props.pricing.deposits;
-    if (every(deposits, ['refundable', true])) {
-      return 'full';
-    } else if (some(deposits, ['refundable', true])) {
-      return 'deposit_partial';
-    } else {
-      return 'no_refund';
-    }
-  }
-
-  const translate = ReactI18n.getIntlMessage;
 
   return (
     <section className="checkout-info-listing">
@@ -113,4 +101,6 @@ const InfoListing = (props) => {
   );
 }
 
-export default InfoListing
+// Export
+// -----------------------------------------------
+export default Listing

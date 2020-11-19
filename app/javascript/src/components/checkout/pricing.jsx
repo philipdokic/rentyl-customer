@@ -7,13 +7,19 @@ import ReactI18n from 'react-i18n'
 
 // Components
 // -----------------------------------------------
-import { CurrencyDisplay }from '../../miscellaneous/currency-display';
-import PortalModal from '../../modals/portal';
-import CouponModal from '../../modals/coupon';
-import Indicator from '../../toggle/indicator';
-import Ripple from '../../miscellaneous/ripple';
+import { CurrencyDisplay }from '../miscellaneous/currency-display';
+import PortalModal from '../modals/portal';
+import CouponModal from '../modals/coupon';
+import Indicator from '../toggle/indicator';
+import Ripple from '../miscellaneous/ripple';
 
-export default class InfoPricing extends React.Component {
+// -----------------------------------------------
+// COMPONENT->PRICING(CHECKOUT) ------------------
+// -----------------------------------------------
+export default class Pricing extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
 
@@ -24,6 +30,8 @@ export default class InfoPricing extends React.Component {
     };
   }
 
+  // Render Description Popover
+  // ---------------------------------------------
   renderDescriptionPopover(description) {
     return (
       <figure className="line-item-description" style={{ marginLeft: '5px' }}>
@@ -33,9 +41,12 @@ export default class InfoPricing extends React.Component {
     );
   }
 
+  // Render Discount
+  // ---------------------------------------------
   renderDiscount(discount) {
     const translate = ReactI18n.getIntlMessage;
     const currency = this.props.currency;
+
     return (
       <tr>
         <td>
@@ -55,6 +66,8 @@ export default class InfoPricing extends React.Component {
     );
   }
 
+  // Calculate Deposits
+  // ---------------------------------------------
   calculateDeposits(bookingDeposit) {
     let total = 0;
 
@@ -70,19 +83,27 @@ export default class InfoPricing extends React.Component {
     return total;
   }
 
+  // Submit Fees
+  // ---------------------------------------------
   submitFees = (fee, closePortal) => {
     this.props.addFeeIds(fee.id, this.state.quantity);
     closePortal();
   };
 
+  // Update Quantity
+  // ---------------------------------------------
   updateQuantity = value => {
     this.setState({ quantity: value });
   };
 
+  // Render Fee Quantity
+  // ---------------------------------------------
   renderFeeQuantity = feeId => {
     return this.props.feeQuantities.find(feeQ => feeQ.id === feeId);
   };
 
+  // Verify Coupon Code
+  // ---------------------------------------------
   verifyCouponCode = closePortal => {
     if (isNull(this.props.allCouponCodes)) {
       this.setState({ badCode: true });
@@ -96,10 +117,14 @@ export default class InfoPricing extends React.Component {
     }
   };
 
+  // Update Coupon Code
+  // ---------------------------------------------
   updateCouponCode = couponCode => {
     this.setState({ couponCode, badCode: false });
   };
 
+  // Render Submit Action
+  // ---------------------------------------------
   renderSubmitAction = closePortal => (
     <a
       className={'button positive'}
@@ -109,6 +134,8 @@ export default class InfoPricing extends React.Component {
     </a>
   );
 
+  // Render Pricing
+  // ---------------------------------------------
   renderPricing() {
     const translate = ReactI18n.getIntlMessage
     const currency = this.props.currency;
@@ -118,6 +145,7 @@ export default class InfoPricing extends React.Component {
       addonFees,
       fee => !this.props.addonFeeIds.includes(fee.id)
     );
+
     return (
       <figure>
         <div className="checkout-info-subsection">
@@ -334,8 +362,11 @@ export default class InfoPricing extends React.Component {
     );
   }
 
+  // Calculate Balance Due Date
+  // ---------------------------------------------
   calculateBalanceDueDate = () => {
     const dueDates = [];
+
     if (this.props.pricing.booking_deposits) {
       dueDates.push(
         this.props.pricing.booking_deposits.remaining_balance_due_date
@@ -350,6 +381,7 @@ export default class InfoPricing extends React.Component {
       'check_in_date',
       'manual'
     ];
+
     if (dueDates.length > 0) {
       return find(availableDueDates, date => includes(dueDates, date));
     } else {
@@ -357,6 +389,8 @@ export default class InfoPricing extends React.Component {
     }
   };
 
+  // Render Balance Due Text
+  // ---------------------------------------------
   renderBalanceDueText = () => {
     const dueDateOptions = [
       { value: 'day60', label: '60 days prior to check-in' },
@@ -371,6 +405,8 @@ export default class InfoPricing extends React.Component {
     return dueDateOptions[index].label;
   };
 
+  // Booking Outside Remaining Balance Due Date
+  // ---------------------------------------------
   bookingOutsideRemainingBalanceDueDate = bookingDeposit => {
     if (!bookingDeposit || bookingDeposit.length == 0) {
       return false;
@@ -391,6 +427,8 @@ export default class InfoPricing extends React.Component {
     return balanceDueDate.isBefore(checkIn);
   };
 
+  // Render Total And Immediate Payment
+  // ---------------------------------------------
   renderTotalAndImmediatePayment = () => {
     const translate = ReactI18n.getIntlMessage
     const currency = this.props.currency;
@@ -502,8 +540,11 @@ export default class InfoPricing extends React.Component {
     );
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     return (
       <section className="checkout-info-pricing">
         {!this.props.availabilityLoading ? (

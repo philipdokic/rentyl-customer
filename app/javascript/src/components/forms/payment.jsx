@@ -8,8 +8,6 @@ import ReactI18n from 'react-i18n'
 // -----------------------------------------------
 import Link from '../links/link';
 import Indicator from '../toggle/indicator';
-
-// import CustomerVerification from './customer-verification';
 import {
   cardTypeMask,
   checkErrorsGuests,
@@ -29,13 +27,19 @@ import {
   validateCustomerPostalCode,
   validateCustomerTelephone
 } from '../credit-card';
-
 import ErrorsPaymentCard from '../errors/payment-card'
 import ErrorsPaymentCustomer from '../errors/payment-customer';
 
-export default class FormPayment extends React.Component {
-  constructor(props, _railsContext) {
+// -----------------------------------------------
+// COMPONENT->PAYMENT ----------------------------
+// -----------------------------------------------
+export default class Payment extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
+  constructor(props) {
     super(props);
+
     this.state = {
       toggleFill: false,
       guests: this.props.guests || 1,
@@ -65,6 +69,8 @@ export default class FormPayment extends React.Component {
     };
   }
 
+  // Component Did Mount
+  // ---------------------------------------------
   componentDidMount() {
     this.checkValidity('guests', this.state.guests);
     this.checkValidity('cardNumber', this.state.cardNumber);
@@ -76,6 +82,8 @@ export default class FormPayment extends React.Component {
     this.checkValidity('customerTelephone', this.state.customerTelephone);
   }
 
+  // On Change
+  // ---------------------------------------------
   onChange = e => {
     e.preventDefault();
     let stateChange = {};
@@ -92,6 +100,8 @@ export default class FormPayment extends React.Component {
     }
   };
 
+  // On Blur
+  // ---------------------------------------------
   onBlur = e => {
     this.checkValidity(e.target.name, e.target.value);
     let stateChange = {};
@@ -108,9 +118,12 @@ export default class FormPayment extends React.Component {
     }
   };
 
+  // Check Validity
+  // ---------------------------------------------
   checkValidity = (type, val) => {
     let validity = false;
     let error = null;
+
     switch (type) {
       case 'guests':
         validity = validateGuests(val);
@@ -150,10 +163,13 @@ export default class FormPayment extends React.Component {
     let errorChange = {};
     validityChange[type + 'Valid'] = validity;
     errorChange[type + 'Error'] = error;
+
     this.setState(validityChange);
     this.setState(errorChange);
   };
 
+  // Handle Submit
+  // ---------------------------------------------
   handleSubmit = e => {
     this.submitBtn.setAttribute('disabled', 'disabled');
     e.preventDefault();
@@ -167,13 +183,10 @@ export default class FormPayment extends React.Component {
       this.state.customerPostalCode,
       this.state.customerTelephone
     );
-    // Use this in future if we start handling bad cards here.
-    // currently even on card fail, we go to verification page
-    // window.setTimeout(() => {
-    // this.submitBtn.removeAttribute('disabled');
-    // }, 3000);
   };
 
+  // Has Invalid Fields
+  // ---------------------------------------------
   hasInvalidFields = () => {
     return !(
       this.state.guestsValid &&
@@ -187,9 +200,12 @@ export default class FormPayment extends React.Component {
     );
   };
 
+  // Build Field Status
+  // ---------------------------------------------
   buildFieldStatus = type => {
     const typeError = this.state[type + 'Error'];
     const typeValidity = this.state[type + 'Valid'];
+
     if (typeValidity === true) {
       return 'valid';
     } else if (typeError === 'empty' || typeError === null) {
@@ -198,6 +214,8 @@ export default class FormPayment extends React.Component {
     return 'invalid';
   };
 
+  // Build Section Status
+  // ---------------------------------------------
   buildSectionStatus = type => {
     if (type === 'cc') {
       if (
@@ -220,6 +238,8 @@ export default class FormPayment extends React.Component {
     }
   };
 
+  // Setup Guests
+  // ---------------------------------------------
   setupGuests = () => {
     let guestsArray = [];
     for (let i = 1; i <= this.props.max_guests; i++) {
@@ -228,6 +248,8 @@ export default class FormPayment extends React.Component {
     return guestsArray;
   };
 
+  // Check Card Validity
+  // ---------------------------------------------
   checkCardValidity = () => {
     const {
       cardCvv,
@@ -250,6 +272,8 @@ export default class FormPayment extends React.Component {
     }
   };
 
+  // Fill From Contact
+  // ---------------------------------------------
   fillFromContact = () => {
     this.setState({
       customerEmail: this.props.customerEmail || '',
@@ -272,9 +296,12 @@ export default class FormPayment extends React.Component {
     }
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
     const translate = ReactI18n.getIntlMessage;
     const guestsArray = this.setupGuests();
+
     return (
       <div>
         <form noValidate className="form-payment">
@@ -377,7 +404,6 @@ export default class FormPayment extends React.Component {
                   : () => this.fillFromContact()
               }
             />
-
             <ErrorsPaymentCustomer
               errors={[
                 { param: 'customerName', code: this.state.customerNameError },
@@ -410,7 +436,6 @@ export default class FormPayment extends React.Component {
                 required
               />
             </figure>
-
             <figure className="field-customer-email">
               <label htmlFor="customerEmail">
                 <span>Email</span>
@@ -427,7 +452,6 @@ export default class FormPayment extends React.Component {
                 required
               />
             </figure>
-
             <figure className="field-customer-telephone">
               <label htmlFor="customerTelephone">
                 <span>Telephone number</span>
@@ -445,7 +469,6 @@ export default class FormPayment extends React.Component {
                 required
               />
             </figure>
-
             <figure className="field-customer-postal-code">
               <label htmlFor="customerPostalCode">
                 <span>Postal code</span>

@@ -11,7 +11,7 @@ import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
-import Checkout from './components/checkout/checkout'
+import Checkout from './components/checkout/index'
 import Footer from './components/layout/footer';
 import Header from './components/layout/header';
 import Home from './components/home/index';

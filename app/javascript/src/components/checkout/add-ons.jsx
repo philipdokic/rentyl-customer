@@ -12,10 +12,10 @@ import {
 import Ripple from '../miscellaneous/ripple';
 import Indicator from '../toggle/indicator'
 
+// Add Ons
+// -----------------------------------------------
 const AddOns = (props) => {
-
   const translate = ReactI18n.getIntlMessage
-
   const renderAddOns = () => {
     const currency = props.currency;
     const addonFees = filter(props.temp_fees, ['is_addon', 'true']);
@@ -23,6 +23,7 @@ const AddOns = (props) => {
       addonFees,
       fee => !props.addonFeeIds.includes(fee.id)
     );
+
     return (
       <div>
         <div className="addons-wrapper">
@@ -96,4 +97,6 @@ const AddOns = (props) => {
   );
 }
 
+// Export
+// -----------------------------------------------
 export default AddOns
