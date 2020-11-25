@@ -104,7 +104,7 @@ class ThemeDefaultSearch extends React.Component {
   componentDidMount() {
     this.handleBrowserState();
     window.onpopstate = this.handleBrowserState;
-    this.fetchListingsData(this.props);
+    //this.fetchListingsData(this.props);
     Intercom(this.props.intercom_id);
     document.body.classList.add('search-view');
     document.body.classList.remove('checkout-view');
@@ -119,24 +119,24 @@ class ThemeDefaultSearch extends React.Component {
     }
   }
 
-  fetchListingsData = props => {
-    axios.get('/api/organizations')
-    .then(response => {
-      props.dispatch(brandAction.setBrand(response.data))
-      axios.get(`/api/listings?brand=${response.data.brand.id}`, {
-        headers: {'Content-Type': 'application/json'}
-      })
-      .then(res => {
-        props.dispatch(listingsAction.setListings(res.data))
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  };
+  // fetchListingsData = props => {
+  //   axios.get('/api/organizations')
+  //   .then(response => {
+  //     props.dispatch(brandAction.setBrand(response.data))
+  //     axios.get(`/api/listings?brand=${response.data.brand.id}`, {
+  //       headers: {'Content-Type': 'application/json'}
+  //     })
+  //     .then(res => {
+  //       props.dispatch(listingsAction.setListings(res.data))
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     })
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   })
+  // };
 
   calculateMaxes = () => {
     if (this.state.results) {
