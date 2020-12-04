@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet';
 // -----------------------------------------------
 import ContactForm from '../forms/contact';
 import { Intercom } from '../miscellaneous/';
+import Meta from './meta';
 
 class Page extends React.Component {
 
@@ -101,6 +102,7 @@ class Page extends React.Component {
 
     return (
       <>
+        <Meta page={this.state.page} />
         <Helmet>
           {this.getCustomScripts()}
           {this.getCustomCss()}

@@ -14,24 +14,24 @@ class Meta extends React.Component {
   render() {
     return (
       <Helmet>
-        <title>Title | Site Name</title>
+        <title>{this.props.brand.home.meta_title}</title>
         <link rel="canonical" href={this.props.brand.canonical} />
-        <meta name="description" content="custom..." />
+        <meta name="description" content={this.props.brand.home.meta_description} />
         <meta itemprop="name" content={this.props.brand.name} />
-        <meta itemprop="description" content="custom..." />
+        <meta itemprop="description" content={this.props.brand.home.meta_description} />
         <meta itemprop="image" content="https://example.com/image.jpg" />
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content={this.props.brand.brand_info.social.social_twitter} />
         <meta name="twitter:url" content={this.props.brand.canonical} />
-        <meta name="twitter:title" content="Title | Site Name" />
-        <meta name="twitter:description" content="custom..." />
+        <meta name="twitter:title" content={this.props.brand.home.meta_title} />
+        <meta name="twitter:description" content={this.props.brand.home.meta_description} />
         <meta name="twitter:image" content="https://example.com/image.jpg" />
         {/* Facebook */}
         <meta property="og:image" content="http://example.com/image.jpg" />
         <meta property="og:site_name" content={this.props.brand.name} />
-        <meta property="og:title" content="Title | Site Name" />
-        <meta property="og:description" content="custom..." />
+        <meta property="og:title" content={this.props.brand.home.meta_title} />
+        <meta property="og:description" content={this.props.brand.home.meta_description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={this.props.brand.canonical} />
         <meta property="og:locale" content="en_US" />

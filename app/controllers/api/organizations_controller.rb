@@ -37,6 +37,8 @@ class Api::OrganizationsController < ApplicationController
       homepage: @homepage,
       hero_image: @homepage.hero_image,
       location: @brand.organization.location,
+      meta_title: @homepage.meta_title,
+      meta_description: @homepage.meta_description,
       options: @homepage.options,
       payload: @homepage.payload
     }
