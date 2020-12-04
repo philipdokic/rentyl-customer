@@ -1,5 +1,5 @@
 # ================================================
-# RUBY->CONTROLLER->PAGES =====================
+# RUBY->CONTROLLER->PAGES ========================
 # ================================================
 class Api::PagesController < ApplicationController
 
@@ -11,7 +11,6 @@ class Api::PagesController < ApplicationController
   # SHOW -----------------------------------------
   # ----------------------------------------------
   def show
-    @brand = Brand.find(params[:brand])
     @page = @brand.brand_pages.where(published: true, slug: params[:id]).first
     render json: @page
   end

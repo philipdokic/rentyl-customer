@@ -2,18 +2,4 @@
 # RUBY->CONTROLLER->ORGANIZATIONS ================
 # ================================================
 class OrganizationsController < ApplicationController
-
-  # ==============================================
-  # ACTIONS ======================================
-  # ==============================================
-
-  # ----------------------------------------------
-  # INDEX ----------------------------------------
-  # ----------------------------------------------
-  def index
-    request_host = request.host
-    domain = Domain.find_by(url: request_host)
-    @brand = domain.brand
-  end
-
 end

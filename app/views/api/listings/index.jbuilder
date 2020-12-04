@@ -1,1 +1,0 @@
-json.extract! listing, :id

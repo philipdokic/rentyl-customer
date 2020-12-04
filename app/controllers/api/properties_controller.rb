@@ -1,4 +1,15 @@
+# ================================================
+# RUBY->CONTROLLER->PROPERTIES ===================
+# ================================================
 class Api::PropertiesController < ApplicationController
+
+  # ==============================================
+  # ACTIONS ======================================
+  # ==============================================
+
+  # ----------------------------------------------
+  # INDEX ----------------------------------------
+  # ----------------------------------------------
   def index
     render json:{
       results: search_service.call,
@@ -15,21 +26,26 @@ class Api::PropertiesController < ApplicationController
     }
   end
 
+  # ----------------------------------------------
+  # SHOW -----------------------------------------
+  # ----------------------------------------------
   def show
     @property = Property.find(params[:id])
   end
 
-private
+  # ==============================================
+  # PRIVATE ======================================
+  # ==============================================
+  private
+
+  # ----------------------------------------------
+  # SEARCH-SERVICE -------------------------------
+  # ----------------------------------------------
   def search_service
     @search_service ||= Search::Properties.new(
       params,
-      grab_brand
+      @brand
     )
   end
 
-  def grab_brand
-    request_host = request.host
-    domain = Domain.find_by(url: request_host)
-    @brand = domain.brand
-  end
 end

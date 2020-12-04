@@ -119,35 +119,9 @@ class Api::BookingsController < ApplicationController
   end
 
   # ----------------------------------------------
-  # GET-BRAND ------------------------------------
-  # ----------------------------------------------
-  def get_brand
-    @brand ||= get_brand_by_domain
-  end
-
-  # ----------------------------------------------
-  # GET-BRAND-BY-DOMAIN --------------------------
-  # ----------------------------------------------
-  def get_brand_by_domain
-    domain ||= Domain.where(url: request.host).first
-    if !domain.nil?
-      if domain.live?
-        domain.brand
-      else
-        logger.debug "Domain found but not live: #{domain.url}"
-        'disabled'
-      end
-    else
-      logger.debug "No domain found: #{request.host}"
-      nil
-    end
-  end
-
-  # ----------------------------------------------
   # GET-LISTING-BY-ID ----------------------------
   # ----------------------------------------------
   def get_listing_by_id
-    get_brand
     @listing ||= @brand.unit_listings.find(listing_id)
   end
 

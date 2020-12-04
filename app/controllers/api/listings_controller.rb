@@ -11,7 +11,6 @@ class Api::ListingsController < ApplicationController
   # INDEX ----------------------------------------
   # ----------------------------------------------
   def index
-    @brand = Brand.find(params[:brand])
     @listings = @brand.unit_listings.includes(:property)
     render json: @listings
   end
@@ -34,6 +33,7 @@ class Api::ListingsController < ApplicationController
     @property_images = property_images_url
 
     # Unit Images
+    # TODO: Can we remove?
     unit_images = @listing.unit.unit_images
     unit_images_url = []
     unit_images.each do |u|
