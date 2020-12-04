@@ -72,7 +72,7 @@ class FeaturedListingsContainer extends React.Component {
         </h2>
 
         <div className="featured-tiles">
-          {this.props.brand.featured_listings.map(listing => (
+          {this.props.brand.home.featured_listings.map(listing => (
             <figure className="featured-tile">
               <Link to={`/listings/${listing.slug}`} target="_blank">
                 <div
@@ -114,7 +114,7 @@ class FeaturedListingsContainer extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand.id ? state.brand : {}
+    brand: state.brand ? state.brand : {}
   };
 }
 

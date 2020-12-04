@@ -24,7 +24,7 @@ class FeaturedPagesContainer extends React.Component {
           {translate(`cx.global.page.featured.plural`)}
         </h2>
         <div className="featured-pages">
-          {this.props.brand.featured_pages.map(page => (
+          {this.props.brand.home.featured_pages.map(page => (
             <figure className="featured-page">
               <Link to={page.url}>
                 {page.image ? (
