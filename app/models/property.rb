@@ -45,7 +45,7 @@ class Property < ApplicationRecord
   # FEATURED-IMAGE -------------------------------
   # ----------------------------------------------
   def featured_image
-    property_images.first.property_image_url if property_images.first.present?
+    property_images.first.property_image_urls if property_images.first.present?
   end
 
   # ----------------------------------------------

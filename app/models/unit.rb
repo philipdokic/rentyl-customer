@@ -29,7 +29,7 @@ class Unit < ApplicationRecord
   # FEATURED-IMAGE -------------------------------
   # ----------------------------------------------
   def featured_image
-    property.multi_unit ? unit_images.first.unit_image_url : property.featured_image
+    unit_images.first.unit_image_urls if unit_images.first.present?
   end
 
   def vacant_for_stay?(booking_range, booking_code_to_exclude = nil)

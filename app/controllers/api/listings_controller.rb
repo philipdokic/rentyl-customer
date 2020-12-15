@@ -26,7 +26,7 @@ class Api::ListingsController < ApplicationController
     property_images_url = []
     property_images.each do |p|
       p_obj = {}
-      p_obj[:url] = p.property_image_url
+      p_obj[:url] = p.property_image_urls
       p_obj[:label] = p.label
       property_images_url.push(p_obj)
     end
@@ -38,7 +38,7 @@ class Api::ListingsController < ApplicationController
     unit_images_url = []
     unit_images.each do |u|
       u_obj = {}
-      u_obj[:url] = u.unit_image_url
+      u_obj[:url] = u.unit_image_urls
       u_obj[:label] = u.label
       unit_images_url.push(u_obj)
     end
