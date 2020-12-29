@@ -20,7 +20,6 @@ module WhiteLabelTest
     config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
     config.middleware.use I18n::JS::Middleware
-
     config.i18n.default_locale = :en
   end
 end
