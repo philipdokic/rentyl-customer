@@ -38,11 +38,15 @@ module Search
 
       # Order the property list by featured and instant_booking
       data.sort_by do |d|
-        result = is_default_sort ? random_indices.sample : 3
-        result = 0 if d['featured'] && d['instant_booking']
-        result = 1 if d['featured'] && !d['instant_booking']
-        result = !d['featured'] && d['instant_booking'] && is_default_sort ? random_indices.sample : 2
-        result
+        if @params[:sort] == 'default'
+          random_indices.sample
+        elsif @params[:sort] == 'price_asc'
+          d[:listings].first[:bookable_nightly_price].to_f
+        elsif @params[:sort] == 'price_desc'
+          -d[:listings].first[:bookable_nightly_price].to_f
+        else
+          d[:name]
+        end
       end
     end
 
