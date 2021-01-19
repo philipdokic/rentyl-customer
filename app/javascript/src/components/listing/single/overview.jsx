@@ -9,22 +9,38 @@ import ReactI18n from 'react-i18n';
 // -----------------------------------------------
 class Overview extends React.Component {
 
+  // Constructor
+  // ---------------------------------------------
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      details_expand_link: '',
+      details_minimize_link: 'hidden',
+      truncate: 'truncated'
+    };
+  }
+
   // Untruncate
   // ---------------------------------------------
   unTruncate = e => {
     e.preventDefault();
-    $(this.truncated).removeClass('truncated');
-    $('.details-expand-link').addClass('hidden');
-    $('.details-minimize-link').removeClass('hidden');
+    this.setState({
+      details_expand_link: 'hidden',
+      details_minimize_link: '',
+      truncate: ''
+    });
   };
 
   // Truncate
   // ---------------------------------------------
   truncate = e => {
     e.preventDefault();
-    $(this.truncated).addClass('truncated');
-    $('.details-minimize-link').addClass('hidden');
-    $('.details-expand-link').removeClass('hidden');
+    this.setState({
+      details_expand_link: '',
+      details_minimize_link: 'hidden',
+      truncate: 'truncated'
+    });
   };
 
   // Render Property Description
@@ -47,7 +63,7 @@ class Overview extends React.Component {
         </header>
         <main>
           <div
-            className="truncated"
+            className={`${this.state.truncate}`}
             ref={node => {
               this.truncated = node;
             }}
@@ -59,14 +75,14 @@ class Overview extends React.Component {
           </div>
           <a
             href="#"
-            className="details-expand-link"
+            className={`details-expand-link ${this.state.details_expand_link}`}
             onClick={e => this.unTruncate(e)}
           >
             {translate(`global.actions.expand`)}
           </a>
           <a
             href="#"
-            className="details-minimize-link hidden"
+            className={`details-minimize-link ${this.state.details_minimize_link}`}
             onClick={e => this.truncate(e)}
           >
             {translate('global.actions.collapse')}

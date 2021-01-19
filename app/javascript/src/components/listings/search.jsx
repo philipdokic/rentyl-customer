@@ -248,7 +248,7 @@ class ThemeDefaultSearch extends React.Component {
 
   fetchPropertyData = () => {
     const queryParams = this.createQueryParams();
-    axios.get(`/api/properties${queryParams}`,{
+    axios.get(`http://www.lvh.me:3000/api/v2/properties${queryParams}`,{
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
@@ -295,6 +295,7 @@ class ThemeDefaultSearch extends React.Component {
     return (
       '?' +
       queryString.stringify({
+        brand_id: this.props.brand.id,
         booking_range: JSON.stringify(this.state.bookingRange),
         geo_ne_lat: this.state.geoNELat,
         geo_ne_lon: this.state.geoNELon,

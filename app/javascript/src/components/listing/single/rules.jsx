@@ -19,22 +19,38 @@ const SubHeaders = styled.p`
 // -----------------------------------------------
 class Rules extends React.Component {
 
+  // Constructor
+  // ---------------------------------------------
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      rules_expand_link: '',
+      rules_minimize_link: 'hidden',
+      truncate: 'truncated'
+    };
+  }
+
   // Untruncate
   // ---------------------------------------------
   unTruncate = e => {
     e.preventDefault();
-    $(this.truncated).removeClass('truncated');
-    $('.rules-expand-link').addClass('hidden');
-    $('.rules-minimize-link').removeClass('hidden');
+    this.setState({
+      rules_expand_link: 'hidden',
+      rules_minimize_link: '',
+      truncate: ''
+    });
   };
 
   // Truncate
   // ---------------------------------------------
   truncate = e => {
     e.preventDefault();
-    $(this.truncated).addClass('truncated');
-    $('.rules-minimize-link').addClass('hidden');
-    $('.rules-expand-link').removeClass('hidden');
+    this.setState({
+      rules_expand_link: '',
+      rules_minimize_link: 'hidden',
+      truncate: 'truncated'
+    });
   };
 
   // Render House Rules
@@ -126,7 +142,7 @@ class Rules extends React.Component {
         </header>
         <main>
           <div
-            className="truncated"
+            className={`${this.state.truncate}`}
             ref={node => {
               this.truncated = node;
             }}
@@ -211,14 +227,14 @@ class Rules extends React.Component {
           </div>
           <a
             href="#"
-            className="rules-expand-link"
+            className={`rules-expand-link ${this.state.rules_expand_link}`}
             onClick={e => this.unTruncate(e)}
           >
             {translate(`global.actions.expand`)}
           </a>
           <a
             href="#"
-            className="rules-minimize-link hidden"
+            className={`rules-minimize-link ${this.state.rules_minimize_link}`}
             onClick={e => this.truncate(e)}
           >
             {translate('global.actions.collapse')}

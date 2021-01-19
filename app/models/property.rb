@@ -24,6 +24,11 @@ class Property < ApplicationRecord
   has_one :location, as: :locationable, dependent: :destroy
 
   # ----------------------------------------------
+  # ENUMS/CONSTANTS ------------------------------
+  # ----------------------------------------------
+  enum property_type: [:apartment, :apartment_building, :barn, :boat, :bnb, :bnb_unit, :building, :bungalow, :cabin, :caravan, :castle, :chacara, :chalet, :chateau, :condo, :condo_building, :condo_hotel, :condo_hotel_unit, :cottage, :estate, :farmhouse, :guesthouse, :hotel, :hotel_unit, :house, :house_boat, :lodge, :mas, :mill, :mobile_home, :recreational_vehicle, :riad, :studio, :tower, :townhome, :villa, :yacht]
+
+  # ----------------------------------------------
   # GET-MANAGER ----------------------------------
   # ----------------------------------------------
   def get_manager
