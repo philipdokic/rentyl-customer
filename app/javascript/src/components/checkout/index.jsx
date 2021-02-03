@@ -7,9 +7,8 @@ import 'react-dates/initialize'; // Needed for rendering any react-dates compone
 import { isInclusivelyBeforeDay } from 'react-dates';
 import moment from 'moment';
 import queryString from 'query-string';
-import Script from 'react-load-script';
+import styled from 'styled-components';
 import { times, filter, sortBy, isNull } from 'lodash';
-import { toast } from 'react-toastify';
 
 // Components
 // -----------------------------------------------
@@ -17,13 +16,41 @@ import AddOns from './add-ons';
 import AddOnModal from '../modals/addons';
 import Booking from './booking';
 import ErrorsPaymentTransaction from '../errors/payment-transaction';
-import FormPayment from '../forms/payment';
 import Listing from './listing';
 import LocationForm from '../forms/location';
 import Notification from '../miscellaneous/notification';
 import PortalModal from '../modals/portal';
 import Pricing from './pricing';
 import Ripple from '../miscellaneous/ripple';
+import StripeForm from '../stripe/index';
+
+// Styles
+// -----------------------------------------------
+const ContactForm = styled.div`
+  align-items: flex-start;
+  box-pack: space-between;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+const FormGroup = styled.fieldset`
+  display: block;
+  width: 100%;
+
+  &.width-25 {
+    width: 23%;
+  }
+
+  &.width-50 {
+    width: 48%;
+  }
+
+  &.width-75 {
+    width: 73%;
+  }
+`;
 
 // -----------------------------------------------
 // COMPONENT->CHECKOUT ---------------------------
@@ -65,6 +92,8 @@ class Checkout extends React.Component {
       requiredAge: null,
       slug: '',
       stripePublishableKey: '',
+      stripeCustomerId: '',
+      stripeIntentId: '',
       unit: {},
       verifyAddress: null,
       verifyAge: null,
@@ -142,18 +171,20 @@ class Checkout extends React.Component {
           listing: data.listing,
           obfuscatedAddress: data.obfuscated_address,
           property: data.property,
+          quoteIdFromDb: data.quote_id,
           rentalAgreement: data.rental_agreement,
           requiredAge: data.required_age,
           slug: data.slug,
           stripePublishableKey: data.stripe_publishable_key,
+          stripeCustomerId: data.stripe_customer_id,
+          stripeIntentId: data.stripe_intent_id,
           unit: data.unit,
           verifyAddress: data.verify_address,
           verifyAge: data.verify_age,
           verifyImage: data.verify_image,
           verifyImageDescription: data.verify_image_description,
           verifySignature: data.verify_signature,
-          loading: false,
-          quoteIdFromDb: data.quote_id
+          loading: false
         },
         () => this.parseUrl()
       );
@@ -336,7 +367,7 @@ class Checkout extends React.Component {
     const parsedQuery = queryString.parse(location.search);
     const guests = parsedQuery.guests;
 
-    axios.get('https://staging.getdirect.io/api/v2/unit_pricing/' + this.state.quoteId, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/unit_pricing/${this.state.quoteId}`, {
       headers: {'Content-Type': 'application/json'},
       quote_id: this.state.quoteId,
       addon_fee_ids: this.state.addonFeeIds,
@@ -356,153 +387,10 @@ class Checkout extends React.Component {
     });
   };
 
-  // Handle Stripe Script Error
-  // ---------------------------------------------
-  handleStripeScriptError = () => {
-    this.setState({
-      isStripeLoading: false,
-      isStripeSuccessful: false
-    });
-  };
-
-  // Handle Stripe Script Load
-  // ---------------------------------------------
-  handleStripeScriptLoad = () => {
-    Stripe.setPublishableKey(this.state.stripePublishableKey);
-    this.setState({
-      isStripeLoading: false,
-      isStripeSuccessful: true
-    });
-  };
-
-  // Create Stripe Token
-  // ---------------------------------------------
-  createStripeToken = () => {
-    Stripe.card.createToken(
-      {
-        number: this.state.cardNumber,
-        cvc: this.state.cardCvv,
-        name: this.state.customerName,
-        exp: this.state.cardExpiry,
-        address_zip: this.state.customerPostalCode || 'invalid'
-      },
-      this.handleStripeCallback
-    );
-  };
-
-  // Handle Stripe Callback
-  // ---------------------------------------------
-  handleStripeCallback = (statusCode, json) => {
-    if (statusCode === 200) {
-      this.handleStripeSuccess(json);
-    } else {
-      this.handleStripeFailure(json);
-    }
-  };
-
-  // Handle Stripe Success
-  // ---------------------------------------------
-  handleStripeSuccess = json => {
-    const token = json.id;
-
-    axios.post('https://staging.getdirect.io/api/v2/checkout_booking/' + this.state.listing.id,{
-        headers: {'Content-Type': 'application/json'},
-        skip_quote_creation: !!this.state.quoteId,
-        quote_id: this.state.quoteId,
-        unit_id: this.state.unit.id,
-        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-        check_in: this.state.checkInDate.format('DD-MM-YYYY'),
-        check_out: this.state.checkOutDate.format('DD-MM-YYYY'),
-        num_guests: this.state.guests,
-        customer_email: this.state.customerEmail,
-        customer_name: this.state.customerName,
-        customer_telephone: this.state.customerTelephone,
-        adr_street: this.state.adrStreet,
-        adr_city: this.state.adrCity,
-        adr_state: this.state.adrState,
-        adr_country: this.state.adrCountry,
-        adr_zip: this.state.adrPostalCode,
-        addon_fee_ids: this.state.addonFeeIds,
-        stripe_token: token,
-        coupon_code: this.state.couponCode,
-        room_type_booking: isNull(this.state.unit.room_type_id) ? false : true
-    })
-    .then(res => {
-      const data = res.data
-      if (this.props.brand.brand_info.google_events) {
-        gtag('event', 'purchase', {
-          transaction_id: data.booking_code,
-          affiliation: 'Direct',
-          value: this.state.pricing.total,
-          currency: 'USD',
-          tax: this.state.pricing.taxes,
-          shipping: 0
-        });
-      }
-      if (this.props.brand.brand_info.facebook_pixel) {
-        fbq('track', 'Purchase', {
-          currency: 'USD',
-          value: this.state.pricing.total
-        });
-      }
-      if (
-        this.state.verifyImage ||
-        this.state.verifySignature ||
-        this.state.verifyAge ||
-        this.state.verifyAddress
-      ) {
-        window.location = '/my-bookings/verification/' + data.booking_code;
-      } else {
-        window.location = '/my-bookings/receipt/' + data.booking_code;
-      }
-    })
-    .catch(error => toast.error(error));
-  };
-
-  // Handle Stripe Failure
-  // ---------------------------------------------
-  handleStripeFailure = ({ error }) => {
-    console.error(error);
-    this.setState({ transactionError: error });
-  };
-
-  // Book Property
-  // ---------------------------------------------
-  bookProperty = (
-    guests,
-    cardNumber,
-    cardExpiry,
-    cardCvv,
-    customerEmail,
-    customerName,
-    customerPostalCode,
-    customerTelephone,
-    signatureId,
-    idPhotoId
-  ) => {
-    this.setState(
-      {
-        guests: guests,
-        cardNumber: cardNumber.replace(' ', ''),
-        cardExpiry: cardExpiry,
-        cardCvv: cardCvv.replace(' ', ''),
-        customerEmail: customerEmail,
-        customerName: customerName,
-        customerPostalCode: customerPostalCode,
-        customerTelephone: customerTelephone,
-        signatureId: signatureId,
-        idPhotoId: idPhotoId
-      },
-      () => {
-        this.createStripeToken();
-      }
-    );
-  };
-
   // Fetch Coupon Codes
   // ---------------------------------------------
   fetchCouponCodes = () => {
-    axios.get(`https://staging.getdirect.io/api/v2/fetch_coupon_codes/` + this.state.listing.id,{
+    axios.get(`${process.env.DIRECT_URL}/api/v2/fetch_coupon_codes/${this.state.listing.id}`,{
       headers: {'Content-Type': 'application/json'}
     })
     .then(res => {
@@ -516,30 +404,10 @@ class Checkout extends React.Component {
     });
   };
 
-  // Update Coupon Code
-  // ---------------------------------------------
-  updateCouponCode = couponCode => {
-    this.setState({ couponCode, badCode: false });
-  };
-
   // Add Coupon Code
   // ---------------------------------------------
   addCouponCode = code => {
     this.setState({ couponCode: code }, () => this.checkPricing());
-  };
-
-  // Build Field Status
-  // ---------------------------------------------
-  buildFieldStatus = type => {
-    const typeError = this.state[type + 'Error'];
-    const typeValidity = this.state[type + 'Valid'];
-
-    if (typeValidity === true) {
-      return 'valid';
-    } else if (typeError === 'empty' || typeError === null) {
-      return '';
-    }
-    return 'invalid';
   };
 
   // On Change
@@ -559,22 +427,15 @@ class Checkout extends React.Component {
   render() {
     const addonFees = filter(this.state.fees, ['is_addon', 'true']);
     const currency = this.state.brandCurrency;
-    const sortedAddonFees = sortBy(
-      addonFees,
-      fee => !this.state.addonFeeIds.includes(fee.id)
-    );
+    const sortedAddonFees = sortBy(addonFees, fee => !this.state.addonFeeIds.includes(fee.id));
 
     return (
-      !this.state.loading && (
+      this.state.loading ? (
+        <Ripple color="#50E3C2" />
+      ) : (
         <main className="checkout-main">
-          <Script
-            url="https://js.stripe.com/v2/"
-            onError={this.handleStripeScriptError.bind(this)}
-            onLoad={this.handleStripeScriptLoad.bind(this)}
-          />
           <Notification />
-          {this.state.isStripeSuccessful &&
-          this.state.availability &&
+          {this.state.availability &&
           this.state.availability.bookable &&
           this.state.pricing ? (
             <section className="payment">
@@ -646,74 +507,87 @@ class Checkout extends React.Component {
                   addonFeeIds={this.state.addonFeeIds}
                 />
               ) : null}
-              <figure className="field-customer-name">
+              <ContactForm>
                 <header>Contact Information</header>
-                <label htmlFor="customerName">
-                  <span>Full name</span>
-                </label>
-                <input
-                  autoComplete="name"
-                  type="text"
-                  name="customerName"
-                  onChange={e => this.onChange(e.target.name, e.target.value)}
-                  onBlur={this.onBlur}
-                  placeholder="Jane Smith"
-                  value={this.state.customerName}
-                  required
-                />
-              </figure>
-
-              <figure className="field-customer-email">
-                <label htmlFor="customerEmail">
-                  <span>Email</span>
-                </label>
-                <input
-                  autoComplete="email"
-                  type="email"
-                  name="customerEmail"
-                  onChange={e => this.onChange(e.target.name, e.target.value)}
-                  onBlur={this.onBlur}
-                  placeholder="name@email.com"
-                  value={this.state.customerEmail}
-                  required
-                />
-              </figure>
-
-              <figure className="field-customer-telephone">
-                <label htmlFor="customerTelephone">
-                  <span>Telephone number</span>
-                </label>
-                <input
-                  autoComplete="tel"
-                  type="tel"
-                  name="customerTelephone"
-                  onChange={e => this.onChange(e.target.name, e.target.value)}
-                  onBlur={this.onBlur}
-                  placeholder="+1 (123) 123-1234"
-                  maxLength={20}
-                  value={this.state.customerTelephone}
-                  required
-                />
-              </figure>
+                <FormGroup>
+                  <label htmlFor="customerName">
+                    <span>Full name</span>
+                  </label>
+                  <input
+                    autoComplete="name"
+                    type="text"
+                    name="customerName"
+                    onChange={e => this.onChange(e.target.name, e.target.value)}
+                    onBlur={this.onBlur}
+                    placeholder="Jane Smith"
+                    value={this.state.customerName}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup className="width-50">
+                  <label htmlFor="customerEmail">
+                    <span>Email</span>
+                  </label>
+                  <input
+                    autoComplete="email"
+                    type="email"
+                    name="customerEmail"
+                    onChange={e => this.onChange(e.target.name, e.target.value)}
+                    onBlur={this.onBlur}
+                    placeholder="name@email.com"
+                    value={this.state.customerEmail}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup className="width-50">
+                  <label htmlFor="customerTelephone">
+                    <span>Phone</span>
+                  </label>
+                  <input
+                    autoComplete="tel"
+                    type="tel"
+                    name="customerTelephone"
+                    onChange={e => this.onChange(e.target.name, e.target.value)}
+                    onBlur={this.onBlur}
+                    placeholder="+1 (123) 123-1234"
+                    maxLength={20}
+                    value={this.state.customerTelephone}
+                    required
+                  />
+                </FormGroup>
+              </ContactForm>
               <LocationForm
                 setLocationAttributes={l => this.setLocationAttributes(l)}
               />
-              <FormPayment
+              <StripeForm
+                addonFeeIds={this.state.addonFeeIds}
                 availability={this.state.availability}
-                bookProperty={this.bookProperty}
-                guests={this.state.guests}
-                max_guests={this.state.unit.num_sleep}
-                updateGuests={this.updateGuests}
-                slug={this.state.slug}
-                rental_agreement={this.state.rentalAgreement}
-                organizationId={this.state.property.organization_id}
-                verify_signature={this.state.verifySignature}
-                verify_image={this.state.verifyImage}
-                verify_image_description={this.state.verifyImageDescription}
+                booking={this.props.booking}
+                bookingDaysInclusive={this.state.bookingDaysInclusive}
+                brand_info={this.props.brand.brand_info}
+                checkInDate={this.state.checkInDate}
+                checkOutDate={this.state.checkOutDate}
+                couponCode={this.state.couponCode}
                 customerEmail={this.state.customerEmail}
                 customerName={this.state.customerName}
                 customerPostalCode={this.state.adrPostalCode}
                 customerTelephone={this.state.customerTelephone}
+                guests={this.state.guests}
+                listing={this.state.listing}
+                max_guests={this.state.unit.num_sleep}
+                pricing={this.state.pricing}
+                quoteId={this.state.quoteId}
+                rental_agreement={this.state.rentalAgreement}
+                slug={this.state.slug}
+                stripeCustomerId={this.state.stripeCustomerId}
+                stripeIntentId={this.state.stripeIntentId}
+                stripePublishableKey={this.state.stripePublishableKey}
+                unit={this.state.unit}
+                updateGuests={this.updateGuests}
+                verifyImage={this.state.verifyImage}
+                verifySignature={this.state.verifySignature}
+                verifyAge={this.state.verifyAge}
+                verifyAddress={this.state.verifyAddress}
               />
               <ErrorsPaymentTransaction
                 errors={[this.state.transactionError]}
@@ -742,27 +616,27 @@ class Checkout extends React.Component {
               unit={this.state.unit}
             />
             <Booking
-              nights={this.state.bookingLength}
               checkInDate={this.state.checkInDate}
               checkOutDate={this.state.checkOutDate}
               guests={this.state.guests}
+              nights={this.state.bookingLength}
             />
             <Pricing
-              availability={this.state.availability}
-              currency={this.state.brandCurrency}
-              nights={this.state.bookingLength}
-              pricing={this.state.pricing}
-              updateFees={this.updateFees}
-              temp_fees={this.state.fees}
+              addCouponCode={this.addCouponCode}
+              addFeeIds={this.addFeeIds}
               addonFeeIds={this.state.addonFeeIds}
+              allCouponCodes={this.state.allCouponCodes}
+              availability={this.state.availability}
+              availabilityLoading={this.state.availabilityLoading}
               checkInDate={this.state.checkInDate}
               checkoutTotal={this.state.checkoutTotal}
               checkPricing={this.checkPricing}
-              addFeeIds={this.addFeeIds}
+              currency={this.state.brandCurrency}
               feeQuantities={this.state.feeQuantities}
-              availabilityLoading={this.state.availabilityLoading}
-              addCouponCode={this.addCouponCode}
-              allCouponCodes={this.state.allCouponCodes}
+              nights={this.state.bookingLength}
+              pricing={this.state.pricing}
+              temp_fees={this.state.fees}
+              updateFees={this.updateFees}
             />
           </section>
         </main>

@@ -227,7 +227,7 @@ class Multi extends React.Component {
   // ---------------------------------------------
   getAvailability = (listingID, unitID) => {
     let getAvailability = new Promise((resolve, reject) => {
-      axios.get(`https://staging.getdirect.io/api/v2/listings/multi/${listingID}/availability`, {
+      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/multi/${listingID}/availability`, {
         headers: {'Content-Type': 'application/json'},
         context: this,
         params: {
@@ -267,7 +267,7 @@ class Multi extends React.Component {
   getPricing = listingID => {
     let getPricing = new Promise((resolve, reject) => {
 
-      axios.get(`https://staging.getdirect.io/api/v2/listings/multi/${listingID}/pricing`, {
+      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/multi/${listingID}/pricing`, {
         headers: {'Content-Type': 'application/json'},
         context: this,
         params: {

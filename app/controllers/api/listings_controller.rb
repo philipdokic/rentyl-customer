@@ -19,7 +19,7 @@ class Api::ListingsController < ApplicationController
   # SHOW -----------------------------------------
   # ----------------------------------------------
   def show
-    @listing = UnitListing.where(slug: params[:id]).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
+    @listing = @brand.unit_listings.where(slug: params[:id]).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
 
     # Property Images
     property_images = @listing.property.property_images

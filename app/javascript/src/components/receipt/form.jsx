@@ -276,10 +276,8 @@ export default class Form extends React.Component {
               />
             </figure>
           </section>
-
           <section className="fields-customer">
             <header>Billing Information</header>
-
             <PaymentCustomer
               errors={[
                 { param: 'customerName', code: this.state.customerNameError },
@@ -312,7 +310,6 @@ export default class Form extends React.Component {
                 required
               />
             </figure>
-
             <figure className="field-customer-email">
               <label htmlFor="customerEmail">
                 <span>Email</span>
@@ -329,7 +326,6 @@ export default class Form extends React.Component {
                 required
               />
             </figure>
-
             <figure className="field-customer-telephone">
               <label htmlFor="customerTelephone">
                 <span>Telephone number</span>

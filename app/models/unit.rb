@@ -13,6 +13,7 @@ class Unit < ApplicationRecord
   # ----------------------------------------------
   belongs_to :brand
   belongs_to :organization
+  belongs_to :portfolio
   belongs_to :property
 
   has_many :bathrooms, -> { order(:created_at) }, dependent: :destroy
@@ -30,6 +31,19 @@ class Unit < ApplicationRecord
   # ----------------------------------------------
   enum unit_type: %i[apartment apartment_building barn boat bnb bnb_unit building bungalow cabin caravan castle chacara chalet chateau condo condo_building condo_hotel condo_hotel_unit cottage estate farmhouse guesthouse hotel hotel_unit house house_boat lodge mas mill mobile_home recreational_vehicle riad room studio townhome villa yacht]
   enum measurement_type: { sq_feet: 0, sq_meters: 1 }
+
+  # ----------------------------------------------
+  # SERIALIZE ------------------------------------
+  # ----------------------------------------------
+  serialize :features_accommodations, JSON
+  serialize :features_amenities, JSON
+  serialize :features_dining, JSON
+  serialize :features_entertainment, JSON
+  serialize :features_outdoor, JSON
+  serialize :features_spa, JSON
+  serialize :features_suitability, JSON
+  serialize :features_themes, JSON
+  serialize :features_safety, JSON
 
   # ----------------------------------------------
   # FEATURED-IMAGE -------------------------------

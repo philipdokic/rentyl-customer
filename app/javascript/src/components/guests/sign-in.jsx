@@ -74,7 +74,7 @@ class SignIn extends React.Component {
       return;
     }
 
-    axios.get(`https://staging.getdirect.io/api/v2/sessions/fetch_user?user_type=${userType}&email=${this.state.email}`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/sessions/fetch_user?user_type=${userType}&email=${this.state.email}`, {
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
@@ -99,7 +99,7 @@ class SignIn extends React.Component {
     const sessionParams = this.setUserParams();
     sessionParams['password'] = password;
 
-    axios.post(`https://staging.getdirect.io/api/v2/sessions`, sessionParams)
+    axios.post(`${process.env.DIRECT_URL}/api/v2/sessions`, sessionParams)
     .then(response => {
       window.location.href = response.redirect_url;
     })
@@ -137,7 +137,7 @@ class SignIn extends React.Component {
   // On Reset Password click
   // ---------------------------------------------
   onResetPasswordClick = () => {
-    axios.post(`https://staging.getdirect.io/api/v2/sessions/reset_password`, this.setUserParams())
+    axios.post(`${process.env.DIRECT_URL}/api/v2/sessions/reset_password`, this.setUserParams())
     .then(response => {
       this.setState({ error: response.error, user: null });
     })

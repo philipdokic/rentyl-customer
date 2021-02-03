@@ -200,7 +200,7 @@ body.cx-listings_details {
           }
           i {
             background-color: rgba(0, 0, 0, 0.15);
-            background-image: url(asset_path('cx/global/info.svg'));
+            background-image: asset_url('cx/global/info.svg');
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -612,100 +612,100 @@ body.cx-listings_details {
 }
 
 .ac-icon {
-  background-image: url(asset_path('cx/global/air-conditioner.svg'));
+  background-image: asset_url('cx/global/air-conditioner.svg');
 }
 .wifi-icon {
-  background-image: url(asset_path('cx/global/wifi.svg'));
+  background-image: asset_url('cx/global/wifi.svg');
 }
 .hot-tub-icon {
-  background-image: url(asset_path('cx/global/hot-tub.svg'));
+  background-image: asset_url('cx/global/hot-tub.svg');
 }
 .kitchen-icon {
-  background-image: url(asset_path('cx/global/dinner.svg'));
+  background-image: asset_url('cx/global/dinner.svg');
 }
 .fireplace-icon {
-  background-image: url(asset_path('cx/global/fireplace.svg'));
+  background-image: asset_url('cx/global/fireplace.svg');
 }
 .parking-icon {
-  background-image: url(asset_path('cx/global/parking.svg'));
+  background-image: asset_url('cx/global/parking.svg');
 }
 .hair-dryer-icon {
-  background-image: url(asset_path('cx/global/hair-dryer.svg'));
+  background-image: asset_url('cx/global/hair-dryer.svg');
 }
 .towel-icon {
-  background-image: url(asset_path('cx/global/towel.svg'));
+  background-image: asset_url('cx/global/towel.svg');
 }
 .pool-icon {
-  background-image: url(asset_path('cx/global/swimming-pool.svg'));
+  background-image: asset_url('cx/global/swimming-pool.svg');
 }
 .tv-icon {
-  background-image: url(asset_path('cx/global/television.svg'));
+  background-image: asset_url('cx/global/television.svg');
 }
 .coffee-icon {
-  background-image: url(asset_path('cx/global/coffee-cup.svg'));
+  background-image: asset_url('cx/global/coffee-cup.svg');
 }
 .microwave-icon {
-  background-image: url(asset_path('cx/global/microwave.svg'));
+  background-image: asset_url('cx/global/microwave.svg');
 }
 .heater-icon {
-  background-image: url(asset_path('cx/global/heater.svg'));
+  background-image: asset_url('cx/global/heater.svg');
 }
 .grill-icon {
-  background-image: url(asset_path('cx/global/bbq.svg'));
+  background-image: asset_url('cx/global/bbq.svg');
 }
 .joystick-icon {
-  background-image: url(asset_path('cx/global/joystick.svg'));
+  background-image: asset_url('cx/global/joystick.svg');
 }
 .oven-icon {
-  background-image: url(asset_path('cx/global/oven.svg'));
+  background-image: asset_url('cx/global/oven.svg');
 }
 .stove-icon {
-  background-image: url(asset_path('cx/global/stove.svg'));
+  background-image: asset_url('cx/global/stove.svg');
 }
 .iron-icon {
-  background-image: url(asset_path('cx/global/iron.svg'));
+  background-image: asset_url('cx/global/iron.svg');
 }
 .washing-machine-icon {
-  background-image: url(asset_path('cx/global/washing-machine.svg'));
+  background-image: asset_url('cx/global/washing-machine.svg');
 }
 .utensils-icon {
-  background-image: url(asset_path('cx/global/cutlery.svg'));
+  background-image: asset_url('cx/global/cutlery.svg');
 }
 .blanket-icon {
-  background-image: url(asset_path('cx/global/blanket.svg'));
+  background-image: asset_url('cx/global/blanket.svg');
 }
 .bunk-icon {
-  background-image: url(asset_path('cx/beds/bunk.svg'));
+  background-image: asset_url('cx/beds/bunk.svg');
 }
 .couch-icon {
-  background-image: url(asset_path('cx/beds/couch.svg'));
+  background-image: asset_url('cx/beds/couch.svg');
 }
 .crib-icon {
-  background-image: url(asset_path('cx/beds/crib.svg'));
+  background-image: asset_url('cx/beds/crib.svg');
 }
 .double-icon {
-  background-image: url(asset_path('cx/beds/double.svg'));
+  background-image: asset_url('cx/beds/double.svg');
 }
 .king-icon {
-  background-image: url(asset_path('cx/beds/king.svg'));
+  background-image: asset_url('cx/beds/king.svg');
 }
 .murphy-icon {
-  background-image: url(asset_path('cx/beds/murphy.svg'));
+  background-image: asset_url('cx/beds/murphy.svg');
 }
 .twin-icon {
-  background-image: url(asset_path('cx/beds/twin.svg'));
+  background-image: asset_url('cx/beds/twin.svg');
 }
 .sink-icon {
-  background-image: url(asset_path('cx/global/sink.svg'));
+  background-image: asset_url('cx/global/sink.svg');
 }
 .open-door-icon {
-  background-image: url(asset_path('cx/global/open-door.svg'));
+  background-image: asset_url('cx/global/open-door.svg');
 }
 .guest-icon {
-  background-image: url(asset_path('cx/global/guest.svg'));
+  background-image: asset_url('cx/global/guest.svg');
 }
 .house-icon {
-  background-image: url(asset_path('cx/global/house.svg'));
+  background-image: asset_url('cx/global/house.svg');
 }
 .hidden {
   display: none;

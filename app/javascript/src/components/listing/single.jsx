@@ -127,7 +127,7 @@ class Single extends React.Component {
   checkAvailability = () => {
     const queryInfo = this.parseQuery();
 
-    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/availability`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.props.listing.id}/availability`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
@@ -158,7 +158,7 @@ class Single extends React.Component {
   checkPricing = () => {
     const queryInfo = this.parseQuery();
 
-    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/pricing`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.props.listing.id}/pricing`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
@@ -312,7 +312,7 @@ class Single extends React.Component {
             <Navbar />
             <Header />
             <Overview />
-            {/* <Amenities /> */}
+            <Amenities />
             <Summary />
             <Rules pricing={this.state.pricing} />
             <div id='review-section'/>

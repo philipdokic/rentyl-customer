@@ -19,6 +19,9 @@ class Api::BookingsController < ApplicationController
     get_listing_by_id
     set_quote
     get_checkout_data_by_listing_id
+    set_stripe_publishable_key
+    set_stripe_customer
+    set_stripe_intent
 
     render json:{
       listing: @listing,
@@ -27,7 +30,9 @@ class Api::BookingsController < ApplicationController
       featured_image: @property.property_images[0],
       rental_agreement: @brand.rental_agreement,
       slug: @property.name.parameterize,
-      stripe_publishable_key: ENV['STRIPE_PUBLISHABLE_KEY'],
+      stripe_publishable_key: @stripe_publishable_key,
+      stripe_customer_id: @stripe_customer_id,
+      stripe_intent_id: @stripe_intent_id,
       unit: @unit,
       deposits: @deposits,
       fees: @fees,
@@ -38,51 +43,6 @@ class Api::BookingsController < ApplicationController
       brand_currency: @listing.brand.currency,
       quote_id: @quote['id']
     }
-  end
-
-  # ----------------------------------------------
-  # RECEIPT --------------------------------------
-  # ----------------------------------------------
-  def receipt
-    get_booking_by_code
-    @customer = @booking.customer
-    @listing = @booking.unit_listing
-    @unit = @listing.unit
-    @property = @listing.unit_property
-    @location = @property.location
-    @verified = params[:verified]
-    @securityDeposit = @booking.security_deposit
-    @securityDepositRequired = @booking.has_security_deposit? && !Charge.exists?(booking: @booking, status: "auth")
-    @stripePublishableKey = ENV['STRIPE_PUBLISHABLE_KEY']
-    @standard_contract_url = @booking.standard_contract&.url
-    get_property_manager_from_property_and_brand
-  end
-
-  # ----------------------------------------------
-  # PAYMENT --------------------------------------
-  # ----------------------------------------------
-  def payment
-    get_booking_by_code
-    @customer = @booking.customer
-    @listing = @booking.unit_listing
-    @unit = @listing.unit
-    @property = @listing.unit_property
-    @location = @property.location
-    @verified = params[:verified]
-    @bookingPaid = @booking.is_paid_in_full
-    @securityDeposit = @booking.security_deposit
-    @securityDepositRequired = @booking.has_security_deposit? && !Charge.exists?(booking: @booking, status: "auth")
-    @stripePublishableKey= ENV['STRIPE_PUBLISHABLE_KEY']
-    get_property_manager_from_property_and_brand
-
-    @booking_deposits = @booking.unit_listing.deposits.where(is_security_deposit: 'false')
-    if !@booking_deposits.blank?
-      remaining_balance_due_date = Booking.generate_remaining_balance_due_date(@booking_deposits, @booking)
-      #remaining_balance_due_date == 'manual'
-      #Date.parse(remaining_balance_due_date.to_s)
-        #Date.today
-      puts "XXXXX -> Booking Code: #{@booking.booking_code}/ Due Date: #{remaining_balance_due_date} / Amount Due #{@booking.price_remaining.to_i}"
-    end
   end
 
   # ----------------------------------------------
@@ -110,6 +70,14 @@ class Api::BookingsController < ApplicationController
   # PRIVATE ======================================
   # ==============================================
   private
+
+  # ----------------------------------------------
+  # GET-BOOKING-BY-CODE --------------------------
+  # ----------------------------------------------
+  def get_booking_by_code
+    @booking ||= @brand.bookings.where(booking_code: params[:booking_code]).first
+    @charges ||= @booking.charges
+  end
 
   # ----------------------------------------------
   # LISTING-ID -----------------------------------
@@ -148,13 +116,50 @@ class Api::BookingsController < ApplicationController
   def set_quote
     @quote = Quote.find(params[:quote_id]) if params[:quote_id]
     unless @quote
-      uri = URI("https://staging.getdirect.io/api/v2/checkout/#{@listing.unit.id}")
+      uri = URI("#{ENV['DIRECT_URL']}/api/v2/checkout/#{@listing.unit.id}")
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       request = Net::HTTP::Get.new(uri.path, {'Content-Type' => 'application/json'})
       request.body = {check_in: Date.parse(params['check_in']), check_out: Date.parse(params['check_out']), num_guests: params['num_guests'].to_i}.to_json
       @quote ||= JSON.parse(http.request(request).body)
     end
+  end
+
+  # ----------------------------------------------
+  # SET-STRIPE-PUBLISHABLE-KEY -------------------
+  # ----------------------------------------------
+  def set_stripe_publishable_key
+    connected_trust_acct = @listing.unit&.portfolio&.stripe_connect_account&.connected? ? @listing.unit&.portfolio&.stripe_connect_account : nil
+    stripe_account = connected_trust_acct || Organization.current&.default_stripe_connect_account
+    Stripe.api_key = stripe_account&.access_token || ENV['STRIPE_SECRET_KEY']
+    Stripe.api_version = ENV['STRIPE_API_VERSION']
+    @stripe_publishable_key = stripe_account&.stripe_publishable_key || ENV['STRIPE_PUBLISHABLE_KEY']
+  end
+
+  # ----------------------------------------------
+  # SET-STRIPE-CUSTOMER --------------------------
+  # ----------------------------------------------
+  def set_stripe_customer
+    if @booking&.stripe_customer_id.nil?
+      customer = Stripe::Customer.create
+      @stripe_customer_id = customer.id
+    else
+      @stripe_customer_id = @booking.stripe_customer_id
+    end
+  end
+
+  # ----------------------------------------------
+  # SET-STRIPE-INTENT ----------------------------
+  # ----------------------------------------------
+  def set_stripe_intent
+    intent = Stripe::SetupIntent.create({
+      customer: @stripe_customer_id,
+      payment_method_types: [
+        "card"
+      ],
+      usage: "off_session"
+    })
+    @stripe_intent_id = intent.client_secret
   end
 
   # ----------------------------------------------

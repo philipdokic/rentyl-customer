@@ -59,7 +59,7 @@ export default class Receipt extends React.Component {
   // ---------------------------------------------
   fetchData = props => {
     this.setState({ loading: true }, () => {
-      axios.post(`/bookings/payment/${props.match.params.booking_code}`)
+      axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/receipt/${props.match.params.booking_code}`)
       .then(response => {
         this.setState({ loading: false, ...response.data })
       })
@@ -184,7 +184,6 @@ export default class Receipt extends React.Component {
   // ---------------------------------------------
   render() {
     if (this.state.loading) return null;
-    const translate = ReactI18n.getIntlMessage;
     const bookingLength = this.state.booking.booking_range.length - 1;
     const checkIn = moment(this.state.booking.check_in, 'YYYY-MM-DD');
     const checkOut = moment(this.state.booking.check_out, 'YYYY-MM-DD');
@@ -219,14 +218,12 @@ export default class Receipt extends React.Component {
             checkOutTime={checkOutTime}
             customer={this.state.customer}
             guests={guests}
-            translate={translate}
             verified={this.state.verified}
             displayFormat={get(this, 'props.brand.date_format', 'MM/DD/YYYY')}
           />
           {this.state.property_manager && (
             <PropertyManager
               property_manager={this.state.property_manager}
-              translate={translate}
             />
           )}
         </section>
@@ -242,7 +239,6 @@ export default class Receipt extends React.Component {
               processSecurityDeposit={this.processSecurityDeposit}
               slug={this.state.slug}
               rental_agreement={this.state.rental_agreement}
-              translate={translate}
             />
             <PaymentTransaction errors={[this.state.transactionError]} />
           </section>
@@ -258,7 +254,6 @@ export default class Receipt extends React.Component {
             property={this.state.property}
             slug={this.state.slug}
             unit={this.state.unit}
-            translate={translate}
           />
           {this.state.isStripeSuccessful &&
           this.state.securityDepositRequired &&
@@ -266,14 +261,12 @@ export default class Receipt extends React.Component {
             <Deposit
               amount={this.state.securityDeposit.calculation_amount}
               currency={currency}
-              translate={translate}
             />
           ) : (
             <Pricing
               booking={this.state.booking}
               charges={this.state.charges}
               currency={currency}
-              translate={translate}
             />
           )}
           { this.state.standardContractUrl && (

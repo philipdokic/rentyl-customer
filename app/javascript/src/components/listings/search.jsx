@@ -248,7 +248,7 @@ class ThemeDefaultSearch extends React.Component {
 
   fetchPropertyData = () => {
     const queryParams = this.createQueryParams();
-    axios.get(`http://www.lvh.me:3000/api/v2/properties${queryParams}`,{
+    axios.get(`${process.env.DIRECT_URL}/api/v2/properties${queryParams}`,{
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {

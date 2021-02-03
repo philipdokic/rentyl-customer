@@ -89,7 +89,7 @@ class SignUp extends React.Component {
         user_type: userType
       };
 
-      axios.post(`https://staging.getdirect.io/api/v2/registrations`, registerParams)
+      axios.post(`${process.env.DIRECT_URL}/api/v2/registrations`, registerParams)
       .then(response => {
         console.log(response);
         this.setState({ error: response.error, user: null });

@@ -71,10 +71,11 @@ class Verification extends React.Component {
   // Fetch Verification Info
   // ---------------------------------------------
   fetchVerificationInfo = props => {
-    axios.get(`/my-bookings/verification/${get(props, 'match.params.booking_code')}`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/my-bookings/verification/${get(props, 'match.params.booking_code')}`, {
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
+      console.log(response.data);
       this.setState(
         {
           availability: response.data.availability,
@@ -133,12 +134,12 @@ class Verification extends React.Component {
 
     // If user is already verified, pass them directly to the confirmation page
     if (sig_verified && id_verified && age_verified && address_verified) {
-      axios.post(`/api/verify/${this.state.customer.id}`, {
+      axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/verify/${this.state.customer.id}`, {
         context: this,
         params: this.postData()
       })
       .then(response => {
-        window.location = `/my-bookings/receipt/${
+        window.location = `${process.env.DIRECT_URL}/api/v2/my-bookings/receipt/${
           this.state.booking.booking_code
         }?verified=true`;
       })
@@ -160,12 +161,12 @@ class Verification extends React.Component {
   // Submit Verification
   // ---------------------------------------------
   submitVerification = () => {
-    axios.post(`/api/verify/${this.state.customer.id}`, {
+    axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/verify/${this.state.customer.id}`, {
       context: this,
       params: this.postData()
     })
     .then(response => {
-      window.location = `/my-bookings/receipt/${
+      window.location = `${process.env.DIRECT_URL}/api/v2/my-bookings/receipt/${
         this.state.booking.booking_code
       }?verified=true`;
     })

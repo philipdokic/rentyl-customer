@@ -29,6 +29,16 @@ class Property < ApplicationRecord
   enum property_type: [:apartment, :apartment_building, :barn, :boat, :bnb, :bnb_unit, :building, :bungalow, :cabin, :caravan, :castle, :chacara, :chalet, :chateau, :condo, :condo_building, :condo_hotel, :condo_hotel_unit, :cottage, :estate, :farmhouse, :guesthouse, :hotel, :hotel_unit, :house, :house_boat, :lodge, :mas, :mill, :mobile_home, :recreational_vehicle, :riad, :studio, :tower, :townhome, :villa, :yacht]
 
   # ----------------------------------------------
+  # SERIALIZE ------------------------------------
+  # ----------------------------------------------
+  serialize :features_adventure, JSON
+  serialize :features_attractions, JSON
+  serialize :features_car, JSON
+  serialize :features_leisure, JSON
+  serialize :features_local, JSON
+  serialize :features_location, JSON
+
+  # ----------------------------------------------
   # GET-MANAGER ----------------------------------
   # ----------------------------------------------
   def get_manager

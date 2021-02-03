@@ -18,6 +18,7 @@ class Brand < ApplicationRecord
   has_many :brand_pages
   has_many :domains
   has_many :unit_listings
+  has_many :bookings, through: :unit_listings
   has_many :units, -> { distinct }, through: :unit_listings
   has_many :properties, -> { distinct }, through: :units
   has_many :menus

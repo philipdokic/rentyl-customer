@@ -1,13 +1,14 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import { connect } from 'react-redux';
 import { range } from 'lodash';
 import ReactI18n from 'react-i18n';
 
 // -----------------------------------------------
 // COMPONENT->BOOKING-NUM-GUESTS -----------------
 // -----------------------------------------------
-export default class BookingNumGuests extends React.Component {
+class BookingNumGuests extends React.Component {
 
   // Constructor
   // ---------------------------------------------
@@ -44,3 +45,15 @@ export default class BookingNumGuests extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(BookingNumGuests);

@@ -74,7 +74,7 @@ export default class BookingBreakdown extends React.Component {
     if (unitId === undefined) {
       this.setState({ roomType: false });
     } else {
-      axios.get(`https://staging.getdirect.io/api/v2/listings/single/find_listing/${brandId}/${unitId}`, {
+      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/find_listing/${brandId}/${unitId}`, {
         headers: {'Content-Type': 'application/json'},
         context: this
       })
@@ -283,7 +283,7 @@ export default class BookingBreakdown extends React.Component {
   // Fetch Coupon Codes
   // ---------------------------------------------
   fetchCouponCodes = () => {
-    axios.get(`https://staging.getdirect.io/api/v2/listings/single/${this.props.listing.id}/fetch_coupon_codes`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.props.listing.id}/fetch_coupon_codes`, {
       headers: {'Content-Type': 'application/json'},
       context: this
     })

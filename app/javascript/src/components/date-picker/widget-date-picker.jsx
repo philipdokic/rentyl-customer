@@ -40,7 +40,7 @@ export default class WidgetDatePicker extends React.Component {
   componentDidMount() {
     if (this.state.bookingCalendar !== {}) return null;
 
-    axios.get(`https://staging.getdirect.io/api/v2/units/booking_calendars`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/units/booking_calendars`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {

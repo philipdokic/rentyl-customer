@@ -5,15 +5,14 @@ import axios from 'axios'
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import get from 'lodash/get';
 import moment from 'moment';
-import Script from 'react-load-script';
 
 // Components
 // -----------------------------------------------
-import Form from './form';
 import Listing from './listing';
 import Pricing from './pricing';
 import PaymentTransaction from '../errors/payment-transaction';
 import Stay from './stay';
+import StripeForm from '../stripe/index';
 
 // -----------------------------------------------
 // COMPONENT->PAYMENT ----------------------------
@@ -61,8 +60,9 @@ export default class Payment extends React.Component {
   // ---------------------------------------------
   fetchData = props => {
     this.setState({ loading: true }, () => {
-      axios.post(`/bookings/payment/${props.match.params.booking_code}`)
+      axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/payment/${props.match.params.booking_code}`)
       .then(response => {
+        console.log(response.data);
         this.setState({ loading: false, ...response.data })
       })
       .catch(error => {
@@ -81,82 +81,6 @@ export default class Payment extends React.Component {
     return null;
   };
 
-  // Handle Stripe Script Error
-  // ---------------------------------------------
-  handleStripeScriptError = () => {
-    this.setState({
-      isStripeSuccessful: false
-    });
-  };
-
-  // Handle Stripe Script Load
-  // ---------------------------------------------
-  handleStripeScriptLoad = () => {
-    Stripe.setPublishableKey(this.state.stripePublishableKey);
-    this.setState({
-      isStripeSuccessful: true
-    });
-    this.render();
-  };
-
-  // Create Stripe Token
-  // ---------------------------------------------
-  createStripeToken = () => {
-    Stripe.card.createToken(
-      {
-        number: this.state.cardNumber,
-        cvc: this.state.cardCvv,
-        name: this.state.customerName,
-        exp: this.state.cardExpiry,
-        address_zip: this.state.customerPostalCode || 'invalid'
-      },
-      this.handleStripeCallback
-    );
-  };
-
-  // Create Stripe Callback
-  // ---------------------------------------------
-  handleStripeCallback = (statusCode, json) => {
-    if (statusCode === 200) {
-      this.handleStripeSuccess(json);
-    } else {
-      this.handleStripeFailure(json);
-    }
-  };
-
-  // Create Stripe Success
-  // ---------------------------------------------
-  handleStripeSuccess = json => {
-    const token = json.id;
-
-    axios.post(`/api/checkout/${this.state.listing.id}/process_payment`, {
-      context: this,
-      params: {
-        charge_amount: parseFloat(this.state.chargeAmount),
-        booking_id: this.state.booking.id,
-        customer_email: this.state.customerEmail,
-        customer_name: this.state.customerName,
-        customer_telephone: this.state.customerTelephone,
-        stripe_token: token
-      }
-    })
-    .then(response => {
-      window.location = window.location;
-    })
-    .catch(error => {
-      console.warn(error);
-      alert('Payment Failed' + error.responseText);
-      window.location = window.location;
-    })
-  };
-
-  // Handle Stripe Failure
-  // ---------------------------------------------
-  handleStripeFailure = ({ error }) => {
-    console.error(error);
-    this.setState({ transactionError: error });
-  };
-
   // Get Charge Amount
   // ---------------------------------------------
   getChargeAmount = () => {
@@ -166,35 +90,6 @@ export default class Payment extends React.Component {
     ).toFixed(2);
   };
 
-  // Process Security Deposit
-  // ---------------------------------------------
-  processSecurityDeposit = (
-    chargeAmount,
-    cardNumber,
-    cardExpiry,
-    cardCvv,
-    customerEmail,
-    customerName,
-    customerPostalCode,
-    customerTelephone
-  ) => {
-    this.setState(
-      {
-        chargeAmount,
-        cardNumber: cardNumber.replace(' ', ''),
-        cardExpiry,
-        cardCvv: cardCvv.replace(' ', ''),
-        customerEmail,
-        customerName,
-        customerPostalCode,
-        customerTelephone
-      },
-      () => {
-        this.createStripeToken();
-      }
-    );
-  };
-
   // Render
   // ---------------------------------------------
   render() {
@@ -202,12 +97,8 @@ export default class Payment extends React.Component {
     const bookingLength = this.state.booking.booking_range.length - 1;
     const checkIn = moment(this.state.booking.check_in, 'YYYY-MM-DD');
     const checkOut = moment(this.state.booking.check_out, 'YYYY-MM-DD');
-    const checkInTime = this.parseTime(
-      this.state.availability.default_time_check_in
-    );
-    const checkOutTime = this.parseTime(
-      this.state.availability.default_time_check_out
-    );
+    const checkInTime = this.parseTime(this.state.availability.default_time_check_in);
+    const checkOutTime = this.parseTime(this.state.availability.default_time_check_out);
     const currency = this.state.charges[0]
       ? this.state.charges[0].currency
       : this.state.listing.currency;
@@ -215,11 +106,6 @@ export default class Payment extends React.Component {
 
     return (
       <main className="checkout-main receipt-main">
-        <Script
-          url="https://js.stripe.com/v2/"
-          onError={this.handleStripeScriptError}
-          onLoad={this.handleStripeScriptLoad}
-        />
         {this.getChargeAmount() === (0).toFixed(2) ? (
           <section className="payment">
             <Stay
@@ -248,10 +134,18 @@ export default class Payment extends React.Component {
             ) : (
               <span />
             )}
-            <Form
+            <StripeForm
+              availability={this.state.availability}
+              booking={this.state.booking}
+              brand_info={this.props.brand_info}
               chargeAmount={this.getChargeAmount()}
-              processSecurityDeposit={this.processSecurityDeposit}
+              listing={this.state.listing}
               slug={this.state.slug}
+              stripeCustomerId={this.state.stripe_customer_id}
+              stripeIntentId={this.state.stripe_intent_id}
+              stripePublishableKey={this.state.stripe_publishable_key}
+              translate={translate}
+              unit={this.state.unit}
             />
             <PaymentTransaction errors={[this.state.transactionError]} />
           </section>

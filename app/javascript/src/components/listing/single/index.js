@@ -5,7 +5,7 @@ import Contact from './contact';
 import BookingDatePicker from './booking-date-picker';
 import BookingErrors from './booking-errors';
 import BookingHeader from './booking-header';
-// import DetailsBookingNumGuests from './details-booking-num-guests';
+import BookingNumGuests from './booking-num-guests';
 import BookingToggle from './booking-toggle';
 import Header from './header';
 import Images from './images';
@@ -23,9 +23,9 @@ export {
   BookingAnchored,
   Contact,
   BookingDatePicker,
-  // DetailsBookingErrors,
+  BookingErrors,
   BookingHeader,
-  // DetailsBookingNumGuests,
+  BookingNumGuests,
   BookingToggle,
   Header,
   Images,

@@ -128,7 +128,7 @@ class Room extends React.Component {
   checkAvailability = () => {
     const queryInfo = this.parseQuery();
 
-    axios.get(`https://staging.getdirect.io/api/v2/listings/room/${this.props.listing.id}/availability`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/room/${this.props.listing.id}/availability`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
@@ -159,7 +159,7 @@ class Room extends React.Component {
   checkPricing = () => {
     const queryInfo = this.parseQuery();
 
-    axios.get(`https://staging.getdirect.io/api/v2/listings/room/${this.props.listing.id}/pricing`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/room/${this.props.listing.id}/pricing`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {

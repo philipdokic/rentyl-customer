@@ -42,7 +42,7 @@ class Booking < ApplicationRecord
     price_total
     stripe_customer_id
   ].freeze
-  
+
   # ----------------------------------------------
   # CREATE-BOOKING-RANGE -------------------------
   # ----------------------------------------------

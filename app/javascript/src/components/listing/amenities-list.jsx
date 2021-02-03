@@ -1,7 +1,6 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import { connect } from 'react-redux';
 import ReactI18n from 'react-i18n';
 import styled from 'styled-components';
 

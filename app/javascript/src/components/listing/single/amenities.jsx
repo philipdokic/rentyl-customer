@@ -20,26 +20,39 @@ const AmenitiesHeader = styled.p`
 // COMPONENT->AMENITIES --------------------------
 // -----------------------------------------------
 class Amenities extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
+
+    this.state = {
+      amenities_expand_link: '',
+      amenities_minimize_link: 'hidden',
+      truncate: 'truncated'
+    };
   }
 
   // Untruncate
   // ---------------------------------------------
   unTruncate = e => {
     e.preventDefault();
-    $(this.truncated).removeClass('truncated');
-    $('.amenities-expand-link').addClass('hidden');
-    $('.amenities-minimize-link').removeClass('hidden');
+    this.setState({
+      amenities_expand_link: 'hidden',
+      amenities_minimize_link: '',
+      truncate: ''
+    });
   };
 
   // Truncate
   // ---------------------------------------------
   truncate = e => {
     e.preventDefault();
-    $(this.truncated).addClass('truncated');
-    $('.amenities-minimize-link').addClass('hidden');
-    $('.amenities-expand-link').removeClass('hidden');
+    this.setState({
+      amenities_expand_link: '',
+      amenities_minimize_link: 'hidden',
+      truncate: 'truncated'
+    });
   };
 
   // Render
@@ -57,13 +70,13 @@ class Amenities extends React.Component {
         <main>
           <FeaturedAmenities />
           <div
-            className="truncated"
+            className={`${this.state.truncate}`}
             ref={node => {
               this.truncated = node;
             }}
           >
             <AmenitiesList
-              features={this.props.listing.property.features_accommodations}
+              features={this.props.listing.unit.features_accommodations}
               features_label="features_accommodations"
             />
             <AmenitiesList
@@ -121,14 +134,14 @@ class Amenities extends React.Component {
           </div>
           <a
             href="#"
-            className="amenities-expand-link"
+            className={`amenities-expand-link ${this.state.amenities_expand_link}`}
             onClick={e => this.unTruncate(e)}
           >
             {translate(`global.actions.expand`)}
           </a>
           <a
             href="#"
-            className="amenities-minimize-link hidden"
+            className={`amenities-minimize-link ${this.state.amenities_minimize_link}`}
             onClick={e => this.truncate(e)}
           >
             {translate('global.actions.collapse')}
