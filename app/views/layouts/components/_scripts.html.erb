@@ -18,3 +18,7 @@
     <script src="<%= url %>" defer></script>
   <% end %>
 <% end %>
+
+<% if @brand.brand_info.scripts_override.present? %>
+  <script type="text/javascript"><%= @brand.brand_info.scripts_override %></script>
+<% end %>
