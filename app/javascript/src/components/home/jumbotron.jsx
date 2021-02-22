@@ -52,7 +52,7 @@ class Jumbotron extends React.Component {
   // ---------------------------------------------
   render() {
     const heroImage = this.generateHeroImage();
-    const custom_hero_html = get(this, 'props.brand_info.custom_hero_html');
+    const custom_hero_html = get(this, 'props.brand.brand_info.custom_hero_html');
 
     return (
       <div>
