@@ -20,5 +20,5 @@
 <% end %>
 
 <% if @brand.brand_info.scripts_override.present? %>
-  <script type="text/javascript"><%= @brand.brand_info.scripts_override %></script>
+  <script type="module">"<%= @brand.brand_info.scripts_override %>"</script>
 <% end %>
