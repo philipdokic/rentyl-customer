@@ -72,22 +72,6 @@ class App extends React.Component {
     })
   }
 
-  // Import Custom Tags
-  // ---------------------------------------------
-  importCustomTags = () =>
-    get(this, 'props.brand.header.meta_tags', []).map(tag =>
-      HtmlParser(tag, this.htmlParserOptions)
-    );
-
-  // Import Custom Scripts
-  // ---------------------------------------------
-  importCustomScripts = () =>
-    get(this, 'props.brand.brand_info.scripts_override') ? (
-      <script type="text/javascript">
-        {get(this, 'props.brand.brand_info.scripts_override')}
-      </script>
-    ) : null;
-
   // Import Custom Styles
   // ---------------------------------------------
   importCustomStyles = () =>
@@ -104,8 +88,6 @@ class App extends React.Component {
       return (
         <>
           <Helmet>
-            {this.importCustomTags()}
-            {this.importCustomScripts()}
             {this.importCustomStyles()}
           </Helmet>
           <Header />
