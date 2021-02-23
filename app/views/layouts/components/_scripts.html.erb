@@ -15,10 +15,10 @@
 
 <% if @brand.brand_footer.scripts.present? %>
   <% @brand.brand_footer.scripts.each do |url| %>
-    <script src="<%= url %>" defer></script>
+    <script src="<%= url %>"></script><!-- defer -->
   <% end %>
 <% end %>
 
 <% if @brand.brand_info.scripts_override.present? %>
-  <script type="module"><%= @brand.brand_info.scripts_override.html_safe %></script>
+  <script type="text/javascript"><%= raw @brand.brand_info.scripts_override %></script>
 <% end %>

@@ -22,6 +22,6 @@
 <% end %>
 <% if @brand.brand_header.meta_tags.present? %>
   <% @brand.brand_header.meta_tags.each do |m| %>
-    <%= m.html_safe %>
+    <%= raw m %>
   <% end %>
 <% end %>
