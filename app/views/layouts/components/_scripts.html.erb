@@ -1,5 +1,4 @@
 <%= javascript_include_tag('application') %>
-
 <script type="text/javascript">
   I18n.defaultLocale = "<%= I18n.default_locale %>";
   I18n.locale = "<%= I18n.locale %>";
@@ -15,10 +14,10 @@
 
 <% if @brand.brand_footer.scripts.present? %>
   <% @brand.brand_footer.scripts.each do |url| %>
-    <script src="<%= url %>"></script><!-- defer -->
+    <script src="<%= url %>" defer></script>
   <% end %>
 <% end %>
 
 <% if @brand.brand_info.scripts_override.present? %>
-  <script type="text/javascript"><%= raw @brand.brand_info.scripts_override %></script>
+  <script type="module" defer><%= @brand.brand_info.scripts_override.html_safe %></script>
 <% end %>
