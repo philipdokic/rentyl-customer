@@ -60,6 +60,7 @@ class Page extends React.Component {
         page: response.data,
         payload: response.data.payload
       });
+      window.customJavascriptLoad();
     })
   };
 
@@ -126,7 +127,7 @@ class Page extends React.Component {
           />
           {this.state.page.contact_form && (
             <ContactForm
-              organization_id={this.state.brand.organization_id}
+              organization_id={this.props.brand.organization.id}
               subject="General Question"
               displayFormat={this.props.brand.date_format}
             />

@@ -111,6 +111,7 @@ class ThemeDefaultSearch extends React.Component {
     document.body.classList.remove('home-view');
     document.body.classList.remove('listings-view');
     this.pageSetup();
+    window.customJavascriptLoad();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -328,66 +329,6 @@ class ThemeDefaultSearch extends React.Component {
       });
     }
   };
-
-  // oldFetchData = () => {
-  //   $.ajax({
-  //     type: 'GET',
-  //     url: '/api/search',
-  //     context: this,
-  //     data: {
-  //       booking_range: JSON.stringify(this.state.bookingRange),
-  //       geo_ne_lat: this.state.geoNELat,
-  //       geo_ne_lon: this.state.geoNELon,
-  //       geo_sw_lat: this.state.geoSWLat,
-  //       geo_sw_lon: this.state.geoSWLon,
-  //       loc: this.state.loc,
-  //       guests: this.state.guests,
-  //       sort: this.state.sort,
-  //       distance: this.state.distance,
-  //       page_offset: this.state.pageOffset,
-  //       filter: {
-  //         num_bedrooms: this.state.filter_numBedrooms,
-  //         num_bathrooms: this.state.filter_numBathrooms,
-  //         num_guests: this.state.guests,
-  //         instant_book: this.state.filter_instantBook,
-  //         price_low: this.state.filter_priceLow,
-  //         price_high: this.state.filter_priceHigh,
-  //         distance: this.state.filter_distance
-  //       }
-  //     }
-  //   })
-  //     .done(function(data) {
-  //       this.setState(
-  //         {
-  //           results: data.results,
-  //           resultsLength: data.results.length,
-  //           isLoading: false,
-  //           isDirty: false,
-  //           isLoaded: true,
-  //           geoNELat: data.bounds ? data.bounds.ne.lat : null,
-  //           geoNELon: data.bounds ? data.bounds.ne.lng : null,
-  //           geoSWLat: data.bounds ? data.bounds.sw.lat : null,
-  //           geoSWLon: data.bounds ? data.bounds.sw.lng : null,
-  //           geoCenterLat: data.center ? data.center[0] : null,
-  //           geoCenterLon: data.center ? data.center[1] : null,
-  //           max_price: data.max_price || null,
-  //           min_price: data.min_price || null,
-  //           pageOffset: data.page_offset,
-  //           totalPages: data.total_pages,
-  //           totalProperties: data.total_properties,
-  //           datesSet: !(
-  //             data.results[0] && data.results[0].search_type === 'dateless'
-  //           )
-  //         },
-  //         () => {
-  //           this._div.scrollTop = 0;
-  //         }
-  //       );
-  //     })
-  //     .fail(function(jqXhr) {
-  //       console.warn(jqXhr);
-  //     });
-  // };
 
   getStringifiedQueryString = () => {
     let queryInfo = {};

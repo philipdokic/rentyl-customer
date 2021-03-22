@@ -36,7 +36,7 @@ class Home extends React.Component {
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('listings-view');
     document.body.classList.remove('search-view');
-    this.setBrand(this.props)
+    this.setBrand(this.props);
   }
 
   // Set Brand
@@ -46,6 +46,7 @@ class Home extends React.Component {
     .then(async (response) => {
       await props.dispatch(brandAction.setHome(response.data));
       this.setState({pageLoading: false});
+      window.customJavascriptLoad();
     })
   }
 

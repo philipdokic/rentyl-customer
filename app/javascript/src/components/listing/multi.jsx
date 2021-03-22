@@ -82,6 +82,7 @@ class Multi extends React.Component {
       const element = document.getElementById(id);
       element.scrollIntoView();
     }
+    window.customJavascriptLoad();
   }
 
   // Handle Browser State
