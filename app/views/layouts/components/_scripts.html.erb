@@ -28,9 +28,10 @@
             script.src = _this.withNoCache(_this.m_js_files[i]);
             var loadNextScript = function ()
             {
-                if (i + 1 < _this.m_js_files.length)
-                {
-                    _this.loadScript(i + 1);
+                if (i + 1 < _this.m_js_files.length) {
+                  _this.loadScript(i + 1);
+                } else {
+                  window.inlineJavascriptLoad();
                 }
             };
             script.onload = function ()
@@ -78,24 +79,22 @@
     return cScriptLoader;
 })();
 
+  // Load External Javascripts
   function customJavascriptLoad() {
-    // Load bootstrap
     <% if @brand.brand_info.bootstrap4? %>
       setTimeout(function () {
         var BootstrapLoader = new cScriptLoader(["https://code.jquery.com/jquery-1.12.4.min.js", "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"]);
         BootstrapLoader.loadFiles();
       }, 1);
     <% end %>
-
-    // Load external javascripts
     setTimeout(function () {
       var ScriptLoader = new cScriptLoader(<%= raw @brand.brand_footer.scripts %>);
       ScriptLoader.loadFiles();
     }, 5);
+  }
 
-    // Load inline javascript
-    setTimeout(function () {
-      <%= @brand.brand_info.scripts_override.html_safe %>
-    }, 5000);
+  // Load Internal Javascripts
+  function inlineJavascriptLoad() {
+    <%= @brand.brand_info.scripts_override.html_safe %>
   }
 </script>
