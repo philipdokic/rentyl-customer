@@ -7,17 +7,12 @@
 <%= javascript_pack_tag('index', defer: true) %>
 
 <script type="text/javascript">
-  window.addEventListener("load", pageLoaded, false);
-
+  // Javascript Loader
   var cScriptLoader = (function ()
 {
     function cScriptLoader(files)
     {
         var _this = this;
-        this.log = function (t)
-        {
-            console.log("ScriptLoader: " + t);
-        };
         this.withNoCache = function (filename)
         {
             if (filename.indexOf("?") === -1)
@@ -40,15 +35,12 @@
             };
             script.onload = function ()
             {
-                _this.log('Loaded script "' + _this.m_js_files[i] + '".');
                 loadNextScript();
             };
             script.onerror = function ()
             {
-                _this.log('Error loading script "' + _this.m_js_files[i] + '".');
                 loadNextScript();
             };
-            _this.log('Loading script "' + _this.m_js_files[i] + '".');
             _this.m_head.appendChild(script);
         };
         this.loadFiles = function ()
@@ -86,16 +78,24 @@
     return cScriptLoader;
 })();
 
-  function pageLoaded() {
-    console.log("Page has fully loaded!");
+  function customJavascriptLoad() {
+    // Load bootstrap
+    <% if @brand.brand_info.bootstrap4? %>
+      setTimeout(function () {
+        var BootstrapLoader = new cScriptLoader(["https://code.jquery.com/jquery-1.12.4.min.js", "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"]);
+        BootstrapLoader.loadFiles();
+      }, 1);
+    <% end %>
 
+    // Load external javascripts
     setTimeout(function () {
-      var ScriptLoader = new cScriptLoader(["https://code.jquery.com/jquery-1.11.0.min.js", "https://code.jquery.com/jquery-migrate-1.2.1.min.js", "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"]);
+      var ScriptLoader = new cScriptLoader(<%= raw @brand.brand_footer.scripts %>);
       ScriptLoader.loadFiles();
-    }, 2000);
+    }, 5);
 
+    // Load inline javascript
     setTimeout(function () {
       <%= @brand.brand_info.scripts_override.html_safe %>
-    }, 5000);
+    }, 750);
   }
 </script>

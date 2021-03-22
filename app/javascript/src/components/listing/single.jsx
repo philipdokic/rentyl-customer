@@ -65,6 +65,7 @@ class Single extends React.Component {
       const element = document.getElementById(id);
       element.scrollIntoView();
     }
+    window.customJavascriptLoad();
   }
 
   // Parse Query
