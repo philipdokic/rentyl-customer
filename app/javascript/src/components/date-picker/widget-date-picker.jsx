@@ -1,7 +1,7 @@
-// @flow
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import axios from 'axios';
 import get from 'lodash/get';
 import moment from 'moment';
 
@@ -9,46 +9,35 @@ import moment from 'moment';
 // -----------------------------------------------
 import WidgetDatePickerContainer from './widget-date-picker-container';
 
-// Props
-// -----------------------------------------------
-// type Props = {
-//   organizationID: number,
-//   unitID: number,
-//   onDatesChange: () => void,
-//   startDate: ?Date,
-//   endDate: ?Date,
-//   initialStartDate: ?Date,
-//   initialEndDate: ?Date,
-//   isOutsideRange: (date: moment) => boolean
-// };
-
-// State
-// -----------------------------------------------
-// type State = {
-//   bookingCalendar: {}
-// };
-
 // -----------------------------------------------
 // COMPONENT->WIDGET-DATE-PICKER -----------------
 // -----------------------------------------------
 export default class WidgetDatePicker extends React.Component {
 
-  state = {bookingCalendar: this.props.bookingCalendar || {}}
+  // Constructor
+  // ---------------------------------------------
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bookingCalendar: this.props.bookingCalendar || {}
+    };
+  }
 
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
-    if (this.state.bookingCalendar !== {}) return null;
+    if (Object.keys(this.state.bookingCalendar).length > 0) return null;
 
     axios.get(`${process.env.DIRECT_URL}/api/v2/units/booking_calendars`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
-        unit_id: unitID
+        unit_id: this.props.unitID
       }
     })
     .then(response => {
-      this.setState({ bookingCalendar: response.booking_calendar });
+      this.setState({ bookingCalendar: response.data.booking_calendar });
     })
     .catch(error => {
       console.log(error);
