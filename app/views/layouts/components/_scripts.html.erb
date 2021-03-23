@@ -1,9 +1,3 @@
-<%= javascript_include_tag('application') %>
-<script type="text/javascript">
-  I18n.defaultLocale = "<%= I18n.default_locale %>";
-  I18n.locale = "<%= I18n.locale %>";
-</script>
-
 <%= javascript_pack_tag('index', defer: true) %>
 
 <script type="text/javascript">
@@ -95,6 +89,9 @@
 
   // Load Internal Javascripts
   function inlineJavascriptLoad() {
+    I18n.defaultLocale = "<%= I18n.default_locale %>";
+    I18n.locale = "<%= I18n.locale %>";
+
     <%= @brand.brand_info.scripts_override.html_safe %>
   }
 </script>
