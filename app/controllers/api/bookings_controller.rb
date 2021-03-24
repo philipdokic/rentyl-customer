@@ -130,7 +130,7 @@ class Api::BookingsController < ApplicationController
   # ----------------------------------------------
   def set_stripe_publishable_key
     connected_trust_acct = @listing.unit&.portfolio&.stripe_connect_account&.connected? ? @listing.unit&.portfolio&.stripe_connect_account : nil
-    stripe_account = connected_trust_acct || Organization.current&.default_stripe_connect_account
+    stripe_account = connected_trust_acct || @listing.organization&.default_stripe_connect_account
     Stripe.api_key = stripe_account&.access_token || ENV['STRIPE_SECRET_KEY']
     Stripe.api_version = ENV['STRIPE_API_VERSION']
     @stripe_publishable_key = stripe_account&.stripe_publishable_key || ENV['STRIPE_PUBLISHABLE_KEY']
