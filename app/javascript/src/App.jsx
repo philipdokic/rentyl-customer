@@ -3,9 +3,6 @@
 import React from 'react'
 import axios from 'axios';
 import {connect} from 'react-redux'
-import { get } from 'lodash';
-import { Helmet } from 'react-helmet';
-import HtmlParser from 'react-html-parser';
 import { Route, Switch, Redirect } from "react-router-dom";
 import styled from 'styled-components'
 
@@ -72,24 +69,12 @@ class App extends React.Component {
     })
   }
 
-  // Import Custom Styles
-  // ---------------------------------------------
-  importCustomStyles = () =>
-    get(this, 'props.brand.brand_info.css_override') ? (
-      <style type="text/css">
-        {get(this, 'props.brand.brand_info.css_override')}
-      </style>
-    ) : null;
-
   // Render
   // ---------------------------------------------
   render() {
     if (!this.state.isLoading) {
       return (
         <>
-          <Helmet>
-            {this.importCustomStyles()}
-          </Helmet>
           <Header />
           <main
             className="cx-main listings_details theme-default_mixed"
