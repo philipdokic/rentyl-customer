@@ -284,7 +284,6 @@ class BookingBreakdown extends React.Component {
   // Fetch Coupon Codes
   // ---------------------------------------------
   fetchCouponCodes = () => {
-    console.log(this.props);
     axios.get(`${process.env.DIRECT_URL}/api/v2/fetch_coupon_codes/${this.props.listing.id}`, {
       headers: {'Content-Type': 'application/json'},
       context: this

@@ -61,9 +61,11 @@ export default class SingleBookingToggle extends React.Component {
             />
             <BookingBreakdown
               addonFeeIds={this.props.addonFeeIds}
+              availability={this.props.availability}
               checkInDate={this.props.checkInDate}
               checkOutDate={this.props.checkOutDate}
               guests={this.props.guests}
+              pricing={this.props.pricing}
               updateFees={this.props.updateFees}
               updateQuantityFee={this.props.updateQuantityFees}
             />
