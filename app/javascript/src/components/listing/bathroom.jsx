@@ -1,25 +1,39 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import ReactI18n from 'react-i18n';
 
+// -----------------------------------------------
+// COMPONENT->BATHROOM ---------------------------
+// -----------------------------------------------
 export default class Bathroom extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
   }
 
+  // Get Amount Amenities
+  // ---------------------------------------------
   getAmountAmenities = () => {
     let amountTrue = 0;
+
     this.props.bathroom.amenities && Object.keys(this.props.bathroom.amenities).map(amenityKey => {
       if (this.props.bathroom.amenities[amenityKey].value) {
         amountTrue++;
       }
     });
+
     return amountTrue;
   };
 
+  // Render Amenity
+  // ---------------------------------------------
   renderAmenity = amenityKey => {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const val = this.props.bathroom.amenities[amenityKey].value;
+
     if (val) {
       return (
         <li key={amenityKey}>
@@ -30,8 +44,11 @@ export default class Bathroom extends React.Component {
     }
   };
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     if (this.getAmountAmenities() > 0) {
       return (
         <figure className="details-bathroom">
