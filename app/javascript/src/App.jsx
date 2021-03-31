@@ -40,6 +40,15 @@ const LoadingWrapper = styled.div`
   width: 100%;
 `;
 
+const MainWrapper = styled.main`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 0;
+  min-height: calc(100vh - 60px);
+  overflow: scroll;
+`;
+
 // -----------------------------------------------
 // COMPONENT->APP --------------------------------
 // -----------------------------------------------
@@ -76,10 +85,7 @@ class App extends React.Component {
       return (
         <Router>
           <Header />
-          <main
-            className="cx-main listings_details theme-default_mixed"
-            style={this.contentStyles}
-          >
+          <MainWrapper className="cx-main listings_details theme-default_mixed" >
             <Switch>
               <Route path="/checkout/:id" component={Checkout} />
               <Route path="/listings/search" component={Listings} />
@@ -101,7 +107,7 @@ class App extends React.Component {
               <Route component={NoMatch} />
             </Switch>
             <Footer />
-          </main>
+          </MainWrapper>
         </Router>
       )
     }
