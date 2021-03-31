@@ -1,8 +1,8 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-// import { Link } from 'cxComponents';
-import { Link } from 'react-router-dom';
+import { get } from 'lodash';
+import Link from '../resources/link';
 import styled from 'styled-components'
 import Rater from 'react-rater';
 
@@ -206,7 +206,7 @@ const SearchTile = props => {
   return (
     <figure className="search-tile">
       <Link
-        href={`/listings/${slug + props.getStringifiedQueryString()}`}
+        href={ get(props, 'result.room_type_property') ? `/listings/${slug}/unit/${get(props, 'result.default_unit_id') + props.getStringifiedQueryString()}` : `/listings/${slug + props.getStringifiedQueryString()}` }
         target="_blank"
       >
         <div
