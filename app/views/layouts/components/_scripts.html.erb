@@ -2,8 +2,7 @@
 
 <script type="text/javascript">
   // Javascript Loader
-  var cScriptLoader = (function ()
-{
+  var cScriptLoader = (function () {
     function cScriptLoader(files)
     {
         var _this = this;
@@ -71,7 +70,7 @@
         }
     }
     return cScriptLoader;
-})();
+  })();
 
   // Load External Javascripts
   function customJavascriptLoad() {
@@ -81,10 +80,12 @@
         BootstrapLoader.loadFiles();
       }, 1);
     <% end %>
-    setTimeout(function () {
-      var ScriptLoader = new cScriptLoader(<%= raw @brand.brand_footer.scripts %>);
-      ScriptLoader.loadFiles();
-    }, 5);
+    <% if @brand.brand_footer.scripts.present? %>
+      setTimeout(function () {
+        var ScriptLoader = new cScriptLoader(<%= raw @brand.brand_footer.scripts %>);
+        ScriptLoader.loadFiles();
+      }, 5);
+    <% end %>
   }
 
   // Load Internal Javascripts
