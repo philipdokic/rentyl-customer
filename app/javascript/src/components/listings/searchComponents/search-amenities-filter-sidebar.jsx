@@ -44,6 +44,7 @@ export default class SearchAmenitiesFilterSidebar extends React.Component {
 
   renderAmenity = amenity => (
     <DirectCheckbox
+      key={amenity}
       name={amenity}
       checked={includes(this.state.selectedAmenities, amenity)}
       onChange={this.onAmenityClick}
