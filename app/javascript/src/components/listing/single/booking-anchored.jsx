@@ -151,7 +151,7 @@ class BookingAnchored extends React.Component {
               <StarContainer>
                 <Rater
                   interactive={false}
-                  rating={this.props.listing.review_average}
+                  rating={parseFloat(this.props.listing.review_average)}
                 />
               </StarContainer>
               <label>{this.props.listing.reviews.length} Reviews</label>
