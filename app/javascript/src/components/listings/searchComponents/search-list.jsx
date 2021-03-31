@@ -35,10 +35,9 @@ const SearchList = props => {
     return (
       <section className={"search-tiles " + (props.view === 'grid' ? 'search-grids' : 'search-listings')}>
         {props.filteredResults.map((result, index) => (
-          <div className="search-grid-item-wrapper" style={listItemWrapper}>
+          <div className="search-grid-item-wrapper" style={listItemWrapper} key={index}>
             {props.view === 'list' && (
               <SearchItem
-                key={index}
                 result={result}
                 getStringifiedQueryString={props.getStringifiedQueryString}
                 theme={props.theme}
@@ -48,7 +47,6 @@ const SearchList = props => {
             )}
             {props.view === 'grid' && (
               <SearchTile
-                key={index}
                 result={result}
                 getStringifiedQueryString={props.getStringifiedQueryString}
                 theme={props.theme}

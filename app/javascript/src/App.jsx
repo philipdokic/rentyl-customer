@@ -3,7 +3,7 @@
 import React from 'react'
 import axios from 'axios';
 import {connect} from 'react-redux'
-import { Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import styled from 'styled-components'
 
 // Components
@@ -74,7 +74,7 @@ class App extends React.Component {
   render() {
     if (!this.state.isLoading) {
       return (
-        <>
+        <Router>
           <Header />
           <main
             className="cx-main listings_details theme-default_mixed"
@@ -102,7 +102,7 @@ class App extends React.Component {
             </Switch>
             <Footer />
           </main>
-        </>
+        </Router>
       )
     }
 

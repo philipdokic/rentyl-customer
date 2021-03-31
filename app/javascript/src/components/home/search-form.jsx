@@ -13,6 +13,7 @@ import PlacesAutocomplete, {
 import Script from 'react-load-script';
 import Select from 'react-select';
 import ReactI18n from 'react-i18n';
+import { withRouter } from 'react-router-dom';
 
 // Components
 // -----------------------------------------------
@@ -370,4 +371,4 @@ function mapStateToProps(state) {
 
 // Export
 // -----------------------------------------------
-export default connect(mapStateToProps)(SearchForm);
+export default withRouter(connect(mapStateToProps)(SearchForm));
