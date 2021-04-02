@@ -31,7 +31,7 @@ const Listing = (props) => {
         <div
           className="featured-image"
           style={{
-            backgroundImage: `url(${props.featured_image.image.small.url})`
+            backgroundImage: `url(${props.featured_image.small})`
           }}
         />
       ) : null}

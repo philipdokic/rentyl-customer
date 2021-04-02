@@ -27,7 +27,7 @@ class Api::BookingsController < ApplicationController
       listing: @listing,
       obfuscated_address: @property.location.obfuscated_address,
       property: @property,
-      featured_image: @property.property_images[0],
+      featured_image: @property.property_images[0].property_image_urls,
       rental_agreement: @brand.rental_agreement,
       slug: @property.name.parameterize,
       stripe_publishable_key: @stripe_publishable_key,

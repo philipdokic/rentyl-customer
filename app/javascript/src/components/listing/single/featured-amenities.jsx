@@ -167,17 +167,16 @@ class FeaturedAmenities extends React.Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {/* <ul style={{ display: 'flex', flexDirection: 'row' }}>
+        <ul style={{ display: 'flex', flexDirection: 'row' }}>
           {amenities.map(amenity => {
             if (amenitiesCounter < 3) {
-              if (this.props.listing.unit.features_amenities[`'${amenity.name}'`].value) {
+              if (this.props.listing.unit.features_amenities[amenity.name].value) {
                 amenitiesCounter += 1;
                 return this.renderIcon(amenity.iconClass, amenity.label);
               }
             }
           })}
         </ul>
-        */}
         <ul style={{ display: 'flex', flexDirection: 'row' }}>
           {diningAmenities.map(amenity => {
             if (diningAmenitiesCounter < 3) {
