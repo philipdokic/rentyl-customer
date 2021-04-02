@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 // Components
 // -----------------------------------------------
 import Ripple from '../miscellaneous/ripple';
-//import { Trash } from 'cxThemeComponents/icons';
+import { Delete } from '../listings/resources/icons';
 import displayError from '../errors/display';
 
 // Styles
@@ -63,7 +63,7 @@ export default class SignatureCapture extends React.Component {
   // Delete Signature
   // ---------------------------------------------
   deleteSignature = () => {
-    axios.delete(`/signatures/${this.state.signature.id}`)
+    axios.delete(`${process.env.DIRECT_URL}/api/v2/signatures/${this.state.signature.id}`)
     .then(response => {
       this.setState({ signature: null }, () => {
         this.props.afterDelete && this.props.afterDelete();
@@ -86,8 +86,9 @@ export default class SignatureCapture extends React.Component {
 
     const signature = this.signaturePad.toDataURL();
     this.setState({ saving: true }, () => {
-      axios.post(`/signatures`, {
-        params: {data_uri: signature}
+      axios.post(`${process.env.DIRECT_URL}/api/v2/signatures`, {
+        data_uri: signature,
+        organization_id: this.props.booking.organization_id
       })
       .then(response => {
         this.setState({ saving: false, signature: response.data.signature }, () => {
@@ -145,7 +146,7 @@ export default class SignatureCapture extends React.Component {
         src={this.state.signature.url}
         alt="signature"
       />
-      {/* <Trash
+      <Delete
         style={{
           position: 'absolute',
           right: '8px',
@@ -153,7 +154,7 @@ export default class SignatureCapture extends React.Component {
           cursor: 'pointer'
         }}
         onClick={this.deleteSignature}
-      /> */}
+      />
     </div>
   );
 
