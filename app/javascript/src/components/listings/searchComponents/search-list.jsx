@@ -1,12 +1,17 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
 import Spinner from '../resources/spinner';
 import { SearchItem } from './index';
 import { SearchTile } from './index';
+
+// Constants
+// -----------------------------------------------
+const translate = ReactI18n.getIntlMessage;
 
 // -----------------------------------------------
 // COMPONENT->SEARCH-LIST ------------------------

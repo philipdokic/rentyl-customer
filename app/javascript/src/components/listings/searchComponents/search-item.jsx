@@ -1,10 +1,11 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import { get } from 'lodash';
 import Link from '../resources/link';
 import styled from 'styled-components';
 import Rater from 'react-rater';
-import { get } from 'lodash';
+import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
@@ -49,7 +50,7 @@ const BoltCircle = styled.div`
 // COMPONENT->SEARCH-ITEM ------------------------
 // -----------------------------------------------
 const SearchItem = props => {
-  const translate = props.translate;
+  const translate = ReactI18n.getIntlMessage;
 
   const renderPrice = () => {
     const { currency, bookable_nightly_price } = { ...props.result };

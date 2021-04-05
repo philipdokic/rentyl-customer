@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import Link from '../resources/link';
 import styled from 'styled-components'
 import Rater from 'react-rater';
+import ReactI18n from 'react-i18n';
 
 // Components
 // -----------------------------------------------
@@ -54,7 +55,7 @@ const PropertyType = styled.div`
 // COMPONENT->SEARCH-TILE ------------------------
 // -----------------------------------------------
 const SearchTile = props => {
-  const translate = props.translate;
+  const translate = ReactI18n.getIntlMessage;
 
   const renderPrice = () => {
     const { currency, bookable_nightly_price } = { ...props.result };
@@ -137,7 +138,8 @@ const SearchTile = props => {
             </li>
             <li>
               {translate(`cx.search.num_units`, {
-                num: listings.length
+                num: listings.length,
+                s: listings.length == 1 ? '' : 's'
               })}
             </li>
           </ul>
@@ -151,20 +153,23 @@ const SearchTile = props => {
           <ul>
             <li>
               {translate(`cx.search.num_sleep`, {
-                num: unit.num_sleep
+                num: unit.num_sleep,
+                s: unit.num_sleep == 1 ? '' : 's'
               })}
             </li>
             {unit.num_bedrooms && (
               <li>
                 {translate(`cx.search.num_bedrooms`, {
-                  num: unit.num_bedrooms
+                  num: unit.num_bedrooms,
+                  s: unit.num_bedrooms == 1 ? '' : 's'
                 })}
               </li>
             )}
             {unit.num_bathrooms && (
               <li>
                 {translate(`cx.search.num_bathrooms`, {
-                  num: unit.num_bathrooms
+                  num: unit.num_bathrooms,
+                  s: unit.num_bathrooms == 1 ? '' :'s'
                 })}
               </li>
             )}
