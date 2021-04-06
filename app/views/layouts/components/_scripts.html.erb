@@ -86,13 +86,16 @@
         ScriptLoader.loadFiles();
       }, 5);
     <% end %>
+    <% if @brand.brand_info.scripts_override.present? %>
+      setTimeout(function () {
+        <%= @brand.brand_info.scripts_override %>
+      }, 500);
+    <% end %>
   }
 
   // Load Internal Javascripts
   function inlineJavascriptLoad() {
     I18n.defaultLocale = "<%= I18n.default_locale %>";
     I18n.locale = "<%= I18n.locale %>";
-
-    <%= @brand.brand_info.scripts_override.html_safe %>
   }
 </script>
