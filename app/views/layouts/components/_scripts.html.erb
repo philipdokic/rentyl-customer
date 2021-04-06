@@ -96,7 +96,7 @@
 
   <% if @brand.brand_info.scripts_override.present? %>
     setTimeout(function () {
-      <%= @brand.brand_info.scripts_override %>
+      <%= raw @brand.brand_info.scripts_override %>
     }, 500);
   <% end %>
 </script>
