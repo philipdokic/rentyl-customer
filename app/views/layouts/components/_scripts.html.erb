@@ -92,11 +92,9 @@
   function inlineJavascriptLoad() {
     I18n.defaultLocale = "<%= I18n.default_locale %>";
     I18n.locale = "<%= I18n.locale %>";
-  }
 
-  <% if @brand.brand_info.scripts_override.present? %>
-    setTimeout(function () {
+    <% if @brand.brand_info.scripts_override.present? %>
       <%= raw @brand.brand_info.scripts_override %>
-    }, 500);
-  <% end %>
+    <% end %>
+  }
 </script>
