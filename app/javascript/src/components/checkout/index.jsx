@@ -335,6 +335,7 @@ class Checkout extends React.Component {
   // ---------------------------------------------
   updateFees = feeId => {
     let newArray = [];
+
     if (this.state.addonFeeIds.includes(feeId)) {
       newArray = this.state.addonFeeIds.filter(id => id !== feeId);
     } else {
@@ -369,9 +370,11 @@ class Checkout extends React.Component {
 
     axios.get(`${process.env.DIRECT_URL}/api/v2/unit_pricing/${this.state.quoteId}`, {
       headers: {'Content-Type': 'application/json'},
-      quote_id: this.state.quoteId,
-      addon_fee_ids: this.state.addonFeeIds,
-      coupon_code: this.state.couponCode
+      params: {
+        quote_id: this.state.quoteId,
+        addon_fee_ids: this.state.addonFeeIds,
+        coupon_code: this.state.couponCode
+      }
     })
     .then(response =>{
       const data = response.data
