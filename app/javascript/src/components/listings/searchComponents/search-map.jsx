@@ -2,7 +2,7 @@
 // -----------------------------------------------
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
-// import { fitBounds } from 'google-map-react/utils';
+import { fitBounds } from 'google-map-react';
 
 // Components
 // -----------------------------------------------

@@ -4047,7 +4047,7 @@ globule@^1.0.0:
     lodash "~4.17.10"
     minimatch "~3.0.2"
 
-google-map-react@^2.1.8:
+google-map-react@^2.1.9:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/google-map-react/-/google-map-react-2.1.9.tgz#6e539ce8bf28e7b8cda6058402e7581d1d1cec3d"
   integrity sha512-//Pa0o6sdspU2H0ehVztSDQSnYYeV6TY4Z6ftty34yiCJYLliOzeq17dA9uFkyUFdL+XwbTU6e9mfs+bjBMIzw==
