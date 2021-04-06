@@ -94,9 +94,7 @@
     I18n.locale = "<%= I18n.locale %>";
 
     <% if @brand.brand_info.scripts_override.present? %>
-      setTimeout(function () {
-        <%= raw @brand.brand_info.scripts_override %>
-      }, 5000);
+      <%= raw @brand.brand_info.scripts_override %>
     <% end %>
   }
 </script>
