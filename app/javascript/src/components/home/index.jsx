@@ -24,7 +24,7 @@ import * as brandAction from '../../redux/action/brand'
 const LoadingWrapper = styled.div`
   align-items: center;
   display: flex;
-  height: 100vh;
+  min-height: 150vh;
   justify-content: center;
   width: 100%;
 `;
