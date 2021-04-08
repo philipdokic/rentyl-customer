@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import 'react-dates/initialize';
+import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
@@ -12,10 +13,21 @@ import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
 import Meta from './meta';
+import Ripple from '../miscellaneous/ripple';
 
 // Redux
 // -----------------------------------------------
 import * as brandAction from '../../redux/action/brand'
+
+// Styles
+// -----------------------------------------------
+const LoadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+`;
 
 // -----------------------------------------------
 // COMPONENT->HOME -------------------------------
@@ -83,7 +95,13 @@ class Home extends React.Component {
           )}
         </main>
       );
-    } else { return(<div>Loading...</div>) }
+    } else {
+      return(
+        <LoadingWrapper>
+          <Ripple color="#50E3C2" />
+        </LoadingWrapper>
+      )
+    }
   }
 }
 

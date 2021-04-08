@@ -45,7 +45,7 @@ const MainWrapper = styled.main`
   flex: 1;
   flex-direction: column;
   margin: 0;
-  min-height: calc(100vh - 60px);
+  height: calc(100vh - 60px);
   overflow: scroll;
 `;
 
