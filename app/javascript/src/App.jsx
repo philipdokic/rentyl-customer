@@ -42,12 +42,12 @@ const LoadingWrapper = styled.div`
 `;
 
 const MainWrapper = styled.main`
+  margin: 0;
 `;
 
   // display: flex;
   // flex: 1;
   // flex-direction: column;
-  // margin: 0;
   // height: 100vh;
   // overflow: scroll;
 
