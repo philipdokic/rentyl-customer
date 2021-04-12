@@ -16,8 +16,8 @@ class UnitAvailability < ApplicationRecord
   # ----------------------------------------------
   # SERIALIZE ------------------------------------
   # ----------------------------------------------
-  serialize :availability_calendar, JSON
-  serialize :booking_calendar, JSON
+  # serialize :availability_calendar, JSON
+  # serialize :booking_calendar, JSON
   serialize :default_availability_changeover, JSON
 
   # ----------------------------------------------
