@@ -26,6 +26,14 @@ import StripeForm from '../stripe/index';
 
 // Styles
 // -----------------------------------------------
+const LoadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  width: 100%;
+`;
+
 const ContactForm = styled.div`
   align-items: flex-start;
   box-pack: space-between;
@@ -434,7 +442,9 @@ class Checkout extends React.Component {
 
     return (
       this.state.loading ? (
-        <Ripple color="#50E3C2" />
+        <LoadingWrapper>
+          <Ripple color="#50E3C2" />
+        </LoadingWrapper>
       ) : (
         <main className="checkout-main">
           <Notification />

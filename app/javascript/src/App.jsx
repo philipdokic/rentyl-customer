@@ -22,6 +22,7 @@ import Payment from './components/payment/index';
 import Receipt from './components/receipt/index';
 import Review from './components/reviews/new';
 import Ripple from './components/miscellaneous/ripple';
+import ScrollToTop from './components/miscellaneous/scroll-to-top';
 import SignIn from './components/guests/sign-in';
 import SignUp from './components/guests/sign-up';
 import Verification from './components/verification/index';
@@ -41,13 +42,14 @@ const LoadingWrapper = styled.div`
 `;
 
 const MainWrapper = styled.main`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  margin: 0;
-  height: calc(100vh - 60px);
-  overflow: scroll;
 `;
+
+  // display: flex;
+  // flex: 1;
+  // flex-direction: column;
+  // margin: 0;
+  // height: 100vh;
+  // overflow: scroll;
 
 // -----------------------------------------------
 // COMPONENT->APP --------------------------------
@@ -84,30 +86,32 @@ class App extends React.Component {
     if (!this.state.isLoading) {
       return (
         <Router>
-          <Header />
-          <MainWrapper className="cx-main listings_details theme-default_mixed" >
-            <Switch>
-              <Route path="/checkout/:id" component={Checkout} />
-              <Route path="/listings/search" component={Listings} />
-              <Route path="/listings/list" component={Listings} />
-              <Route path="/listings/grid" component={Listings} />
-              <Route path="/listings/map" component={Listings} />
-              <Route path="/listings/:listing_slug" component={Listing} />
-              <Redirect from="/listings" to="/listings/search" />
-              <Route path="/pages/:page_slug" component={Page} />
-              <Route path="/my-bookings/verification/:booking_code" component={Verification} />
-              <Route path="/my-bookings/new-contract/:booking_code" component={NewContract} />
-              <Route path="/my-bookings/receipt/:booking_code" component={Receipt} />
-              <Route path="/my-bookings/payment/:booking_code" component={Payment} />
-              <Route path="/my-bookings/:booking_code" component={Payment} />
-              <Route path="/reviews/new/:booking_code" component={Review} />
-              <Route path="/sign_in" component={SignIn} />
-              <Route path="/sign_up" component={SignUp} />
-              <Route exact path="/" component={Home} />
-              <Route component={NoMatch} />
-            </Switch>
+          <ScrollToTop>
+            <Header />
+            <MainWrapper className="cx-main listings_details theme-default_mixed" >
+              <Switch>
+                <Route path="/checkout/:id" component={Checkout} />
+                <Route path="/listings/search" component={Listings} />
+                <Route path="/listings/list" component={Listings} />
+                <Route path="/listings/grid" component={Listings} />
+                <Route path="/listings/map" component={Listings} />
+                <Route path="/listings/:listing_slug" component={Listing} />
+                <Redirect from="/listings" to="/listings/search" />
+                <Route path="/pages/:page_slug" component={Page} />
+                <Route path="/my-bookings/verification/:booking_code" component={Verification} />
+                <Route path="/my-bookings/new-contract/:booking_code" component={NewContract} />
+                <Route path="/my-bookings/receipt/:booking_code" component={Receipt} />
+                <Route path="/my-bookings/payment/:booking_code" component={Payment} />
+                <Route path="/my-bookings/:booking_code" component={Payment} />
+                <Route path="/reviews/new/:booking_code" component={Review} />
+                <Route path="/sign_in" component={SignIn} />
+                <Route path="/sign_up" component={SignUp} />
+                <Route exact path="/" component={Home} />
+                <Route component={NoMatch} />
+              </Switch>
+            </MainWrapper>
             <Footer />
-          </MainWrapper>
+          </ScrollToTop>
         </Router>
       )
     }
