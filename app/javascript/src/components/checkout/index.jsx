@@ -196,6 +196,7 @@ class Checkout extends React.Component {
         },
         () => this.parseUrl()
       );
+      window.customJavascriptLoad();
     });
   };
 
