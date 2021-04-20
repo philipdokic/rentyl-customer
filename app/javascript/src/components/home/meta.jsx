@@ -9,6 +9,28 @@ import { Helmet } from 'react-helmet';
 // -----------------------------------------------
 class Meta extends React.Component {
 
+  // Constructor
+  // ---------------------------------------------
+  constructor(props) {
+    super(props);
+    this.state = { canonical: this.props.brand.canonical };
+  }
+
+  // Component Did Mount
+  // ---------------------------------------------
+  componentDidMount() {
+    this.setCanonical();
+  }
+
+  // Set Canonical
+  // ---------------------------------------------
+  setCanonical = () => {
+    let secure = this.state.canonical.startsWith("http");
+    if (!secure) {
+      this.setState({ canonical: `https://${this.state.canonical}` });
+    }
+  }
+
   // Render
   // ---------------------------------------------
   render() {
