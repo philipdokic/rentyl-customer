@@ -37,7 +37,7 @@ class Meta extends React.Component {
     return (
       <Helmet>
         <title>{this.props.brand.home.meta_title}</title>
-        <link rel="canonical" href={this.props.brand.canonical} />
+        <link rel="canonical" href={this.state.canonical} />
         <meta name="description" content={this.props.brand.home.meta_description} />
         <meta itemprop="name" content={this.props.brand.name} />
         <meta itemprop="description" content={this.props.brand.home.meta_description} />
