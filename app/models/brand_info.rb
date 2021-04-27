@@ -107,9 +107,9 @@ class BrandInfo < ApplicationRecord
     brand_id = brand_id.sub!(/^[0]+/,'')
 
     if self.created_at > "September 9, 2020"
-      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{self.brand.id}/brand_info/logo_image/#{self.id}/#{self.favicon_image}"
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{self.brand.id}/brand_info/favicon_image/#{self.id}/#{self.favicon_image}"
     else
-      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{brand_id}/brand_info/logo_image/#{brand_info_id}/#{self.favicon_image}"
+      return "https://versailles.s3.amazonaws.com/production/tenant/#{self.brand.organization.subdomain}/brand/#{brand_id}/brand_info/favicon_image/#{brand_info_id}/#{self.favicon_image}"
     end
   end
 
