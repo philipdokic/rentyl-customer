@@ -23,7 +23,7 @@ class OrganizationsController < ApplicationController
     )
 
     if legacy_redirect.present?
-      redirect_to legacy_redirect.redirect_to and return
+      redirect_to legacy_redirect.redirect_to, status: :moved_permanently
     end
   end
 
