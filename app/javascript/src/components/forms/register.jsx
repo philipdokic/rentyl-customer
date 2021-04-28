@@ -47,7 +47,7 @@ const RegisterForm = props => {
         name="password_confirmation"
         onChange={props.onChange}
       />
-      {props.brand.organization.id === 5 && (
+      {props.organization.id === 5 && (
         <div>
           <Checkbox
             name="terms_agreement"

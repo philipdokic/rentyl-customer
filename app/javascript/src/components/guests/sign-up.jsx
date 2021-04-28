@@ -201,6 +201,7 @@ class SignUp extends React.Component {
               onChange={this.onChange}
               onSubmit={this.onSubmit}
               onCheckboxClick={this.onCheckboxClick}
+              organization={this.props.brand.organization}
               terms_agreement={this.state.terms_agreement}
               privacy_agreement={this.state.privacy_agreement}
             />

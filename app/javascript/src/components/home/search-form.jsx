@@ -57,7 +57,7 @@ class SearchForm extends React.Component {
   // Search Events
   // ---------------------------------------------
   searchEvents = query => {
-    return axios.get(`/events/search?query=${query}`);
+    return axios.get(`${process.env.DIRECT_URL}/api/v2/events/search?query=${query}`);
   };
 
   // Check Required Search Fields
