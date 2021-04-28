@@ -20,11 +20,12 @@ class Api::OrganizationsController < ApplicationController
       google_maps_api_key: ENV['GOOGLE_MAPS_API_KEY'],
       header: @brand.brand_header,
       logo_image: @brand.brand_info.logo_image_url,
-      max_baths: @brand.max_baths,
-      max_bedrooms: @brand.max_bedrooms,
-      max_guests: @brand.max_guests,
       menu: menu_data,
-      organization: @brand.organization
+      organization: {
+        id: @brand.organization.id,
+        name: @brand.organization.name,
+        add_on_images: @brand.organization.add_on_images
+      }
     }
   end
 
