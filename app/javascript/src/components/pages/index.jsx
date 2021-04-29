@@ -98,8 +98,8 @@ class Page extends React.Component {
   // Generate Hero Image
   // ---------------------------------------------
   generateHeroImage() {
-    if (this.state.hero_image && this.state.hero_image.image) {
-      return this.state.hero_image.image.url;
+    if (this.state.hero_image) {
+      return this.state.hero_image;
     } else {
       return '';
     }
