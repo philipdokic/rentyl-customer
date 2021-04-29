@@ -112,7 +112,7 @@ class BookingAnchored extends React.Component {
               ) : null}
               <BookingNumGuests
                 guests={this.props.guests}
-                numSleep={this.props.listing.unit.numSleep}
+                numSleep={this.props.listing.unit.num_sleep}
                 respondToGuestsChange={this.props.respondToGuestsChange}
               />
               <BookingBreakdown
