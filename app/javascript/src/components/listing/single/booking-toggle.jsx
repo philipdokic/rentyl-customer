@@ -1,6 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import ReactI18n from 'react-i18n';
 
@@ -13,7 +14,7 @@ import BookingNumGuests from './booking-num-guests';
 // -----------------------------------------------
 // COMPONENT->SINGLE-BOOKING-TOGGLE --------------
 // -----------------------------------------------
-export default class SingleBookingToggle extends React.Component {
+class SingleBookingToggle extends React.Component {
 
   // Constructor
   // ---------------------------------------------
@@ -57,6 +58,7 @@ export default class SingleBookingToggle extends React.Component {
             ) : null}
             <BookingNumGuests
               guests={this.props.guests}
+              numSleep={this.props.listing.unit.num_sleep}
               respondToGuestsChange={this.props.respondToGuestsChange}
             />
             <BookingBreakdown
@@ -80,3 +82,16 @@ export default class SingleBookingToggle extends React.Component {
     );
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    brand: state.brand ? state.brand : {},
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(SingleBookingToggle);
