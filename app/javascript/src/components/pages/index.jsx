@@ -73,7 +73,7 @@ class Page extends React.Component {
     .then(response => {
       this.setState({
         hero_image: response.data.hero_image,
-        page: response.data,
+        page: response.data.page,
         pageLoading: false,
         payload: response.data.payload
       });
