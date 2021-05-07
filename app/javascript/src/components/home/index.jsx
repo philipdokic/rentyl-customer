@@ -83,11 +83,11 @@ class Home extends React.Component {
             dangerouslySetInnerHTML={this.renderHomepageContent()}
           />
           {this.props.brand.home.options.show_featured_properties == 'true' &&
-          this.props.brand.home.featured_listings.length > 0 ? (
+          this.props.brand.home.featured_listings && this.props.brand.home.featured_listings.length > 0 ? (
             <FeaturedListingsContainer />
           ) : null}
           {this.props.brand.home.options.show_featured_pages == 'true' &&
-          this.props.brand.home.featured_pages.length > 0 ? (
+          this.props.brand.home.featured_pages && this.props.brand.home.featured_pages.length > 0 ? (
             <FeaturedPagesContainer />
           ) : null}
           {this.props.brand.home.options.show_contact_form == 'true' && (
