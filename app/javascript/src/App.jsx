@@ -42,14 +42,8 @@ const LoadingWrapper = styled.div`
 `;
 
 const MainWrapper = styled.main`
-  margin: 0;
+  margin: 0 !important;
 `;
-
-  // display: flex;
-  // flex: 1;
-  // flex-direction: column;
-  // height: 100vh;
-  // overflow: scroll;
 
 // -----------------------------------------------
 // COMPONENT->APP --------------------------------
