@@ -379,11 +379,9 @@ class Checkout extends React.Component {
 
     axios.get(`${process.env.DIRECT_URL}/api/v2/unit_pricing/${this.state.quoteId}`, {
       headers: {'Content-Type': 'application/json'},
-      params: {
-        quote_id: this.state.quoteId,
-        addon_fee_ids: this.state.addonFeeIds,
-        coupon_code: this.state.couponCode
-      }
+      quote_id: this.state.quoteId,
+      addon_fee_ids: this.state.addonFeeIds,
+      coupon_code: this.state.couponCode
     })
     .then(response =>{
       const data = response.data
