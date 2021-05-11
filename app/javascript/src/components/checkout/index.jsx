@@ -283,11 +283,14 @@ class Checkout extends React.Component {
   // ---------------------------------------------
   checkAvailability = () => {
     if (isNull(this.state.unit.room_type_id)) {
-      axios.post('/api/bookings/checkout/' + this.state.listing.id + '/availability', {
+      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.props.listing.id}/availability`, {
         headers: {'Content-Type': 'application/json'},
-        unit_id: this.state.unit.id,
-        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-        guests: this.state.guests
+        context: this,
+        params: {
+          unit_id: this.state.unit.id,
+          booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+          guests: this.state.guests
+        }
       })
       .then(response => {
         const data = response.data
