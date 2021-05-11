@@ -283,7 +283,7 @@ class Checkout extends React.Component {
   // ---------------------------------------------
   checkAvailability = () => {
     if (isNull(this.state.unit.room_type_id)) {
-      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.props.listing.id}/availability`, {
+      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.state.listing.id}/availability`, {
         headers: {'Content-Type': 'application/json'},
         context: this,
         params: {
