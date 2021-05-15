@@ -54,6 +54,7 @@ class SingleBookingToggle extends React.Component {
                 checkInDate={this.props.checkInDate}
                 checkOutDate={this.props.checkOutDate}
                 respondToDatesChange={this.props.respondToDatesChange}
+                unitID={this.props.listing.unit.id}
               />
             ) : null}
             <BookingNumGuests
