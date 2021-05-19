@@ -23,6 +23,7 @@ class BrandInfo < ApplicationRecord
   # SERIALIZE ------------------------------------
   # ----------------------------------------------
   serialize :colors, JSON
+  serialize :contact, JSON
   serialize :fonts, JSON
   serialize :social, JSON
 

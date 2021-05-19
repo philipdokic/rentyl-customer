@@ -15,4 +15,9 @@ class BrandHomePage < ApplicationRecord
 
   has_one :hero_image, as: :hero_imageable
 
+  # ----------------------------------------------
+  # SERIALIZE ------------------------------------
+  # ----------------------------------------------
+  serialize :options, JSON
+
 end
