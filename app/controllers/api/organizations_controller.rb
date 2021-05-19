@@ -81,11 +81,11 @@ class Api::OrganizationsController < ApplicationController
           if(l.unit.unit_images.length)
             l_obj[:image] = l.unit.featured_image
           elsif(l.property.property_images.length)
-            l_obj[:image] = l.property.property_images.first
+            l_obj[:image] = l.property.featured_image
           end
         else
           if(l.property.property_images.length)
-            l_obj[:image] = l.property.property_images.first
+            l_obj[:image] = l.property.featured_image
           elsif(l.unit.unit_images.length)
             l_obj[:image] = l.unit.featured_image
           end

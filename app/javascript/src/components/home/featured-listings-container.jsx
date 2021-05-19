@@ -16,10 +16,10 @@ class FeaturedListingsContainer extends React.Component {
   // Listing Image
   // ---------------------------------------------
   listingImage = listing => {
-    if (listing.image && listing.image.image.small) {
-      return listing.image.image.small.url;
-    } else if (listing.image && listing.image.image) {
-      return listing.image.image.url;
+    if (listing.image && listing.image.small) {
+      return listing.image.small;
+    } else if (listing.image) {
+      return listing.image.original;
     } else {
       return '';
     }
@@ -73,7 +73,7 @@ class FeaturedListingsContainer extends React.Component {
 
         <div className="featured-tiles">
           {this.props.brand.home.featured_listings.map(listing => (
-            <figure className="featured-tile">
+            <figure className="featured-tile" key={listing.id}>
               <Link to={`/listings/${listing.slug}`} target="_blank">
                 <div
                   className="featured-image"
