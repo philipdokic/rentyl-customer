@@ -44,15 +44,24 @@ class FeaturedListingsContainer extends React.Component {
       <section>
         <ul>
           <li>{translate(`global.unit_type.${listing.unit_type}`)}</li>
-          <li>{translate(`cx.search.num_sleep`, { num: listing.guests })}</li>
+          <li>{translate(`cx.search.num_sleep`, {
+            num: listing.guests,
+            s: listing.guests == 1 ? '' : 's'
+          })}</li>
           {listing.bedrooms ? (
             <li>
-              {translate(`cx.search.num_bedrooms`, { num: listing.bedrooms })}
+              {translate(`cx.search.num_bedrooms`, {
+                num: listing.bedrooms,
+                s: listing.bedrooms == 1 ? '' : 's'
+              })}
             </li>
           ) : null}
           {listing.bathrooms ? (
             <li>
-              {translate(`cx.search.num_bathrooms`, { num: listing.bathrooms })}
+              {translate(`cx.search.num_bathrooms`, {
+                num: listing.bathrooms,
+                s: listing.bathrooms == 1 ? '' : 's'
+              })}
             </li>
           ) : null}
         </ul>
