@@ -7,14 +7,14 @@
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow">
 <link rel="index" href="/" title="<%= @brand.name %>">
-<% unless @brand.brand_info.google_verification.blank? %>
+<% unless @brand.brand_info&.google_verification.blank? %>
   <meta name="google-site-verification" content="<%= @brand.brand_info.google_verification %>" />
 <% end %>
-<% if @brand.brand_info.favicon_image_url.present? %>
+<% if @brand.brand_info&.favicon_image_url.present? %>
   <link rel="icon" href="<%= @brand.brand_info.favicon_image_url %>" sizes="62x62" type="image/png">
 <% end %>
-<% if @brand.brand_header.meta_tags.present? %>
-  <% @brand.brand_header.meta_tags.each do |m| %>
+<% if @brand.brand_header&.meta_tags.present? %>
+  <% @brand.brand_header&.meta_tags.each do |m| %>
     <%= m.html_safe %>
   <% end %>
 <% end %>
