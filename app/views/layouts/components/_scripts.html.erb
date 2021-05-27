@@ -80,7 +80,7 @@
         BootstrapLoader.loadFiles();
       }, 1);
     <% end %>
-    <% if @brand.brand_footer.scripts.present? %>
+    <% if @brand.brand_footer.present? && @brand.brand_footer.scripts.present? %>
       setTimeout(function () {
         var ScriptLoader = new cScriptLoader(<%= raw @brand.brand_footer.scripts %>);
         ScriptLoader.loadFiles();
