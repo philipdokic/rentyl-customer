@@ -227,7 +227,7 @@ export default class Receipt extends React.Component {
             />
           )}
         </section>
-        {isStripeSuccessful && securityDepositRequired && !booking.cancelled && checkIn.isBetween(moment(), moment().add(3, 'days')) ? (
+        {isStripeSuccessful && securityDepositRequired && !booking.cancelled && this.state.charges.length === 0 && (
           <section className="payment">
             <p>
               Please enter your billing details below so we can process your
@@ -242,7 +242,7 @@ export default class Receipt extends React.Component {
             />
             <PaymentTransaction errors={[this.state.transactionError]} />
           </section>
-        ) : null}
+        )}
         <section className="information">
           <Listing
             checkInDate={checkIn}
