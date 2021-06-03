@@ -6,6 +6,7 @@ import 'react-dates/initialize'; // Needed for rendering any react-dates compone
 import get from 'lodash/get';
 import moment from 'moment';
 import Script from 'react-load-script';
+import { toast } from 'react-toastify';
 
 // Components
 // -----------------------------------------------
@@ -69,6 +70,18 @@ export default class Receipt extends React.Component {
     });
   };
 
+  // More Charges Needed
+  // ---------------------------------------------
+  moreChargesNeeded = () =>{
+    const { isStripeSuccessful, securityDepositRequired, booking, charges } = this.state;
+    if (!isStripeSuccessful) {return false}
+    if (booking.cancelled) {return false}
+    if (securityDepositRequired && charges.length > 0 && moment() > moment(booking.check_in).subtract(4, "days")) {
+      return charges.findIndex(c => c.is_security_deposit === true) === -1
+    }
+    return charges.length === 0 
+  }
+
   // Parse Time
   // ---------------------------------------------
   parseTime = time => {
@@ -127,7 +140,37 @@ export default class Receipt extends React.Component {
   // ---------------------------------------------
   handleStripeSuccess = json => {
     const token = json.id;
+    const chargeAmount = parseFloat(this.state.booking.price_total) - parseFloat(this.state.booking.price_paid)
 
+    if (chargeAmount > 0) {
+      axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_payment`, {
+        context: this,
+        data: {
+          charge_amount: chargeAmount,
+          booking_id: this.state.booking.id,
+          customer_email: this.state.customerEmail,
+          customer_name: this.state.customerName,
+          customer_telephone: this.state.customerTelephone,
+          stripe_customer_id: this.state.booking.stripeCustomerId,
+          stripe_token: token
+        }
+      })
+        .done(() => {
+          this.setState({charges:[...this.state.charges, {is_security_deposit: false}]})
+          this.state.securityDepositRequired ? this.chargeSecurityDeposit(token) : window.location = window.location;
+        })
+        .fail(data => {
+          toast.error(data.responseJSON.error);
+          window.location = window.location;
+        });
+    }else{
+      this.chargeSecurityDeposit(token)
+    }
+  }
+
+  // Charge Security Deposit
+  // ---------------------------------------------
+  chargeSecurityDeposit = token => {
     axios.post(`/api/checkout/${this.state.listing.id}/process_security_deposit`, {
       context: this,
       params: {
@@ -139,6 +182,7 @@ export default class Receipt extends React.Component {
       }
     })
     .then(response => {
+      this.setState({charges:[...this.state.charges, {is_security_deposit: true}]})
       window.location = window.location;
     })
     .catch(error => {
@@ -227,14 +271,17 @@ export default class Receipt extends React.Component {
             />
           )}
         </section>
-        {isStripeSuccessful && securityDepositRequired && !booking.cancelled && this.state.charges.length === 0 && (
+        {this.moreChargesNeeded() && (
           <section className="payment">
-            <p>
+             {securityDepositRequired ? <p>
               Please enter your billing details below so we can process your
               damage deposit authorization. This authorization works exactly the
               same way as when you check-in to a hotel, and your card will not
               be charged this amount unless there is damage to the property.
-            </p>
+            </p>:
+            <p>
+              Please enter your billing details below so we can process your reservation.
+            </p>}
             <Form
               processSecurityDeposit={this.processSecurityDeposit}
               slug={this.state.slug}
