@@ -107,10 +107,13 @@ class BookingAnchored extends React.Component {
                   checkInDate={this.props.checkInDate}
                   checkOutDate={this.props.checkOutDate}
                   respondToDatesChange={this.props.respondToDatesChange}
+                  unitID={this.props.listing.unit.id}
+                  availability_calendar={this.props.listing.availability_calendar}
                 />
               ) : null}
               <BookingNumGuests
                 guests={this.props.guests}
+                numSleep={this.props.listing.unit.num_sleep}
                 respondToGuestsChange={this.props.respondToGuestsChange}
               />
               <BookingBreakdown
@@ -150,7 +153,7 @@ class BookingAnchored extends React.Component {
               <StarContainer>
                 <Rater
                   interactive={false}
-                  rating={this.props.listing.review_average}
+                  rating={parseFloat(this.props.listing.review_average)}
                 />
               </StarContainer>
               <label>{this.props.listing.reviews.length} Reviews</label>

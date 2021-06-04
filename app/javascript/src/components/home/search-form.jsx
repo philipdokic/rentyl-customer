@@ -13,6 +13,7 @@ import PlacesAutocomplete, {
 import Script from 'react-load-script';
 import Select from 'react-select';
 import ReactI18n from 'react-i18n';
+import { withRouter } from 'react-router-dom';
 
 // Components
 // -----------------------------------------------
@@ -56,7 +57,7 @@ class SearchForm extends React.Component {
   // Search Events
   // ---------------------------------------------
   searchEvents = query => {
-    return axios.get(`/events/search?query=${query}`);
+    return axios.get(`${process.env.DIRECT_URL}/api/v2/events/search?query=${query}`);
   };
 
   // Check Required Search Fields
@@ -370,4 +371,4 @@ function mapStateToProps(state) {
 
 // Export
 // -----------------------------------------------
-export default connect(mapStateToProps)(SearchForm);
+export default withRouter(connect(mapStateToProps)(SearchForm));

@@ -44,6 +44,7 @@ export default class SearchAmenitiesFilterSidebar extends React.Component {
 
   renderAmenity = amenity => (
     <DirectCheckbox
+      key={amenity}
       name={amenity}
       checked={includes(this.state.selectedAmenities, amenity)}
       onChange={this.onAmenityClick}
@@ -86,7 +87,9 @@ export default class SearchAmenitiesFilterSidebar extends React.Component {
           root: { zIndex: this.props.open ? 10 : -1 }
         }}
         sidebar={this.renderSidebar()}
-      />
+      >
+        <div />
+      </Sidebar>
     );
   }
 }

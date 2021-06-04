@@ -1,5 +1,5 @@
 # ================================================
-# RUBY->MODEL->STRIPE-CONNECT-ACCOUNT =============
+# RUBY->MODEL->STRIPE-CONNECT-ACCOUNT ============
 # ================================================
 class StripeConnectAccount < ApplicationRecord
 

@@ -1,7 +1,8 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import { connect } from 'react-redux';
 import ReactI18n from 'react-i18n';
 import { reject, filter, sortBy, isNull } from 'lodash';
 
@@ -15,7 +16,7 @@ import PortalModal from '../../modals/portal';
 // -----------------------------------------------
 // COMPONENT->BOOKING-BREAKDOWN ------------------
 // -----------------------------------------------
-export default class BookingBreakdown extends React.Component {
+class BookingBreakdown extends React.Component {
 
   // Constructor
   // ---------------------------------------------
@@ -283,7 +284,7 @@ export default class BookingBreakdown extends React.Component {
   // Fetch Coupon Codes
   // ---------------------------------------------
   fetchCouponCodes = () => {
-    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.props.listing.id}/fetch_coupon_codes`, {
+    axios.get(`${process.env.DIRECT_URL}/api/v2/fetch_coupon_codes/${this.props.listing.id}`, {
       headers: {'Content-Type': 'application/json'},
       context: this
     })
@@ -378,3 +379,15 @@ export default class BookingBreakdown extends React.Component {
     }
   }
 }
+
+// Map State To Props
+// -----------------------------------------------
+function mapStateToProps(state) {
+  return {
+    listing: state.listing ? state.listing : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(BookingBreakdown);

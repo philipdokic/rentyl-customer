@@ -2,24 +2,11 @@
 // -----------------------------------------------
 import React from 'react';
 import { CalendarDay } from 'react-dates';
-// import moment from 'moment';
 
 // Components
 // -----------------------------------------------
 import DefaultRangePicker from './default-range-picker';
 import { WidgetCalendarDay } from './widget-date-picker-styles';
-
-// Props
-// -----------------------------------------------
-// type Props = {
-//   startDate: ?Date,
-//   endDate: ?Date,
-//   onDatesChange: () => void,
-//   isDayBlocked: (day: moment) => boolean,
-//   calendarDayStatus: (day: moment) => string,
-//   isOutsideRange: (day: moment) => boolean,
-//   label: ?string
-// };
 
 // Custom Calendar Day
 // -----------------------------------------------

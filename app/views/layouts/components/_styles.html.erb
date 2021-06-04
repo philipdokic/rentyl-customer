@@ -4,3 +4,4 @@
 <% end %>
 <%= stylesheet_link_tag 'theme-'+@brand.brand_info.theme, media: 'all' %>
 <%= render "layouts/components/brand_style" %>
+<style><%= raw @brand.brand_info.css_override %></style>

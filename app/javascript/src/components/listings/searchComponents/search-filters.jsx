@@ -33,9 +33,7 @@ const InstantBookingContainer = styled.figure`
 // COMPONENT->SEARCH-FILTERS ---------------------
 // -----------------------------------------------
 export default class SearchFilters extends React.Component {
-  // ---------------------------------------------
-  // CONSTRUCTOR ---------------------------------
-  // ---------------------------------------------
+
   constructor(props) {
     super(props);
     this.state = {

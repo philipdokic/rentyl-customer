@@ -27,7 +27,7 @@ class NavExpanded extends React.Component {
     this.state = {
       featuredListingsToggled: false,
       featuredPagesToggled: false,
-      menu: this.props.menu
+      menu: this.props.brand.menu
     };
     this.renderMenuItems = this.renderMenuItems.bind(this);
     this.unflatten = this.unflatten.bind(this);
@@ -178,13 +178,13 @@ class NavExpanded extends React.Component {
               Home
             </Link>
           </li>
-          {get(this, 'props.menu.menu_items') && (
+          {get(this, 'props.brand.menu.menu_items') && (
             <li key="1" className="expanded-pages">
               <ul>{this.renderMenuItems()}</ul>
             </li>
           )}
           <li key="2">
-            {get(this, 'props.menu.menu_items.0.slug') === gamedayMenuSlug ? (
+            {get(this, 'props.brand.menu.menu_items.0.slug') === gamedayMenuSlug ? (
               <Link
                 className="site-header-listings-link"
                 to="https://www.gamedayhousing.com/sign_up"

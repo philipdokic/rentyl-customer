@@ -19,6 +19,7 @@ class BookingDatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      bookingCalendar: this.props.availability_calendar || {},
       startDate: this.props.checkInDate || null,
       endDate: this.props.checkOutDate || null
     };
@@ -49,7 +50,7 @@ class BookingDatePicker extends React.Component {
     return (
       <div style={{ textAlign: 'center' }}>
         <WidgetDatePicker
-          bookingCalendar={this.props.availability_calendar}
+          bookingCalendar={this.state.bookingCalendar}
           organizationID={this.props.organizationID}
           unitID={this.props.unitID}
           onDatesChange={this.onDatesChange}

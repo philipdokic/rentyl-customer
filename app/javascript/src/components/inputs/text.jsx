@@ -9,39 +9,34 @@ const InputLabel = styled.label`
   text-transform: capitalize;
 `;
 
-// -----------------------------------------------
-// COMPONENT->TEXT -------------------------------
-// -----------------------------------------------
-export default class Text extends React.Component {
-
-  // Constructor
-  // ---------------------------------------------
-  constructor(props) {
-    super(props);
-  }
+// Text Input
+// ---------------------------------------------
+const TextInput = props => {
 
   // On Change
-  // ---------------------------------------------
-  onChange = e => {
+  // -------------------------------------------
+  const onChange = e => {
     props.onChange(e.target.name, e.target.value);
   };
 
-  // Render
-  // ---------------------------------------------
-  render() {
-    return (
-      <figure>
-        <InputLabel>
-          {props.name} {props.required && '(Required)'}
-        </InputLabel>
-        <input
-          type="text"
-          name={props.name}
-          placeholder={props.placeholder}
-          required={props.required}
-          onChange={e => onChange(e)}
-        />
-      </figure>
-    );
-  }
-}
+  // Return
+  // -------------------------------------------
+  return (
+    <figure>
+      <InputLabel>
+        {props.name} {props.required && '(Required)'}
+      </InputLabel>
+      <input
+        type="text"
+        name={props.name}
+        placeholder={props.placeholder}
+        required={props.required}
+        onChange={e => onChange(e)}
+      />
+    </figure>
+  );
+};
+
+// Export
+// ---------------------------------------------
+export default TextInput;

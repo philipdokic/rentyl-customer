@@ -1,26 +1,43 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
-import BedIcon from './single/bed-amenities'
+import ReactI18n from 'react-i18n';
 
+// Components
+// -----------------------------------------------
+import BedIcon from './single/bed-amenities';
+
+// -----------------------------------------------
+// COMPONENT->BEDROOM ----------------------------
+// -----------------------------------------------
 export default class Bedroom extends React.Component {
+
+  // Constructor
+  // ---------------------------------------------
   constructor(props) {
     super(props);
   }
 
+  // Get Amount Amenities
+  // ---------------------------------------------
   getAmountAmenities = () => {
     let amountTrue = 0;
+
     Object.keys(this.props.bedroom.amenities).map(amenityKey => {
       if (this.props.bedroom.amenities[amenityKey].value) {
         amountTrue++;
       }
     });
+
     return amountTrue;
   };
 
+  // Render Amenity
+  // ---------------------------------------------
   renderAmenity = amenityKey => {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
     const val = this.props.bedroom.amenities[amenityKey].value;
+
     if (val) {
       return (
         <li key={amenityKey}>
@@ -31,16 +48,21 @@ export default class Bedroom extends React.Component {
     }
   };
 
-
+  // Render Icon Container
+  // ---------------------------------------------
   renderIconContainer = amenityKey => {
     const val = this.props.bedroom.amenities[amenityKey].value;
+
     if (val) {
-    return (<>{[...Array(val)].map((i) => (< BedIcon val = { val } key = { i } type = { amenityKey } ></BedIcon >)) }</>)
+      return (<>{[...Array(val)].map((i) => (< BedIcon val={ val } key={i} type={amenityKey} ></BedIcon >)) }</>)
     }
   }
 
+  // Render
+  // ---------------------------------------------
   render() {
-    const translate = this.props.translate;
+    const translate = ReactI18n.getIntlMessage;
+
     if (this.getAmountAmenities() > 0) {
       return (
         <figure className="details-bedroom">

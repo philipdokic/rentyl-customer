@@ -16,10 +16,10 @@ class FeaturedListingsContainer extends React.Component {
   // Listing Image
   // ---------------------------------------------
   listingImage = listing => {
-    if (listing.image && listing.image.image.small) {
-      return listing.image.image.small.url;
-    } else if (listing.image && listing.image.image) {
-      return listing.image.image.url;
+    if (listing.image && listing.image.small) {
+      return listing.image.small;
+    } else if (listing.image) {
+      return listing.image.original;
     } else {
       return '';
     }
@@ -44,15 +44,24 @@ class FeaturedListingsContainer extends React.Component {
       <section>
         <ul>
           <li>{translate(`global.unit_type.${listing.unit_type}`)}</li>
-          <li>{translate(`cx.search.num_sleep`, { num: listing.guests })}</li>
+          <li>{translate(`cx.search.num_sleep`, {
+            num: listing.guests,
+            s: listing.guests == 1 ? '' : 's'
+          })}</li>
           {listing.bedrooms ? (
             <li>
-              {translate(`cx.search.num_bedrooms`, { num: listing.bedrooms })}
+              {translate(`cx.search.num_bedrooms`, {
+                num: listing.bedrooms,
+                s: listing.bedrooms == 1 ? '' : 's'
+              })}
             </li>
           ) : null}
           {listing.bathrooms ? (
             <li>
-              {translate(`cx.search.num_bathrooms`, { num: listing.bathrooms })}
+              {translate(`cx.search.num_bathrooms`, {
+                num: listing.bathrooms,
+                s: listing.bathrooms == 1 ? '' : 's'
+              })}
             </li>
           ) : null}
         </ul>
@@ -73,7 +82,7 @@ class FeaturedListingsContainer extends React.Component {
 
         <div className="featured-tiles">
           {this.props.brand.home.featured_listings.map(listing => (
-            <figure className="featured-tile">
+            <figure className="featured-tile" key={listing.id}>
               <Link to={`/listings/${listing.slug}`} target="_blank">
                 <div
                   className="featured-image"

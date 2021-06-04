@@ -21,5 +21,9 @@ module WhiteLabelTest
 
     config.middleware.use I18n::JS::Middleware
     config.i18n.default_locale = :en
+
+    config.assets.configure do |env|
+      env.export_concurrent = false
+    end
   end
 end

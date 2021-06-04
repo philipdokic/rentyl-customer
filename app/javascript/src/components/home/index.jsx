@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import 'react-dates/initialize';
+import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
@@ -12,10 +13,21 @@ import FeaturedListingsContainer from './featured-listings-container';
 import FeaturedPagesContainer from './featured-pages-container';
 import Jumbotron from './jumbotron';
 import Meta from './meta';
+import Ripple from '../miscellaneous/ripple';
 
 // Redux
 // -----------------------------------------------
 import * as brandAction from '../../redux/action/brand'
+
+// Styles
+// -----------------------------------------------
+const LoadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  width: 100%;
+`;
 
 // -----------------------------------------------
 // COMPONENT->HOME -------------------------------
@@ -36,7 +48,7 @@ class Home extends React.Component {
     document.body.classList.remove('checkout-view');
     document.body.classList.remove('listings-view');
     document.body.classList.remove('search-view');
-    this.setBrand(this.props)
+    this.setBrand(this.props);
   }
 
   // Set Brand
@@ -46,6 +58,7 @@ class Home extends React.Component {
     .then(async (response) => {
       await props.dispatch(brandAction.setHome(response.data));
       this.setState({pageLoading: false});
+      window.customJavascriptLoad();
     })
   }
 
@@ -70,11 +83,11 @@ class Home extends React.Component {
             dangerouslySetInnerHTML={this.renderHomepageContent()}
           />
           {this.props.brand.home.options.show_featured_properties == 'true' &&
-          this.props.brand.home.featured_listings.length > 0 ? (
+          this.props.brand.home.featured_listings && this.props.brand.home.featured_listings.length > 0 ? (
             <FeaturedListingsContainer />
           ) : null}
           {this.props.brand.home.options.show_featured_pages == 'true' &&
-          this.props.brand.home.featured_pages.length > 0 ? (
+          this.props.brand.home.featured_pages && this.props.brand.home.featured_pages.length > 0 ? (
             <FeaturedPagesContainer />
           ) : null}
           {this.props.brand.home.options.show_contact_form == 'true' && (
@@ -82,7 +95,13 @@ class Home extends React.Component {
           )}
         </main>
       );
-    } else { return(<div>Loading...</div>) }
+    } else {
+      return(
+        <LoadingWrapper>
+          <Ripple color="#50E3C2" />
+        </LoadingWrapper>
+      )
+    }
   }
 }
 

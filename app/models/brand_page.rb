@@ -15,4 +15,9 @@ class BrandPage < ApplicationRecord
 
   has_one :hero_image, as: :hero_imageable
 
+  # ----------------------------------------------
+  # ENUMS/CONSTANTS ------------------------------
+  # ----------------------------------------------
+  enum template: [ :default ]
+
 end

@@ -1,6 +1,7 @@
 // Dependencies
 // -----------------------------------------------
 import React from 'react';
+import axios from 'axios'
 import Dropzone from 'react-dropzone';
 import styled from 'styled-components';
 
@@ -8,7 +9,7 @@ import styled from 'styled-components';
 // -----------------------------------------------
 import displayError from '../errors/display';
 import Ripple from '../miscellaneous/ripple';
-//import { Trash } from 'cxThemeComponents/icons';
+import { Delete } from '../listings/resources/icons';
 
 // Styles
 // -----------------------------------------------
@@ -47,16 +48,15 @@ export default class IdPhotoUploader extends React.Component {
   // ---------------------------------------------
   attemptUploadFile = file_queued => {
     this.setState({ isLoaded: false, isLoading: true }, () => {
-      var formData = new FormData();
+      let formData = new FormData();
       formData.append('document', file_queued);
+      formData.append('organization_id', this.props.booking.organization_id )
 
       if (this.props.idSide) {
         formData.append('id_side', this.props.idSide);
       }
 
-      axios.post(`/id_photos`, {
-        params: formData
-      })
+      axios.post(`${process.env.DIRECT_URL}/api/v2/id_photos`, formData)
       .then(response => {
         this.setState(
           {
@@ -81,7 +81,7 @@ export default class IdPhotoUploader extends React.Component {
   // Delete ID Photo
   // ---------------------------------------------
   deleteIdPhoto = () => {
-    axios.delete(`/id_photos/${this.state.idPhoto.id}`)
+    axios.delete(`${process.env.DIRECT_URL}/api/v2/id_photos/${this.state.idPhoto.id}`)
     .then(response => {
       this.setState({ idPhoto: null }, () => {
         this.props.afterPhotoDelete && this.props.afterPhotoDelete();
@@ -109,7 +109,7 @@ export default class IdPhotoUploader extends React.Component {
             style={{ width: '100%' }}
             alt="id-photo"
           />
-          <Trash
+          <Delete
             style={{
               position: 'absolute',
               right: '8px',
@@ -132,13 +132,14 @@ export default class IdPhotoUploader extends React.Component {
           }}
           accept="image/*"
         >
-          <DropContainer>
-            <a className="button">
-              {this.props.buttonText ||
-                "Upload Photo of Driver's License or Passport"}
-            </a>
-            <p>or drag it into this box.</p>
-          </DropContainer>
+          {({getRootProps, getInputProps}) => (
+            <DropContainer>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <p>Upload Photo of Driver's License or Passport</p>
+              </div>
+            </DropContainer>
+          )}
         </Dropzone>
       );
     }

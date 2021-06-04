@@ -356,7 +356,7 @@ class CardSetupForm extends React.Component {
         })
         .catch(data => {
           console.log(data);
-          alert(data.responseJSON.error);
+          alert(data);
           window.location = window.location;
         })
       }
@@ -565,7 +565,7 @@ class CardSetupForm extends React.Component {
         {this.props.rental_agreement ? (
           <small className="ancillary">
             <span>{translate(`cx.global.book_confirm.contract`)}</span>
-            <Link to={this.props.rental_agreement.pdf.url} target="_blank">
+            <Link to={this.props.rental_agreement.short_url} target="_blank">
               {translate(`cx.global.book_confirm.contract_link`)}
             </Link>
             .

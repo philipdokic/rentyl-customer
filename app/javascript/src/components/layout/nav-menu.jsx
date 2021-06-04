@@ -21,8 +21,8 @@ class NavMenu extends React.Component {
 
     this.state = {
       toggledMenu: false,
-      menu: this.props.menu,
-      activeLinks: this.props.menu.menu_items,
+      menu: this.props.brand.menu,
+      activeLinks: this.props.brand.menu.menu_items,
       previousLinks: null
     };
     this.renderMenuItems = this.renderMenuItems.bind(this);
