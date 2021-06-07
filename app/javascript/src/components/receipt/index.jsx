@@ -103,6 +103,7 @@ export default class Receipt extends React.Component {
   // Handle Stripe Script Load
   // ---------------------------------------------
   handleStripeScriptLoad = () => {
+    const lol = this.state.stripePublishableKey
     Stripe.setPublishableKey(this.state.stripePublishableKey);
     this.setState({
       isStripeSuccessful: true,
@@ -144,8 +145,6 @@ export default class Receipt extends React.Component {
 
     if (chargeAmount > 0) {
       axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_payment`, {
-        context: this,
-        data: {
           charge_amount: chargeAmount,
           booking_id: this.state.booking.id,
           customer_email: this.state.customerEmail,
@@ -153,14 +152,13 @@ export default class Receipt extends React.Component {
           customer_telephone: this.state.customerTelephone,
           stripe_customer_id: this.state.booking.stripeCustomerId,
           stripe_token: token
-        }
       })
-        .done(() => {
+        .then(() => {
           this.setState({charges:[...this.state.charges, {is_security_deposit: false}]})
-          this.state.securityDepositRequired ? this.chargeSecurityDeposit(token) : window.location = window.location;
+          this.state.securityDepositRequired ? this.chargeSecurityDeposit(null) : window.location = window.location;
         })
-        .fail(data => {
-          toast.error(data.responseJSON.error);
+        .catch(error => {
+          toast.error(error);
           window.location = window.location;
         });
     }else{
@@ -171,15 +169,12 @@ export default class Receipt extends React.Component {
   // Charge Security Deposit
   // ---------------------------------------------
   chargeSecurityDeposit = token => {
-    axios.post(`/api/checkout/${this.state.listing.id}/process_security_deposit`, {
-      context: this,
-      params: {
+    axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_security_deposit`, {
         booking_id: this.state.booking.id,
         customer_email: this.state.customerEmail,
         customer_name: this.state.customerName,
         customer_telephone: this.state.customerTelephone,
         stripe_token: token
-      }
     })
     .then(response => {
       this.setState({charges:[...this.state.charges, {is_security_deposit: true}]})
