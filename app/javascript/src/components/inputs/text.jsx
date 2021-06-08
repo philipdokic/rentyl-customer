@@ -12,36 +12,29 @@ const InputLabel = styled.label`
 // -----------------------------------------------
 // COMPONENT->TEXT -------------------------------
 // -----------------------------------------------
-export default class Text extends React.Component {
-
-  // Constructor
-  // ---------------------------------------------
-  constructor(props) {
-    super(props);
-  }
+const Text = props => {
 
   // On Change
   // ---------------------------------------------
-  onChange = e => {
+  const onChange = e => {
     props.onChange(e.target.name, e.target.value);
   };
 
-  // Render
-  // ---------------------------------------------
-  render() {
-    return (
-      <figure>
-        <InputLabel>
-          {props.name} {props.required && '(Required)'}
-        </InputLabel>
-        <input
-          type="text"
-          name={props.name}
-          placeholder={props.placeholder}
-          required={props.required}
-          onChange={e => onChange(e)}
-        />
-      </figure>
-    );
-  }
+  return (
+    <figure>
+      <InputLabel>
+        {props.name} {props.required && '(Required)'}
+      </InputLabel>
+      <input
+        type="text"
+        name={props.name}
+        placeholder={props.placeholder}
+        required={props.required}
+        onChange={e => onChange(e)}
+      />
+    </figure>
+  );
 }
+
+
+export default Text
