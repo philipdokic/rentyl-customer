@@ -103,7 +103,6 @@ export default class Receipt extends React.Component {
   // Handle Stripe Script Load
   // ---------------------------------------------
   handleStripeScriptLoad = () => {
-    const lol = this.state.stripePublishableKey
     Stripe.setPublishableKey(this.state.stripePublishableKey);
     this.setState({
       isStripeSuccessful: true,
