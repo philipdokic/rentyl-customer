@@ -13,14 +13,14 @@ import CardSetupForm from './card-setup-form';
 let stripeToken;
 const stripePromise = props => {
   if (!stripeToken) {
-    stripeToken = loadStripe(props.stripePublishableKey);
+    stripeToken = props.stripeAccountID ? loadStripe(props.stripePublishableKey, { stripeAccount: props.stripeAccountID }) : loadStripe(props.stripePublishableKey)
   }
   return stripeToken;
 };
 
 // Stripe
 // -----------------------------------------------
-function Stripe(props) {
+const Stripe = props => {
   return (
     <Elements stripe={stripePromise(props)}>
       <CardSetupForm

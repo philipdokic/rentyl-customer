@@ -5,6 +5,7 @@ import axios from 'axios'
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import get from 'lodash/get';
 import moment from 'moment';
+import ReactI18n from 'react-i18n'
 
 // Components
 // -----------------------------------------------
@@ -45,7 +46,8 @@ export default class Payment extends React.Component {
       securityDepositRequired: null,
       verified: null,
       loading: true,
-      stripePublishableKey: '',
+      stripe_publishable_key: '',
+      stripe_account_id: '',
       chargeAmount: 0
     };
   }
@@ -103,6 +105,7 @@ export default class Payment extends React.Component {
       ? this.state.charges[0].currency
       : this.state.listing.currency;
     const guests = this.state.booking.num_guests;
+    const translate = ReactI18n.getIntlMessage;
 
     return (
       <main className="checkout-main receipt-main">
@@ -144,6 +147,7 @@ export default class Payment extends React.Component {
               stripeCustomerId={this.state.stripe_customer_id}
               stripeIntentId={this.state.stripe_intent_id}
               stripePublishableKey={this.state.stripe_publishable_key}
+              stripeAccountID={this.state.stripe_account_id}
               translate={translate}
               unit={this.state.unit}
             />
