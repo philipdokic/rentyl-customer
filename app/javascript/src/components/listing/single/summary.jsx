@@ -74,7 +74,6 @@ class Summary extends React.Component {
                 <Bedroom
                   key={bedroom.id}
                   bedroom={bedroom}
-                  translate={translate}
                 />
               ))}
             </div>
@@ -94,7 +93,6 @@ class Summary extends React.Component {
                 <Bathroom
                   key={bathroom.id}
                   bathroom={bathroom}
-                  translate={translate}
                 />
               ))}
             </div>

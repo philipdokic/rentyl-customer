@@ -26,13 +26,13 @@ class Header extends React.Component {
   // Build Home Link
   // ---------------------------------------------
   buildHomeLink() {
-    // if (this.props.logo_image.url) {
-    //   return (
-    //     <img src={this.props.logo_image.url} alt={this.props.brand.name} />
-    //   );
-    // } else {
+    if (this.props.brand.logo_image) {
+      return (
+        <img src={this.props.brand.logo_image} alt={this.props.brand.name} />
+      );
+    } else {
       return <span className="font-heading">{this.props.brand.name}</span>;
-    // }
+    }
   }
 
   // Render

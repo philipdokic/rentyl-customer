@@ -1,31 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
-  <!-- Meta Tags -->
   <%= render "layouts/components/tags" %>
-
-  <!-- Styles -->
   <%= render "layouts/components/styles" %>
-
-  <!-- Tracking Pixels -->
   <%= render "layouts/components/tracking_head" %>
 
 </head>
-<body class="cx cx-main theme-default_mixed beach-theme cx-listings_details">
+<body class="cx cx-main theme-default_mixed <%= @brand.brand_info.body_class %> cx-listings_details">
 
-  <!-- Google Tag Manager -->
   <%= render "layouts/components/google_tag_manager" %>
-
-  <!-- Content -->
-  <main>
-    <%= yield %>
-  </main>
-
-  <!-- Scripts -->
   <%= render "layouts/components/scripts" %>
-
-  <!-- Tracking Pixels -->
   <%= render "layouts/components/tracking_body" %>
 
 </body>

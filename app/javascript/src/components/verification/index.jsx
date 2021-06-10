@@ -75,7 +75,6 @@ class Verification extends React.Component {
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
-      console.log(response.data);
       this.setState(
         {
           availability: response.data.availability,
@@ -161,12 +160,9 @@ class Verification extends React.Component {
   // Submit Verification
   // ---------------------------------------------
   submitVerification = () => {
-    axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/verify/${this.state.customer.id}`, {
-      context: this,
-      params: this.postData()
-    })
+    axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/verify/${this.state.customer.id}`, this.postData() )
     .then(response => {
-      window.location = `${process.env.DIRECT_URL}/api/v2/my-bookings/receipt/${
+      window.location = `/my-bookings/receipt/${
         this.state.booking.booking_code
       }?verified=true`;
     })

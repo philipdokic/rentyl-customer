@@ -9,17 +9,18 @@ const InputLabel = styled.label`
   text-transform: capitalize;
 `;
 
-// -----------------------------------------------
-// COMPONENT->TEXT -------------------------------
-// -----------------------------------------------
-const Text = props => {
+// Text Input
+// ---------------------------------------------
+const TextInput = props => {
 
   // On Change
-  // ---------------------------------------------
+  // -------------------------------------------
   const onChange = e => {
     props.onChange(e.target.name, e.target.value);
   };
 
+  // Return
+  // -------------------------------------------
   return (
     <figure>
       <InputLabel>
@@ -34,7 +35,8 @@ const Text = props => {
       />
     </figure>
   );
-}
+};
 
-
-export default Text
+// Export
+// ---------------------------------------------
+export default TextInput;

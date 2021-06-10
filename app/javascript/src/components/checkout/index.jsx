@@ -26,6 +26,14 @@ import StripeForm from '../stripe/index';
 
 // Styles
 // -----------------------------------------------
+const LoadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  width: 100%;
+`;
+
 const ContactForm = styled.div`
   align-items: flex-start;
   box-pack: space-between;
@@ -188,6 +196,7 @@ class Checkout extends React.Component {
         },
         () => this.parseUrl()
       );
+      window.customJavascriptLoad();
     });
   };
 
@@ -274,11 +283,14 @@ class Checkout extends React.Component {
   // ---------------------------------------------
   checkAvailability = () => {
     if (isNull(this.state.unit.room_type_id)) {
-      axios.post('/api/bookings/checkout/' + this.state.listing.id + '/availability', {
+      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.state.listing.id}/availability`, {
         headers: {'Content-Type': 'application/json'},
-        unit_id: this.state.unit.id,
-        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-        guests: this.state.guests
+        context: this,
+        params: {
+          unit_id: this.state.unit.id,
+          booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+          guests: this.state.guests
+        }
       })
       .then(response => {
         const data = response.data
@@ -335,6 +347,7 @@ class Checkout extends React.Component {
   // ---------------------------------------------
   updateFees = feeId => {
     let newArray = [];
+
     if (this.state.addonFeeIds.includes(feeId)) {
       newArray = this.state.addonFeeIds.filter(id => id !== feeId);
     } else {
@@ -431,7 +444,9 @@ class Checkout extends React.Component {
 
     return (
       this.state.loading ? (
-        <Ripple color="#50E3C2" />
+        <LoadingWrapper>
+          <Ripple color="#50E3C2" />
+        </LoadingWrapper>
       ) : (
         <main className="checkout-main">
           <Notification />

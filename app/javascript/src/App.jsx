@@ -3,10 +3,7 @@
 import React from 'react'
 import axios from 'axios';
 import {connect} from 'react-redux'
-import { get } from 'lodash';
-import { Helmet } from 'react-helmet';
-import HtmlParser from 'react-html-parser';
-import { Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import styled from 'styled-components'
 
 // Components
@@ -25,6 +22,7 @@ import Payment from './components/payment/index';
 import Receipt from './components/receipt/index';
 import Review from './components/reviews/new';
 import Ripple from './components/miscellaneous/ripple';
+import ScrollToTop from './components/miscellaneous/scroll-to-top';
 import SignIn from './components/guests/sign-in';
 import SignUp from './components/guests/sign-up';
 import Verification from './components/verification/index';
@@ -41,6 +39,10 @@ const LoadingWrapper = styled.div`
   height: 100vh;
   justify-content: center;
   width: 100%;
+`;
+
+const MainWrapper = styled.main`
+  margin: 0 !important;
 `;
 
 // -----------------------------------------------
@@ -72,70 +74,39 @@ class App extends React.Component {
     })
   }
 
-  // Import Custom Tags
-  // ---------------------------------------------
-  importCustomTags = () =>
-    get(this, 'props.brand.header.meta_tags', []).map(tag =>
-      HtmlParser(tag, this.htmlParserOptions)
-    );
-
-  // Import Custom Scripts
-  // ---------------------------------------------
-  importCustomScripts = () =>
-    get(this, 'props.brand.brand_info.scripts_override') ? (
-      <script type="text/javascript">
-        {get(this, 'props.brand.brand_info.scripts_override')}
-      </script>
-    ) : null;
-
-  // Import Custom Styles
-  // ---------------------------------------------
-  importCustomStyles = () =>
-    get(this, 'props.brand.brand_info.css_override') ? (
-      <style type="text/css">
-        {get(this, 'props.brand.brand_info.css_override')}
-      </style>
-    ) : null;
-
   // Render
   // ---------------------------------------------
   render() {
     if (!this.state.isLoading) {
       return (
-        <>
-          <Helmet>
-            {this.importCustomTags()}
-            {this.importCustomScripts()}
-            {this.importCustomStyles()}
-          </Helmet>
-          <Header />
-          <main
-            className="cx-main listings_details theme-default_mixed"
-            style={this.contentStyles}
-          >
-            <Switch>
-              <Route path="/checkout/:id" component={Checkout} />
-              <Route path="/listings/search" component={Listings} />
-              <Route path="/listings/list" component={Listings} />
-              <Route path="/listings/grid" component={Listings} />
-              <Route path="/listings/map" component={Listings} />
-              <Route path="/listings/:listing_slug" component={Listing} />
-              <Redirect from="/listings" to="/listings/search" />
-              <Route path="/pages/:page_slug" component={Page} />
-              <Route path="/my-bookings/verification/:booking_code" component={Verification} />
-              <Route path="/my-bookings/new-contract/:booking_code" component={NewContract} />
-              <Route path="/my-bookings/receipt/:booking_code" component={Receipt} />
-              <Route path="/my-bookings/payment/:booking_code" component={Payment} />
-              <Route path="/my-bookings/:booking_code" component={Payment} />
-              <Route path="/reviews/new/:booking_code" component={Review} />
-              <Route path="/sign_in" component={SignIn} />
-              <Route path="/sign_up" component={SignUp} />
-              <Route exact path="/" component={Home} />
-              <Route component={NoMatch} />
-            </Switch>
+        <Router>
+          <ScrollToTop>
+            <Header />
+            <MainWrapper className="cx-main listings_details theme-default_mixed" >
+              <Switch>
+                <Route path="/checkout/:id" component={Checkout} />
+                <Route path="/listings/search" component={Listings} />
+                <Route path="/listings/list" component={Listings} />
+                <Route path="/listings/grid" component={Listings} />
+                <Route path="/listings/map" component={Listings} />
+                <Route path="/listings/:listing_slug" component={Listing} />
+                <Redirect from="/listings" to="/listings/search" />
+                <Route path="/pages/:page_slug" component={Page} />
+                <Route path="/my-bookings/verification/:booking_code" component={Verification} />
+                <Route path="/my-bookings/new-contract/:booking_code" component={NewContract} />
+                <Route path="/my-bookings/receipt/:booking_code" component={Receipt} />
+                <Route path="/my-bookings/payment/:booking_code" component={Payment} />
+                <Route path="/my-bookings/:booking_code" component={Payment} />
+                <Route path="/reviews/new/:booking_code" component={Review} />
+                <Route path="/sign_in" component={SignIn} />
+                <Route path="/sign_up" component={SignUp} />
+                <Route exact path="/" component={Home} />
+                <Route component={NoMatch} />
+              </Switch>
+            </MainWrapper>
             <Footer />
-          </main>
-        </>
+          </ScrollToTop>
+        </Router>
       )
     }
 

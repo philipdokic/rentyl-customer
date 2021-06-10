@@ -6,13 +6,28 @@ import { connect } from 'react-redux';
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import get from 'lodash/get';
 import { Helmet } from 'react-helmet';
+import styled from 'styled-components'
 
 // Components
 // -----------------------------------------------
 import ContactForm from '../forms/contact';
 import { Intercom } from '../miscellaneous/';
 import Meta from './meta';
+import Ripple from '../miscellaneous/ripple';
 
+// Styles
+// -----------------------------------------------
+const LoadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  width: 100%;
+`;
+
+// -----------------------------------------------
+// COMPONENT->PAGE -------------------------------
+// -----------------------------------------------
 class Page extends React.Component {
 
   // Constructor
@@ -23,6 +38,7 @@ class Page extends React.Component {
     this.state = {
       hero_image: null,
       page: {},
+      pageLoading: true,
       payload: {}
     };
   }
@@ -57,9 +73,11 @@ class Page extends React.Component {
     .then(response => {
       this.setState({
         hero_image: response.data.hero_image,
-        page: response.data,
+        page: response.data.page,
+        pageLoading: false,
         payload: response.data.payload
       });
+      window.customJavascriptLoad();
     })
   };
 
@@ -80,8 +98,8 @@ class Page extends React.Component {
   // Generate Hero Image
   // ---------------------------------------------
   generateHeroImage() {
-    if (this.state.hero_image && this.state.hero_image.image) {
-      return this.state.hero_image.image.url;
+    if (this.state.hero_image) {
+      return this.state.hero_image;
     } else {
       return '';
     }
@@ -100,40 +118,48 @@ class Page extends React.Component {
   render() {
     const heroImage = this.generateHeroImage();
 
-    return (
-      <>
-        <Meta page={this.state.page} />
-        <Helmet>
-          {this.getCustomScripts()}
-          {this.getCustomCss()}
-        </Helmet>
-        <main>
-          {this.state.hero_image ? (
-            <header
-              className="static-page-jumbotron"
-              style={{ backgroundImage: `url(${heroImage})` }}
-            >
-              <h1>{this.state.page.title}</h1>
-            </header>
-          ) : (
-            <header className="static-page-header">
-              <h1>{this.state.page.title}</h1>
-            </header>
-          )}
-          <article
-            className="freeform"
-            dangerouslySetInnerHTML={this.renderPageContent()}
-          />
-          {this.state.page.contact_form && (
-            <ContactForm
-              organization_id={this.state.brand.organization_id}
-              subject="General Question"
-              displayFormat={this.props.brand.date_format}
+    if(!this.state.pageLoading){
+      return (
+        <>
+          <Meta page={this.state.page} />
+          <Helmet>
+            {this.getCustomScripts()}
+            {this.getCustomCss()}
+          </Helmet>
+          <main>
+            {this.state.hero_image ? (
+              <header
+                className="static-page-jumbotron"
+                style={{ backgroundImage: `url(${heroImage})` }}
+              >
+                <h1>{this.state.page.title}</h1>
+              </header>
+            ) : (
+              <header className="static-page-header">
+                <h1>{this.state.page.title}</h1>
+              </header>
+            )}
+            <article
+              className="freeform"
+              dangerouslySetInnerHTML={this.renderPageContent()}
             />
-          )}
-        </main>
-      </>
-    );
+            {this.state.page.contact_form && (
+              <ContactForm
+                organization_id={this.props.brand.organization.id}
+                subject="General Question"
+                displayFormat={this.props.brand.date_format}
+              />
+            )}
+          </main>
+        </>
+      );
+    } else {
+      return(
+        <LoadingWrapper>
+          <Ripple color="#50E3C2" />
+        </LoadingWrapper>
+      )
+    }
   }
 }
 

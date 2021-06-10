@@ -251,7 +251,7 @@ class CardSetupForm extends React.Component {
   // ---------------------------------------------
   handleSubmit = async event => {
     event.preventDefault();
-
+    
     const { stripe, elements } = this.props;
 
     if (!stripe || !elements) {
@@ -284,27 +284,25 @@ class CardSetupForm extends React.Component {
       this.submitBtn.setAttribute('disabled', 'disabled');
       if (this.props.chargeAmount > 0) {
         axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.props.listing.id}/process_payment`, {
-          context: this,
-          params: {
-            charge_amount: parseFloat(this.props.chargeAmount),
-            booking_id: this.props.booking.id,
-            customer_email: this.state.customerEmail,
-            customer_name: this.state.customerName,
-            customer_telephone: this.state.customerTelephone,
-            stripe_token: this.props.stripeCustomerId
-          }
+          charge_amount: parseFloat(this.props.chargeAmount),
+          booking_id: this.props.booking.id,
+          customer_email: this.state.customerEmail,
+          customer_name: this.state.customerName,
+          customer_telephone: this.state.customerTelephone,
+          stripe_customer_id: this.props.stripeCustomerId,
+          stripe_token: this.props.stripeCustomerId
         })
-        .then(() => {
-          window.location = window.location;
-        })
-        .catch(data => {
-          console.log(data);
-          alert(data.responseJSON.error);
-          window.location = window.location;
-        })
+          .then(() => {
+            window.location = window.location;
+          })
+          .catch(data => {
+            console.log(data);
+            alert(data.responseJSON.error);
+            window.location = window.location;
+          })
       } else {
-        axios.post(`${process.env.DIRECT_URL}/api/v2/checkout_booking/${this.props.listing.id}`,{
-          headers: {'Content-Type': 'application/json'},
+        axios.post(`${process.env.DIRECT_URL}/api/v2/checkout_booking/${this.props.listing.id}`, {
+          headers: { 'Content-Type': 'application/json' },
           skip_quote_creation: !!this.props.quoteId,
           quote_id: this.props.quoteId,
           unit_id: this.props.unit.id,
@@ -325,40 +323,40 @@ class CardSetupForm extends React.Component {
           coupon_code: this.props.couponCode,
           room_type_booking: !isNull(this.props.unit.room_type_id)
         })
-        .then(response => {
-          const data = response.data
-          if (this.props.brand_info.google_events) {
-            gtag('event', 'purchase', {
-              transaction_id: data.booking_code,
-              affiliation: 'Direct',
-              value: this.props.pricing.total,
-              currency: 'USD',
-              tax: this.props.pricing.taxes,
-              shipping: 0
-            });
-          }
-          if (this.props.brand_info.facebook_pixel) {
-            fbq('track', 'Purchase', {
-              currency: 'USD',
-              value: this.props.pricing.total
-            });
-          }
-          if (
-            this.props.verifyImage ||
-            this.props.verifySignature ||
-            this.props.verifyAge ||
-            this.props.verifyAddress
-          ) {
-            window.location = '/my-bookings/verification/' + data.booking_code;
-          } else {
-            window.location = '/my-bookings/receipt/' + data.booking_code;
-          }
-        })
-        .catch(data => {
-          console.log(data);
-          alert(data.responseJSON.error);
-          window.location = window.location;
-        })
+          .then(response => {
+            const data = response.data
+            if (this.props.brand_info.google_events) {
+              gtag('event', 'purchase', {
+                transaction_id: data.booking_code,
+                affiliation: 'Direct',
+                value: this.props.pricing.total,
+                currency: 'USD',
+                tax: this.props.pricing.taxes,
+                shipping: 0
+              });
+            }
+            if (this.props.brand_info.facebook_pixel) {
+              fbq('track', 'Purchase', {
+                currency: 'USD',
+                value: this.props.pricing.total
+              });
+            }
+            if (
+              this.props.verifyImage ||
+              this.props.verifySignature ||
+              this.props.verifyAge ||
+              this.props.verifyAddress
+            ) {
+              window.location = '/my-bookings/verification/' + data.booking_code;
+            } else {
+              window.location = '/my-bookings/receipt/' + data.booking_code;
+            }
+          })
+          .catch(data => {
+            console.log(data);
+            alert(data);
+            window.location = window.location;
+          })
       }
     } else {
       console.log(this.state.errors);
@@ -399,21 +397,21 @@ class CardSetupForm extends React.Component {
               toggleAction={
                 this.state.toggleFill
                   ? () =>
-                      this.setState({
-                        toggleFill: false,
-                        customerEmail: '',
-                        customerName: '',
-                        customerPostalCode: '',
-                        customerTelephone: '',
-                        customerEmailValid: false,
-                        customerNameValid: false,
-                        customerPostalCodeValid: false,
-                        customerTelephoneValid: false,
-                        customerEmailError: 'empty',
-                        customerNameError: 'empty',
-                        customerPostalCodeError: 'empty',
-                        customerTelephoneError: 'empty'
-                      })
+                    this.setState({
+                      toggleFill: false,
+                      customerEmail: '',
+                      customerName: '',
+                      customerPostalCode: '',
+                      customerTelephone: '',
+                      customerEmailValid: false,
+                      customerNameValid: false,
+                      customerPostalCodeValid: false,
+                      customerTelephoneValid: false,
+                      customerEmailError: 'empty',
+                      customerNameError: 'empty',
+                      customerPostalCodeError: 'empty',
+                      customerTelephoneError: 'empty'
+                    })
                   : () => this.fillFromContact()
               }
             />
@@ -521,8 +519,7 @@ class CardSetupForm extends React.Component {
                 {guestsArray.map(guest => (
                   <option value={guest} key={guest}>
                     {translate(
-                      `global.parsers.num_guests.${
-                        guest > 1 ? 'plural' : 'single'
+                      `global.parsers.num_guests.${guest > 1 ? 'plural' : 'single'
                       }`,
                       { num: guest }
                     )}
@@ -541,7 +538,7 @@ class CardSetupForm extends React.Component {
           >
             Process Payment
           </button>
-        :
+          :
           <button
             id="card-button"
             ref={submitBtn => {
@@ -565,7 +562,7 @@ class CardSetupForm extends React.Component {
         {this.props.rental_agreement ? (
           <small className="ancillary">
             <span>{translate(`cx.global.book_confirm.contract`)}</span>
-            <Link to={this.props.rental_agreement.pdf.url} target="_blank">
+            <Link to={this.props.rental_agreement.short_url} target="_blank">
               {translate(`cx.global.book_confirm.contract_link`)}
             </Link>
             .

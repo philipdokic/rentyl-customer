@@ -40,7 +40,7 @@ class Room extends React.Component {
   constructor(props, _railsContext) {
     super(props);
     this.state = {
-      availability: null,
+      availability: this.props.listing.availability_calendar,
       bookingType: null,
       checkInDate: null,
       checkOutDate: null,
@@ -66,6 +66,7 @@ class Room extends React.Component {
       const element = document.getElementById(id);
       element.scrollIntoView();
     }
+    window.customJavascriptLoad();
   }
 
   // Parse Query

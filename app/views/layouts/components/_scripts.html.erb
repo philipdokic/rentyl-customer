@@ -1,20 +1,100 @@
-<%= javascript_include_tag('application') %>
-
-<script type="text/javascript">
-  I18n.defaultLocale = "<%= I18n.default_locale %>";
-  I18n.locale = "<%= I18n.locale %>";
-</script>
-
 <%= javascript_pack_tag('index', defer: true) %>
 
-<% if @brand.brand_info.bootstrap4? %>
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous" defer></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous" defer></script>
-<% end %>
+<script type="text/javascript">
+  // Javascript Loader
+  var cScriptLoader = (function () {
+    function cScriptLoader(files)
+    {
+        var _this = this;
+        this.withNoCache = function (filename)
+        {
+            if (filename.indexOf("?") === -1)
+                filename += "?no_cache=" + new Date().getTime();
+            else
+                filename += "&no_cache=" + new Date().getTime();
+            return filename;
+        };
+        this.loadScript = function (i)
+        {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = _this.withNoCache(_this.m_js_files[i]);
+            var loadNextScript = function ()
+            {
+                if (i + 1 < _this.m_js_files.length) {
+                  _this.loadScript(i + 1);
+                } else {
+                  window.inlineJavascriptLoad();
+                }
+            };
+            script.onload = function ()
+            {
+                loadNextScript();
+            };
+            script.onerror = function ()
+            {
+                loadNextScript();
+            };
+            _this.m_head.appendChild(script);
+        };
+        this.loadFiles = function ()
+        {
+            // this.log(this.m_css_files);
+            // this.log(this.m_js_files);
+            for (var i = 0; i < _this.m_css_files.length; ++i)
+                _this.loadStyle(_this.m_css_files[i]);
+            _this.loadScript(0);
+        };
+        this.m_js_files = [];
+        this.m_css_files = [];
+        this.m_head = document.getElementsByTagName("head")[0];
+        // this.m_head = document.head; // IE9+ only
+        function endsWith(str, suffix)
+        {
+            if (str === null || suffix === null)
+                return false;
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+        for (var i = 0; i < files.length; ++i)
+        {
+            if (endsWith(files[i], ".css"))
+            {
+                this.m_css_files.push(files[i]);
+            }
+            else if (endsWith(files[i], ".js"))
+            {
+                this.m_js_files.push(files[i]);
+            }
+            else
+                this.log('Error unknown filetype "' + files[i] + '".');
+        }
+    }
+    return cScriptLoader;
+  })();
 
-<% if @brand.brand_footer.scripts.present? %>
-  <% @brand.brand_footer.scripts.each do |url| %>
-    <script src="<%= url %>" defer></script>
-  <% end %>
-<% end %>
+  // Load External Javascripts
+  function customJavascriptLoad() {
+    <% if @brand.brand_info.bootstrap4? %>
+      setTimeout(function () {
+        var BootstrapLoader = new cScriptLoader(["https://code.jquery.com/jquery-1.12.4.min.js", "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"]);
+        BootstrapLoader.loadFiles();
+      }, 1);
+    <% end %>
+    <% if @brand.brand_footer.present? && @brand.brand_footer.scripts.present? %>
+      setTimeout(function () {
+        var ScriptLoader = new cScriptLoader(<%= raw @brand.brand_footer.scripts %>);
+        ScriptLoader.loadFiles();
+      }, 5);
+    <% end %>
+  }
+
+  // Load Internal Javascripts
+  function inlineJavascriptLoad() {
+    I18n.defaultLocale = "<%= I18n.default_locale %>";
+    I18n.locale = "<%= I18n.locale %>";
+
+    <% if @brand.brand_info.scripts_override.present? %>
+      <%= raw @brand.brand_info.scripts_override %>
+    <% end %>
+  }
+</script>

@@ -15,7 +15,7 @@ class Meta extends React.Component {
     return (
       <Helmet>
         <title>{`Search | ${this.props.brand.name}`}</title>
-        <link rel="canonical" href={`${this.props.brand.canonical}/listings/search`} />
+        <link rel="canonical" href={`/listings/search`} />
         <meta name="description" content={`Search, filter, and book vacation rentals by ${this.props.brand.name}.`} />
         <meta itemprop="name" content={this.props.brand.name} />
         <meta itemprop="description" content={`Search, filter, and book vacation rentals by ${this.props.brand.name}.`} />

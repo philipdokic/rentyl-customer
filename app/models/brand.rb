@@ -21,6 +21,7 @@ class Brand < ApplicationRecord
   has_many :bookings, through: :unit_listings
   has_many :units, -> { distinct }, through: :unit_listings
   has_many :properties, -> { distinct }, through: :units
+  has_many :legacy_redirects
   has_many :menus
   has_one :brand_footer
   has_one :brand_header
