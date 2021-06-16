@@ -78,7 +78,7 @@ class SignIn extends React.Component {
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
-      this.setState({ user: response.user });
+      this.setState({ user: response.data.user });
     })
     .catch(error => {
       this.setState({ error: error });
