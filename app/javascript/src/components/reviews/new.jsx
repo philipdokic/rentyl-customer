@@ -70,7 +70,7 @@ export default class Review extends React.Component {
   // ---------------------------------------------
   onSubmit = () => {
     this.setState({ loading: true, incomplete: true });
-    axios.post(`/${get(this, 'props.match.params.booking_code')}/reviews/create`, {
+    axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/${this.props.match.params.booking_code}/reviews/create`, {
       rating: this.state.rating,
       title: this.state.title,
       body: this.state.body
