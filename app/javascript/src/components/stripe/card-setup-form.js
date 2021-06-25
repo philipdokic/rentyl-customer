@@ -298,7 +298,7 @@ class CardSetupForm extends React.Component {
           })
           .catch(data => {
             console.log(data);
-            alert(data.responseJSON.error);
+            toast.error(data.responseJSON.error);
             window.location = window.location;
           })
       } else {

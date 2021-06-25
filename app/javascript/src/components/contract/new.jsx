@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import moment from 'moment';
 import ReactI18n from 'react-i18n';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 // Components
 // -----------------------------------------------
@@ -136,7 +137,7 @@ class NewContract extends React.Component {
         }?verified=true`;
       })
       .catch(error => {
-        alert(error);
+        toast.error(error);
         console.log(error);
       })
     }
@@ -163,7 +164,7 @@ class NewContract extends React.Component {
       }?verified=true`;
     })
     .catch(error => {
-      alert(error);
+      toast.error(error);
       console.log(error);
     })
   };
