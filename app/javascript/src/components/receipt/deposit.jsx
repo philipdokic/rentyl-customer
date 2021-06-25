@@ -2,8 +2,9 @@
 // -----------------------------------------------
 import React from 'react';
 import ReactI18n from 'react-i18n';
+import { Link } from 'react-router-dom';
 
-const Deposit = ({ currency, amount }) => {
+const Deposit = ({ currency, amount, bookingCode }) => {
 
     const translate = ReactI18n.getIntlMessage;
 
@@ -20,6 +21,11 @@ const Deposit = ({ currency, amount }) => {
                     value: parseFloat(amount).toFixed(2)
                   })}
                 </td>
+              </tr>
+              <tr>
+                <Link to={`/my-bookings/payment/${bookingCode}`}>
+                  <button className="button">Pay Now</button>
+                </Link>
               </tr>
             </tbody>
           </table>

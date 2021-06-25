@@ -323,6 +323,7 @@ export default class Payment extends React.Component {
             <Deposit
               amount={this.state.securityDeposit.calculation_amount}
               currency={currency}
+              bookingCode={this.state.booking.booking_code}
             />
           }
         </section>
