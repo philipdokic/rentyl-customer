@@ -5,16 +5,13 @@ import axios from 'axios'
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import get from 'lodash/get';
 import moment from 'moment';
-import Script from 'react-load-script';
-import { toast } from 'react-toastify';
+import ReactI18n from "react-i18n";
 
 // Components
 // -----------------------------------------------
 import Deposit from './deposit';
-import Form from './form';
 import Listing from './listing';
-import PaymentTransaction from '../errors/payment-transaction';
-import Pricing from './pricing';
+import Pricing from '../payment/pricing';
 import PropertyManager from './property-manager';
 import Stay from './stay';
 
@@ -70,18 +67,6 @@ export default class Receipt extends React.Component {
     });
   };
 
-  // More Charges Needed
-  // ---------------------------------------------
-  moreChargesNeeded = () =>{
-    const { isStripeSuccessful, securityDepositRequired, booking, charges } = this.state;
-    if (!isStripeSuccessful) {return false}
-    if (booking.cancelled) {return false}
-    if (securityDepositRequired && charges.length > 0 && moment() > moment(booking.check_in).subtract(4, "days")) {
-      return charges.findIndex(c => c.is_security_deposit === true) === -1
-    }
-    return charges.length === 0 
-  }
-
   // Parse Time
   // ---------------------------------------------
   parseTime = time => {
@@ -90,132 +75,6 @@ export default class Receipt extends React.Component {
       return t.format('h:mm a');
     }
     return null;
-  };
-
-  // Handle Stripe Script Error
-  // ---------------------------------------------
-  handleStripeScriptError = () => {
-    this.setState({
-      isStripeSuccessful: false,
-    });
-  };
-
-  // Handle Stripe Script Load
-  // ---------------------------------------------
-  handleStripeScriptLoad = () => {
-    Stripe.setPublishableKey(this.state.stripePublishableKey);
-    this.setState({
-      isStripeSuccessful: true,
-    });
-    this.render();
-    console.log('Stripe:',Stripe);
-  };
-
-  // Create Stripe Token
-  // ---------------------------------------------
-  createStripeToken = () => {
-    Stripe.card.createToken(
-      {
-        number: this.state.cardNumber,
-        cvc: this.state.cardCvv,
-        name: this.state.customerName,
-        exp: this.state.cardExpiry,
-        address_zip: this.state.customerPostalCode || 'invalid',
-      },
-      this.handleStripeCallback,
-    );
-  };
-
-  // Handle Stripe Callback
-  // ---------------------------------------------
-  handleStripeCallback = (statusCode, json) => {
-    if (statusCode === 200) {
-      this.handleStripeSuccess(json);
-    } else {
-      this.handleStripeFailure(json);
-    }
-  };
-
-  // Create Stripe Success
-  // ---------------------------------------------
-  handleStripeSuccess = json => {
-    const token = json.id;
-    const chargeAmount = parseFloat(this.state.booking.price_total) - parseFloat(this.state.booking.price_paid)
-
-    if (chargeAmount > 0) {
-      axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_payment`, {
-          charge_amount: chargeAmount,
-          booking_id: this.state.booking.id,
-          customer_email: this.state.customerEmail,
-          customer_name: this.state.customerName,
-          customer_telephone: this.state.customerTelephone,
-          stripe_customer_id: this.state.booking.stripeCustomerId,
-          stripe_token: token
-      })
-        .then(() => {
-          this.setState({charges:[...this.state.charges, {is_security_deposit: false}]})
-          this.state.securityDepositRequired ? this.chargeSecurityDeposit(null) : window.location = window.location;
-        })
-        .catch(error => {
-          toast.error(error);
-          window.location = window.location;
-        });
-    }else{
-      this.chargeSecurityDeposit(token)
-    }
-  }
-
-  // Charge Security Deposit
-  // ---------------------------------------------
-  chargeSecurityDeposit = token => {
-    axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_security_deposit`, {
-        booking_id: this.state.booking.id,
-        customer_email: this.state.customerEmail,
-        customer_name: this.state.customerName,
-        customer_telephone: this.state.customerTelephone,
-        stripe_token: token
-    })
-    .then(response => {
-      this.setState({charges:[...this.state.charges, {is_security_deposit: true}]})
-      window.location = window.location;
-    })
-    .catch(error => {
-      console.warn(error);
-    })
-  };
-
-  // Handle Stripe Failure
-  // ---------------------------------------------
-  handleStripeFailure = ({ error }) => {
-    console.error(error);
-    this.setState({ transactionError: error });
-  };
-
-  // Process Security Deposit
-  // ---------------------------------------------
-  processSecurityDeposit = (
-    cardNumber,
-    cardExpiry,
-    cardCvv,
-    customerEmail,
-    customerName,
-    customerPostalCode,
-    customerTelephone,
-  ) => {
-    this.setState(
-      {
-        cardNumber: cardNumber.replace(' ', ''),
-        cardExpiry,
-        cardCvv: cardCvv.replace(' ', ''),
-        customerEmail,
-        customerName,
-        customerPostalCode,
-        customerTelephone,
-      },
-      () => {
-        this.createStripeToken();
-      },
-    );
   };
 
   // Render
@@ -235,17 +94,10 @@ export default class Receipt extends React.Component {
       ? this.state.charges[0].currency
       : this.state.listing.currency;
     const guests = this.state.booking.num_guests;
-
-    const { isStripeSuccessful, securityDepositRequired } = this.state;
-    const { booking } = this.state;
+    const translate = ReactI18n.getIntlMessage;
 
     return (
       <main className="checkout-main receipt-main">
-        <Script
-          url="https://js.stripe.com/v2/"
-          onError={this.handleStripeScriptError}
-          onLoad={this.handleStripeScriptLoad}
-        />
         <section className="payment">
           <Stay
             booking={this.state.booking}
@@ -265,25 +117,6 @@ export default class Receipt extends React.Component {
             />
           )}
         </section>
-        {this.moreChargesNeeded() && (
-          <section className="payment">
-             {securityDepositRequired ? <p>
-              Please enter your billing details below so we can process your
-              damage deposit authorization. This authorization works exactly the
-              same way as when you check-in to a hotel, and your card will not
-              be charged this amount unless there is damage to the property.
-            </p>:
-            <p>
-              Please enter your billing details below so we can process your reservation.
-            </p>}
-            <Form
-              processSecurityDeposit={this.processSecurityDeposit}
-              slug={this.state.slug}
-              rental_agreement={this.state.rental_agreement}
-            />
-            <PaymentTransaction errors={[this.state.transactionError]} />
-          </section>
-        )}
         <section className="information">
           <Listing
             checkInDate={checkIn}
@@ -296,25 +129,21 @@ export default class Receipt extends React.Component {
             slug={this.state.slug}
             unit={this.state.unit}
           />
-          {this.state.isStripeSuccessful &&
-          this.state.securityDepositRequired &&
-          this.state.securityDeposit != null ? (
+          <Pricing
+            booking={this.state.booking}
+            charges={this.state.charges}
+            nights={this.state.nights}
+            pricing={this.state.pricing}
+            currency={currency}
+            translate={translate}
+          />
+         {this.state.securityDepositRequired &&
+          this.state.securityDeposit && 
             <Deposit
               amount={this.state.securityDeposit.calculation_amount}
               currency={currency}
             />
-          ) : (
-            <Pricing
-              booking={this.state.booking}
-              charges={this.state.charges}
-              currency={currency}
-            />
-          )}
-          { this.state.standardContractUrl && (
-            <div>
-              <a href={this.state.standardContractUrl} className="button">Review your Terms and Conditions</a>
-            </div>
-          )}
+          }
         </section>
       </main>
     );

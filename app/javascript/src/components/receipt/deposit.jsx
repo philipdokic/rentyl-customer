@@ -3,14 +3,8 @@
 import React from 'react';
 import ReactI18n from 'react-i18n';
 
-// -----------------------------------------------
-// COMPONENT->DEPOSIT ----------------------------
-// -----------------------------------------------
-export default class Deposit extends React.Component {
+const Deposit = ({ currency, amount }) => {
 
-  // Render
-  // ---------------------------------------------
-  render() {
     const translate = ReactI18n.getIntlMessage;
 
     return (
@@ -22,8 +16,8 @@ export default class Deposit extends React.Component {
               <tr className="total">
                 <td>Security Deposit Amount</td>
                 <td>
-                  {translate(`global.parsers.currency.${this.props.currency}`, {
-                    value: parseFloat( this.props.amount ).toFixed(2)
+                  {translate(`global.parsers.currency.${currency}`, {
+                    value: parseFloat(amount).toFixed(2)
                   })}
                 </td>
               </tr>
@@ -33,4 +27,5 @@ export default class Deposit extends React.Component {
       </section>
     );
   }
-}
+
+export default Deposit

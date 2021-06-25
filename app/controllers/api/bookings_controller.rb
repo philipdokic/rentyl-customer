@@ -131,8 +131,8 @@ class Api::BookingsController < ApplicationController
   def set_stripe_publishable_key
     connected_trust_acct = @listing.unit&.portfolio&.stripe_connect_account&.connected? ? @listing.unit&.portfolio&.stripe_connect_account : nil
     stripe_account = connected_trust_acct || @listing.organization&.default_stripe_connect_account
-    Stripe.api_key = stripe_account&.access_token || ENV['STRIPE_SECRET_KEY']
-    Stripe.api_version = ENV['STRIPE_API_VERSION']
+    Stripe.api_key = stripe_account&.access_token || ENV['STRIPE_SECRET_KEY'] ## do we ever want to use our api key here? I don't think so because we always want the PMC as the MOR
+    # Stripe.api_version = ENV['STRIPE_API_VERSION'] if Rails.env.development? ## why is this only for development?
     @stripe_publishable_key = stripe_account&.stripe_publishable_key || ENV['STRIPE_PUBLISHABLE_KEY']
   end
 
