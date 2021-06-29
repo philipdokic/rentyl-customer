@@ -318,9 +318,9 @@ class SearchFilters extends React.Component {
     );
   };
 
-  getAmenities = (AmenitiesList) => {
+  getAmenities = (amenitiesList) => {
     const { brand: { settings: { amenities_filter } } } = this.props;
-    return pickBy(AmenitiesList, (_value, key) => amenities_filter[key]);
+    return pickBy(amenitiesList, (_value, key) => amenities_filter[key]);
   }
 
   render() {
