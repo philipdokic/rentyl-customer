@@ -6,8 +6,9 @@ import "react-dates/initialize"; // Needed for rendering any react-dates compone
 import get from "lodash/get";
 import moment from "moment";
 import ReactI18n from "react-i18n";
-import Script from 'react-load-script';
-import { toast } from 'react-toastify';
+import Script from "react-load-script";
+import { toast } from "react-toastify";
+import { Redirect } from 'react-router-dom';
 
 // Components
 // -----------------------------------------------
@@ -15,8 +16,8 @@ import Listing from "./listing";
 import Pricing from "./pricing";
 import PaymentTransaction from "../errors/payment-transaction";
 import StripeForm from "../stripe/index";
-import Form from './form';
-import Deposit from '../receipt/deposit';
+import Form from "./form";
+import Deposit from "../receipt/deposit";
 
 // -----------------------------------------------
 // COMPONENT->PAYMENT ----------------------------
@@ -53,6 +54,7 @@ export default class Payment extends React.Component {
       stripe_publishable_key: "",
       stripe_account_id: "",
       chargeAmount: 0,
+      isSubmitted: false
     };
   }
 
@@ -70,13 +72,8 @@ export default class Payment extends React.Component {
         .post(
           `${process.env.DIRECT_URL}/api/v2/my-bookings/payment/${props.match.params.booking_code}`
         )
-        .then((response) => {
-          console.log(response.data);
-          this.setState({ loading: false, ...response.data });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        .then((response) => this.setState({ loading: false, ...response.data }))
+        .catch((error) => toast.error(`error loading page ${error}`));
     });
   };
 
@@ -99,7 +96,8 @@ export default class Payment extends React.Component {
   // More Charges Needed
   // ---------------------------------------------
   moreChargesNeeded = () => {
-    const { isStripeSuccessful, securityDepositRequired, booking, charges } = this.state;
+    const { isStripeSuccessful, securityDepositRequired, booking, charges } =
+      this.state;
     if (!isStripeSuccessful) {
       return false;
     }
@@ -114,6 +112,88 @@ export default class Payment extends React.Component {
       return charges.findIndex((c) => c.is_security_deposit === true) === -1;
     }
     return charges.length === 0;
+  };
+
+  // Create Stripe Token
+  // ---------------------------------------------
+  createStripeToken = () => {
+    Stripe.card.createToken(
+      {
+        number: this.state.cardNumber,
+        cvc: this.state.cardCvv,
+        name: this.state.customerName,
+        exp: this.state.cardExpiry,
+        address_zip: this.state.customerPostalCode || "invalid",
+      },
+      this.handleStripeCallback
+    );
+  };
+
+  // Handle Stripe Script Error
+  // ---------------------------------------------
+  handleStripeScriptError = () => {
+    this.setState({
+      isStripeSuccessful: false,
+    });
+  };
+
+  // Handle Stripe Script Load
+  // ---------------------------------------------
+  handleStripeScriptLoad = () => {
+    Stripe.setPublishableKey(this.state.stripe_publishable_key);
+    this.setState({
+      isStripeSuccessful: true,
+      loading: false,
+    });
+  };
+
+  // Charge Security Deposit
+  // ---------------------------------------------
+  chargeSecurityDeposit = (token) => {
+    axios
+      .post(
+        `${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_security_deposit`,
+        {
+          booking_id: this.state.booking.id,
+          customer_email: this.state.customerEmail,
+          customer_name: this.state.customerName,
+          customer_telephone: this.state.customerTelephone,
+          stripe_token: token,
+        }
+      )
+      .then((response) => {
+        this.setState({
+          charges: [...this.state.charges, { is_security_deposit: true }],
+          isSubmitted: true
+        });
+      })
+      .catch((error) => {
+        return toast.error(`unable to process security deposit ${error}`)
+      });
+  };
+
+  // Handle Stripe Failure
+  // ---------------------------------------------
+  handleStripeFailure = ({ error }) => {
+    console.error(error);
+    this.setState({ transactionError: error });
+  };
+
+  // Handle Stripe Callback
+  // ---------------------------------------------
+  handleStripeCallback = (statusCode, json) => {
+    if (statusCode === 200) {
+      this.handleStripeSuccess(json);
+    } else {
+      this.handleStripeFailure(json);
+    }
+  };
+
+  // Create Stripe Success
+  // ---------------------------------------------
+  handleStripeSuccess = (json) => {
+    const token = json.id;
+    this.chargeSecurityDeposit(token);
   };
 
   // Process Security Deposit
@@ -143,151 +223,27 @@ export default class Payment extends React.Component {
     );
   };
 
-  // Create Stripe Token
-  // ---------------------------------------------
-  createStripeToken = () => {
-    Stripe.card.createToken(
-      {
-        number: this.state.cardNumber,
-        cvc: this.state.cardCvv,
-        name: this.state.customerName,
-        exp: this.state.cardExpiry,
-        address_zip: this.state.customerPostalCode || "invalid",
-      },
-      this.handleStripeCallback
-    );
-  };
-
-    // Handle Stripe Script Error
-  // ---------------------------------------------
-  handleStripeScriptError = () => {
-    this.setState({
-      isStripeSuccessful: false,
-    });
-  };
-
-  // Handle Stripe Script Load
-  // ---------------------------------------------
-  handleStripeScriptLoad = () => {
-    Stripe.setPublishableKey(this.state.stripePublishableKey);
-    this.setState({
-      isStripeSuccessful: true,
-    });
-    this.render();
-    console.log('Stripe:',Stripe);
-  };
-
-
-  // Charge Security Deposit
-  // ---------------------------------------------
-  chargeSecurityDeposit = token => {
-    axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_security_deposit`, {
-        booking_id: this.state.booking.id,
-        customer_email: this.state.customerEmail,
-        customer_name: this.state.customerName,
-        customer_telephone: this.state.customerTelephone,
-        stripe_token: token
-    })
-    .then(response => {
-      this.setState({charges:[...this.state.charges, {is_security_deposit: true}]})
-      window.location = window.location;
-    })
-    .catch(error => {
-      console.warn(error);
-    })
-  };
-
-  // Handle Stripe Failure
-  // ---------------------------------------------
-  handleStripeFailure = ({ error }) => {
-    console.error(error);
-    this.setState({ transactionError: error });
-  };
-
-  // Handle Stripe Callback
-  // ---------------------------------------------
-  handleStripeCallback = (statusCode, json) => {
-    if (statusCode === 200) {
-      this.handleStripeSuccess(json);
-    } else {
-      this.handleStripeFailure(json);
-    }
-  };
-
-  // Create Stripe Success
-  // ---------------------------------------------
-  handleStripeSuccess = json => {
-    const token = json.id;
-    const chargeAmount = parseFloat(this.state.booking.price_total) - parseFloat(this.state.booking.price_paid)
-
-    if (chargeAmount > 0) {
-      axios.post(`${process.env.DIRECT_URL}/api/v2/listings/${this.state.listing.id}/process_payment`, {
-          charge_amount: chargeAmount,
-          booking_id: this.state.booking.id,
-          customer_email: this.state.customerEmail,
-          customer_name: this.state.customerName,
-          customer_telephone: this.state.customerTelephone,
-          stripe_customer_id: this.state.booking.stripeCustomerId,
-          stripe_token: token
-      })
-        .then(() => {
-          this.setState({charges:[...this.state.charges, {is_security_deposit: false}]})
-          this.state.securityDepositRequired ? this.chargeSecurityDeposit(null) : window.location = window.location;
-        })
-        .catch(error => {
-          toast.error(error);
-          window.location = window.location;
-        });
-    }else{
-      this.chargeSecurityDeposit(token)
-    }
-  }
-
-  // Process Security Deposit
-  // ---------------------------------------------
-  processSecurityDeposit = (
-    cardNumber,
-    cardExpiry,
-    cardCvv,
-    customerEmail,
-    customerName,
-    customerPostalCode,
-    customerTelephone,
-  ) => {
-    this.setState(
-      {
-        cardNumber: cardNumber.replace(' ', ''),
-        cardExpiry,
-        cardCvv: cardCvv.replace(' ', ''),
-        customerEmail,
-        customerName,
-        customerPostalCode,
-        customerTelephone,
-      },
-      () => {
-        this.createStripeToken();
-      },
-    );
-  };
-
   // Render
   // ---------------------------------------------
   render() {
     if (this.state.loading) return null;
-    const bookingLength = this.state.booking.booking_range.length - 1;
     const checkIn = moment(this.state.booking.check_in, "YYYY-MM-DD");
     const checkOut = moment(this.state.booking.check_out, "YYYY-MM-DD");
-    const checkInTime = this.parseTime(
-      this.state.availability.default_time_check_in
-    );
-    const checkOutTime = this.parseTime(
-      this.state.availability.default_time_check_out
-    );
     const currency = this.state.charges[0]
       ? this.state.charges[0].currency
       : this.state.listing.currency;
     const guests = this.state.booking.num_guests;
     const translate = ReactI18n.getIntlMessage;
+
+    if (this.state.isSubmitted) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/my-bookings/receipt/${this.state.booking.booking_code}`,
+          }}
+        />
+      );
+    }
 
     return (
       <main className="checkout-main receipt-main">
@@ -298,35 +254,36 @@ export default class Payment extends React.Component {
         />
         {this.getChargeAmount() === (0).toFixed(2) ? (
           <section className="payment">
-          <Listing
-            checkInDate={checkIn}
-            checkOutDate={checkOut}
-            featured_image={this.state.featured_image}
-            guests={guests}
-            listing={this.state.listing}
-            location={this.state.location}
-            property={this.state.property}
-            slug={this.state.slug}
-            unit={this.state.unit}
-          />
-          <Pricing
-            booking={this.state.booking}
-            charges={this.state.charges}
-            nights={this.state.nights}
-            pricing={this.state.pricing}
-            currency={currency}
-            translate={translate}
-          />
-         {this.state.isStripeSuccessful &&
-          this.state.securityDepositRequired &&
-          this.state.securityDeposit && 
-            <Deposit
-              amount={this.state.securityDeposit.calculation_amount}
-              currency={currency}
-              bookingCode={this.state.booking.booking_code}
+            <Listing
+              checkInDate={checkIn}
+              checkOutDate={checkOut}
+              featured_image={this.state.featured_image}
+              guests={guests}
+              listing={this.state.listing}
+              location={this.state.location}
+              property={this.state.property}
+              slug={this.state.slug}
+              unit={this.state.unit}
             />
-          }
-        </section>
+            <Pricing
+              booking={this.state.booking}
+              charges={this.state.charges}
+              nights={this.state.nights}
+              pricing={this.state.pricing}
+              currency={currency}
+              translate={translate}
+            />
+            {this.state.isStripeSuccessful &&
+              this.state.securityDepositRequired &&
+              this.state.securityDeposit && (
+                <Deposit
+                amount={this.state.securityDeposit.calculation_amount}
+                currency={currency}
+                bookingCode={this.state.booking.booking_code}
+                moreChargesNeeded={this.moreChargesNeeded()}
+                />
+              )}
+          </section>
         ) : (
           <section className="payment">
             <p>

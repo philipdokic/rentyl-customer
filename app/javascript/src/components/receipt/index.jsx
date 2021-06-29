@@ -77,6 +77,20 @@ export default class Receipt extends React.Component {
     return null;
   };
 
+  // More Charges Needed
+  // ---------------------------------------------
+  moreChargesNeeded = () => {
+    const { securityDepositRequired, booking, charges } =
+      this.state;
+    if (
+      securityDepositRequired &&
+      moment() > moment(booking.check_in).subtract(4, "days")
+    ) {
+      return charges.findIndex((c) => c.is_security_deposit === true) === -1;
+    }
+    return charges.length === 0;
+  };
+
   // Render
   // ---------------------------------------------
   render() {
@@ -140,9 +154,10 @@ export default class Receipt extends React.Component {
          {this.state.securityDepositRequired &&
           this.state.securityDeposit && 
             <Deposit
-              amount={this.state.securityDeposit.calculation_amount}
-              currency={currency}
-              bookingCode={this.state.booking.booking_code}
+            amount={this.state.securityDeposit.calculation_amount}
+            currency={currency}
+            bookingCode={this.state.booking.booking_code}
+            moreChargesNeeded={this.moreChargesNeeded()}
             />
           }
         </section>
