@@ -6,11 +6,12 @@ import { isInclusivelyAfterDay, isInclusivelyBeforeDay } from 'react-dates';
 import DefaultRangePicker from '../../date-picker/default-range-picker';
 import MediaQuery from 'react-responsive';
 import { Range } from 'rc-slider';
-import { get, times } from 'lodash';
+import { get, times, pickBy } from 'lodash';
 import styled from 'styled-components';
 import Popover from './popover';
 import SearchAmenitiesFilterSidebar from './search-amenities-filter-sidebar';
 import amenitiesList from '../resources/amenities_list.json';
+import { connect } from 'react-redux';
 
 // Components
 // -----------------------------------------------
@@ -32,7 +33,7 @@ const InstantBookingContainer = styled.figure`
 // -----------------------------------------------
 // COMPONENT->SEARCH-FILTERS ---------------------
 // -----------------------------------------------
-export default class SearchFilters extends React.Component {
+class SearchFilters extends React.Component {
 
   constructor(props) {
     super(props);
@@ -317,6 +318,11 @@ export default class SearchFilters extends React.Component {
     );
   };
 
+  getAmenities = (amenitiesList) => {
+    const { brand: { settings: { amenities_filter } } } = this.props;
+    return pickBy(amenitiesList, (_value, key) => amenities_filter[key]);
+  }
+
   render() {
     const translate = this.props.translate;
     return (
@@ -324,7 +330,7 @@ export default class SearchFilters extends React.Component {
         <SearchAmenitiesFilterSidebar
           toggleSideBarOpen={this.toggleSideBarOpen}
           open={this.state.sideBarOpen}
-          amenitiesList={amenitiesList}
+          amenitiesList={this.getAmenities(amenitiesList)}
           setAmenities={(amenities, simpleList) =>
             this.props.updateFilter('amenities', amenities, simpleList)
           }
@@ -374,3 +380,11 @@ export default class SearchFilters extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    brand: state.brand ? state.brand : {}
+  };
+}
+
+export default connect(mapStateToProps)(SearchFilters)
