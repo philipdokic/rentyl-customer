@@ -48,7 +48,7 @@ class FeaturedAmenities extends React.Component {
         iconClass: 'parking-icon'
       },
       {
-        name: 'AMENITIES_INTERNET',
+        name: 'AMENITIES_WIRELESS_INTERNET',
         label: 'WiFi',
         iconClass: 'wifi-icon'
       },

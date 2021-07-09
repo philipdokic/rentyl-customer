@@ -159,7 +159,7 @@
     {
       "model": "Unit",
       "column": "features_amenities",
-      "property": "AMENITIES_INTERNET",
+      "property": "AMENITIES_WIRELESS_INTERNET",
       "label": "Internet"
     }
   ],
