@@ -37,6 +37,7 @@ class Api::OrganizationsController < ApplicationController
     build_featured_listing_models
     @homepage = @brand.brand_home_page
     render json:{
+      cities: @brand.city_options,
       featured_listings: @featured_listings,
       featured_pages: @brand.featured_page_content,
       homepage: @homepage,
