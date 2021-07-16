@@ -27,14 +27,25 @@ class PropertyImage < ApplicationRecord
     property_id = self.property.id.to_s.last(6)
     property_id = property_id.sub!(/^[0]+/,'')
 
-    return {
-      original: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/#{self.image}",
-      xlarge: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/xlarge_#{self.image}",
-      large: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/large_#{self.image}",
-      medium: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/medium_#{self.image}",
-      small: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/small_#{self.image}",
-      tiny: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/tiny_#{self.image}"
-    }
+    if self.created_at > "October 1, 2020"
+      return {
+        original: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{self.property.id}/unit_image/image/#{self.id}/#{self.image}",
+        xlarge: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{self.property.id}/unit_image/image/#{self.id}/xlarge_#{self.image}",
+        large: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{self.property.id}/unit_image/image/#{self.id}/large_#{self.image}",
+        medium: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{self.property.id}/unit_image/image/#{self.id}/medium_#{self.image}",
+        small: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{self.property.id}/unit_image/image/#{self.id}/small_#{self.image}",
+        tiny: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{self.property.id}/unit_image/image/#{self.id}/tiny_#{self.image}"
+      }
+    else
+      return {
+        original: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{property_id}/unit_image/image/#{image_id}/#{self.image}",
+        xlarge: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{property_id}/unit_image/image/#{image_id}/xlarge_#{self.image}",
+        large: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{property_id}/unit_image/image/#{image_id}/large_#{self.image}",
+        medium: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{property_id}/unit_image/image/#{image_id}/medium_#{self.image}",
+        small: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{property_id}/unit_image/image/#{image_id}/small_#{self.image}",
+        tiny: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/unit/#{property_id}/unit_image/image/#{image_id}/tiny_#{self.image}"
+      }
+    end
   end
 
 end
