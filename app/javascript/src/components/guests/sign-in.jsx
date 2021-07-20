@@ -9,6 +9,7 @@ import 'react-dates/initialize'; // Needed for rendering any react-dates compone
 // Components
 // -----------------------------------------------
 import { EmailForm, FlashMessage, PasswordForm } from '../forms';
+import { KeyBindingUtil } from 'draft-js';
 
 // Styles
 // -----------------------------------------------
@@ -101,7 +102,7 @@ class SignIn extends React.Component {
 
     axios.post(`${process.env.DIRECT_URL}/api/v2/sessions`, sessionParams)
     .then(response => {
-      window.location.href = response.redirect_url;
+      window.location.href = response.data.redirect_url;
     })
     .catch(error => {
       this.setState({ error: error });
