@@ -129,6 +129,8 @@ class Api::BookingsController < ApplicationController
   # SET-STRIPE-PUBLISHABLE-KEY -------------------
   # ----------------------------------------------
   def set_stripe_publishable_key
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    Stripe.api_version = ENV['STRIPE_API_VERSION']
     @stripe_publishable_key = ENV['STRIPE_PUBLISHABLE_KEY']
   end
 
