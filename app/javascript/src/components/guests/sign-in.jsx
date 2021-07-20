@@ -9,8 +9,6 @@ import 'react-dates/initialize'; // Needed for rendering any react-dates compone
 // Components
 // -----------------------------------------------
 import { EmailForm, FlashMessage, PasswordForm } from '../forms';
-import { KeyBindingUtil } from 'draft-js';
-
 // Styles
 // -----------------------------------------------
 const CreationContainer = styled.div`
