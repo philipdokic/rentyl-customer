@@ -10,7 +10,7 @@ import 'react-dates/initialize'; // Needed for rendering any react-dates compone
 import { isInclusivelyBeforeDay } from 'react-dates';
 import styled from 'styled-components';
 
-// import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazyload';
 
 // Components
 // -----------------------------------------------
