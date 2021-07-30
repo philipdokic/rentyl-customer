@@ -91,7 +91,16 @@ class Api::ListingsController < ApplicationController
     @brand.unit_listings.includes(unit: [:reviews]).where(unit: @units).find_each do |l|
       u = l.unit
       u_obj = {}
-      u_obj['images'] = u.unit_images
+      unit_images = u.unit_images
+      unit_images_url = []
+      unit_images.each do |ul|
+        ul_obj = {}
+        ul_obj[:url] = ul.unit_image_urls
+        ul_obj[:label] = ul.label
+        unit_images_url.push(ul_obj)
+      end
+      unit_images_urls = unit_images_url
+      u_obj['images'] = unit_images_urls
       u_obj['listing'] = l
       u_obj['average_default_nightly_price'] = u.unit_pricing.average_default_nightly_price
       u_obj['unit'] = u
