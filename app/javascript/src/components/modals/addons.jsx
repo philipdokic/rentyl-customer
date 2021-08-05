@@ -5,7 +5,7 @@ import ReactI18n from 'react-i18n'
 
 // Components
 // -----------------------------------------------
-import Indicator from '../toggle/indicator';
+import InputIncrementer from '../miscellaneous/input-incrementer';
 
 // -----------------------------------------------
 // COMPONENT->ADD-ONS ----------------------------
@@ -52,7 +52,7 @@ export default class AddOns extends React.Component {
           <img
             alt="addons"
             src={
-              fee.fee_account
+              fee.fee_account.fee_image
                 ? `${fee.fee_account.fee_image}`
                 : 'https://via.placeholder.com/360x240'
             }
@@ -68,41 +68,40 @@ export default class AddOns extends React.Component {
             <span>{fee.description}</span>
           </figure>
         ) : null}
-        <div>
-          <div
-            style={{
-              minWidth: '84px',
-              verticalAlign: 'middle',
-              textAlign: 'center',
-              fontSize: '24px',
-              fontWeight: '400'
-            }}
-          >
-            {translate(`global.parsers.currency.${this.props.currency}`, {
-              value: parseFloat(fee.value).toFixed(2)
-            })}
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
-            }}
-          >
-            <h4>How many?</h4>
-            <Indicator
-              name="quantity"
-              min="0"
-              max={fee.fee_account.fee_quantity_max}
-              value={this.state.quantity}
-              callbackIncrement={value => this.props.updateQuantity(value)}
-              callbackDecrement={value => this.props.updateQuantity(value)}
-              symbolContainerStyles={{ height: '47px', width: '35px' }}
-              symbolStyles={{ lineHeight: '45px' }}
-              inputStyles={{ width: '100%' }}
-              inputContainerStyles={{ width: '50%' }}
-            />
-          </div>
+        <div
+          style={{
+            minWidth: '84px',
+            verticalAlign: 'middle',
+            textAlign: 'center',
+            fontSize: '24px',
+            fontWeight: '400'
+          }}
+        >
+          {translate(`global.parsers.currency.${this.props.currency}`, {
+            value: parseFloat(fee.value).toFixed(2)
+          })}
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%'
+          }}
+        >
+          <h4>How many?</h4>
+          <InputIncrementer
+            name="quantity"
+            min="0"
+            max={fee.fee_account.fee_quantity_max.toString()}
+            value={this.state.quantity}
+            callbackIncrement={value => this.props.updateQuantity(value)}
+            callbackDecrement={value => this.props.updateQuantity(value)}
+            symbolContainerStyles={{ height: '47px' }}
+            symbolStyles={{ height: '45px', lineHeight: '45px' }}
+            inputStyles={{ width: '100%' }}
+            inputContainerStyles={{ width: '100%' }}
+          />
         </div>
       </div>
     );
