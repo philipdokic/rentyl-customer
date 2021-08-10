@@ -78,7 +78,7 @@ class SignIn extends React.Component {
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
-      this.setState({ user: response.user });
+      this.setState({ user: response.data.user });
     })
     .catch(error => {
       this.setState({ error: error });
@@ -101,7 +101,7 @@ class SignIn extends React.Component {
 
     axios.post(`${process.env.DIRECT_URL}/api/v2/sessions`, sessionParams)
     .then(response => {
-      window.location.href = response.redirect_url;
+      window.location.href = response.data.redirect_url;
     })
     .catch(error => {
       this.setState({ error: error });
