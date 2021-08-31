@@ -63,6 +63,12 @@ const DetailsReview = props => {
         </ReviewStarContainer>
       </ReviewHeader>
       <div dangerouslySetInnerHTML={{ __html: props.review.body }} />
+        {props.review.response && <>
+        <ReviewerInfo>
+          <h4>The Manager Replied</h4>
+        </ReviewerInfo>
+          <div>{props.review.response}</div>
+        </>}
     </ReviewContainer>
   );
 };

@@ -382,9 +382,11 @@ class Checkout extends React.Component {
 
     axios.get(`${process.env.DIRECT_URL}/api/v2/unit_pricing/${this.state.quoteId}`, {
       headers: {'Content-Type': 'application/json'},
-      quote_id: this.state.quoteId,
-      addon_fee_ids: this.state.addonFeeIds,
-      coupon_code: this.state.couponCode
+      params: {
+        quote_id: this.state.quoteId,
+        addon_fee_ids: this.state.addonFeeIds,
+        coupon_code: this.state.couponCode
+      }
     })
     .then(response =>{
       const data = response.data
@@ -454,7 +456,7 @@ class Checkout extends React.Component {
           this.state.availability.bookable &&
           this.state.pricing ? (
             <section className="payment">
-              {addonFees.length > 0 && (
+              {sortedAddonFees.length > 0 && (
                 <div className="addons-title">Extra Add-Ons</div>
               )}
               {sortedAddonFees.map((fee, index) =>
@@ -467,7 +469,7 @@ class Checkout extends React.Component {
                           <div
                             className="addons-image"
                             style={
-                              fee.fee_account
+                              fee.fee_account.fee_image
                                 ? {
                                     backgroundImage: `url(${
                                       fee.fee_account.fee_image

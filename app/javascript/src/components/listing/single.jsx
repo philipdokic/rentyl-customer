@@ -317,7 +317,7 @@ class Single extends React.Component {
             <Summary />
             <Rules pricing={this.state.pricing} />
             <div id='review-section'/>
-            {this.props.property_manager && (
+            {this.props.listing.property_manager && (
               <Owner />
             )}
             {this.props.listing.reviews && this.props.listing.reviews.length > 0 ? (

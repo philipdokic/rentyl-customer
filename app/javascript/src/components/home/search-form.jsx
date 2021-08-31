@@ -240,7 +240,7 @@ class SearchForm extends React.Component {
     return (
       <Select
         name="city"
-        options={this.props.brand.cities}
+        options={this.props.brand.home.cities}
         className="city-dropdown"
         isClearable={false}
         isSearchable={false}

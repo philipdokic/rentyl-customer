@@ -10,7 +10,7 @@ import 'react-dates/initialize'; // Needed for rendering any react-dates compone
 import { isInclusivelyBeforeDay } from 'react-dates';
 import styled from 'styled-components';
 
-// import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazyload';
 
 // Components
 // -----------------------------------------------
@@ -213,7 +213,7 @@ class Multi extends React.Component {
   getAvailabilities = () => {
     let availabilities = {};
 
-    this.props.units.map(unit => {
+    this.props.listing.units.map(unit => {
       var p = this.getAvailability(unit.listing.id, unit.unit.id);
       p.then(data => {
         availabilities[unit.unit.id] = data;
@@ -252,7 +252,7 @@ class Multi extends React.Component {
   getPricings = () => {
     let pricings = {};
 
-    this.props.units.map(unit => {
+    this.props.listing.units.map(unit => {
       var p = this.getPricing(unit.listing.id);
       p.then(data => {
         pricings[unit.unit.id] = data;

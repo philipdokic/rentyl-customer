@@ -13,6 +13,7 @@ import ReactI18n from 'react-i18n';
 import Listing from '../receipt/listing';
 import Pricing from '../receipt/pricing';
 import CustomerVerification from './customer';
+import { toast } from 'react-toastify';
 
 // -----------------------------------------------
 // COMPONENT->VERIFICATION -----------------------
@@ -143,7 +144,7 @@ class Verification extends React.Component {
         }?verified=true`;
       })
       .catch(error => {
-        alert(error);
+        toast.error(error);
         console.log(error);
       })
     }
@@ -167,7 +168,7 @@ class Verification extends React.Component {
       }?verified=true`;
     })
     .catch(error => {
-      alert(error);
+      toast.error(error);
       console.log(error);
     })
   };

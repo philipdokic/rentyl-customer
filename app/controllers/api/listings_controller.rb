@@ -52,6 +52,7 @@ class Api::ListingsController < ApplicationController
       room_type: @listing.is_room_type,
       unit: @listing.unit,
       property: @listing.property,
+      units: @listing.property.is_multi_unit? ? build_unit_listings_for_details_multi : [],
       property_manager: @listing.property.get_manager,
       property_images: @property_images,
       location: @listing.property.location,
@@ -64,7 +65,9 @@ class Api::ListingsController < ApplicationController
       availability_calendar: @listing.unit.unit_availability.cx_availability_calendar,
       booking_calendar: @listing.unit.unit_availability.booking_calendar,
       default_availability_changeover: @listing.unit.unit_availability.default_availability_changeover,
-      average_default_nightly_price: @listing.unit_pricing.average_default_nightly_price
+      average_default_nightly_price: @listing.unit_pricing.average_default_nightly_price,
+      refund_policy: @listing.refund_policy,
+      refund_policy_custom: @listing.refund_policy_custom
     }
   end
 
@@ -79,4 +82,49 @@ class Api::ListingsController < ApplicationController
     render json: coupon_codes.as_json
   end
 
+  private
+
+  def build_unit_listings_for_details_multi
+    @units = @listing.property.units
+    @units_infos = []
+    @reviews = []
+    @review_average = 0
+    reviews_average_array = []
+    @brand.unit_listings.includes(unit: [:reviews]).where(unit: @units).find_each do |l|
+      u = l.unit
+      u_obj = {}
+      unit_images = u.unit_images
+      unit_images_url = []
+      unit_images.each do |ul|
+        ul_obj = {}
+        ul_obj[:url] = ul.unit_image_urls
+        ul_obj[:label] = ul.label
+        unit_images_url.push(ul_obj)
+      end
+      unit_images_urls = unit_images_url
+      u_obj['images'] = unit_images_urls
+      u_obj['listing'] = l
+      u_obj['average_default_nightly_price'] = u.unit_pricing.average_default_nightly_price
+      u_obj['unit'] = u
+      u_obj['unit_avaiilability'] = u.unit_availability
+      u_obj['availability_calendar'] = u.unit_availability.cx_availability_calendar
+      u_obj['booking_calendar'] = u.unit_availability.booking_calendar
+      u_obj['default_availability_changeover'] = u.unit_availability.default_availability_changeover
+      u_obj['bedrooms'] = u.bedrooms
+      u_obj['bathrooms'] = u.bathrooms
+      reviews = u.reviews.with_status("published").order(reviewed_date: :asc)
+
+      if reviews.any?
+        @reviews += reviews
+        reviews_average_array.push(reviews.average(:rating))
+      end
+
+      @units_infos.push(u_obj)
+    end
+
+    if @reviews.any?
+      @review_average = reviews_average_array.inject(&:+).to_f / reviews_average_array.size
+    end
+    return @units_infos
+  end
 end

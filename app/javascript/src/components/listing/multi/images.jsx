@@ -17,9 +17,9 @@ class Images extends React.Component {
     for (let i = 0; i < this.props.listing.property_images.length; i++) {
       const image = this.props.listing.property_images[i];
       let image_obj = {};
-      image_obj['src'] = image.url;
-      image_obj['src_xl'] = image.url;
-      image_obj['thumbnail'] = image.url;
+      image_obj['src'] = image.url['original'];
+      image_obj['src_xl'] = image.url['large'];
+      image_obj['thumbnail'] = image.url['tiny'];
       image_obj['caption'] = image.label;
       images.push(image_obj);
     }

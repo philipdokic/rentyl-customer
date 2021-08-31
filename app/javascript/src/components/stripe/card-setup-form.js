@@ -26,6 +26,7 @@ import {
 import ErrorsPaymentCustomer from '../errors/payment-customer';
 import Indicator from '../toggle/indicator';
 import Link from '../links/link';
+import { toast } from 'react-toastify';
 
 // Styles
 // -----------------------------------------------
@@ -297,7 +298,7 @@ class CardSetupForm extends React.Component {
           })
           .catch(data => {
             console.log(data);
-            alert(data.responseJSON.error);
+            toast.error(data.responseJSON.error);
             window.location = window.location;
           })
       } else {
@@ -354,8 +355,7 @@ class CardSetupForm extends React.Component {
           })
           .catch(data => {
             console.log(data);
-            alert(data);
-            window.location = window.location;
+            toast.error('booking could not be processed, try again later');
           })
       }
     } else {

@@ -22,10 +22,10 @@ class PropertyImage < ApplicationRecord
   # ----------------------------------------------
   def property_image_urls
     image_id = self.id.to_s.last(6)
-    image_id = image_id.sub!(/^[0]+/,'')
+    image_id = image_id.to_i.to_s
 
     property_id = self.property.id.to_s.last(6)
-    property_id = property_id.sub!(/^[0]+/,'')
+    property_id = property_id.to_i.to_s
 
     return {
       original: "https://versailles.s3.amazonaws.com/production/tenant/#{self.property.organization.subdomain}/property/#{property_id}/property_image/image/#{image_id}/#{self.image}",

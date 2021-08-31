@@ -483,6 +483,12 @@ section.tiles {
     padding: $em-xs 0;
     margin-bottom: $em-xs;
     transition: border-color $transition-short;
+
+    @media screen and (max-width: 480px) {
+      align-items: start;
+      flex-direction: column;
+    }
+
     b {
       font-weight: 900;
     }

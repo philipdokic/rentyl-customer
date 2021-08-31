@@ -274,7 +274,7 @@ $valid-background: #EEF9F1;
     tr td:last-child {
       font-weight: 600;
     }
-    tr:not(.remaining):not(.total) {
+    tr:not(.remaining):not(.total):not(.line-item) {
       td:last-child {
         color: $color-green;
       }
@@ -288,6 +288,11 @@ $valid-background: #EEF9F1;
     tr.total {
       td {
         font-weight: 600;
+      }
+    }
+    tr.line-item {
+      td {
+        font-weight: 400;
       }
     }
   }

@@ -82,6 +82,47 @@ class Brand < ApplicationRecord
   end
 
   # ----------------------------------------------
+  # CUSTOMER-CITY-OPTIONS ------------------------
+  # ----------------------------------------------
+  def custom_city_options
+    JSON.parse(brand_home_page.options['location_search_options'])&.map do |location|
+      {
+        label: location['name'],
+        value: location['query_string']
+      }
+    end
+  end
+
+  # ----------------------------------------------
+  # DEFAULT-CITY-OPTIONS -------------------------
+  # ----------------------------------------------
+  def default_city_options
+    locations_info = active_property_locations
+                       .pluck(:adr_city, :adr_state)
+                       .map { |location| [location[0].strip, location[1].strip] }
+                       .uniq
+                       .sort_by { |location| [location[1], location[0]] }
+
+    locations_info.map do |location_info|
+      info_string = "#{location_info[0]}, #{location_info[1]}"
+      {
+        label: info_string,
+        value: info_string
+      }
+    end
+  end
+
+  # ----------------------------------------------
+  # ACTIVE-PROPERTY-LOCATIONS --------------------
+  # ----------------------------------------------
+  def active_property_locations
+    Location.where(
+      locationable_id: properties.where(active: true).pluck(:id),
+      locationable_type: 'Property'
+    )
+  end
+
+  # ----------------------------------------------
   # HOME-SEARCH-TYPE -----------------------------
   # ----------------------------------------------
   def home_search_type

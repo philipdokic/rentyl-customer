@@ -16,6 +16,7 @@ import Indicator from '../toggle/indicator'
 // -----------------------------------------------
 const AddOns = (props) => {
   const translate = ReactI18n.getIntlMessage
+  console.log(props.temp_fees)
   const renderAddOns = () => {
     const currency = props.currency;
     const addonFees = filter(props.temp_fees, ['is_addon', 'true']);
@@ -33,7 +34,7 @@ const AddOns = (props) => {
                 <div
                   className="addons-image"
                   style={
-                    fee.fee_account
+                    fee.fee_account.fee_image != null
                       ? {
                         backgroundImage: `url(${fee.fee_account.fee_image})`
                       }

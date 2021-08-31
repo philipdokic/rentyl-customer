@@ -101,7 +101,7 @@ class SignIn extends React.Component {
 
     axios.post(`${process.env.DIRECT_URL}/api/v2/sessions`, sessionParams)
     .then(response => {
-      window.location.href = response.redirect_url;
+      window.location.href = response.data.redirect_url;
     })
     .catch(error => {
       this.setState({ error: error });
