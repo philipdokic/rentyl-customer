@@ -385,7 +385,10 @@ class Checkout extends React.Component {
       params: {
         quote_id: this.state.quoteId,
         addon_fee_ids: this.state.addonFeeIds,
-        coupon_code: this.state.couponCode
+        coupon_code: this.state.couponCode,
+        listing_id: this.state.listing.id,
+        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+        num_guests: guests
       }
     })
     .then(response =>{
