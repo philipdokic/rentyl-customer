@@ -730,6 +730,7 @@ en:
         unconfirmed: "The property manager has not yet confirmed your booking request."
         verified: "Your booking has been verified."
       cc_info: "%{brand} ending in %{last_4}"
+      payment_info: "payed with %{payment_method}"
       check_in: "Check-in"
       check_out: "Check-out"
       guests: "Guests"
