@@ -63,6 +63,15 @@ const DetailsReview = props => {
         </ReviewStarContainer>
       </ReviewHeader>
       <div dangerouslySetInnerHTML={{ __html: props.review.body }} />
+        {props.review.response && <>
+        <ReviewerInfo>
+          <h4>The Manager Replied</h4>
+          <p>{moment(props.review.responded_at).format(
+              get(props, 'displayFormat') === 'DD/MM/YYYY' ? 'D/M/YY' : 'M/D/YY')}
+          </p> 
+        </ReviewerInfo>
+          <div>{props.review.response}</div>
+        </>}
     </ReviewContainer>
   );
 };
