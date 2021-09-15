@@ -82,6 +82,7 @@ export default class Receipt extends React.Component {
   moreChargesNeeded = () => {
     const { securityDepositRequired, booking, charges } =
       this.state;
+    if (!booking.confirmed || booking.cancelled) {return false}
     if (
       securityDepositRequired &&
       moment() > moment(booking.check_in).subtract(4, "days")

@@ -98,10 +98,7 @@ export default class Payment extends React.Component {
   moreChargesNeeded = () => {
     const { isStripeSuccessful, securityDepositRequired, booking, charges } =
       this.state;
-    if (!isStripeSuccessful) {
-      return false;
-    }
-    if (booking.cancelled) {
+    if (!isStripeSuccessful || booking.cancelled || !booking.confirmed) {
       return false;
     }
     if (
