@@ -220,6 +220,13 @@ export default class Payment extends React.Component {
     );
   };
 
+  within48HoursOfCheckIn = () => {
+    const checkIn = moment(this.state.booking.check_in, "YYYY-MM-DD");
+    const rightNow = moment();
+    const duration = moment.duration(rightNow.diff(checkIn));
+    return Math.abs(duration.asHours()) <= 48;
+  }
+
   // Render
   // ---------------------------------------------
   render() {
@@ -272,7 +279,8 @@ export default class Payment extends React.Component {
             />
             {this.state.isStripeSuccessful &&
               this.state.securityDepositRequired &&
-              this.state.securityDeposit && (
+              this.state.securityDeposit && 
+              this.within48HoursOfCheckIn() && (
                 <Deposit
                 amount={this.state.securityDeposit.calculation_amount}
                 currency={currency}
@@ -312,8 +320,8 @@ export default class Payment extends React.Component {
             <PaymentTransaction errors={[this.state.transactionError]} />
           </section>
         )}
-        <section className="payement">
-          {this.moreChargesNeeded() && (
+        <section className="payment">
+          {this.moreChargesNeeded() && this.within48HoursOfCheckIn() && (
             <section className="payment">
               {this.state.securityDepositRequired ? (
                 <p>
