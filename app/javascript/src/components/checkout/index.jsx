@@ -461,12 +461,14 @@ class Checkout extends React.Component {
             <section className="payment">
               {sortedAddonFees.length > 0 && (
                 <div className="addons-title">Extra Add-Ons</div>
-              )}
+                  )}
+                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {sortedAddonFees.map((fee, index) =>
-                fee.fee_account.quantity_fee && this.props.brand.organization.add_on_images ? (
+                fee.fee_account.quantity_fee &&
+                this.props.brand.organization.add_on_images ? (
                   <PortalModal
                     header={`${fee.name}`}
-                    openByClickOn={openPortal => (
+                    openByClickOn={(openPortal) => (
                       <div className="addons-wrapper">
                         <div className="addons-item" onClick={openPortal}>
                           <div
@@ -474,12 +476,10 @@ class Checkout extends React.Component {
                             style={
                               fee.fee_account.fee_image
                                 ? {
-                                    backgroundImage: `url(${
-                                      fee.fee_account.fee_image
-                                    })`
+                                    backgroundImage: `url(${fee.fee_account.fee_image})`,
                                   }
                                 : {
-                                    backgroundImage: `url('https://via.placeholder.com/360x240')`
+                                    backgroundImage: `url('https://via.placeholder.com/360x240')`,
                                   }
                             }
                           />
@@ -490,11 +490,11 @@ class Checkout extends React.Component {
                       </div>
                     )}
                     disableCloseOnOutsideClick
-                    modalStyles={{ width: '30%', height: '80%' }}
-                    submitAction={closePortal => (
-                      <div style={{ textAlign: 'center', marginTop: '5%' }}>
+                    modalStyles={{ width: "30%", height: "80%" }}
+                    submitAction={(closePortal) => (
+                      <div style={{ textAlign: "center", marginTop: "5%" }}>
                         <a
-                          className={'button'}
+                          className={"button"}
                           onClick={() => this.submitFees(fee, closePortal)}
                         >
                           Submit
@@ -527,6 +527,7 @@ class Checkout extends React.Component {
                   addonFeeIds={this.state.addonFeeIds}
                 />
               ) : null}
+            </div>
               <ContactForm>
                 <header>Contact Information</header>
                 <FormGroup>
