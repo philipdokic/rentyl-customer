@@ -463,7 +463,7 @@ class Checkout extends React.Component {
                 <div className="addons-title">Extra Add-Ons</div>
               )}
               {sortedAddonFees.map((fee, index) =>
-                fee.fee_account.quantity_fee ? (
+                fee.fee_account.quantity_fee && this.props.brand.organization.add_on_images ? (
                   <PortalModal
                     header={`${fee.name}`}
                     openByClickOn={openPortal => (
