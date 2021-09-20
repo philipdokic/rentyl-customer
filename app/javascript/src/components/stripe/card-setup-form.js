@@ -304,8 +304,6 @@ class CardSetupForm extends React.Component {
       } else {
         axios.post(`${process.env.DIRECT_URL}/api/v2/checkout_booking/${this.props.listing.id}`, {
           headers: { 'Content-Type': 'application/json' },
-          skip_quote_creation: !!this.props.quoteId,
-          quote_id: this.props.quoteId,
           unit_id: this.props.unit.id,
           booking_range: JSON.stringify(this.props.bookingDaysInclusive),
           check_in: this.props.checkInDate.format('DD-MM-YYYY'),
