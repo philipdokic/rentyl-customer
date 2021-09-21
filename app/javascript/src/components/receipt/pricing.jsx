@@ -28,10 +28,11 @@ export default class InfoPricing extends React.Component {
               )}
             </div>
             <small>
-              {translate(`cx.receipt.cc_info`, {
-                brand: charge.cc_brand,
-                last_4: charge.cc_last_4
-              })}
+            {charge.charge_type.includes('card') ? translate(`cx.receipt.cc_info`, {
+              brand: charge.cc_brand,
+              last_4: charge.cc_last_4
+            }) : translate(`cx.receipt.payment_info`, { payment_method: charge.charge_type })
+            }
             </small>
           </td>
           <td>
