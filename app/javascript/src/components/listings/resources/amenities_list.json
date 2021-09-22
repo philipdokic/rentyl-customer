@@ -115,7 +115,7 @@
       "label": "Heated pool"
     }
   ],
-  "Pool": [
+  "Community Pool": [
     {
       "model": "Unit",
       "column": "features_spa",
