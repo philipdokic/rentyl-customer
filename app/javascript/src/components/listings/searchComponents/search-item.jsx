@@ -89,7 +89,8 @@ const SearchItem = props => {
     const { currency, listings } = { ...props.result };
     return (
         <>
-          <div>
+          {' '}
+          <span>
             |{' '}
             From
             {' '}
@@ -100,9 +101,11 @@ const SearchItem = props => {
                     'bookable_nightly_price_before_promotion'
                   ]
                 )
-              })}{' '}
+              })}
             </span>
-          </div>
+          </span>
+          {' '}
+          {' '}
           <span>
             {translate(`global.parsers.currency.${currency}`, {
               value: Math.round(
