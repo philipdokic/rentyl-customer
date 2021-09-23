@@ -54,7 +54,6 @@ const SearchItem = props => {
 
   const renderPrice = () => {
     const { currency, bookable_nightly_price, listings } = { ...props.result };
-    // save price values, refactor 
     if (listings) {
       const promoPriceHigherThanBase = listings[0]['bookable_nightly_price'] < listings[0]['bookable_nightly_price_before_promotion'];
       return promoPriceHigherThanBase ? 
