@@ -2,7 +2,7 @@
 // -----------------------------------------------
 import React from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
 import 'react-dates/initialize'; // Needed for rendering any react-dates components
 import { isInclusivelyBeforeDay } from 'react-dates';
 import moment from 'moment';
@@ -64,7 +64,6 @@ const FormGroup = styled.fieldset`
 // COMPONENT->CHECKOUT ---------------------------
 // -----------------------------------------------
 class Checkout extends React.Component {
-
   // Constructor
   // ---------------------------------------------
   constructor(props) {
@@ -112,7 +111,7 @@ class Checkout extends React.Component {
       quantity: 0,
       couponCode: '',
       allCouponCodes: null,
-      badCode: false
+      badCode: false,
     };
   }
 
@@ -128,7 +127,7 @@ class Checkout extends React.Component {
 
   // Update Quantity
   // ---------------------------------------------
-  updateQuantity = value => {
+  updateQuantity = (value) => {
     this.setState({ quantity: value });
   };
 
@@ -141,7 +140,7 @@ class Checkout extends React.Component {
 
   // Verify Coupon Code
   // ---------------------------------------------
-  verifyCouponCode = closePortal => {
+  verifyCouponCode = (closePortal) => {
     if (isNull(this.state.allCouponCodes)) {
       this.setState({ badCode: true });
     } else if (this.state.allCouponCodes.includes(this.state.couponCode)) {
@@ -154,50 +153,51 @@ class Checkout extends React.Component {
 
   // Fetch Booking Info
   // ---------------------------------------------
-  fetchBookingInfo = props => {
+  fetchBookingInfo = (props) => {
     const parsedQuery = queryString.parse(location.search);
     const { couponCode, guests } = parsedQuery;
     const parsedDates = this.parseCheckInCheckOut();
 
     this.setState({ couponCode });
-    axios.post(`/api/bookings/checkout/${this.props.match.params.id}`,
-      {headers: {'Content-Type': 'application/json'},
-      check_in: parsedDates.check_in,
-      check_out: parsedDates.check_out,
-      num_guests: guests
-    })
-    .then(response => {
-      const data = response.data
-      this.setState(
-        {
-          brandCurrency: data.brand_currency,
-          checkoutTotal: data.checkout_total,
-          contractTermsAndConditions: data.contract_terms_and_conditions,
-          deposits: data.deposits,
-          featuredImage: data.featured_image,
-          fees: data.fees,
-          listing: data.listing,
-          obfuscatedAddress: data.obfuscated_address,
-          property: data.property,
-          quoteIdFromDb: data.quote_id,
-          rentalAgreement: data.rental_agreement,
-          requiredAge: data.required_age,
-          slug: data.slug,
-          stripePublishableKey: data.stripe_publishable_key,
-          stripeCustomerId: data.stripe_customer_id,
-          stripeIntentId: data.stripe_intent_id,
-          unit: data.unit,
-          verifyAddress: data.verify_address,
-          verifyAge: data.verify_age,
-          verifyImage: data.verify_image,
-          verifyImageDescription: data.verify_image_description,
-          verifySignature: data.verify_signature,
-          loading: false
-        },
-        () => this.parseUrl()
-      );
-      window.customJavascriptLoad();
-    });
+    axios
+      .post(`/api/bookings/checkout/${this.props.match.params.id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        check_in: parsedDates.check_in,
+        check_out: parsedDates.check_out,
+        num_guests: guests,
+      })
+      .then((response) => {
+        const data = response.data;
+        this.setState(
+          {
+            brandCurrency: data.brand_currency,
+            checkoutTotal: data.checkout_total,
+            contractTermsAndConditions: data.contract_terms_and_conditions,
+            deposits: data.deposits,
+            featuredImage: data.featured_image,
+            fees: data.fees,
+            listing: data.listing,
+            obfuscatedAddress: data.obfuscated_address,
+            property: data.property,
+            quoteIdFromDb: data.quote_id,
+            rentalAgreement: data.rental_agreement,
+            requiredAge: data.required_age,
+            slug: data.slug,
+            stripePublishableKey: data.stripe_publishable_key,
+            stripeCustomerId: data.stripe_customer_id,
+            stripeIntentId: data.stripe_intent_id,
+            unit: data.unit,
+            verifyAddress: data.verify_address,
+            verifyAge: data.verify_age,
+            verifyImage: data.verify_image,
+            verifyImageDescription: data.verify_image_description,
+            verifySignature: data.verify_signature,
+            loading: false,
+          },
+          () => this.parseUrl()
+        );
+        window.customJavascriptLoad();
+      });
   };
 
   // Parse Check In Check Out
@@ -238,7 +238,7 @@ class Checkout extends React.Component {
       while (isInclusivelyBeforeDay(d, parsedCheckOutDate)) {
         bookingDaysInclusive.push({
           key: d.format('DD-MM-YYYY'),
-          day: d.day()
+          day: d.day(),
         });
         d.add(1, 'days');
       }
@@ -249,7 +249,7 @@ class Checkout extends React.Component {
         parsedQuery['addonFeeIds'] !== undefined &&
         parsedQuery['addonFeeIds'].split(',')[0] !== ''
       ) {
-        parsedQuery['addonFeeIds'].split(',').map(num => {
+        parsedQuery['addonFeeIds'].split(',').map((num) => {
           addonFeeIds.push(parseInt(num));
         });
       }
@@ -264,7 +264,7 @@ class Checkout extends React.Component {
           guests: guests,
           datesParsed: true,
           addonFeeIds: addonFeeIds,
-          quoteId: quoteId ? quoteId : this.state.quoteIdFromDb
+          quoteId: quoteId ? quoteId : this.state.quoteIdFromDb,
         },
         () => {
           this.checkAvailability();
@@ -274,7 +274,7 @@ class Checkout extends React.Component {
     } else {
       this.setState({
         datesParsed: false,
-        isAvailable: false
+        isAvailable: false,
       });
     }
   };
@@ -283,73 +283,83 @@ class Checkout extends React.Component {
   // ---------------------------------------------
   checkAvailability = () => {
     if (isNull(this.state.unit.room_type_id)) {
-      axios.get(`${process.env.DIRECT_URL}/api/v2/listings/single/${this.state.listing.id}/availability`, {
-        headers: {'Content-Type': 'application/json'},
-        context: this,
-        params: {
-          unit_id: this.state.unit.id,
-          booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-          guests: this.state.guests
-        }
-      })
-      .then(response => {
-        const data = response.data
-        this.setState(
+      axios
+        .get(
+          `${process.env.DIRECT_URL}/api/v2/listings/single/${this.state.listing.id}/availability`,
           {
-            availability: data
-          },
-          () => {
-            if (data.bookable) {
-              this.fetchCouponCodes();
-              this.verifyCouponCode();
-              this.checkPricing();
-            }
+            headers: { 'Content-Type': 'application/json' },
+            context: this,
+            params: {
+              unit_id: this.state.unit.id,
+              booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+              guests: this.state.guests,
+            },
           }
-        );
-      })
-      .catch(error => {
-        console.warn(error);
-      });
+        )
+        .then((response) => {
+          const data = response.data;
+          this.setState(
+            {
+              availability: data,
+            },
+            () => {
+              if (data.bookable) {
+                this.fetchCouponCodes();
+                this.verifyCouponCode();
+                this.checkPricing();
+              }
+            }
+          );
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
     } else {
-      axios.get('/api/details/room/' + this.state.listing.id + '/room_type_availability', {
-        headers: {'Content-Type': 'application/json'},
-        unit_id: this.state.unit.id,
-        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-        guests: this.state.guests
-      })
-      .then(response => {
-        this.setState(
+      axios
+        .get(
+          '/api/details/room/' +
+            this.state.listing.id +
+            '/room_type_availability',
           {
-            availability: response.data
-          },
-          () => {
-            if (response.data.bookable) {
-              this.fetchCouponCodes();
-              this.verifyCouponCode();
-              this.checkPricing();
-            }
+            headers: { 'Content-Type': 'application/json' },
+            unit_id: this.state.unit.id,
+            booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+            guests: this.state.guests,
           }
-        );
-      })
-      .catch(error => {
-        console.warn(error);
-      });
+        )
+        .then((response) => {
+          this.setState(
+            {
+              availability: response.data,
+            },
+            () => {
+              if (response.data.bookable) {
+                this.fetchCouponCodes();
+                this.verifyCouponCode();
+                this.checkPricing();
+              }
+            }
+          );
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
     }
   };
 
   // Update Guests
   // ---------------------------------------------
-  updateGuests = val => {
+  updateGuests = (val) => {
     this.setState({ guests: val });
   };
 
   // Update Fees
   // ---------------------------------------------
-  updateFees = feeId => {
+  updateFees = (feeId) => {
     let newArray = [];
 
     if (this.state.addonFeeIds.includes(feeId)) {
-      newArray = this.state.addonFeeIds.filter(id => id !== feeId);
+      newArray = this.state.addonFeeIds.filter((id) => id !== feeId);
     } else {
       newArray = this.state.addonFeeIds.concat(feeId);
     }
@@ -359,18 +369,18 @@ class Checkout extends React.Component {
   // Add Fee IDs
   // ---------------------------------------------
   addFeeIds = (feeId, quantity) => {
-    const addonIds = this.state.addonFeeIds.filter(id => id !== feeId);
+    const addonIds = this.state.addonFeeIds.filter((id) => id !== feeId);
     times(quantity, () => addonIds.push(feeId));
     this.setState({ addonFeeIds: addonIds }, () => this.checkPricing());
     this.setState({
       feeQuantities: [
-        ...this.state.feeQuantities.filter(fee => fee.id !== feeId),
+        ...this.state.feeQuantities.filter((fee) => fee.id !== feeId),
         {
           id: feeId,
-          quantity
-        }
+          quantity,
+        },
       ],
-      quantity: 0
+      quantity: 0,
     });
   };
 
@@ -380,51 +390,59 @@ class Checkout extends React.Component {
     const parsedQuery = queryString.parse(location.search);
     const guests = parsedQuery.guests;
 
-    axios.get(`${process.env.DIRECT_URL}/api/v2/unit_pricing/${this.state.quoteId}`, {
-      headers: {'Content-Type': 'application/json'},
-      params: {
-        quote_id: this.state.quoteId,
-        addon_fee_ids: this.state.addonFeeIds,
-        coupon_code: this.state.couponCode,
-        listing_id: this.state.listing.id,
-        booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-        num_guests: guests
-      }
-    })
-    .then(response =>{
-      const data = response.data
-      this.setState({
-        fees: data.fees,
-        pricing: data,
-        availabilityLoading: false,
-        checkoutTotal: data.total
+    axios
+      .get(
+        `${process.env.DIRECT_URL}/api/v2/unit_pricing/${this.state.quoteId}`,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          params: {
+            quote_id: this.state.quoteId,
+            addon_fee_ids: this.state.addonFeeIds,
+            coupon_code: this.state.couponCode,
+            listing_id: this.state.listing.id,
+            booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+            num_guests: guests,
+          },
+        }
+      )
+      .then((response) => {
+        const data = response.data;
+        this.setState({
+          fees: data.fees,
+          pricing: data,
+          availabilityLoading: false,
+          checkoutTotal: data.total,
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
       });
-    })
-    .catch(error => {
-      console.warn(error);
-    });
   };
 
   // Fetch Coupon Codes
   // ---------------------------------------------
   fetchCouponCodes = () => {
-    axios.get(`${process.env.DIRECT_URL}/api/v2/fetch_coupon_codes/${this.state.listing.id}`,{
-      headers: {'Content-Type': 'application/json'}
-    })
-    .then(res => {
-      const data= res.data
-      this.setState({
-        allCouponCodes: data
+    axios
+      .get(
+        `${process.env.DIRECT_URL}/api/v2/fetch_coupon_codes/${this.state.listing.id}`,
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        this.setState({
+          allCouponCodes: data,
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
       });
-    })
-    .catch(error => {
-      console.warn(error);
-    });
   };
 
   // Add Coupon Code
   // ---------------------------------------------
-  addCouponCode = code => {
+  addCouponCode = (code) => {
     this.setState({ couponCode: code }, () => this.checkPricing());
   };
 
@@ -436,7 +454,7 @@ class Checkout extends React.Component {
 
   // Set Location Attributes
   // ---------------------------------------------
-  setLocationAttributes = l => {
+  setLocationAttributes = (l) => {
     this.setState({ ...this.state, ...l });
   };
 
@@ -445,24 +463,26 @@ class Checkout extends React.Component {
   render() {
     const addonFees = filter(this.state.fees, ['is_addon', 'true']);
     const currency = this.state.brandCurrency;
-    const sortedAddonFees = sortBy(addonFees, fee => !this.state.addonFeeIds.includes(fee.id));
+    const sortedAddonFees = sortBy(
+      addonFees,
+      (fee) => !this.state.addonFeeIds.includes(fee.id)
+    );
 
-    return (
-      this.state.loading ? (
-        <LoadingWrapper>
-          <Ripple color="#50E3C2" />
-        </LoadingWrapper>
-      ) : (
-        <main className="checkout-main">
-          <Notification />
-          {this.state.availability &&
-          this.state.availability.bookable &&
-          this.state.pricing ? (
-            <section className="payment">
-              {sortedAddonFees.length > 0 && (
-                <div className="addons-title">Extra Add-Ons</div>
-                  )}
-                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+    return this.state.loading ? (
+      <LoadingWrapper>
+        <Ripple color="#50E3C2" />
+      </LoadingWrapper>
+    ) : (
+      <main className="checkout-main">
+        <Notification />
+        {this.state.availability &&
+        this.state.availability.bookable &&
+        this.state.pricing ? (
+          <section className="payment">
+            {sortedAddonFees.length > 0 && (
+              <div className="addons-title">Extra Add-Ons</div>
+            )}
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {sortedAddonFees.map((fee, index) =>
                 fee.fee_account.quantity_fee &&
                 this.props.brand.organization.add_on_images ? (
@@ -490,11 +510,11 @@ class Checkout extends React.Component {
                       </div>
                     )}
                     disableCloseOnOutsideClick
-                    modalStyles={{ width: "30%", height: "80%" }}
+                    modalStyles={{ width: '30%', height: '80%' }}
                     submitAction={(closePortal) => (
-                      <div style={{ textAlign: "center", marginTop: "5%" }}>
+                      <div style={{ textAlign: 'center', marginTop: '5%' }}>
                         <a
-                          className={"button"}
+                          className={'button'}
                           onClick={() => this.submitFees(fee, closePortal)}
                         >
                           Submit
@@ -528,140 +548,137 @@ class Checkout extends React.Component {
                 />
               ) : null}
             </div>
-              <ContactForm>
-                <header>Contact Information</header>
-                <FormGroup>
-                  <label htmlFor="customerName">
-                    <span>Full name</span>
-                  </label>
-                  <input
-                    autoComplete="name"
-                    type="text"
-                    name="customerName"
-                    onChange={e => this.onChange(e.target.name, e.target.value)}
-                    onBlur={this.onBlur}
-                    placeholder="Jane Smith"
-                    value={this.state.customerName}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup className="width-50">
-                  <label htmlFor="customerEmail">
-                    <span>Email</span>
-                  </label>
-                  <input
-                    autoComplete="email"
-                    type="email"
-                    name="customerEmail"
-                    onChange={e => this.onChange(e.target.name, e.target.value)}
-                    onBlur={this.onBlur}
-                    placeholder="name@email.com"
-                    value={this.state.customerEmail}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup className="width-50">
-                  <label htmlFor="customerTelephone">
-                    <span>Phone</span>
-                  </label>
-                  <input
-                    autoComplete="tel"
-                    type="tel"
-                    name="customerTelephone"
-                    onChange={e => this.onChange(e.target.name, e.target.value)}
-                    onBlur={this.onBlur}
-                    placeholder="+1 (123) 123-1234"
-                    maxLength={20}
-                    value={this.state.customerTelephone}
-                    required
-                  />
-                </FormGroup>
-              </ContactForm>
-              <LocationForm
-                setLocationAttributes={l => this.setLocationAttributes(l)}
-              />
-              <StripeForm
-                addonFeeIds={this.state.addonFeeIds}
-                availability={this.state.availability}
-                booking={this.props.booking}
-                bookingDaysInclusive={this.state.bookingDaysInclusive}
-                brand_info={this.props.brand.brand_info}
-                checkInDate={this.state.checkInDate}
-                checkOutDate={this.state.checkOutDate}
-                couponCode={this.state.couponCode}
-                customerEmail={this.state.customerEmail}
-                customerName={this.state.customerName}
-                customerPostalCode={this.state.adrPostalCode}
-                customerTelephone={this.state.customerTelephone}
-                guests={this.state.guests}
-                listing={this.state.listing}
-                max_guests={this.state.unit.num_sleep}
-                pricing={this.state.pricing}
-                quoteId={this.state.quoteId}
-                rental_agreement={this.state.rentalAgreement}
-                slug={this.state.slug}
-                stripeCustomerId={this.state.stripeCustomerId}
-                stripeIntentId={this.state.stripeIntentId}
-                stripePublishableKey={this.state.stripePublishableKey}
-                unit={this.state.unit}
-                updateGuests={this.updateGuests}
-                verifyImage={this.state.verifyImage}
-                verifySignature={this.state.verifySignature}
-                verifyAge={this.state.verifyAge}
-                verifyAddress={this.state.verifyAddress}
-              />
-              <ErrorsPaymentTransaction
-                errors={[this.state.transactionError]}
-              />
-            </section>
-          ) : (
-            <section className="payment">
-              {this.state.isStripeSuccessful ? null : (
-                <section className="fields-cc">
-                  <Ripple color="#50E3C2" />
-                </section>
-              )}
-            </section>
-          )}
-          <section className="information">
-            <Listing
+            <ContactForm>
+              <header>Contact Information</header>
+              <FormGroup>
+                <label htmlFor="customerName">
+                  <span>Full name</span>
+                </label>
+                <input
+                  autoComplete="name"
+                  type="text"
+                  name="customerName"
+                  onChange={(e) => this.onChange(e.target.name, e.target.value)}
+                  onBlur={this.onBlur}
+                  placeholder="Jane Smith"
+                  value={this.state.customerName}
+                  required
+                />
+              </FormGroup>
+              <FormGroup className="width-50">
+                <label htmlFor="customerEmail">
+                  <span>Email</span>
+                </label>
+                <input
+                  autoComplete="email"
+                  type="email"
+                  name="customerEmail"
+                  onChange={(e) => this.onChange(e.target.name, e.target.value)}
+                  onBlur={this.onBlur}
+                  placeholder="name@email.com"
+                  value={this.state.customerEmail}
+                  required
+                />
+              </FormGroup>
+              <FormGroup className="width-50">
+                <label htmlFor="customerTelephone">
+                  <span>Phone</span>
+                </label>
+                <input
+                  autoComplete="tel"
+                  type="tel"
+                  name="customerTelephone"
+                  onChange={(e) => this.onChange(e.target.name, e.target.value)}
+                  onBlur={this.onBlur}
+                  placeholder="+1 (123) 123-1234"
+                  maxLength={20}
+                  value={this.state.customerTelephone}
+                  required
+                />
+              </FormGroup>
+            </ContactForm>
+            <LocationForm
+              setLocationAttributes={(l) => this.setLocationAttributes(l)}
+            />
+            <StripeForm
+              addonFeeIds={this.state.addonFeeIds}
+              availability={this.state.availability}
+              booking={this.props.booking}
+              bookingDaysInclusive={this.state.bookingDaysInclusive}
+              brand_info={this.props.brand.brand_info}
               checkInDate={this.state.checkInDate}
               checkOutDate={this.state.checkOutDate}
-              featured_image={this.state.featuredImage}
+              couponCode={this.state.couponCode}
+              customerEmail={this.state.customerEmail}
+              customerName={this.state.customerName}
+              customerPostalCode={this.state.adrPostalCode}
+              customerTelephone={this.state.customerTelephone}
               guests={this.state.guests}
               listing={this.state.listing}
-              obfuscated_address={this.state.obfuscatedAddress}
+              max_guests={this.state.unit.num_sleep}
               pricing={this.state.pricing}
-              property={this.state.property}
+              quoteId={this.state.quoteId}
+              rental_agreement={this.state.rentalAgreement}
               slug={this.state.slug}
+              stripeCustomerId={this.state.stripeCustomerId}
+              stripeIntentId={this.state.stripeIntentId}
+              stripePublishableKey={this.state.stripePublishableKey}
               unit={this.state.unit}
+              updateGuests={this.updateGuests}
+              verifyImage={this.state.verifyImage}
+              verifySignature={this.state.verifySignature}
+              verifyAge={this.state.verifyAge}
+              verifyAddress={this.state.verifyAddress}
             />
-            <Booking
-              checkInDate={this.state.checkInDate}
-              checkOutDate={this.state.checkOutDate}
-              guests={this.state.guests}
-              nights={this.state.bookingLength}
-            />
-            <Pricing
-              addCouponCode={this.addCouponCode}
-              addFeeIds={this.addFeeIds}
-              addonFeeIds={this.state.addonFeeIds}
-              allCouponCodes={this.state.allCouponCodes}
-              availability={this.state.availability}
-              availabilityLoading={this.state.availabilityLoading}
-              checkInDate={this.state.checkInDate}
-              checkoutTotal={this.state.checkoutTotal}
-              checkPricing={this.checkPricing}
-              currency={this.state.brandCurrency}
-              feeQuantities={this.state.feeQuantities}
-              nights={this.state.bookingLength}
-              pricing={this.state.pricing}
-              temp_fees={this.state.fees}
-              updateFees={this.updateFees}
-            />
+            <ErrorsPaymentTransaction errors={[this.state.transactionError]} />
           </section>
-        </main>
-      )
+        ) : (
+          <section className="payment">
+            {this.state.isStripeSuccessful ? null : (
+              <section className="fields-cc">
+                <Ripple color="#50E3C2" />
+              </section>
+            )}
+          </section>
+        )}
+        <section className="information">
+          <Listing
+            checkInDate={this.state.checkInDate}
+            checkOutDate={this.state.checkOutDate}
+            featured_image={this.state.featuredImage}
+            guests={this.state.guests}
+            listing={this.state.listing}
+            obfuscated_address={this.state.obfuscatedAddress}
+            pricing={this.state.pricing}
+            property={this.state.property}
+            slug={this.state.slug}
+            unit={this.state.unit}
+          />
+          <Booking
+            checkInDate={this.state.checkInDate}
+            checkOutDate={this.state.checkOutDate}
+            guests={this.state.guests}
+            nights={this.state.bookingLength}
+          />
+          <Pricing
+            addCouponCode={this.addCouponCode}
+            addFeeIds={this.addFeeIds}
+            addonFeeIds={this.state.addonFeeIds}
+            allCouponCodes={this.state.allCouponCodes}
+            availability={this.state.availability}
+            availabilityLoading={this.state.availabilityLoading}
+            checkInDate={this.state.checkInDate}
+            checkoutTotal={this.state.checkoutTotal}
+            checkPricing={this.checkPricing}
+            currency={this.state.brandCurrency}
+            feeQuantities={this.state.feeQuantities}
+            nights={this.state.bookingLength}
+            pricing={this.state.pricing}
+            temp_fees={this.state.fees}
+            updateFees={this.updateFees}
+          />
+        </section>
+      </main>
     );
   }
 }
@@ -670,10 +687,10 @@ class Checkout extends React.Component {
 // -----------------------------------------------
 function mapStateToProps(state) {
   return {
-    brand: state.brand
+    brand: state.brand,
   };
 }
 
 // Export
 // -----------------------------------------------
-export default connect(mapStateToProps)(Checkout)
+export default connect(mapStateToProps)(Checkout);
