@@ -1,13 +1,13 @@
 // Dependencies
 // -----------------------------------------------
-import React from "react";
-import ReactI18n from "react-i18n";
-import { filter, sortBy } from "lodash";
+import React from 'react';
+import ReactI18n from 'react-i18n';
+import { filter, sortBy } from 'lodash';
 
 // Components
 // -----------------------------------------------
-import Ripple from "../miscellaneous/ripple";
-import Indicator from "../toggle/indicator";
+import Ripple from '../miscellaneous/ripple';
+import Indicator from '../toggle/indicator';
 
 // Add Ons
 // -----------------------------------------------
@@ -16,7 +16,7 @@ const AddOns = (props) => {
   console.log(props.temp_fees);
   const renderAddOns = () => {
     const currency = props.currency;
-    const addonFees = filter(props.temp_fees, ["is_addon", "true"]);
+    const addonFees = filter(props.temp_fees, ['is_addon', 'true']);
     const sortedAddonFees = sortBy(
       addonFees,
       (fee) => !props.addonFeeIds.includes(fee.id)
@@ -39,11 +39,11 @@ const AddOns = (props) => {
                       }
                 }
               >
-                {" "}
+                {' '}
                 {fee.description ? (
                   <figure
                     className="line-item-description"
-                    style={{ margin: "10px" }}
+                    style={{ margin: '10px' }}
                   >
                     <i />
                     <span>{fee.description}</span>
