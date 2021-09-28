@@ -65,16 +65,20 @@ const RenderLineItems = (pricing, nights, currency, translate) => {
 };
 
 const RenderFeeLineItem = (fee, translate, currency) => {
-  return (
-    <tr className="line-item">
-      <td>{fee.name}</td>
-      <td>
-        {translate(`global.parsers.currency.${currency}`, {
-          value: (fee.total_cents/100).toFixed(2)
-        })}
-      </td>
-    </tr>
-  );
+  if (fee.additional_data.included_in_base_rent) {
+    return null
+  } else {
+    return (
+      <tr className="line-item">
+        <td>{fee.name}</td>
+        <td>
+          {translate(`global.parsers.currency.${currency}`, {
+            value: (fee.total_cents/100).toFixed(2)
+          })}
+        </td>
+      </tr>
+    );
+  }
 };
 
 const RenderCharge = (charge, translate) => {
