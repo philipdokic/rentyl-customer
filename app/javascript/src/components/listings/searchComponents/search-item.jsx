@@ -61,8 +61,7 @@ const SearchItem = props => {
         : (
         <span>{' '}
           |{' '}
-          From
-          {' '}
+          { !props.datesSet && "From " }
           {translate(`global.parsers.currency.${currency}`, {
             value: Math.round(
               props.result.listings[0]['bookable_nightly_price']
@@ -74,8 +73,7 @@ const SearchItem = props => {
       return (
         <span>{' '}
           |{' '}
-          From
-          {' '}
+          { !props.datesSet && "From " }
           {translate(`global.parsers.currency.${currency}`, {
             value: Math.round(bookable_nightly_price)
           })}
@@ -91,8 +89,7 @@ const SearchItem = props => {
           {' '}
           <span>
             |{' '}
-            From
-            {' '}
+            { !props.datesSet && "From " }
             <span style={{ textDecoration: 'line-through', color: 'red' }}>{' '}
               {translate(`global.parsers.currency.${currency}`, {
                 value: Math.round(
