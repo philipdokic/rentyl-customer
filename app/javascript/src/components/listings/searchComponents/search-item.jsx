@@ -53,53 +53,65 @@ const SearchItem = props => {
   const translate = ReactI18n.getIntlMessage;
 
   const renderPrice = () => {
-    const { currency, bookable_nightly_price } = { ...props.result };
-
-    if (props.result && props.result.listings) {
-      return props.result.listings[0]['bookable_nightly_price'] <
-        props.result.listings[0]['bookable_nightly_price_before_promotion'] ? (
-        <>
-          <div>
-            <b style={{ textDecoration: 'line-through', color: 'red' }}>
-              {translate(`global.parsers.currency.${currency}`, {
-                value: Math.round(
-                  props.result.listings[0][
-                    'bookable_nightly_price_before_promotion'
-                  ]
-                )
-              })}{' '}
-            </b>
-          </div>
-          <b>
-            {translate(`global.parsers.currency.${currency}`, {
-              value: Math.round(
-                props.result.listings[0]['bookable_nightly_price']
-              )
-            })}{' '}
-            |{' '}
-          </b>
-        </>
-      ) : (
-        <b>
+    const { currency, bookable_nightly_price, listings } = { ...props.result };
+    if (listings) {
+      const promoPriceHigherThanBase = listings[0]['bookable_nightly_price'] < listings[0]['bookable_nightly_price_before_promotion'];
+      return promoPriceHigherThanBase ? 
+        <>{renderStrikethroughPrice()}</>
+        : (
+        <span>{' '}
+          |{' '}
+          { !props.datesSet && "From " }
           {translate(`global.parsers.currency.${currency}`, {
             value: Math.round(
               props.result.listings[0]['bookable_nightly_price']
             )
-          })}{' '}
-          |{' '}
-        </b>
+          })}
+        </span>
       );
     } else {
       return (
-        <b>
+        <span>{' '}
+          |{' '}
+          { !props.datesSet && "From " }
           {translate(`global.parsers.currency.${currency}`, {
             value: Math.round(bookable_nightly_price)
-          })}{' '}
-          |{' '}
-        </b>
+          })}
+        </span>
       );
     }
   };
+
+  const renderStrikethroughPrice = () => {
+    const { currency, listings } = { ...props.result };
+    return (
+        <>
+          {' '}
+          <span>
+            |{' '}
+            { !props.datesSet && "From " }
+            <span style={{ textDecoration: 'line-through', color: 'red' }}>{' '}
+              {translate(`global.parsers.currency.${currency}`, {
+                value: Math.round(
+                  listings[0][
+                    'bookable_nightly_price_before_promotion'
+                  ]
+                )
+              })}
+            </span>
+          </span>
+          {' '}
+          {' '}
+          <span>
+            {translate(`global.parsers.currency.${currency}`, {
+              value: Math.round(
+                listings[0]['bookable_nightly_price']
+              )
+            })}
+          </span>
+        </>
+    ) 
+  }
 
   const renderAddress = () => {
     const location = props.result.location;
@@ -229,8 +241,8 @@ const SearchItem = props => {
         >
           <HeaderWithRating>
             <span>
-              {renderPrice()}
-              <span>{name}</span>
+              <b>{name}</b>
+              <span>{renderPrice()}</span>
             </span>
             {review_count > 0 && (
               <RatingContainer>
