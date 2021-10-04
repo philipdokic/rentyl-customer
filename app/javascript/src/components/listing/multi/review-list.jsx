@@ -106,25 +106,27 @@ class ReviewList extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
+    const { listing } = this.props;
+    const { rowsPerPage, pageOffset, pageRangeDisplayed } = this.state;
     const pageCount = Math.ceil(
-      this.props.reviews.length / this.state.rowsPerPage
+      listing.reviews.length / rowsPerPage
     );
 
     return (
       <ListReview>
         <ReviewListHeader>
-          <h3>{this.props.reviews.length} Reviews</h3>
+          <h3>{listing.reviews.length} Reviews</h3>
           <ReviewContainer>
             <Rater
-              rating={parseFloat(this.props.average)}
+              rating={parseFloat(listing.review_average)}
               interactive={false}
             />
           </ReviewContainer>
         </ReviewListHeader>
-        {this.props.reviews
+        {listing.reviews
           .slice(
-            this.state.pageOffset,
-            this.state.pageOffset + this.state.rowsPerPage
+            pageOffset,
+            pageOffset + rowsPerPage
           )
           .map(review => (
             <Review
@@ -145,7 +147,7 @@ class ReviewList extends React.Component {
                 breakClassName={'break-me'}
                 pageCount={pageCount}
                 marginPagesDisplayed={2}
-                pageRangeDisplayed={this.state.pageRangeDisplayed}
+                pageRangeDisplayed={pageRangeDisplayed}
                 onPageChange={this.handlePageClick}
                 containerClassName={''}
                 pageClassName={'hide-on-mobile'}
