@@ -274,9 +274,14 @@ $valid-background: #EEF9F1;
     tr td:last-child {
       font-weight: 600;
     }
-    tr:not(.remaining):not(.total):not(.line-item) {
+    tr:not(.remaining):not(.total):not(.line-item):not(.refund) {
       td:last-child {
         color: $color-green;
+      }
+    }
+    tr.refund {
+      td {
+        font-weight: 400;
       }
     }
     tr.remaining {
