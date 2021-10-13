@@ -81,9 +81,9 @@ const RenderFeeLineItem = (fee, translate, currency) => {
   }
 };
 
-const RenderCharge = (charge, translate) => {
+const RenderCharge = (charge, refunded_amount, translate) => {
   const amount_charged = parseFloat(charge.amount_charged).toFixed(2);
-  if (charge.status == 'charged') {
+  if (charge.status == 'charged' || charge.status == 'partially_refunded' && refunded_amount > 0 ) {
     return (
       <tr key={charge.id}>
         <td>
@@ -115,13 +115,36 @@ const RenderCharge = (charge, translate) => {
   }
 };
 
+const RenderRefund = (refunded_amount, currency, translate) => {
+  if (refunded_amount > 0 ) {
+    return (
+      <tr className="refund">
+        <td>
+          <div>
+            Refund
+          </div>
+        </td>
+        <td>
+          -{' '}
+          {translate(`global.parsers.currency.${currency}`, {
+            value: refunded_amount
+          })}
+        </td>
+      </tr>
+    );
+  } else {
+    return null;
+  }
+};
+
 const InfoPricing = ({
   translate,
   booking,
   nights,
   currency,
   charges,
-  pricing
+  pricing,
+  refunds
 }) => {
   const total = (
     Math.floor(parseFloat(booking.price_total) * 100) / 100
@@ -129,6 +152,7 @@ const InfoPricing = ({
   const paid = (Math.floor(parseFloat(booking.price_paid) * 100) / 100).toFixed(
     2
   );
+  const refunded_amount = parseFloat(refunds).toFixed(2);
   let remaining = (total - paid).toFixed(2);
   if (remaining < 0) {
     remaining = (0).toFixed(2);
@@ -150,7 +174,8 @@ const InfoPricing = ({
                   })}
                 </td>
               </tr>
-              {charges.map(charge => RenderCharge(charge, translate))}
+              {charges.map(charge => RenderCharge(charge, refunded_amount, translate))}
+              {RenderRefund(refunded_amount, currency, translate)}
               <tr className="remaining">
                 <td>{translate(`cx.global.remaining`)}</td>
                 <td>

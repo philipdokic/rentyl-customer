@@ -87,7 +87,7 @@ export default class Receipt extends React.Component {
       securityDepositRequired &&
       moment() > moment(booking.check_in).subtract(4, "days")
     ) {
-      return charges.findIndex((c) => c.is_security_deposit === true) === -1;
+      return charges.findIndex((c) => c.is_security_deposit === true && c.status !== 'failed') === -1;
     }
     return charges.length === 0;
   };
@@ -149,6 +149,7 @@ export default class Receipt extends React.Component {
             charges={this.state.charges}
             nights={this.state.nights}
             pricing={this.state.pricing}
+            refunds={this.state.refunds}
             currency={currency}
             translate={translate}
           />
