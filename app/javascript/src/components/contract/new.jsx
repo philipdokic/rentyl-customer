@@ -74,15 +74,14 @@ class NewContract extends React.Component {
   // Component Did Mount
   // ---------------------------------------------
   componentDidMount() {
+    this.submitBtn.setAttribute('disabled', 'disabled');
     this.fetchVerificationInfo(this.props);
   }
 
   // Fetch Verification Info
   // ---------------------------------------------
   fetchVerificationInfo = props => {
-    axios.get(`/my-bookings/verification/${get(props, 'match.params.booking_code')}`, {
-      headers: {'Content-Type': 'application/json'}
-    })
+    axios.get(`${process.env.DIRECT_URL}/api/v2/my-bookings/verification/${get(props, 'match.params.booking_code')}`)
     .then(response => {
       this.setState(
         {
@@ -93,6 +92,7 @@ class NewContract extends React.Component {
           customerVerifiedAddress: response.data.customer_verified_address,
           customerVerifiedAge: response.data.customer_verified_age,
           customerVerifiedId: response.data.customer_verified_id,
+          customerVerifiedSignature: response.data.customer_verified_signature,
           featured_image: response.data.featured_image,
           listing: response.data.listing,
           location: response.data.location,
@@ -127,10 +127,7 @@ class NewContract extends React.Component {
 
     // If user is already verified, pass them directly to the confirmation page
     if (sig_verified) {
-      axios.post(`/api/verify/${this.state.customer.id}`, {
-        context: this,
-        params: this.postData()
-      })
+      axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/verify/${this.state.customer.id}`, this.postData())
       .then(response => {
         window.location = `/my-bookings/receipt/${
           this.state.booking.booking_code
@@ -154,10 +151,7 @@ class NewContract extends React.Component {
   // Submit Verification
   // ---------------------------------------------
   submitVerification = () => {
-    axios.post(`/api/verify/${this.state.customer.id}`, {
-      context: this,
-      params: this.postData()
-    })
+    axios.post(`${process.env.DIRECT_URL}/api/v2/my-bookings/verify/${this.state.customer.id}`, this.postData())
     .then(response => {
       window.location = `/my-bookings/receipt/${
         this.state.booking.booking_code
@@ -237,7 +231,7 @@ class NewContract extends React.Component {
             </header>
             <SignatureCapture
               verify_signature={this.state.verify_signature}
-              afterSave={signature => this.setState({ signature })}
+              afterSave={signature => this.setState({ signature }, () => {this.submitBtn.removeAttribute('disabled', 'disabled')})}
               afterDelete={() => this.setState({ signature: null })}
               contract_terms_and_conditions={this.state.contractTermsAndConditions}
               required_age={this.state.required_age}
