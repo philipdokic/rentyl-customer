@@ -47,7 +47,6 @@ class BookingDatePicker extends React.Component {
   // Render
   // ---------------------------------------------
   render() {
-    debugger
     return (
       <div style={{ textAlign: 'center' }}>
         <WidgetDatePicker
