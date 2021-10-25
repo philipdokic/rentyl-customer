@@ -115,7 +115,10 @@ class ThemeDefaultSearch extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.match.path !== prevProps.match.path) {
+    if (this.props.match.path !== prevProps.match.path) { // means the search type changed
+      this.pageSetup();
+    } else if (this.props.location.search !== prevProps.location.search) { // the query params changed
+      this.handleBrowserState();
       this.pageSetup();
     }
   }
