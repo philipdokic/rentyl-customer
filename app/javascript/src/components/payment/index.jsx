@@ -256,7 +256,7 @@ export default class Payment extends React.Component {
           onError={this.handleStripeScriptError}
           onLoad={this.handleStripeScriptLoad}
         />
-        {this.getChargeAmount() === (0).toFixed(2) ? (
+        
           <section className="payment">
             <Listing
               checkInDate={checkIn}
@@ -289,7 +289,7 @@ export default class Payment extends React.Component {
                 />
               )}
           </section>
-        ) : (
+          {this.getChargeAmount() !== (0).toFixed(2) && 
           <section className="payment">
             <p>
               In order to complete your reservation, please enter your payment
@@ -319,7 +319,7 @@ export default class Payment extends React.Component {
             />
             <PaymentTransaction errors={[this.state.transactionError]} />
           </section>
-        )}
+        }
         <section className="payment">
           {this.moreChargesNeeded() && this.within48HoursOfCheckIn() && (
             <section className="payment">
