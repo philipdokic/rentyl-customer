@@ -335,6 +335,7 @@ en:
         usd: "$%{value}"
         zar: "R%{value}"
         clp: "$%{value}"
+        thb: "฿%{value}"
       currency_avg:
         aud: "AU$%{value} avg."
         brl: "R$%{value} avg."
@@ -357,6 +358,7 @@ en:
         usd: "$%{value} avg."
         zar: "R%{value} avg."
         clp: "$%{value} avg."
+        thb: "฿%{value} avg."
       currency_avg_night:
         aud: "Avg. AU$%{value} / night"
         brl: "Avg. R$%{value} / night"
@@ -379,6 +381,7 @@ en:
         usd: "Avg. $%{value} / night"
         zar: "Avg. R%{value} / night"
         clp: "Avg. $%{value} / night"
+        thb: "Avg. ฿%{value} / night"
       discount:
         weekly: "%{value}% weekly discount"
         monthly: "%{value}% monthly discount"
