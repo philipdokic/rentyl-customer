@@ -81,9 +81,9 @@ const RenderFeeLineItem = (fee, translate, currency) => {
   }
 };
 
-const RenderCharge = (charge, refunded_amount, translate) => {
+const RenderCharge = (charge, refunds, translate) => {
   const amount_charged = parseFloat(charge.amount_charged).toFixed(2);
-  if (charge.status == 'charged' || charge.status == 'partially_refunded' && refunded_amount > 0 ) {
+  if (charge.status == 'charged' || charge.status == 'partially_refunded' && refunds.length > 0 ) {
     return (
       <tr key={charge.id}>
         <td>
@@ -115,9 +115,9 @@ const RenderCharge = (charge, refunded_amount, translate) => {
   }
 };
 
-const RenderRefund = (refunded_amount, currency, translate) => {
-  if (refunded_amount > 0 ) {
-    return (
+const RenderRefund = (refunds, currency, translate) => {
+  if (refunds.length > 0 ) {
+    refunds.map(refund => (
       <tr className="refund">
         <td>
           <div>
@@ -127,10 +127,10 @@ const RenderRefund = (refunded_amount, currency, translate) => {
         <td>
           -{' '}
           {translate(`global.parsers.currency.${currency}`, {
-            value: refunded_amount
+            value: parseFloat(refund).toFixed(2)
           })}
         </td>
-      </tr>
+      </tr>)
     );
   } else {
     return null;
@@ -152,7 +152,6 @@ const InfoPricing = ({
   const paid = (Math.floor(parseFloat(booking.price_paid) * 100) / 100).toFixed(
     2
   );
-  const refunded_amount = parseFloat(refunds).toFixed(2);
   let remaining = (total - paid).toFixed(2);
   if (remaining < 0) {
     remaining = (0).toFixed(2);
@@ -174,8 +173,8 @@ const InfoPricing = ({
                   })}
                 </td>
               </tr>
-              {charges.map(charge => RenderCharge(charge, refunded_amount, translate))}
-              {RenderRefund(refunded_amount, currency, translate)}
+              {charges.map(charge => RenderCharge(charge, refunds, translate))}
+              {RenderRefund(refunds, currency, translate)}
               <tr className="remaining">
                 <td>{translate(`cx.global.remaining`)}</td>
                 <td>
