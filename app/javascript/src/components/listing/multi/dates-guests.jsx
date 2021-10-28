@@ -71,7 +71,7 @@ class MultiDatesGuests extends React.Component {
                 endPlaceholder={translate(`cx.global.check_out`)}
                 onDatesSet={this.onDatesChange}
                 isOutsideRange={this.isOutsideRange}
-                displayFormat={this.props.brand.displayFormat}
+                displayFormat={this.props.brand.display_format}
                 readOnly
               />
             </div>
