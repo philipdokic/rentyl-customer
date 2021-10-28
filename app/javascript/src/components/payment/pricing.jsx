@@ -117,7 +117,7 @@ const RenderCharge = (charge, refunds, translate) => {
 
 const RenderRefund = (refunds, currency, translate) => {
   if (refunds.length > 0 ) {
-    refunds.map(refund => (
+    return refunds.map(refund => (
       <tr className="refund">
         <td>
           <div>
