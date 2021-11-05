@@ -83,7 +83,7 @@ const RenderFeeLineItem = (fee, translate, currency) => {
 
 const RenderCharge = (charge, refunds, translate) => {
   const amount_charged = parseFloat(charge.amount_charged).toFixed(2);
-  if (charge.status == 'charged' || charge.status == 'partially_refunded' && refunds.length > 0 ) {
+  if (charge.status == 'charged' || charge.status == 'partially_refunded' && refunds?.length > 0 ) {
     return (
       <tr key={charge.id}>
         <td>
@@ -116,7 +116,7 @@ const RenderCharge = (charge, refunds, translate) => {
 };
 
 const RenderRefund = (refunds, currency, translate) => {
-  if (refunds.length > 0 ) {
+  if (refunds?.length > 0 ) {
     return refunds.map(refund => (
       <tr className="refund">
         <td>
