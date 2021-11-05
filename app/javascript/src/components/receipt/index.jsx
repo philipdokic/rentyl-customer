@@ -149,6 +149,7 @@ export default class Receipt extends React.Component {
             charges={this.state.charges}
             nights={this.state.nights}
             pricing={this.state.pricing}
+            refunds={this.state.refunds}
             currency={currency}
             translate={translate}
           />

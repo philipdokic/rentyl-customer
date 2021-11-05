@@ -81,9 +81,9 @@ const RenderFeeLineItem = (fee, translate, currency) => {
   }
 };
 
-const RenderCharge = (charge, translate) => {
+const RenderCharge = (charge, refunds, translate) => {
   const amount_charged = parseFloat(charge.amount_charged).toFixed(2);
-  if (charge.status == 'charged') {
+  if (charge.status == 'charged' || charge.status == 'partially_refunded' && refunds.length > 0 ) {
     return (
       <tr key={charge.id}>
         <td>
@@ -115,13 +115,36 @@ const RenderCharge = (charge, translate) => {
   }
 };
 
+const RenderRefund = (refunds, currency, translate) => {
+  if (refunds.length > 0 ) {
+    return refunds.map(refund => (
+      <tr className="refund">
+        <td>
+          <div>
+            Refund
+          </div>
+        </td>
+        <td>
+          -{' '}
+          {translate(`global.parsers.currency.${currency}`, {
+            value: parseFloat(refund).toFixed(2)
+          })}
+        </td>
+      </tr>)
+    );
+  } else {
+    return null;
+  }
+};
+
 const InfoPricing = ({
   translate,
   booking,
   nights,
   currency,
   charges,
-  pricing
+  pricing,
+  refunds
 }) => {
   const total = (
     Math.floor(parseFloat(booking.price_total) * 100) / 100
@@ -150,7 +173,8 @@ const InfoPricing = ({
                   })}
                 </td>
               </tr>
-              {charges.map(charge => RenderCharge(charge, translate))}
+              {charges.map(charge => RenderCharge(charge, refunds, translate))}
+              {RenderRefund(refunds, currency, translate)}
               <tr className="remaining">
                 <td>{translate(`cx.global.remaining`)}</td>
                 <td>
