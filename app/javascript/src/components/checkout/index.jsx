@@ -165,6 +165,7 @@ class Checkout extends React.Component {
         check_in: parsedDates.check_in,
         check_out: parsedDates.check_out,
         num_guests: guests,
+        coupon_code: couponCode
       })
       .then((response) => {
         const data = response.data;

@@ -120,7 +120,7 @@ class Api::BookingsController < ApplicationController
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       request = Net::HTTP::Get.new(uri.path, {'Content-Type' => 'application/json'})
-      request.body = {check_in: Date.parse(params['check_in']), check_out: Date.parse(params['check_out']), num_guests: params['num_guests'].to_i}.to_json
+      request.body = {check_in: Date.parse(params['check_in']), check_out: Date.parse(params['check_out']), num_guests: params['num_guests'].to_i, coupon_code: params['coupon_code']}.to_json
       @quote ||= JSON.parse(http.request(request).body)
     end
   end
