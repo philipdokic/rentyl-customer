@@ -59,7 +59,7 @@ class BookingDatePicker extends React.Component {
           startDate={this.state.startDate}
           endDate={this.state.endDate}
           isOutsideRange={this.isOutsideRange}
-          displayFormat={this.props.brand.displayFormat}
+          displayFormat={this.props.brand.date_format}
           readOnly
         />
       </div>
