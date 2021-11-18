@@ -88,6 +88,7 @@ export default class SignatureCapture extends React.Component {
     this.setState({ saving: true }, () => {
       axios.post(`${process.env.DIRECT_URL}/api/v2/signatures`, {
         data_uri: signature,
+        booking_id: this.props.booking.id,
         organization_id: this.props.booking.organization_id
       })
       .then(response => {

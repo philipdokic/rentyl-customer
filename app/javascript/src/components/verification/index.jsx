@@ -292,6 +292,7 @@ class Verification extends React.Component {
       <main className="checkout-main receipt-main">
         <section className="payment">
           <CustomerVerification
+            booking_id={this.state.booking.id}
             verify_signature={this.state.verify_signature}
             verify_id={this.state.verify_id}
             verify_id_description={this.state.verify_id_description}
