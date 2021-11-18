@@ -264,7 +264,6 @@ class Multi extends React.Component {
   // Get Pricing
   // ---------------------------------------------
   getPricing = listingID => {
-    debugger
     let getPricing = new Promise((resolve, reject) => {
 
       axios.get(`${process.env.DIRECT_URL}/api/v2/listings/multi/${listingID}/pricing`, {
