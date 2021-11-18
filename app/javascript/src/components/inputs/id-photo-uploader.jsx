@@ -50,7 +50,6 @@ export default class IdPhotoUploader extends React.Component {
     this.setState({ isLoaded: false, isLoading: true }, () => {
       let formData = new FormData();
       formData.append('document', file_queued);
-      formData.append('booking_id', this.props.booking.id);
       formData.append('organization_id', this.props.booking.organization_id )
 
       if (this.props.idSide) {
