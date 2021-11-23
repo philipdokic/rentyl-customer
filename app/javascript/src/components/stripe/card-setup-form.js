@@ -320,7 +320,8 @@ class CardSetupForm extends React.Component {
           addon_fee_ids: this.props.addonFeeIds,
           stripe_customer_id: this.props.stripeCustomerId,
           coupon_code: this.props.couponCode,
-          room_type_booking: !isNull(this.props.unit.room_type_id)
+          room_type_booking: !isNull(this.props.unit.room_type_id),
+          quote_id: this.props.quoteId
         })
           .then(response => {
             const data = response.data
