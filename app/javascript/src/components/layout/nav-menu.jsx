@@ -84,6 +84,7 @@ class NavMenu extends React.Component {
   closeMenu = (e, menuItem) => {
     var div = document.getElementById(`submenu-${menuItem.id}`);
     div.style.display = div.style.display == 'block' ? 'none' : 'block';
+    this.setState({ toggledMenu: false });
   };
 
   // Render Menu Items
@@ -108,11 +109,11 @@ class NavMenu extends React.Component {
               {menuItem.title}
             </Link>
           ) : menuItem.slug.startsWith('http') ? (
-            <Link to={url} onClick={e => this.closeMenu(e)} target="_blank" title={menuItem.title}>
+            <Link to={url} onClick={e => this.closeMenu(e, menuItem)} target="_blank" title={menuItem.title}>
               {menuItem.title}
             </Link>
           ) : (
-            <Link to={url} onClick={e => this.closeMenu(e)} title={menuItem.title}>
+            <Link to={url} onClick={e => this.closeMenu(e, menuItem)} title={menuItem.title}>
               {menuItem.title}
             </Link>
           )}
@@ -133,7 +134,7 @@ class NavMenu extends React.Component {
                     <Link
                       key={subItem.title}
                       to={suburl}
-                      onClick={e => this.closeMenu(e)}
+                      onClick={e => this.closeMenu(e, menuItem)}
                       target="_blank"
                       title={subItem.title}
                     >
@@ -142,7 +143,7 @@ class NavMenu extends React.Component {
                   );
                 } else {
                   return (
-                    <Link key={subItem.title} to={suburl} onClick={e => this.closeMenu(e)} title={subItem.title}>
+                    <Link key={subItem.title} to={suburl} onClick={e => this.closeMenu(e, menuItem)} title={subItem.title}>
                       {subItem.title}
                     </Link>
                   );
@@ -157,7 +158,7 @@ class NavMenu extends React.Component {
                 id={`submenu-${menuItem.id}`}
               >
                 {this.props.featured_listings.map(fl => (
-                  <Link key={fl.name} to={fl.url} onClick={e => this.closeMenu(e)} title={fl.name}>
+                  <Link key={fl.name} to={fl.url} onClick={e => this.closeMenu(e, menuItem)} title={fl.name}>
                     {fl.name}
                   </Link>
                 ))}
