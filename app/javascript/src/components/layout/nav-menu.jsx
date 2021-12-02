@@ -76,6 +76,9 @@ class NavMenu extends React.Component {
   handleToggle = (e, menuItem) => {
     e.preventDefault();
     var div = document.getElementById(`submenu-${menuItem.id}`);
+    if (!div) {
+      return false;
+    }
     div.style.display = div.style.display == 'block' ? 'none' : 'block';
   };
 
@@ -83,6 +86,9 @@ class NavMenu extends React.Component {
   // ---------------------------------------------
   closeMenu = (e, menuItem) => {
     var div = document.getElementById(`submenu-${menuItem.id}`);
+    if (!div) {
+      return false;
+    }
     div.style.display = div.style.display == 'block' ? 'none' : 'block';
     this.setState({ toggledMenu: false });
   };
