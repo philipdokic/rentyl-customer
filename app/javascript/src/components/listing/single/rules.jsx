@@ -90,6 +90,7 @@ class Rules extends React.Component {
       deposit => deposit.remaining_balance_due_date
     );
     const availableDueDates = [
+      'day90',
       'day60',
       'day30',
       'day15',
@@ -108,6 +109,7 @@ class Rules extends React.Component {
   // ---------------------------------------------
   renderBalanceDueText = () => {
     const dueDateOptions = [
+      { value: 'day90', label: '90 days prior to check-in' },
       { value: 'day60', label: '60 days prior to check-in' },
       { value: 'day30', label: '30 days prior to check-in' },
       { value: 'day15', label: '15 days prior to check-in' },

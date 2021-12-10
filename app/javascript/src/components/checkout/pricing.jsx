@@ -374,6 +374,7 @@ export default class Pricing extends React.Component {
     }
 
     const availableDueDates = [
+      'day90',
       'day60',
       'day30',
       'day15',
