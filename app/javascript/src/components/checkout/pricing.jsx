@@ -393,6 +393,7 @@ export default class Pricing extends React.Component {
   // ---------------------------------------------
   renderBalanceDueText = () => {
     const dueDateOptions = [
+      { value: 'day90', label: '90 days prior to check-in' },
       { value: 'day60', label: '60 days prior to check-in' },
       { value: 'day30', label: '30 days prior to check-in' },
       { value: 'day15', label: '15 days prior to check-in' },
