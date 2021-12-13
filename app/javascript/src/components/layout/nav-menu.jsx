@@ -85,8 +85,9 @@ class NavMenu extends React.Component {
   // Close Menu
   // ---------------------------------------------
   closeMenu = (e, menuItem) => {
-    var div = document.getElementById(`submenu-${menuItem.id}`);
+    var div = document.getElementById(  `submenu-${menuItem.id}`);
     if (!div) {
+      this.setState({ toggledMenu: false });
       return false;
     }
     div.style.display = div.style.display == 'block' ? 'none' : 'block';
