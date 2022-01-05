@@ -24,7 +24,7 @@ const AddOns = (props) => {
 
     return sortedAddonFees.map(
       (fee, index) =>
-        fee.fee_account.quantity_fee && (
+        !fee.fee_account.quantity_fee && (
           <div className="addons-wrapper">
             <div className="addons-item" key={fee.id}>
               <div
