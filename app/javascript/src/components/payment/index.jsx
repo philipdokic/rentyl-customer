@@ -113,7 +113,7 @@ export default class Payment extends React.Component {
 
   failedSecurityDeposit = () => {
     const { charges } = this.state;
-    return charges.findIndex((c) => c.is_security_deposit === true && c.status !== 'failed') === -1;
+    return charges.filter(c => c.is_security_deposit && c.status === 'failed');
   }
 
   // Create Stripe Token
