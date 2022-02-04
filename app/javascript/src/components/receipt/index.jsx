@@ -82,14 +82,19 @@ export default class Receipt extends React.Component {
   moreChargesNeeded = () => {
     const { securityDepositRequired, booking, charges } =
       this.state;
-    if (!booking.confirmed || booking.cancelled) {return false}
-    if (
+
+    const noSuccessfulSecDepCharges = charges.findIndex((c) => c.is_security_deposit === true && c.status !== 'failed') === -1;
+
+    if (!booking.confirmed || booking.cancelled) {
+      return false
+    } else if (
       securityDepositRequired &&
       moment() > moment(booking.check_in).subtract(4, "days")
     ) {
-      return charges.findIndex((c) => c.is_security_deposit === true) === -1;
+      return noSuccessfulSecDepCharges;
+    } else {
+      return noSuccessfulSecDepCharges;
     }
-    return charges.length === 0;
   };
 
   // Render
@@ -156,10 +161,10 @@ export default class Receipt extends React.Component {
          {this.state.securityDepositRequired &&
           this.state.securityDeposit && 
             <Deposit
-            amount={this.state.securityDeposit.calculation_amount}
-            currency={currency}
-            bookingCode={this.state.booking.booking_code}
-            moreChargesNeeded={this.moreChargesNeeded()}
+              amount={this.state.securityDeposit.calculation_amount}
+              currency={currency}
+              bookingCode={this.state.booking.booking_code}
+              moreChargesNeeded={this.moreChargesNeeded()}
             />
           }
         </section>
