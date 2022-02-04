@@ -111,6 +111,11 @@ export default class Payment extends React.Component {
     return charges.length === 0;
   };
 
+  failedSecurityDeposit = () => {
+    const { charges } = this.state;
+    return charges.filter(c => c.is_security_deposit && c.status === 'failed');
+  }
+
   // Create Stripe Token
   // ---------------------------------------------
   createStripeToken = () => {
@@ -227,6 +232,17 @@ export default class Payment extends React.Component {
     return Math.abs(duration.asHours()) <= 48;
   }
 
+  shouldShowSecDepForm = () => {
+    // if there are no charges AND it is within 48 hours of check in OR there is a failed charge
+    if (this.within48HoursOfCheckIn() && this.moreChargesNeeded()) {
+      return true;
+    } else if (this.failedSecurityDeposit()) {
+      return true;
+    } else {
+      return false;
+    }
+  } 
+
   // Render
   // ---------------------------------------------
   render() {
@@ -321,7 +337,7 @@ export default class Payment extends React.Component {
           </section>
         }
         <section className="payment">
-          {this.moreChargesNeeded() && this.within48HoursOfCheckIn() && (
+          {this.shouldShowSecDepForm() && ( 
             <section className="payment">
               {this.state.securityDepositRequired ? (
                 <p>
