@@ -112,7 +112,7 @@ class NavMenu extends React.Component {
           style={{ width: '100%', padding: '0' }}
         >
           {this.isDropdown(menuItem) ? (
-            <Link to="" onClick={e => this.handleToggle(e, menuItem)}>
+            <Link to={url} onClick={e => this.handleToggle(e, menuItem)}>
               {menuItem.title}
             </Link>
           ) : menuItem.slug.startsWith('http') ? (

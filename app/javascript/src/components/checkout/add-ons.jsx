@@ -40,15 +40,13 @@ const AddOns = (props) => {
                 }
               >
                 {' '}
-                {fee.description ? (
-                  <figure
+                {fee.description && <figure
                     className="line-item-description"
                     style={{ margin: '10px' }}
                   >
                     <i />
                     <span>{fee.description}</span>
-                  </figure>
-                ) : null}
+                  </figure>}
                 <Indicator
                   toggleAction={props.updateFees}
                   toggleStatus={props.addonFeeIds.includes(fee.id)}
