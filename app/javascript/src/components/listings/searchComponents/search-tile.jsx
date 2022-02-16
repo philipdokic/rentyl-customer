@@ -66,16 +66,18 @@ const SearchTile = props => {
         <>
           <div>
             <b style={{ textDecoration: 'line-through', color: 'red' }}>
+              {!props.datesSet && "From "}
               {translate(`global.parsers.currency.${currency}`, {
                 value: Math.round(
                   props.result.listings[0][
-                    'bookable_nightly_price_before_promotion'
+                  'bookable_nightly_price_before_promotion'
                   ]
                 )
               })}{' '}
             </b>
           </div>
           <b>
+            {!props.datesSet && "From "}
             {translate(`global.parsers.currency.${currency}`, {
               value: Math.round(
                 props.result.listings[0]['bookable_nightly_price']
@@ -86,6 +88,7 @@ const SearchTile = props => {
         </>
       ) : (
         <b>
+          {!props.datesSet && "From "}
           {translate(`global.parsers.currency.${currency}`, {
             value: Math.round(
               props.result.listings[0]['bookable_nightly_price']
@@ -97,6 +100,7 @@ const SearchTile = props => {
     } else {
       return (
         <b>
+          {!props.datesSet && "From "}
           {translate(`global.parsers.currency.${currency}`, {
             value: Math.round(bookable_nightly_price)
           })}{' '}
@@ -169,7 +173,7 @@ const SearchTile = props => {
               <li>
                 {translate(`cx.search.num_bathrooms`, {
                   num: unit.num_bathrooms,
-                  s: unit.num_bathrooms == 1 ? '' :'s'
+                  s: unit.num_bathrooms == 1 ? '' : 's'
                 })}
               </li>
             )}
@@ -211,7 +215,7 @@ const SearchTile = props => {
   return (
     <figure className="search-tile">
       <Link
-        href={ get(props, 'result.room_type_property') ? `/listings/${slug}/unit/${get(props, 'result.default_unit_id') + props.getStringifiedQueryString()}` : `/listings/${slug + props.getStringifiedQueryString()}` }
+        href={get(props, 'result.room_type_property') ? `/listings/${slug}/unit/${get(props, 'result.default_unit_id') + props.getStringifiedQueryString()}` : `/listings/${slug + props.getStringifiedQueryString()}`}
         target="_blank"
       >
         <div
