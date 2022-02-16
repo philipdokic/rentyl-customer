@@ -539,7 +539,7 @@ class Checkout extends React.Component {
                   </PortalModal>
                 ) : null
               )}
-              {this.props.brand.organization.add_on_images ? (
+              {this.props.brand.organization.add_on_images && (
                 <AddOns
                   availability={this.state.availability}
                   currency={this.state.brandCurrency}
@@ -547,7 +547,7 @@ class Checkout extends React.Component {
                   temp_fees={this.state.fees}
                   addonFeeIds={this.state.addonFeeIds}
                 />
-              ) : null}
+              )}
             </div>
             <ContactForm>
               <header>Contact Information</header>
