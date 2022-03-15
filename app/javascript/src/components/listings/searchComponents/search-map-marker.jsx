@@ -36,7 +36,8 @@ export default class SearchMapMarker extends React.Component {
           </li>
           <li>
             {translate(`cx.search.num_sleep`, {
-              num: this.props.result.listings.length
+              num: this.props.result.listings.length,
+              s: this.props.result.listings.length > 1 ? 's' : ''
             })}
           </li>
         </ul>
@@ -51,20 +52,23 @@ export default class SearchMapMarker extends React.Component {
           </li>
           <li>
             {translate(`cx.search.num_sleep`, {
-              num: this.props.result.listings[0].unit.num_sleep
+              num: this.props.result.listings[0].unit.num_sleep,
+              s: this.props.result.listings[0].unit.num_sleep > 1 ? 's' : ''
             })}
           </li>
           {this.props.result.listings[0].unit.num_bedrooms ? (
             <li>
               {translate(`cx.search.num_bedrooms`, {
-                num: this.props.result.listings[0].unit.num_bedrooms
+                num: this.props.result.listings[0].unit.num_bedrooms,
+                s: this.props.result.listings[0].unit.num_bedrooms > 1 ? 's' : ''
               })}
             </li>
           ) : null}
           {this.props.result.listings[0].unit.num_bathrooms ? (
             <li>
               {translate(`cx.search.num_bathrooms`, {
-                num: this.props.result.listings[0].unit.num_bathrooms
+                num: this.props.result.listings[0].unit.num_bathrooms,
+                s: this.props.result.listings[0].unit.num_bathrooms > 1 ? 's' : ''
               })}
             </li>
           ) : null}
