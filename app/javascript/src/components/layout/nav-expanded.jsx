@@ -97,7 +97,7 @@ class NavExpanded extends React.Component {
         <li key={menuItem.id} className="closed">
           {this.isDropdown(menuItem) ? (
             <Link
-              to=""
+              to={url}
               onMouseEnter={e => this.handleToggle(e, menuItem)}
               onMouseLeave={e => this.handleToggle(e, menuItem)}
               style={linkPadding}
