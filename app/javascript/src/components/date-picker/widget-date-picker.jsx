@@ -61,7 +61,7 @@ export default class WidgetDatePicker extends React.Component {
     status = get(
       keyDate,
       'status',
-      get(keyDate, 'availability', status)
+      get(keyDate, 'availability', status || 'available')
     );
 
     if (
