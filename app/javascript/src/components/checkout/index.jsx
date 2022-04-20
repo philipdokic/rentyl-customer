@@ -244,17 +244,6 @@ class Checkout extends React.Component {
         d.add(1, 'days');
       }
 
-      const addonFeeIds = [];
-
-      if (
-        parsedQuery['addonFeeIds'] !== undefined &&
-        parsedQuery['addonFeeIds'].split(',')[0] !== ''
-      ) {
-        parsedQuery['addonFeeIds'].split(',').map((num) => {
-          addonFeeIds.push(parseInt(num));
-        });
-      }
-
       const quoteId = parsedQuery['quote_id'];
       this.setState(
         {
@@ -264,7 +253,7 @@ class Checkout extends React.Component {
           bookingLength: bookingDaysInclusive.length - 1,
           guests: guests,
           datesParsed: true,
-          addonFeeIds: addonFeeIds,
+          addonFeeIds: this.state.addonFeeIds,
           quoteId: quoteId ? quoteId : this.state.quoteIdFromDb,
         },
         () => {

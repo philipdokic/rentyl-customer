@@ -294,13 +294,7 @@ export default class Pricing extends React.Component {
                                 {translate(
                                   `global.parsers.currency.${currency}`,
                                   {
-                                    value: (
-                                      parseFloat(fee.value).toFixed(2) *
-                                      (this.renderFeeQuantity(fee.id)
-                                        ? this.renderFeeQuantity(fee.id)
-                                            .quantity
-                                        : 0)
-                                    ).toFixed(2)
+                                    value: parseFloat(fee.value).toFixed(2)
                                   }
                                 )}
                               </td>
