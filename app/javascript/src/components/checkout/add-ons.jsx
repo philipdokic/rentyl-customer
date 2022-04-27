@@ -13,7 +13,6 @@ import Indicator from '../toggle/indicator';
 // -----------------------------------------------
 const AddOns = (props) => {
   const translate = ReactI18n.getIntlMessage;
-  console.log(props.temp_fees);
   const renderAddOns = () => {
     const currency = props.currency;
     const addonFees = filter(props.temp_fees, ['is_addon', 'true']);
