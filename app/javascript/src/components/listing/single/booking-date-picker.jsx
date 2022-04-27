@@ -51,6 +51,7 @@ class BookingDatePicker extends React.Component {
       <div style={{ textAlign: 'center' }}>
         <WidgetDatePicker
           bookingCalendar={this.state.bookingCalendar}
+          defaultAvailability={this.props.defaultAvailability}
           organizationID={this.props.organizationID}
           unitID={this.props.unitID}
           onDatesChange={this.onDatesChange}

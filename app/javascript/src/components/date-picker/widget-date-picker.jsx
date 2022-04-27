@@ -2,7 +2,7 @@
 // -----------------------------------------------
 import React from 'react';
 import axios from 'axios';
-import get from 'lodash/get';
+import { isUndefined, get } from 'lodash';
 import moment from 'moment';
 
 // Components
@@ -49,11 +49,19 @@ export default class WidgetDatePicker extends React.Component {
   calendarDayStatus = (day = moment()) => {
     const key = day.format('DD-MM-YYYY');
     const keyDate = this.state.bookingCalendar[key];
+    let status;
+    if (this.props.defaultAvailability) {
+      // check default availability
+      const numDayOfWeek = day.day();
+      const defaultAvailabilityForDay = this.props.defaultAvailability[numDayOfWeek]['availability'];
+      if (!isUndefined(defaultAvailabilityForDay))
+        status = defaultAvailabilityForDay;
+    }
 
-    let status = get(
+    status = get(
       keyDate,
       'status',
-      get(keyDate, 'availability', 'available')
+      get(keyDate, 'availability', status || 'available')
     );
 
     if (
