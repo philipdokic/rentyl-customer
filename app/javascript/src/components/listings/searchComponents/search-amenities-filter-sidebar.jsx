@@ -84,7 +84,7 @@ export default class SearchAmenitiesFilterSidebar extends React.Component {
             position: 'fixed',
             zIndex: 101
           },
-          root: { zIndex: this.props.open ? 10 : -1 }
+          root: { zIndex: this.props.open ? 101 : -1 }
         }}
         sidebar={this.renderSidebar()}
       >
