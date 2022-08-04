@@ -291,7 +291,7 @@ section.tiles {
     .filters-overlay {
       background: $color-white;
       background: rgba(255,255,255,.95);
-      height: calc(100vh - 54px);
+      height: 100vh;
       left: 0;
       padding-top: $em-xxl;
       position: fixed;

@@ -357,13 +357,13 @@ class SearchFilters extends React.Component {
                   ×
                 </a>
                 {this.renderFilters(true)}
-                <a
+                {/*<a
                   href="#"
                   className="filters-close"
                   onClick={e => this.toggleFilterMenu(e)}
                 >
                   {translate(`global.actions.close`)}
-                </a>
+                </a>*/}
               </div>
             ) : null}
           </div>
