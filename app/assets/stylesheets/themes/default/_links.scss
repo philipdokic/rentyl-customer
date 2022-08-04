@@ -45,13 +45,13 @@ a.button {
 }
 a.close-link {
   display: block;
-  font-size: $em-xl;
+  font-size: 45px;
   height: $em-xl;
-  line-height: $em-xl;
-  position: absolute;
-  right: 0;
+  line-height: 45px;
+  position: fixed;
+  right: 4px;
   text-align: center;
-  top: 0;
+  top: 8px;
   vertical-align: middle;
   width: $em-xl;
 }
