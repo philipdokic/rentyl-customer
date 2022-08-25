@@ -1,13 +1,15 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.6'
-gem 'rails', '~> 6.0.3'
-gem 'pg', '~> 0.18'
+ruby '3.1.2'
+gem 'rails', '~> 6.1'
+gem 'pg', '~> 1.3'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'jbuilder', '~> 2.5'
+gem 'net-smtp'
 gem 'puma', '~> 5'
 gem 'sass-rails'
+gem 'rexml'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 

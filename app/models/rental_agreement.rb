@@ -13,11 +13,5 @@
 #
 
 class RentalAgreement < ApplicationRecord
-
-  # ----------------------------------------------
-  # DATABASE -------------------------------------
-  # ----------------------------------------------
-  connects_to database: { writing: :direct, reading: :direct_replica }
-  
   belongs_to :brand
 end
