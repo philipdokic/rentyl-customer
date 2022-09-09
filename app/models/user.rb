@@ -4,11 +4,6 @@
 class User < ApplicationRecord
 
   # ----------------------------------------------
-  # DATABASE -------------------------------------
-  # ----------------------------------------------
-  connects_to database: { writing: :direct, reading: :direct_replica }
-
-  # ----------------------------------------------
   # RELATIONS ------------------------------------
   # ----------------------------------------------
   has_many :organizations, dependent: :destroy
