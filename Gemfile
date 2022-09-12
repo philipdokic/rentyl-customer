@@ -6,7 +6,9 @@ gem 'rails', '~> 6.1'
 gem 'pg', '~> 1.3'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'jbuilder', '~> 2.5'
-gem 'net-smtp'
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
 gem 'puma', '~> 5'
 gem 'sass-rails'
 gem 'rexml'
