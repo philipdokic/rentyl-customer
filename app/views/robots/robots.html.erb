@@ -1,0 +1,6 @@
+<% if @robots.present? %>
+  <%= @robots %>
+<% else %>
+  User-Agent: *
+  Allow: /
+<% end %>

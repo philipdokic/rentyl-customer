@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get '/robots.:format', to: 'robots#robots'
   root to: 'organizations#index'
 
   namespace :api, { defaults: { format: :json } } do
