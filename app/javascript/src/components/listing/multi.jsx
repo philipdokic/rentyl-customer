@@ -201,7 +201,9 @@ class Multi extends React.Component {
   updateGuests = guests => {
     this.setState({ guests: guests }, () => {
       this.updateQueryString();
-      this.getAvailabilities();
+      if (this.state.bookingRange) {
+        this.getAvailabilities();
+      }
     });
   };
 
