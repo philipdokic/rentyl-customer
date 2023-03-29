@@ -8,7 +8,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/free-brands-svg-icons": "^5.6.3",
     "@fortawesome/react-fontawesome": "^0.0.19",
-    "@rails/webpacker": "4.2.2",
+    "@rails/webpacker": "^5.4.4",
     "@stripe/react-stripe-js": "^1.2.0",
     "@stripe/stripe-js": "^1.11.0",
     "axios": "^0.20.0",
