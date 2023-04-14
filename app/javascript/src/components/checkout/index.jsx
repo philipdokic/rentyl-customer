@@ -307,14 +307,17 @@ class Checkout extends React.Component {
     } else {
       axios
         .get(
-          '/api/details/room/' +
+          `${process.env.DIRECT_URL}/api/v2/listings/room/` +
             this.state.listing.id +
             '/room_type_availability',
           {
             headers: { 'Content-Type': 'application/json' },
-            unit_id: this.state.unit.id,
-            booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-            guests: this.state.guests,
+            context: this,
+            params: {
+              unit_id: this.state.unit.id,
+              booking_range: JSON.stringify(this.state.bookingDaysInclusive),
+              guests: this.state.guests,
+            }
           }
         )
         .then((response) => {
