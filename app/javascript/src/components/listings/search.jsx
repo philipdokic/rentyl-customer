@@ -646,6 +646,7 @@ class ThemeDefaultSearch extends React.Component {
               maxGuests={this.state.maxGuests}
               maxBedrooms={this.state.maxBedrooms}
               maxBaths={this.state.maxBaths}
+              totalProperties={this.state.totalProperties}
             />
             <div style={{ display: 'flex' }}>
               <section className="tiles" ref={ref => (this._div = ref)}>
@@ -793,6 +794,7 @@ class ThemeDefaultSearch extends React.Component {
                 maxGuests={this.state.maxGuests}
                 maxBedrooms={this.state.maxBedrooms}
                 maxBaths={this.state.maxBaths}
+                totalProperties={this.state.totalProperties}
               />
             </SidebarWrapper>
             <ListingsWrapper ref={ref => (this._div = ref)}>

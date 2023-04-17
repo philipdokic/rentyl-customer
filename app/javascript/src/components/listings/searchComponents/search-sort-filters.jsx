@@ -29,6 +29,7 @@ export default class SearchSortFilters extends React.Component {
 
   render() {
     const translate = this.props.translate;
+
     return (
       <section>
         <SearchFilters
@@ -63,6 +64,7 @@ export default class SearchSortFilters extends React.Component {
           maxGuests={this.props.maxGuests}
           maxBedrooms={this.props.maxBedrooms}
           maxBaths={this.props.maxBaths}
+          totalProperties={this.props.totalProperties}
         />
       </section>
     );
