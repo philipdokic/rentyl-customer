@@ -113,6 +113,9 @@ class SearchFilters extends React.Component {
     }
     return (
       <ul>
+        <MediaQuery query="(max-width: 639px)">
+          <li><strong>{this.props.isLoading ? 'Applying Filters...' : `${this.props.totalProperties} Listings`}</strong></li>
+        </MediaQuery>
         <li>
           {isNarrow ? (
             <label>
