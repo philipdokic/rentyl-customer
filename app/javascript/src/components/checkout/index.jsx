@@ -165,7 +165,7 @@ class Checkout extends React.Component {
         check_in: parsedDates.check_in,
         check_out: parsedDates.check_out,
         num_guests: guests,
-        coupon_code: couponCode
+        coupon_code: couponCode,
       })
       .then((response) => {
         const data = response.data;
@@ -307,14 +307,13 @@ class Checkout extends React.Component {
     } else {
       axios
         .get(
-          '/api/details/room/' +
-            this.state.listing.id +
-            '/room_type_availability',
+          `${process.env.DIRECT_URL}/api/v2/listings/room/${
+            this.state.listing.id
+          }/room_type_availability?booking_range=${JSON.stringify(
+            this.state.bookingDaysInclusive
+          )}&unit_id=${this.state.unit.id}&guests=${this.state.guests}`,
           {
             headers: { 'Content-Type': 'application/json' },
-            unit_id: this.state.unit.id,
-            booking_range: JSON.stringify(this.state.bookingDaysInclusive),
-            guests: this.state.guests,
           }
         )
         .then((response) => {
