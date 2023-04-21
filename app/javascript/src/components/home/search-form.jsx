@@ -92,9 +92,7 @@ class SearchForm extends React.Component {
     if (this.state.geoKeys) {
       searchLink += `&${this.state.geoKeys}`;
     }
-    if (this.state.lat != '' && this.state.lng != '') {
-      searchLink += '&loc=' + this.state.lat + ',' + this.state.lng;
-    } else if (this.state.address != '') {
+    if (this.state.address != '') {
       searchLink += '&loc=' + this.state.address;
     }
     this.props.history.push(searchLink);
