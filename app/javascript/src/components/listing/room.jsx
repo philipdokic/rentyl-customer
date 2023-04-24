@@ -128,8 +128,8 @@ class Room extends React.Component {
   // ---------------------------------------------
   checkAvailability = () => {
     const queryInfo = this.parseQuery();
-
-    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/room/${this.props.listing.id}/availability`, {
+    const availabilityType = this.props.listing.room_type ? 'room_type_availability' : 'availability'
+    axios.get(`${process.env.DIRECT_URL}/api/v2/listings/room/${this.props.listing.id}/${availabilityType}`, {
       headers: {'Content-Type': 'application/json'},
       context: this,
       params: {
@@ -138,21 +138,21 @@ class Room extends React.Component {
         guests: queryInfo['guests']
       }
     })
-    .then(response => {
-      this.setState(
-        {
-          availability: response.data
-        },
-        () => {
-          if (response.data.bookable) {
-            this.checkPricing();
+      .then(response => {
+        this.setState(
+          {
+            availability: response.data
+          },
+          () => {
+            if (response.data.bookable) {
+              this.checkPricing();
+            }
           }
-        }
-      );
-    })
-    .catch(error => {
-      console.log(error);
-    })
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      })
   };
 
   // Check Pricing
