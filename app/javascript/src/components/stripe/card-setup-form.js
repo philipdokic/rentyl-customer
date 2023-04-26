@@ -303,7 +303,6 @@ class CardSetupForm extends React.Component {
           })
       } else {
         axios.post(`${process.env.DIRECT_URL}/api/v2/checkout_booking/${this.props.listing.id}`, {
-          headers: { 'Content-Type': 'application/json' },
           unit_id: this.props.unit.id,
           booking_range: JSON.stringify(this.props.bookingDaysInclusive),
           check_in: this.props.checkInDate.format('DD-MM-YYYY'),
@@ -320,9 +319,9 @@ class CardSetupForm extends React.Component {
           addon_fee_ids: this.props.addonFeeIds,
           stripe_customer_id: this.props.stripeCustomerId,
           coupon_code: this.props.couponCode,
-          room_type_booking: !isNull(this.props.unit.room_type_id),
+          room_type_booking: this.props.listing.is_room_type,
           quote_id: this.props.quoteId
-        })
+        }, { headers: { 'Content-Type': 'application/json' }})
           .then(response => {
             const data = response.data
             if (this.props.brand_info.google_events) {
