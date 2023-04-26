@@ -15,6 +15,10 @@ export default class MultiUnitAvailability extends React.Component {
   // ---------------------------------------------
   constructor(props) {
     super(props);
+
+    this.state = {
+      hideMoreLink: false
+    }
   }
 
   // Untruncate
@@ -22,7 +26,13 @@ export default class MultiUnitAvailability extends React.Component {
   unTruncate = e => {
     e.preventDefault();
     $(this.truncated).removeClass('truncated');
-    $(e.target).remove();
+    this.setState({hideMoreLink: true});
+  };
+
+  truncate = e => {
+    e.preventDefault();
+    $(this.truncated).addClass('truncated');
+    this.setState({hideMoreLink: false});
   };
 
   // Create Unavailable Dates
@@ -121,9 +131,15 @@ export default class MultiUnitAvailability extends React.Component {
               mods={this.createUnavailableDates()}
             />
           </div>
-          <a href="#" className="expand-link" onClick={e => this.unTruncate(e)}>
-            {translate(`global.actions.expand`)}
-          </a>
+          {this.state.hideMoreLink ? (
+            <a href="#" className="expand-link" onClick={e => this.truncate(e)}>
+              {translate(`global.actions.collapse`)}
+            </a>
+          ) : (
+            <a href="#" className="expand-link" onClick={e => this.unTruncate(e)}>
+              {translate(`global.actions.expand`)}
+            </a>
+          )}
         </main>
       </section>
     );
