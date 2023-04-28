@@ -357,7 +357,7 @@ class SearchFilters extends React.Component {
                   className="close-link"
                   onClick={e => this.toggleFilterMenu(e)}
                 >
-                  ×
+                  Back to Search ×
                 </a>
                 {this.renderFilters(true)}
                 {/*<a
