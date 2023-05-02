@@ -93,7 +93,8 @@ class SearchForm extends React.Component {
       searchLink += `&${this.state.geoKeys}`;
     }
     if (this.state.address != '') {
-      searchLink += '&loc=' + this.state.address;
+      const queryStringPart = this.state.eventPicked ? `${this.state.lat},${this.state.lng}` : this.state.address;
+      searchLink += '&loc=' + queryStringPart;
     }
     this.props.history.push(searchLink);
   };
@@ -147,7 +148,8 @@ class SearchForm extends React.Component {
       lng: event.lng,
       address: event.name,
       startDate: moment(event.start_date).subtract(1, 'days'),
-      endDate: moment(event.end_date).add(1, 'days')
+      endDate: moment(event.end_date).add(1, 'days'),
+      eventPicked: true
     });
   };
 
