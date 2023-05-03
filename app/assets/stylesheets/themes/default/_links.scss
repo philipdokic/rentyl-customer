@@ -45,15 +45,15 @@ a.button {
 }
 a.close-link {
   display: block;
-  font-size: 45px;
+  font-size: 16px;
   height: $em-xl;
-  line-height: 45px;
+  line-height: 36px;
   position: fixed;
-  right: 4px;
+  right: 16px;
   text-align: center;
   top: 8px;
   vertical-align: middle;
-  width: $em-xl;
+  width: auto;
 }
 a.expand-link {
   display: inline-block;
