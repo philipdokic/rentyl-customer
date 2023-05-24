@@ -46,7 +46,7 @@ class SearchForm extends React.Component {
   // Handle Search Change
   // ---------------------------------------------
   handleSearchChange = address => {
-    this.setState({ address });
+    this.setState({ eventPicked: false, address });
     if (address.length > 3) {
       this.searchEvents(address).then(response => {
         this.setState({ eventSuggestions: response.data.events });
@@ -95,6 +95,9 @@ class SearchForm extends React.Component {
     if (this.state.address != '') {
       const queryStringPart = this.state.eventPicked ? `${this.state.lat},${this.state.lng}` : this.state.address;
       searchLink += '&loc=' + queryStringPart;
+    }
+    if (this.state.eventPicked) {
+      searchLink += '&event-search=true'
     }
     this.props.history.push(searchLink);
   };

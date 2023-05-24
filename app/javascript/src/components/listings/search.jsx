@@ -175,6 +175,7 @@ class ThemeDefaultSearch extends React.Component {
         distance: queryInfo.distance || null,
         selectedAmenities: queryInfo.selectedAmenities || null,
         amenities: this.getAmenitiesFromParams(queryInfo.selectedAmenities),
+        eventSearch: queryInfo.eventSearch,
         isDirty: true
       },
       () => {
@@ -247,6 +248,8 @@ class ThemeDefaultSearch extends React.Component {
       defaultSort = 'name';
     }
     queryInfo['sort'] = parsedQuery['sort'] || defaultSort;
+    if (parsedQuery['event-search'])
+      queryInfo['eventSearch'] = parsedQuery['event-search']
     return queryInfo;
   };
 
@@ -317,7 +320,8 @@ class ThemeDefaultSearch extends React.Component {
         price_low: this.state.filter_priceLow,
         price_high: this.state.filter_priceHigh,
         distance: this.state.filter_distance,
-        amenities: JSON.stringify(this.state.amenities)
+        amenities: JSON.stringify(this.state.amenities),
+        event_search: this.state.eventSearch
       })
     );
   };
