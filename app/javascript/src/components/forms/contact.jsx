@@ -115,7 +115,8 @@ export default class Contact extends React.Component {
       telephone: telephone,
       check_in: startDate,
       check_out: endDate,
-      body: body
+      body: body,
+      listing_id: this.props.listing.id
     };
     const allParams = assign({}, messageParams, this.props);
     axios.post(`${process.env.DIRECT_URL}/api/v2/conversations`, allParams)
