@@ -53,7 +53,7 @@ class Listing extends React.Component {
   // Fetch Listing Data
   // ---------------------------------------------
   fetchListingData = props => {
-    axios.get(`/api/listings/${get(props, 'match.params.listing_slug')}`, {
+    axios.get(`/api/listings/${get(props, 'match.params.listing_slug')}${get(props, 'location.search')}`, {
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {
@@ -69,10 +69,9 @@ class Listing extends React.Component {
   // ---------------------------------------------
   render() {
     if (!this.state.loadListing) {
-      // if (this.props.listing.room_type) {
-      //   return <DetailsRoom />;
-      // } else 
-      if (this.props.listing.multi_unit) {
+      if (this.props.listing.room_type) {
+        return <DetailsRoom />;
+      } else if (this.props.listing.multi_unit) {
         return <Multi />;
       } else
       if (this.props.listing.room_type === false && this.props.listing.multi_unit === false) {
