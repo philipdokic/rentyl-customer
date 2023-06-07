@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import assign from 'lodash/assign';
+import { connect } from 'react-redux';
 
 // Components
 // -----------------------------------------------
@@ -52,7 +53,7 @@ const SubmitButton = styled.button`
 // -----------------------------------------------
 // COMPONENT->CONTACT ----------------------------
 // -----------------------------------------------
-export default class Contact extends React.Component {
+class Contact extends React.Component {
 
   // Constructor
   // ---------------------------------------------
@@ -116,7 +117,9 @@ export default class Contact extends React.Component {
       check_in: startDate,
       check_out: endDate,
       body: body,
-      listing_id: this.props.listing.id
+      listing_id: this.props.listing.id,
+      organization_id: this.props.brand.organization_id,
+      body: body
     };
     const allParams = assign({}, messageParams, this.props);
     axios.post(`${process.env.DIRECT_URL}/api/v2/conversations`, allParams)
@@ -228,3 +231,13 @@ export default class Contact extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    brand: state.brand ? state.brand : {}
+  };
+}
+
+// Export
+// -----------------------------------------------
+export default connect(mapStateToProps)(Contact);
