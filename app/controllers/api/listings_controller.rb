@@ -19,8 +19,13 @@ class Api::ListingsController < ApplicationController
   # SHOW -----------------------------------------
   # ----------------------------------------------
   def show
-    @listing = @brand.unit_listings.where(slug: params[:id]).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
-
+    if params[:room]
+      unit_ids = Unit.where(room_type_id:params[:room]).pluck(:id)
+      @listing = @brand.unit_listings.where(slug: params[:id], is_room_type: true, unit_id: unit_ids).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
+    else
+      @listing = @brand.unit_listings.where(slug: params[:id]).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
+    end
+     
     # Property Images
     property_images = @listing.property.property_images
     property_images_url = []

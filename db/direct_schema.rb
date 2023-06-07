@@ -1886,6 +1886,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_221129) do
     t.integer "measurement_type", default: 0
     t.integer "minimum_age"
     t.text "features_safety"
+    t.integer "room_type_id"
     t.index ["external_contract_id"], name: "index_units_on_external_contract_id"
     t.index ["organization_id"], name: "index_units_on_organization_id"
     t.index ["portfolio_id"], name: "index_units_on_portfolio_id"
