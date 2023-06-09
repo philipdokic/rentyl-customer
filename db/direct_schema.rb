@@ -1894,6 +1894,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_221129) do
     t.index ["rate_group_id"], name: "index_units_on_rate_group_id"
     t.index ["subportfolio_id"], name: "index_units_on_subportfolio_id"
     t.index ["unit_group_id"], name: "index_units_on_unit_group_id"
+    t.index ["room_type_id"], name: "index_units_on_room_type_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -2016,6 +2017,13 @@ ActiveRecord::Schema.define(version: 2020_05_06_221129) do
     t.datetime "updated_at", null: false
     t.integer "organization_id"
     t.index ["organization_id"], name: "index_workflows_on_organization_id"
+  end
+
+  create_table "room_types", id: :serial, force: :cascade do |t|
+    t.integer "property_id"
+    t.integer "organization_id"
+    t.index ["organization_id"], name: "index_workflows_on_organization_id"
+    t.index ["property_id"], name: "index_units_on_property_id"
   end
 
   add_foreign_key "access_role_permissions", "access_roles"

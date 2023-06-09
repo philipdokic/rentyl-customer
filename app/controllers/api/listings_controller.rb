@@ -48,13 +48,14 @@ class Api::ListingsController < ApplicationController
       unit_images_url.push(u_obj)
     end
     @unit_images = unit_images_url
-
+    
     render json: {
       id: @listing.id,
       slug: params[:id],
       currency: @listing.currency,
       multi_unit: @listing.is_multi_unit,
       room_type: @listing.is_room_type,
+      room_type_name: @listing.unit&.room_type&.name,
       unit: @listing.unit,
       property: @listing.property,
       units: @listing.property.is_multi_unit? ? build_unit_listings_for_details_multi : [],
