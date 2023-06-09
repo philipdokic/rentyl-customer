@@ -9,6 +9,7 @@ class Unit < ApplicationRecord
   belongs_to :organization
   belongs_to :portfolio
   belongs_to :property
+  belongs_to :room_type
 
   has_many :bathrooms, -> { order(:created_at) }, dependent: :destroy
   has_many :bedrooms, -> { order(:created_at) }, dependent: :destroy

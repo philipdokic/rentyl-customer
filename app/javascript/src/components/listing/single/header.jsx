@@ -106,10 +106,11 @@ class Header extends React.Component {
       <section className="details-header" id="details-overview">
         <main>
           <figure>
-            <h1 className="font-heading">{this.props.listing.property.name}</h1>
+            <h1 className="font-heading">{this.props.listing.room_type_name || this.props.listing.property.name}</h1>
             <h2 className="highlight">
               {this.props.listing.property.summary_headline}
             </h2>
+            {this.props.listing.room_type_name && <figure>{this.props.listing.property.name}</figure>}
             <figure className="details-header-location">
               <address>
                 {adr_city}, {adr_state}
