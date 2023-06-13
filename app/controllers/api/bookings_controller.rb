@@ -103,6 +103,7 @@ class Api::BookingsController < ApplicationController
     @property ||= @unit.property
     @availability ||= @unit.unit_availability
     @pricing ||= @unit.unit_pricing
+    @unit = @unit.attributes.merge({room_type_name: @unit.room_type&.name})
     @fees.each do |f|
       if f['name'] == 'Travel Insurance Fee'
         f['value'] = @quote['csa_insurance_fee']

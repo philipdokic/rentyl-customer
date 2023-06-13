@@ -55,6 +55,7 @@ class Api::ListingsController < ApplicationController
       currency: @listing.currency,
       multi_unit: @listing.is_multi_unit,
       room_type: @listing.is_room_type,
+      room_type_id: @listing.unit&.room_type&.id,
       room_type_name: @listing.unit&.room_type&.name,
       unit: @listing.unit,
       property: @listing.property,

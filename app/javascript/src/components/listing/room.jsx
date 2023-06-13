@@ -51,6 +51,7 @@ class Room extends React.Component {
       pricing: null,
       addonFeeIds: [],
       couponCode: '',
+      room: this.props.listing.room_type_id,
       review_average: this.props.listing.review_average || 0,
       reviews: this.props.listing.reviews.length || 0
     };
@@ -216,6 +217,9 @@ class Room extends React.Component {
   // ---------------------------------------------
   getStringifiedQueryString = () => {
     let queryInfo = {};
+    if(this.state.room){
+      queryInfo['room'] = this.state.room;
+    }
 
     if (this.state.checkInDate && this.state.checkOutDate) {
       queryInfo['check-in'] = this.state.checkInDate.format('DD-MM-YYYY');
