@@ -53,7 +53,7 @@ class Listing extends React.Component {
   // Fetch Listing Data
   // ---------------------------------------------
   fetchListingData = props => {
-    axios.get(`/api/listings/${get(props, 'match.params.listing_slug')}`, {
+    axios.get(`/api/listings/${get(props, 'match.params.listing_slug')}${get(props, 'location.search')}`, {
       headers: {'Content-Type': 'application/json'}
     })
     .then(response => {

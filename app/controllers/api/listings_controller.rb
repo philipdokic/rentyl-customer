@@ -19,8 +19,13 @@ class Api::ListingsController < ApplicationController
   # SHOW -----------------------------------------
   # ----------------------------------------------
   def show
-    @listing = @brand.unit_listings.where(slug: params[:id]).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
-
+    if params[:room]
+      unit_ids = Unit.where(room_type_id:params[:room]).pluck(:id)
+      @listing = @brand.unit_listings.where(slug: params[:id], is_room_type: true, unit_id: unit_ids).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
+    else
+      @listing = @brand.unit_listings.where(slug: params[:id]).includes({ property: [:location, :property_images] }, { unit: [:bathrooms, :bedrooms, :reviews, :unit_availability, :unit_images, :unit_pricing] }).first
+    end
+     
     # Property Images
     property_images = @listing.property.property_images
     property_images_url = []
@@ -43,13 +48,15 @@ class Api::ListingsController < ApplicationController
       unit_images_url.push(u_obj)
     end
     @unit_images = unit_images_url
-
+    
     render json: {
       id: @listing.id,
       slug: params[:id],
       currency: @listing.currency,
       multi_unit: @listing.is_multi_unit,
       room_type: @listing.is_room_type,
+      room_type_id: @listing.unit&.room_type&.id,
+      room_type_name: @listing.unit&.room_type&.name,
       unit: @listing.unit,
       property: @listing.property,
       units: @listing.property.is_multi_unit? ? build_unit_listings_for_details_multi : [],

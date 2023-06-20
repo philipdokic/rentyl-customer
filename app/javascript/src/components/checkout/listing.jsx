@@ -25,6 +25,16 @@ const Listing = (props) => {
     return link;
   }
 
+  const renderName = props => {
+    if (props.unit.room_type_name){
+      return `${props.unit.room_type_name} | ${props.property.name} `
+    } else if (props.property.multi_unit ) {
+      return `${props.property.name} | ${props.unit.name}`
+    } else {
+      return props.property.name
+    }
+  }
+
   return (
     <section className="checkout-info-listing">
       {props.featured_image ? (
@@ -36,13 +46,7 @@ const Listing = (props) => {
         />
       ) : null}
       <div className="checkout-info-subsection checkout-info-listing-header">
-        {props.property.multi_unit ? (
-          <h2>
-            {props.property.name} | {props.unit.name}
-          </h2>
-        ) : (
-            <h2>{props.property.name}</h2>
-          )}
+        <h2>{renderName(props)}</h2>
         <address>{props.obfuscated_address}</address>
         <Link to={buildDetaisLink()} target="_blank">
           {translate(`cx.global.see_details.long`)}
