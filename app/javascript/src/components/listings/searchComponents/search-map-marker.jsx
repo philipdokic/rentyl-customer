@@ -83,13 +83,15 @@ export default class SearchMapMarker extends React.Component {
     if (this.state.isExpanded) {
       return (
         <div className="search-map-marker map-marker map-marker-expanded">
-          <a
-            href="#"
-            className="close-link"
-            onClick={e => this.toggleExpanded(e)}
-          >
-            ×
-          </a>
+          <div className={'search-map-close-link-wrapper'}>
+            <a
+              href="#"
+              className="close-link adjust-for-map"
+              onClick={e => this.toggleExpanded(e)}
+            >
+              Close <i className={'fas fa-times'}></i>
+            </a>
+          </div>
           <Link
             to={`/listings/${this.props.result.slug +
               this.props.getStringifiedQueryString()}`}
