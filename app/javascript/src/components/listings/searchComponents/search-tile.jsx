@@ -215,7 +215,7 @@ const SearchTile = props => {
   return (
     <figure className="search-tile">
       <Link
-        href={get(props, 'result.room_type_property') ? `/listings/${slug}/unit/${get(props, 'result.default_unit_id') + props.getStringifiedQueryString()}` : `/listings/${slug + props.getStringifiedQueryString()}`}
+        href={get(props, 'result.room_type_id') ? `/listings/${slug}/unit/${get(props, 'result.default_unit_id') + props.getStringifiedQueryString() + `&room=${get(props, 'result.room_type_id')}`}` : `/listings/${slug + props.getStringifiedQueryString()}`}
         target="_blank"
       >
         <div
