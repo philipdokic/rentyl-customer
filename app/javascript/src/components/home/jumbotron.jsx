@@ -57,7 +57,7 @@ class Jumbotron extends React.Component {
     return (
       <div>
         {custom_hero_html ? (
-          <>
+          <div className={'custom-hero-html-wrapper'}>
             <div className="custom-search-form" style={searchStyle}>
               <SearchForm
                 error={this.state.error}
@@ -69,7 +69,7 @@ class Jumbotron extends React.Component {
                 __html: custom_hero_html
               }}
             />
-          </>
+          </div>
         ) : (
           <header
             className={`homepage-jumbotron`}
