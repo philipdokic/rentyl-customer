@@ -38,7 +38,11 @@ class Property < ApplicationRecord
   def get_manager
     if self.manager_info_visible?
       if self.employees.where(role: ['organization_owner','brand_owner','property_manager','property_contact']).length > 0
-        property_manager = self.employees.where(role: ['organization_owner','brand_owner','property_manager','property_contact']).first
+        if self.organization_id == 5
+          property_manager = self.employees.where(role: ['organization_owner','brand_owner','property_manager']).first
+        else  
+          property_manager = self.employees.where(role: ['organization_owner','brand_owner','property_contact']).first
+        end
       elsif self.brand && self.brand.employees.where(role: ['organization_owner','brand_owner']).length > 0
         property_manager = self.brand.employees.where(role: ['organization_owner','brand_owner']).first
       else
