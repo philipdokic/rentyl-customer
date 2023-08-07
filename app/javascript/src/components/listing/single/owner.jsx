@@ -14,12 +14,7 @@ class SingleOwner extends React.Component {
   // ---------------------------------------------
   render() {
     const translate = ReactI18n.getIntlMessage;
-    const managerName = this.props.listing.property_manager.name.split(' ');
-    const firstName = capitalize(managerName[0]);
-    const lastInitial = managerName[1]
-      ? `${capitalize(managerName[1][0])}`
-      : '';
-    const managerDisplayName = `${firstName} ${lastInitial}`;
+    const managerName = this.props.listing.property_manager.name
 
     return (
       <section id="details-owner">
@@ -27,7 +22,7 @@ class SingleOwner extends React.Component {
           <h3>{translate(`cx.details.manager`)}</h3>
         </header>
         <main>
-          <h4>{managerDisplayName}</h4>
+          <h4>{managerName}</h4>
           <p>
             <a
               href="#"
